@@ -18,6 +18,7 @@ class AddToCart extends Block
     }
 
     protected static $default_attributes = [
+        'displayType' => 'inline',
         'cartBtnText' => 'Add to cart',
         'showQuantity' => true,
      ];
@@ -26,7 +27,6 @@ class AddToCart extends Block
         $attributes = $this->attributesList;
 
         return $attributes['cartBtnText'];
-
      }
 
      public function eb_remove_quantity_fields( $return, $product ) {
@@ -49,7 +49,6 @@ class AddToCart extends Block
         $attributes = wp_parse_args( $attributes, self::$default_attributes );
 
         $this->attributesList = $attributes;
-
 
         $className  = isset( $attributes[ "className" ] ) ? $attributes[ "className" ] : "";
         $classHook  = isset( $attributes[ 'classHook' ] ) ? $attributes[ 'classHook' ] : '';
@@ -74,6 +73,9 @@ class AddToCart extends Block
             $attributes[ 'blockId' ]
          ];
 
+        if ($attributes['showQuantity'] === true) {
+            $_wrapper_classes[] = 'layout-'. $attributes[ 'displayType' ];
+        }
 
         if ( ! $attributes['showQuantity'] ) {
         add_filter( 'woocommerce_is_sold_individually', [ $this, 'eb_remove_quantity_fields'], 10, 2 );
@@ -85,6 +87,10 @@ class AddToCart extends Block
         $add_to_cart_markup = ob_get_clean();
 
         remove_filter( 'woocommerce_product_single_add_to_cart_text', [$this, 'eb_single_add_to_cart_text'] );
+
+        if ( ! $attributes['showQuantity'] ) {
+        remove_filter( 'woocommerce_is_sold_individually', [ $this, 'eb_remove_quantity_fields'], 10, 2 );
+        }
 
         $wrapper = sprintf( '
         <div %1$s>

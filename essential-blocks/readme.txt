@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,14 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.0.1 - 23/09/2024 =
+- Improved: Post Meta | Added Icon option for each meta
+- Improved: Taxonomy | Added Vertical alignment option for Prefix and Suffix
+- Improved: Slider | Added Lightbox option for slider images
+- Fixed: Slider | Seems broken if only one image is in the slide
+- Fixed: Number Counter | Background color not working properly
+- Few minor bug fixes & improvements
 
 = 5.0.0 - 12/09/2024 =
 - Added: New Block | Text

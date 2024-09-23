@@ -277,93 +277,39 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.0", "essential-blocks")}
+                                    {__("Version: 5.0.1", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("12/09/2024", "essential-blocks")}
+                                        {__("23/09/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: New Block | Text",
+                                            "Improved: Post Meta | Added Icon option for each meta",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: New Block | Taxonomy",
+                                            "Improved: Taxonomy | Added Vertical alignment option for Prefix and Suffix",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: New Block | Post Meta",
+                                            "Improved: Slider | Added Lightbox option for slider images",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: New Block | Breadcrumbs",
+                                            "Fixed: Slider | Seems broken if only one image is in the slide",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: New Block | Woo Add to Cart",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: New Block | Woo Product Price",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: New Block | Woo Product Images",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: New Block | Woo Product Rating",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: New Block | Woo Product Details",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: Product Grid | Related product query option",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Heading | Dynamic Title loading issue in FSE",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Row Block | Columns equal height not working in frontend",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Slider Block| Loading animation always showing",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Synced Pattern issue fix",
+                                            "Fixed: Number Counter | Background color not working properly",
                                             "essential-blocks"
                                         )}
                                     </li>

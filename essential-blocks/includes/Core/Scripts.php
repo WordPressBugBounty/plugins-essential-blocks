@@ -59,6 +59,7 @@ class Scripts
         wpdev_essential_blocks()->assets->register( 'fslightbox-js', 'js/fslightbox.min.js' );
         wpdev_essential_blocks()->assets->register( 'masonry', 'js/masonry.min.js' );
         wpdev_essential_blocks()->assets->register( 'slickjs', 'js/slick.min.js' );
+        wpdev_essential_blocks()->assets->register( 'slick-lightbox-js', 'js/slick-lightbox.js' );
         wpdev_essential_blocks()->assets->register( 'patterns', 'js/eb-patterns.js' );
         wpdev_essential_blocks()->assets->register( 'editor-breakpoint', 'js/eb-editor-breakpoint.js' );
         wpdev_essential_blocks()->assets->register(
@@ -82,6 +83,7 @@ class Scripts
             'essential-blocks-masonry',
             'essential-blocks-typedjs',
             'essential-blocks-slickjs',
+            'essential-blocks-slick-lightbox-js',
             'essential-blocks-patterns',
             'essential-blocks-store',
             'essential-blocks-editor-breakpoint'
@@ -110,6 +112,7 @@ class Scripts
 
         $editor_styles_deps = [
             'essential-blocks-slick-style',
+            'essential-blocks-slick-lightbox-style',
             'essential-blocks-fslightbox-style',
             'essential-blocks-twenty-twenty-style-image-comparison',
             'essential-blocks-hover-effects-style',
@@ -151,7 +154,8 @@ class Scripts
 
         wpdev_essential_blocks()->assets->register( 'babel-bundle', 'vendors/js/bundle.babel.js' );
         wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', [ 'essential-blocks-babel-bundle' ] );
-
+        wpdev_essential_blocks()->assets->register( 'slickjs', 'js/slick.min.js' );
+        wpdev_essential_blocks()->assets->register( 'slick-lightbox-js', 'js/slick-lightbox.js' );
         //Register block combined styles
         $css_file                        = 'eb-style' . DIRECTORY_SEPARATOR . 'frontend' . DIRECTORY_SEPARATOR . 'style.css';
         $css_with_custom_breakpoint_path = wp_upload_dir()[ 'basedir' ] . DIRECTORY_SEPARATOR . $css_file;
@@ -171,6 +175,7 @@ class Scripts
         wpdev_essential_blocks()->assets->register( 'twenty-twenty-style-image-comparison', 'css/twentytwenty.css' );
         wpdev_essential_blocks()->assets->register( 'fslightbox-style', 'css/fslightbox.min.css' );
         wpdev_essential_blocks()->assets->register( 'slick-style', 'css/slick.css' );
+        wpdev_essential_blocks()->assets->register( 'slick-lightbox-style', 'css/slick-lightbox.css' );
         wpdev_essential_blocks()->assets->register( 'block-common', 'css/block-common.css' );
         wpdev_essential_blocks()->assets->register( 'common-style', 'css/eb-common.css' );
         wpdev_essential_blocks()->assets->register( 'typedjs', 'js/typed.min.js' );

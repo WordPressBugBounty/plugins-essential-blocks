@@ -38,7 +38,7 @@ import {
     sanitizeURL,
     BlockProps,
     withBlockContext
- } from "@essential-blocks/controls";
+} from "@essential-blocks/controls";
 /**
  * External dependencies
  */
@@ -98,6 +98,10 @@ const Edit = (props) => {
 
         if (!version) {
             setAttributes({ version: 'v2' });
+        }
+
+        if (parseInt(slideToShowDesktop.replace(/[^0-9]/g, "")) == 1) {
+            setAttributes({ adaptiveHeight: true });
         }
     }, []);
 
