@@ -15,6 +15,7 @@ import {
 } from "@wordpress/components";
 import { withSelect } from "@wordpress/data";
 import { applyFilters } from "@wordpress/hooks";
+import { MediaUpload } from "@wordpress/block-editor";
 
 /**
  * External Dependencies
@@ -93,8 +94,9 @@ import {
     EBIconPicker,
     SortControl,
     InspectorPanel,
-    ButtonGroupControl
- } from "@essential-blocks/controls";
+    ButtonGroupControl,
+    ImageAvatar
+} from "@essential-blocks/controls";
 
 function Inspector(props) {
     const { attributes, setAttributes, taxonomyData, setQueryResults } = props;
@@ -178,6 +180,10 @@ function Inspector(props) {
         enableContents,
         enableThumbnailSort,
         defaultFilter,
+        showFallbackImg,
+        fallbackImgUrl,
+        fallbackImgId,
+        fallbackImgAlt,
     } = attributes;
 
     const [metaOptions, setMetaOptions] = useState([]);
@@ -280,9 +286,9 @@ function Inspector(props) {
         }
     }, [enableThumbnailSort]);
 
-    useEffect(()=>{
-        setAttributes({selectedTaxonomyItems: '[{"value":"all","label":"All"}]'})
-    },[selectedTaxonomy])
+    useEffect(() => {
+        setAttributes({ selectedTaxonomyItems: '[{"value":"all","label":"All"}]' })
+    }, [selectedTaxonomy])
 
     return (
         <>
@@ -357,6 +363,62 @@ function Inspector(props) {
                                     attrname={"thumbnailSize"}
                                     setAttributes={setAttributes}
                                 />
+
+                                <ToggleControl
+                                    label={__("Show Fallback Image?")}
+                                    checked={showFallbackImg}
+                                    onChange={() => {
+                                        setAttributes({
+                                            showFallbackImg: !showFallbackImg,
+                                        });
+                                    }}
+                                />
+
+                                {showFallbackImg && !fallbackImgUrl && (
+                                    <MediaUpload
+                                        onSelect={({
+                                            id,
+                                            url,
+                                            alt,
+                                        }) =>
+                                            setAttributes({
+                                                fallbackImgUrl: url,
+                                                fallbackImgId: id,
+                                                fallbackImgAlt: alt,
+                                            })
+                                        }
+                                        type="image"
+                                        value={fallbackImgId}
+                                        render={({
+                                            open,
+                                        }) => {
+                                            return (
+                                                <Button
+                                                    className="eb-background-control-inspector-panel-img-btn components-button"
+                                                    label={__(
+                                                        "Upload Image",
+                                                        "essential-blocks"
+                                                    )}
+                                                    icon="format-image"
+                                                    onClick={
+                                                        open
+                                                    }
+                                                />
+                                            );
+                                        }}
+                                    />
+                                )}
+
+                                {showFallbackImg && fallbackImgUrl && (
+                                    <ImageAvatar
+                                        imageUrl={fallbackImgUrl}
+                                        onDeleteImage={() =>
+                                            setAttributes({
+                                                fallbackImgUrl: null,
+                                            })
+                                        }
+                                    />
+                                )}
                             </>
                         )}
 

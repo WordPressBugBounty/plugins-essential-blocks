@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.0.1
+Stable tag: 5.0.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,15 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.0.2 - 02/10/2024 =
+- Improved: Post Grid & Post Carousel | Added an option to set a default featured image for posts with blank featured image
+- Improved: Woo Product Grid | Added new query options to include or exclude specific products
+- Improved: Woo Product Grid | Added a "Visit Product" button for easier navigation
+- Improved: Table of Contents | Added heading highlight within the viewport during scroll
+- Improved: Post Query | Added options to exclude taxonomies across all post queries
+- Fixed: Accordion | Opening an accordion via anchor ID not functioning
+- Fixed: Infobox | Corrected the button background hover color not applying as expected
 
 = 5.0.1 - 23/09/2024 =
 - Improved: Post Meta | Added Icon option for each meta

@@ -277,45 +277,51 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.1", "essential-blocks")}
+                                    {__("Version: 5.0.2", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("23/09/2024", "essential-blocks")}
+                                        {__("02/10/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Improved: Post Meta | Added Icon option for each meta",
+                                            "Improved: Post Grid & Post Carousel | Added an option to set a default featured image for posts with blank featured image",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Taxonomy | Added Vertical alignment option for Prefix and Suffix",
+                                            "Improved: Woo Product Grid | Added new query options to include or exclude specific products",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Slider | Added Lightbox option for slider images",
+                                            "Improved: Woo Product Grid | Added a Visit Product button for easier navigation",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Slider | Seems broken if only one image is in the slide",
+                                            "Improved: Table of Contents | Added heading highlight within the viewport during scroll",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Number Counter | Background color not working properly",
+                                            "Improved: Post Query | Added options to exclude taxonomies across all post queries",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Few minor bug fixes & improvements",
+                                            "Fixed: Accordion | Opening an accordion via anchor ID not functioning",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Infobox | Corrected the button background hover color not applying as expected",
                                             "essential-blocks"
                                         )}
                                     </li>

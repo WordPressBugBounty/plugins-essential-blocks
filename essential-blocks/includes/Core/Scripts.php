@@ -123,8 +123,6 @@ class Scripts
          ];
 
         if ( $this->isEnableFontAwesome == 'true' ) {
-            $editor_styles_deps[  ] = 'essential-blocks-fontpicker-material-theme';
-            $editor_styles_deps[  ] = 'essential-blocks-fontpicker-default-theme';
             $editor_styles_deps[  ] = 'essential-blocks-fontawesome';
         }
 
@@ -167,8 +165,6 @@ class Scripts
 
         if ( $this->isEnableFontAwesome == 'true' ) {
             wpdev_essential_blocks()->assets->register( 'fontawesome', 'fontawesome/css/all.min.css' );
-            wpdev_essential_blocks()->assets->register( 'fontpicker-default-theme', 'css/fonticonpicker.base-theme.react.css' );
-            wpdev_essential_blocks()->assets->register( 'fontpicker-material-theme', 'css/fonticonpicker.material-theme.react.css' );
         }
         wpdev_essential_blocks()->assets->register( 'hover-css', 'css/hover-min.css' );
         wpdev_essential_blocks()->assets->register( 'hover-effects-style', 'css/hover-effects.css' );

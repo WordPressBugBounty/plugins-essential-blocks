@@ -549,6 +549,12 @@ export default function Style(props) {
 				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:hover{
 					${buttonHvrTextColor ? `color: ${buttonHvrTextColor};` : " "}
 					${btnBdShadowStylesHoverDesktop}
+                    ${btnEffect ? "" : `
+                    position: relative !important;
+                    opacity: 1 !important;
+                    z-index: 1 !important;
+                    ${btnHoverBackgroundStylesDesktop}
+                    `}
 				}
 
                 ${btnEffect

@@ -57,7 +57,8 @@ class TableOfContents extends Block
             "listStyle"          => "ul",
             "itemCollapsed"      => false,
             "preset"             => "style-1",
-            "enableListStyle"    => false
+            "enableListStyle"    => false,
+            "enableHighlight"    => false
         ];
      }
 
@@ -312,6 +313,8 @@ class TableOfContents extends Block
             return;
         }
 
+        
+
         $attributes         = wp_parse_args( $attributes, $this->default_attributes );
         $blockId            = esc_attr( $attributes[ 'blockId' ] );
         $scrollToTop        = $attributes[ 'scrollToTop' ] ? 'true' : 'false';
@@ -338,6 +341,7 @@ class TableOfContents extends Block
         $visibleHeaders     = isset( $attributes[ 'visibleHeaders' ] ) ? $attributes[ 'visibleHeaders' ] : array_fill( 0, 6, true );
         $content            = html_entity_decode( preg_replace( "~<!--(.*?)-->~s", "", $the_post->post_content ) );
         $headers            = $this->getHeadersFromContent( $visibleHeaders, wp_kses_post( $content ) );
+        $enableHighlight =  $attributes['enableHighlight'] ? 'true' : 'false';
         $deleteHeaderList   = isset( $attributes[ 'deleteHeaderList' ] ) ? $attributes[ 'deleteHeaderList' ] : [  ];
         $classHook          = isset( $attributes[ 'classHook' ] ) ? $attributes[ 'classHook' ] : '';
 
@@ -376,6 +380,7 @@ class TableOfContents extends Block
                 data-hide-tab="' . $hideOnTab . '"
                 data-hide-mobile="' . $hideOnMobile . '"
                 data-itemCollapsed="' . $itemCollapsed . '"
+                data-highlight-scroll="'.$enableHighlight.'"
                 >';
         $output .= '<div class="eb-toc-header">';
         if ( $isSticky == 'true' ) {
