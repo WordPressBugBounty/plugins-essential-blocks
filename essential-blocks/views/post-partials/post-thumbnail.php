@@ -3,8 +3,8 @@
 $thumbnailHTML = '';
 
 if ( $showThumbnail ) {
-	$thumbnail = get_the_post_thumbnail( $result->ID, $thumbnailSize );
-
+    $thumbnailSize = ! empty( $thumbnailSize ) ? $thumbnailSize : 'thumbnail';
+    $thumbnail     = wp_get_attachment_image( get_post_thumbnail_id( $result->ID ), $thumbnailSize );
     if ( ! empty( $thumbnail ) ) {
         $thumbnailHTML .= sprintf(
             '<div class="ebpg-entry-media">
@@ -17,10 +17,10 @@ if ( $showThumbnail ) {
             $thumbnail
         );
     } else {
-        if( $showFallbackImg && ! empty( $fallbackImgUrl )) {
+        if ( $showFallbackImg && ! empty( $fallbackImgUrl ) ) {
             $thumbnailHTML .= '<div class="ebpg-entry-media">
                 <div class="ebpg-entry-thumbnail">
-                    <img src="' . $fallbackImgUrl . '" alt="' . (!empty($fallbackImgAlt) ? $fallbackImgAlt : 'No Thumbnail Found') . '">
+                    <img src="' . $fallbackImgUrl . '" alt="' . ( ! empty( $fallbackImgAlt ) ? $fallbackImgAlt : 'No Thumbnail Found' ) . '">
                 </div>
             </div>';
         } else {
@@ -31,7 +31,6 @@ if ( $showThumbnail ) {
         </div>';
         }
     }
-
 }
 
 return $thumbnailHTML;

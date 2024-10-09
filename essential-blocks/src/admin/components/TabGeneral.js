@@ -277,51 +277,33 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.2", "essential-blocks")}
+                                    {__("Version: 5.0.3", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("02/10/2024", "essential-blocks")}
+                                        {__("09/10/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Improved: Post Grid & Post Carousel | Added an option to set a default featured image for posts with blank featured image",
+                                            "Fixed: Animation not working in site editor",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Woo Product Grid | Added new query options to include or exclude specific products",
+                                            "Fixed: Predefined font size conflict with Theme/Global settings",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Woo Product Grid | Added a Visit Product button for easier navigation",
+                                            "Fixed: Post Grid & Post Carousel | Featured image size issue with lazy load plugin",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Table of Contents | Added heading highlight within the viewport during scroll",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Post Query | Added options to exclude taxonomies across all post queries",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Accordion | Opening an accordion via anchor ID not functioning",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Infobox | Corrected the button background hover color not applying as expected",
+                                            "Fixed: Inspector Help Panel position issue",
                                             "essential-blocks"
                                         )}
                                     </li>

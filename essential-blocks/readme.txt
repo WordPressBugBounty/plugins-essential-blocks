@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -240,6 +240,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 == Changelog ==
 
+= 5.0.3 - 09/10/2024 =
+- Fixed: Animation not working in site editor
+- Fixed: Predefined font size conflict with Theme/Global settings
+- Fixed: Post Grid & Post Carousel | Featured image size issue with lazy load plugin
+- Fixed: Inspector Help Panel position issue
+
 = 5.0.2 - 02/10/2024 =
 - Improved: Post Grid & Post Carousel | Added an option to set a default featured image for posts with blank featured image
 - Improved: Woo Product Grid | Added new query options to include or exclude specific products
@@ -272,22 +278,6 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 - Fixed: Row Block | Columns equal height not working in frontend
 - Fixed: Slider Block| Loading animation always showing
 - Fixed: Synced Pattern issue fix
-- Few minor bug fixes & improvements
-
-= 4.9.1 - 03/09/2024 =
-- Added: Responsive typography support
-- Added: Product Grid | Product image clicable option
-- Fixed: Post Carousel | Posts not showing for default query
-- Fixed: NFT Gallery | API updated to v2.0
-- Fixed: Slider | Loading icon showing all time if image is transparent
-- Fixed: Image Gallery | Image size settings reverted to default
-- Fixed: Toggle Content | z-index conflict with Astra theme
-- Few minor bug fixes & improvements
-
-= 4.9.0 - 27/08/2024 =
-- Improved: Optimized codebase for better performance and efficiency
-- Fixed: Synced Pattern re-render issue in some blocks
-- Fixed: EB Post Carousel | Throwing PHP warning
 - Few minor bug fixes & improvements
 
 [See changelog for all versions](https://essential-blocks.com/changelog).

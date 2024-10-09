@@ -19,7 +19,7 @@ import {
     LOADMORE_PADDING,
     LOADMORE_BORDER,
 } from "./constants";
-import { FILTER_TYPOGRAPHY, LOADMORE_TYPOGRAPHY } from "./typoConstants";
+import { FILTER_TYPOGRAPHY, LOADMORE_TYPOGRAPHY, CAPTION_TYPOGRAPHY } from "./typoConstants";
 import { __ } from "@wordpress/i18n";
 
 import {
@@ -227,6 +227,9 @@ const attributes = {
     }),
     ...generateTypographyAttributes(LOADMORE_TYPOGRAPHY, {
         fontSize: 16,
+    }),
+    ...generateTypographyAttributes(CAPTION_TYPOGRAPHY, {
+        fontSize: 13,
     }),
 
     // margin padding attributes ⬇

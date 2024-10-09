@@ -360,7 +360,7 @@ function Inspector(props) {
                                 )}
 
                                 <EbImageSizeSelector
-                                    attrname={"thumbnailSize"}
+                                    attrName={"thumbnailSize"}
                                     setAttributes={setAttributes}
                                 />
 
