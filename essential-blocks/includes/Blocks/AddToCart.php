@@ -17,6 +17,16 @@ class AddToCart extends Block
         return 'add-to-cart';
     }
 
+    //Enable block only if woocommerce active
+    public function can_enable()
+    {
+        $active_plugins = Helper::get_active_plugin_list();
+        if ( in_array( 'woocommerce/woocommerce.php', $active_plugins ) ) {
+            return true;
+        }
+        return false;
+    }
+
     protected static $default_attributes = [
         'displayType' => 'inline',
         'cartBtnText' => 'Add to cart',

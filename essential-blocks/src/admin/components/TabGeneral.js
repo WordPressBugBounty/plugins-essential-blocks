@@ -277,33 +277,33 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.3", "essential-blocks")}
+                                    {__("Version: 5.0.4", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("09/10/2024", "essential-blocks")}
+                                        {__("14/10/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Fixed: Animation not working in site editor",
+                                            "Fixed: Post Carousel | Image size changing unexpectedly",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Predefined font size conflict with Theme/Global settings",
+                                            "Fixed: Accordion | Toggle feature not working properly",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Post Grid & Post Carousel | Featured image size issue with lazy load plugin",
+                                            "Fixed: Add to Cart | Error shown if WooCommerce plugin is not active",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Inspector Help Panel position issue",
+                                            "Minor bug fixes and improvements",
                                             "essential-blocks"
                                         )}
                                     </li>

@@ -3,7 +3,7 @@
 $thumbnailHTML = '';
 
 if ( $showThumbnail ) {
-    $thumbnailSize = ! empty( $thumbnailSize ) ? $thumbnailSize : 'thumbnail';
+    $thumbnailSize = ! empty( $thumbnailSize ) ? $thumbnailSize : 'full';
     $thumbnail     = wp_get_attachment_image( get_post_thumbnail_id( $result->ID ), $thumbnailSize );
     if ( ! empty( $thumbnail ) ) {
         $thumbnailHTML .= sprintf(

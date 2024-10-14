@@ -17,13 +17,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
             titleNodes.push(item.querySelector(".eb-accordion-title-wrapper"));
         });
 
+        let accordionType = accordion.getAttribute("data-accordion-type");
+        let hashTag = window.location.hash.substr(1);
+        let hashTagExists = false;
+
         // Take action based on accordion type
         accordionType === "toggle"
             ? setToggleAction(titleNodes)
             : setAccordionAction(titleNodes);
-
-        let hashTag = window.location.hash.substr(1);
-        let hashTagExists = false;
 
         window.addEventListener('hashchange', () => {
             hashTag = window.location.hash.substr(1);
@@ -96,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const testEl = document.createElement("span");
 
         // Get all data attributes
-        let accordionType = accordion.getAttribute("data-accordion-type");
         let tabIcon = accordion.getAttribute("data-tab-icon") || "_ _";
         let expandedIcon =
             accordion.getAttribute("data-expanded-icon") || "_ _";
