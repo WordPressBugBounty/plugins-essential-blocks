@@ -249,8 +249,6 @@ function Inspector(props) {
         }
     }, [queryData?.source]);
 
-    const ucFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-
     const makeEnableContent = (showItem, itemName) => {
         let newEnableContents = [...enableContents];
         if (showItem == true) {
@@ -691,12 +689,8 @@ function Inspector(props) {
                                 />
                             </>
                         )}
-                    </InspectorPanel.PanelBody>
 
-                    <InspectorPanel.PanelBody
-                        title={__("Sortable Content", "essential-blocks-pro")}
-                        initialOpen={false}
-                    >
+                        <PanelRow className="separator">Sortable Content</PanelRow>
                         {(preset == "style-1" || preset == "style-2" || preset == "style-3") &&
                             showThumbnail && (
                                 <ToggleControl
@@ -708,7 +702,8 @@ function Inspector(props) {
                                         });
                                     }}
                                 />
-                            )}
+                            )
+                        }
                         <SortControl
                             items={enableContents}
                             labelKey=""

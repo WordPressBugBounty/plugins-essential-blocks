@@ -277,27 +277,27 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.4", "essential-blocks")}
+                                    {__("Version: 5.0.5", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("14/10/2024", "essential-blocks")}
+                                        {__("22/10/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Fixed: Post Carousel | Image size changing unexpectedly",
+                                            "Fixed: Toggle Content & Advanced Tabs | Mismatched inner blocks data for click events",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Accordion | Toggle feature not working properly",
+                                            "Fixed: Advanced Tabs | Tab Titles data not saving",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Add to Cart | Error shown if WooCommerce plugin is not active",
+                                            "Improved: Post Grid | Sorting controls moved to the relevant controls panel",
                                             "essential-blocks"
                                         )}
                                     </li>

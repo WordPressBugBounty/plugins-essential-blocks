@@ -132,19 +132,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         function showPrimary() {
             switcher.checked = false;
-            // content.children[0].style.opacity = 1;
-            // content.children[0].style.transition =
-            //     "opacity .3s cubic-bezier(.45,.05,.55,.95),visibility 0s";
-            // content.children[0].style.transitionDelay = "0s,.3s";
-            content.children[0].classList.add("active");
-            content.children[0].classList.remove("inactive");
-            content.children[1].classList.add("inactive");
-            content.children[1].classList.remove("active");
-            // content.children[1].style.opacity = 0;
-            // content.children[1].style.pointerEvents = "none";
-            // content.children[1].style.transition =
-            //     "opacity .3s cubic-bezier(.45,.05,.55,.95),visibility 0s";
-            // content.children[1].style.transitionDelay = "0s,.3s";
+
+             // Fade out secondary content
+            const secondaryContent = content.children[1];
+            secondaryContent.classList.remove("active");
+            secondaryContent.classList.add("inactive");
+
+            // Wait for the transition to finish before setting display to none
+            secondaryContent.addEventListener('transitionend', function() {
+                if (secondaryContent.classList.contains("inactive")) {
+                    secondaryContent.style.display = 'none';
+                }
+            }, { once: true });
+
+            // Show primary content
+            const primaryContent = content.children[0];
+            primaryContent.classList.remove("inactive");
+            primaryContent.classList.add("active");
+            primaryContent.style.display = 'block';
+
             secondaryLabel.style.color = secondaryColor;
             primaryLabel.style.color = activeColor || primaryColor;
 
@@ -160,19 +166,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         function showSecondary() {
             switcher.checked = true;
-            content.children[0].classList.add("inactive");
-            content.children[0].classList.remove("active");
-            content.children[1].classList.add("active");
-            content.children[1].classList.remove("inactive");
-            // content.children[1].style.opacity = 1;
-            // content.children[1].style.transition =
-            //     "opacity .3s cubic-bezier(.45,.05,.55,.95),visibility 0s";
-            // content.children[1].style.transitionDelay = "0s,.3s";
-            // content.children[0].style.opacity = 0;
-            // content.children[0].style.pointerEvents = "none";
-            // content.children[0].style.transition =
-            //     "opacity .3s cubic-bezier(.45,.05,.55,.95),visibility 0s";
-            // content.children[0].style.transitionDelay = "0s,.3s";
+
+            // Fade out primary content
+            const primaryContent = content.children[0];
+            primaryContent.classList.remove("active");
+            primaryContent.classList.add("inactive");
+        
+            // Wait for the transition to finish before setting display to none
+            primaryContent.addEventListener('transitionend', function() {
+                if (primaryContent.classList.contains("inactive")) {
+                    primaryContent.style.display = 'none';
+                }
+            }, { once: true });
+        
+            // Show secondary content
+            const secondaryContent = content.children[1];
+            secondaryContent.style.display = 'block';
+            secondaryContent.classList.remove("inactive");
+            secondaryContent.classList.add("active");
+
+
             primaryLabel.style.color = primaryColor;
             secondaryLabel.style.color = activeColor;
 
