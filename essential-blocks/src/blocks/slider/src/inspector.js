@@ -76,7 +76,8 @@ import {
     stripHtmlTags,
     faArrowIcons,
     EBIconPicker,
-    InspectorPanel
+    InspectorPanel,
+    isValidHtml
 } from "@essential-blocks/controls";
 
 function Inspector(props) {
@@ -379,10 +380,18 @@ function Inspector(props) {
                                             <TextControl
                                                 label={__("Title Text", "essential-blocks")}
                                                 value={item.title}
+                                                type="text"
                                                 onChange={(text) =>
                                                     handleTitle(text, index, images, setAttributes)
                                                 }
                                             />
+                                            {!isValidHtml(item.title) && (
+                                                <PanelRow className="eb-instruction-row">
+                                                    <div className="eb-instruction">
+                                                        <strong>Note:</strong> Invalid HTML Tag.
+                                                    </div>
+                                                </PanelRow>
+                                            )}
                                             <TextareaControl
                                                 label={__("Subtitle", "essential-blocks")}
                                                 value={item.subtitle}
@@ -390,6 +399,13 @@ function Inspector(props) {
                                                     handleSubtitle(text, index, images, setAttributes)
                                                 }
                                             />
+                                            {!isValidHtml(item.subtitle) && (
+                                                <PanelRow className="eb-instruction-row">
+                                                    <div className="eb-instruction">
+                                                        <strong>Note:</strong> Invalid HTML Tag.
+                                                    </div>
+                                                </PanelRow>
+                                            )}
                                             <ToggleControl
                                                 label={__("Show Button", "essential-blocks")}
                                                 checked={item.showButton}
@@ -416,6 +432,13 @@ function Inspector(props) {
                                                             )
                                                         }
                                                     />
+                                                    {!isValidHtml(item.buttonText) && (
+                                                        <PanelRow className="eb-instruction-row">
+                                                            <div className="eb-instruction">
+                                                                <strong>Note:</strong> Invalid HTML Tag.
+                                                            </div>
+                                                        </PanelRow>
+                                                    )}
                                                     <TextControl
                                                         label={__("Button URL", "essential-blocks")}
                                                         value={item.buttonUrl}
@@ -490,6 +513,13 @@ function Inspector(props) {
                                                                     )
                                                                 }
                                                             />
+                                                            {!isValidHtml(item.secondButtonText) && (
+                                                                <PanelRow className="eb-instruction-row">
+                                                                    <div className="eb-instruction">
+                                                                        <strong>Note:</strong> Invalid HTML Tag.
+                                                                    </div>
+                                                                </PanelRow>
+                                                            )}
                                                             <TextControl
                                                                 label={__(
                                                                     "Second Button URL",

@@ -8,7 +8,7 @@ class PostGrid extends PostBlock
     protected $frontend_scripts = [ 'essential-blocks-post-grid-frontend' ];
 
     protected $frontend_styles = [
-        'essential-blocks-frontend-style',
+
         'essential-blocks-fontawesome',
         'essential-blocks-common-style'
      ];
@@ -27,7 +27,7 @@ class PostGrid extends PostBlock
         'defaultFilter'       => 'all',
         'version'             => "",
         'showFallbackImg'     => false,
-        'fallbackImgUrl'      => '',
+        'fallbackImgUrl'      => ''
      ];
 
     public function get_default_attributes()
@@ -114,8 +114,8 @@ class PostGrid extends PostBlock
             'defaultFilter'      => $attributes[ 'defaultFilter' ],
             'version'            => isset( $attributes[ 'version' ] ) ? $attributes[ 'version' ] : '',
             'showBlockContent'   => $attributes[ 'showBlockContent' ],
-            'showFallbackImg'   => isset( $attributes[ 'showFallbackImg' ]) ? $attributes[ 'showFallbackImg' ] : false,
-            'fallbackImgUrl'   => isset( $attributes[ 'fallbackImgUrl' ]) ? $attributes[ 'fallbackImgUrl' ] : '',
+            'showFallbackImg'    => isset( $attributes[ 'showFallbackImg' ] ) ? $attributes[ 'showFallbackImg' ] : false,
+            'fallbackImgUrl'     => isset( $attributes[ 'fallbackImgUrl' ] ) ? $attributes[ 'fallbackImgUrl' ] : ''
          ];
 
         if ( isset( $_essential_attrs[ 'showBlockContent' ] ) && $_essential_attrs[ 'showBlockContent' ] === false ) {

@@ -1,4 +1,9 @@
 window.addEventListener("DOMContentLoaded", () => {
+    let SetEqualHeightOfMultiColumnBlock = false;
+    if (window?.eb_frontend && window?.eb_frontend.SetEqualHeightOfMultiColumnBlock === 'function') {
+        SetEqualHeightOfMultiColumnBlock = window.eb_frontend.SetEqualHeightOfMultiColumnBlock
+    }
+
     const allTabsTitlesList = document.querySelectorAll(
         ".eb-advanced-tabs-wrapper > .eb-tabs-nav > ul.tabTitles"
     );
@@ -19,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // Ensure display of all tab contents is initially set properly
         for (const tabContentWrap of tabContentWrappers) {
             // Adding a transitionend event to handle display
-            tabContentWrap.addEventListener('transitionend', function() {
+            tabContentWrap.addEventListener('transitionend', function () {
                 if (tabContentWrap.classList.contains("inactive")) {
                     tabContentWrap.style.display = 'none';  // Hide content after transition ends
                 }
@@ -110,6 +115,14 @@ window.addEventListener("DOMContentLoaded", () => {
                         tabContentWrap.style.display = 'block';  // Ensure the new active tab content is visible
                         tabContentWrap.classList.add("active");
                         tabContentWrap.classList.remove("inactive");
+                        /* For MultiColumn Block */
+                        setTimeout(function () {
+                            const multiColumn = tabContentWrap.querySelector('.eb-mcpt-wrap');
+                            if (SetEqualHeightOfMultiColumnBlock && multiColumn) {
+                                SetEqualHeightOfMultiColumnBlock(multiColumn);
+                            }
+                        }, 10)
+                        /* For MultiColumn Block */
 
                         const imageGalleres = tabContentWrap.querySelectorAll(
                             ".eb-img-gallery-filter-wrapper"

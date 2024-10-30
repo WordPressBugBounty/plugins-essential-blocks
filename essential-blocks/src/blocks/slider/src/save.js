@@ -73,18 +73,11 @@ const Save = ({ attributes }) => {
             <div
                 className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}
             >
-                {
-                    blockId && (
-                        <script dangerouslySetInnerHTML={{
-                            __html:
-                                `var ${blockId.replaceAll('-', '_')} = ${JSON.stringify(settings)};`
-                        }}></script>
-                    )
-                }
                 <div
                     className={`eb-slider-wrapper ${blockId}`}
                     data-blockid={blockId}
                     data-version={version}
+                    data-settings={btoa(JSON.stringify(settings))}
                     data-arrowNextIcon={arrowNextIcon}
                     data-arrowPrevIcon={arrowPrevIcon}
                     data-lightbox={version === 'v2' ? showLightbox : false}
@@ -197,7 +190,7 @@ const Save = ({ attributes }) => {
                     </div>
                 </div>
             </div>
-        </BlockProps.Save>
+        </BlockProps.Save >
     );
 };
 

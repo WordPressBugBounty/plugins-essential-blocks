@@ -10,7 +10,6 @@ import {
     mediaBackground,
     mediaBgMargin,
     mediaBgRadius,
-    // buttonRadius,
     buttonPadding,
     titlePadding,
     contentPadding,
@@ -20,7 +19,8 @@ import {
 } from "./constants/dimensionsConstants";
 
 import { infoWrapBg, infoBtnBg } from "./constants/backgroundsConstants";
-import { wrpBdShadow, btnBdShd } from "./constants/borderShadowConstants";
+import { wrpBdShadow, btnBdShd, mediaBdShd } from "./constants/borderShadowConstants";
+import { BUTTON_KEYS } from "./constants";
 
 import {
     mediaIconSize,
@@ -35,7 +35,8 @@ import {
     generateTypographyStyles,
     generateBorderShadowStyles,
     generateResponsiveRangeStyles,
-    StyleComponent
+    StyleComponent,
+    EBButton
 } from "@essential-blocks/controls";
 
 export default function Style(props) {
@@ -85,12 +86,7 @@ export default function Style(props) {
         numberSizeUnit,
         TABnumberSizeUnit,
         MOBnumberSizeUnit,
-        isInfoClick,
-        enableButton,
-        btnEffect
     } = attributes;
-
-    const buttonThakbe = !isInfoClick && enableButton;
 
     //
     // styling codes starts from here
@@ -120,15 +116,6 @@ export default function Style(props) {
     } = generateTypographyStyles({
         attributes,
         prefixConstant: typoPrefix_content
-    });
-
-    const {
-        typoStylesDesktop: buttonTypoStylesDesktop,
-        typoStylesTab: buttonTypoStylesTab,
-        typoStylesMobile: buttonTypoStylesMobile,
-    } = generateTypographyStyles({
-        attributes,
-        prefixConstant: typoPrefix_buttonText
     });
 
     const {
@@ -169,26 +156,6 @@ export default function Style(props) {
         controlName: mediaBgMargin,
         styleFor: "margin",
     });
-
-    const {
-        dimensionStylesDesktop: buttonPaddingStylesDesktop,
-        dimensionStylesTab: buttonPaddingStylesTab,
-        dimensionStylesMobile: buttonPaddingStylesMobile,
-    } = generateDimensionsControlStyles({
-        attributes,
-        controlName: buttonPadding,
-        styleFor: "padding",
-    });
-
-    // const {
-    // 	dimensionStylesDesktop: buttonRadiusStylesDesktop,
-    // 	dimensionStylesTab: buttonRadiusStylesTab,
-    // 	dimensionStylesMobile: buttonRadiusStylesMobile,
-    // } = generateDimensionsControlStyles({
-    // 	attributes,
-    // 	controlName: buttonRadius,
-    // 	styleFor: "border-radius",
-    // });
 
     const {
         dimensionStylesDesktop: titlePaddingStylesDesktop,
@@ -264,23 +231,6 @@ export default function Style(props) {
     });
 
     const {
-        backgroundStylesDesktop: btnBackgroundStylesDesktop,
-        hoverBackgroundStylesDesktop: btnHoverBackgroundStylesDesktop,
-        backgroundStylesTab: btnBackgroundStylesTab,
-        hoverBackgroundStylesTab: btnHoverBackgroundStylesTab,
-        backgroundStylesMobile: btnBackgroundStylesMobile,
-        hoverBackgroundStylesMobile: btnHoverBackgroundStylesMobile,
-        bgTransitionStyle: btnBgTransitionStyle,
-    } = generateBackgroundControlStyles({
-        attributes,
-        controlName: infoBtnBg,
-        forButton: true,
-        // noOverlay: true,
-        // noMainBgi: true,
-        // noOverlayBgi: true, // if 'noOverlay : true' is given then there's no need to give 'noOverlayBgi : true'
-    });
-
-    const {
         styesDesktop: bdShadowStyesDesktop,
         styesTab: bdShadowStyesTab,
         styesMobile: bdShadowStyesMobile,
@@ -296,15 +246,15 @@ export default function Style(props) {
     });
 
     const {
-        styesDesktop: btnBdShadowStyesDesktop,
-        styesTab: btnBdShadowStyesTab,
-        styesMobile: btnBdShadowStyesMobile,
-        stylesHoverDesktop: btnBdShadowStylesHoverDesktop,
-        stylesHoverTab: btnBdShadowStylesHoverTab,
-        stylesHoverMobile: btnBdShadowStylesHoverMobile,
-        transitionStyle: btnBdShadowTransitionStyle,
+        styesDesktop: mediaBdShadowStyesDesktop,
+        styesTab: mediaBdShadowStyesTab,
+        styesMobile: mediaBdShadowStyesMobile,
+        stylesHoverDesktop: mediaBdShadowStylesHoverDesktop,
+        stylesHoverTab: mediaBdShadowStylesHoverTab,
+        stylesHoverMobile: mediaBdShadowStylesHoverMobile,
+        transitionStyle: mediaBdShadowTransitionStyle,
     } = generateBorderShadowStyles({
-        controlName: btnBdShd,
+        controlName: mediaBdShd,
         attributes,
         // noShadow: true,
         // noBorder: true,
@@ -407,7 +357,13 @@ export default function Style(props) {
 							${mediaImgWidthUnit === "%" ? `width: 100%;` : mediaImgWidthDesktop}
 							${isMediaImgHeightAuto ? `height:auto;` : mediaImgHeightDesktop}
 
+                            ${mediaBdShadowStyesDesktop}
+                            transition: ${mediaBdShadowTransitionStyle};
 						}
+
+                        .eb-infobox-wrapper.${blockId} .infobox-wrapper-inner img:hover {
+                        ${mediaBdShadowStylesHoverDesktop}
+                        }
 
 						.eb-infobox-wrapper.${blockId} .eb-infobox-image-wrapper{
 							${imageUrl ? " " : mediaRadiusStylesDesktop}
@@ -422,9 +378,11 @@ export default function Style(props) {
                 ? `
 
 						.eb-infobox-wrapper.${blockId} .number-or-icon {
-
 							${mediaBgPaddingDesktop}
 							${mediaRadiusStylesDesktop}
+
+                            ${mediaBdShadowStyesDesktop}
+                            transition: ${mediaBdShadowTransitionStyle};
 
 							${useNumIconBg
                     ? `${numIconBgType === "fill"
@@ -437,6 +395,10 @@ export default function Style(props) {
                 }
 
 						}
+
+                        .eb-infobox-wrapper.${blockId} .number-or-icon:hover {
+                            ${mediaBdShadowStylesHoverDesktop}
+                        }
 
 						.eb-infobox-wrapper.${blockId} .number-or-icon > * {
 							color: ${numIconColor || "#fff"};
@@ -527,53 +489,6 @@ export default function Style(props) {
             : " "
         }
 
-		${buttonThakbe
-            ? `
-
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .eb-infobox-btn-wrapper{
-					${btnAlignment ? `text-align:${btnAlignment};` : ""}
-				}
-
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn{
-					${buttonTypoStylesDesktop}
-					${buttonPaddingStylesDesktop}
-					${btnBackgroundStylesDesktop}
-					${btnBdShadowStyesDesktop}
-
-
-					${buttonTextColor ? `color: ${buttonTextColor};` : " "}
-
-					transition: all 0.5s, ${btnBgTransitionStyle}, ${btnBdShadowTransitionStyle};
-				}
-
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:hover{
-					${buttonHvrTextColor ? `color: ${buttonHvrTextColor};` : " "}
-					${btnBdShadowStylesHoverDesktop}
-                    ${btnEffect ? "" : `
-                    position: relative !important;
-                    opacity: 1 !important;
-                    z-index: 1 !important;
-                    ${btnHoverBackgroundStylesDesktop}
-                    `}
-				}
-
-                ${btnEffect
-                ? `.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:before{
-                        ${btnHoverBackgroundStylesDesktop}
-                        ${buttonHvrTextColor ? `color: ${buttonHvrTextColor};` : " "}
-                        ${btnBdShadowStylesHoverDesktop}
-                    }
-                    `
-                : ""
-            }
-
-
-
-
-				`
-            : " "
-        }
-
 		`;
 
     const wrapperStylesTab = `
@@ -616,7 +531,12 @@ export default function Style(props) {
 						.eb-infobox-wrapper.${blockId} .number-or-icon {
 							${mediaRadiusStylesTab}
 							${mediaBgPaddingTab}
+                            ${mediaBdShadowStyesTab}
 						}
+
+                        .eb-infobox-wrapper.${blockId} .number-or-icon:hover {
+                            ${mediaBdShadowStylesHoverTab}
+                        }
 
 						`
                 : " "
@@ -665,6 +585,8 @@ export default function Style(props) {
 
 					.eb-infobox-wrapper.${blockId} .infobox-wrapper-inner img {
 
+                    ${mediaBdShadowStyesTab}
+
 						${TABmediaImgWidthUnit === "%"
                     ? mediaImgWidthUnit === "%"
                         ? " "
@@ -676,6 +598,9 @@ export default function Style(props) {
 
 					}
 
+                    .eb-infobox-wrapper.${blockId} .infobox-wrapper-inner img:hover {
+                        ${mediaBdShadowStylesHoverTab}
+                        }
 
 					.eb-infobox-wrapper.${blockId} .eb-infobox-image-wrapper{
 						${mediaRadiusStylesTab}
@@ -722,31 +647,6 @@ export default function Style(props) {
             : " "
         }
 
-		${buttonThakbe
-            ? `
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn{
-					${buttonTypoStylesTab}
-					${buttonPaddingStylesTab}
-					${btnBdShadowStyesTab}
-				}
-
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:hover{
-					${btnBdShadowStylesHoverTab}
-				}
-
-				`
-            : " "
-        }
-
-        ${btnEffect
-            ? `.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:before{
-                    ${btnHoverBackgroundStylesTab}
-                    ${btnBdShadowStylesHoverTab}
-                }
-                `
-            : ""
-        }
-
 	`;
 
     const wrapperStylesMobile = `
@@ -789,7 +689,12 @@ export default function Style(props) {
 						.eb-infobox-wrapper.${blockId} .number-or-icon {
 							${mediaRadiusStylesMobile}
 							${mediaBgPaddingMobile}
+                            ${mediaBdShadowStyesMobile}
 						}
+
+                        .eb-infobox-wrapper.${blockId} .number-or-icon:hover {
+                            ${mediaBdShadowStylesHoverMobile}
+                        }
 
 						`
                 : " "
@@ -836,6 +741,7 @@ export default function Style(props) {
 
 
 					.eb-infobox-wrapper.${blockId} .infobox-wrapper-inner img {
+                    ${mediaBdShadowStyesMobile}
 
 						${MOBmediaImgWidthUnit === "%"
                     ? TABmediaImgWidthUnit === "%"
@@ -849,6 +755,9 @@ export default function Style(props) {
 					}
 
 
+                    .eb-infobox-wrapper.${blockId} .infobox-wrapper-inner img:hover {
+                        ${mediaBdShadowStylesHoverMobile}
+                        }
 					.eb-infobox-wrapper.${blockId} .eb-infobox-image-wrapper{
 						${mediaRadiusStylesMobile}
 					}
@@ -892,37 +801,26 @@ export default function Style(props) {
             : " "
         }
 
-		${buttonThakbe
-            ? `
-
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn{
-					${buttonTypoStylesMobile}
-					${btnBdShadowStyesMobile}
-				}
-
-
-				.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:hover{
-					${btnBdShadowStylesHoverMobile}
-				}
-
-				`
-            : " "
-        }
-
-
-        ${btnEffect
-            ? `.eb-infobox-wrapper.${blockId} .contents-wrapper .infobox-btn:before{
-                    ${btnHoverBackgroundStylesMobile}
-                    ${btnBdShadowStylesHoverMobile}
-                }
-                `
-            : ""
-        }
 	`;
+
+    const wrapperClass = 'eb-infobox-wrapper';
+    const { btnDesktopStyle: btnDesktopStyle, btnTabStyle: btnTabStyle, btnMobileStyle: btnMobileStyle } = EBButton.Style(
+        blockId,
+        wrapperClass,
+        BUTTON_KEYS,
+        '',
+        'infobox-btn',
+        typoPrefix_buttonText,
+        infoBtnBg,
+        btnBdShd,
+        buttonPadding,
+        true
+    );
 
     // all css styles for large screen width (desktop/laptop) in strings ⬇
     const desktopAllStyles = softMinifyCssStrings(`
 		${wrapperStylesDesktop}
+		${btnDesktopStyle}
 	`);
 
     // all css styles for Tab in strings ⬇

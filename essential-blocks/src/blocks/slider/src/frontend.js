@@ -4,7 +4,6 @@ import { render, createRef } from "@wordpress/element";
  */
 import Slider from "react-slick";
 
-
 window.addEventListener("DOMContentLoaded", (event) => {
     const wrappers = document.getElementsByClassName(`eb-slider-wrapper`);
 
@@ -206,6 +205,66 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
             (function ($) {
                 $(slickType).slick(settings);
+
+                if (showLightbox == 'true') {
+                    $(slickType).slickLightbox({
+                        src: 'data-src',
+                        itemSelector: '.eb-slider-item',
+                        navigateByKeyboard: true,
+                        imageMaxHeight: 0.7,
+                    });
+                }
+
+            })(jQuery);
+        }
+        if (version === 'v3') {
+            let settingsData = atob(wrapper.getAttribute("data-settings"));
+            let settings = JSON.parse(settingsData);
+
+            let arrows = settings.arrows;
+            let autoplay = settings.autoplay;
+            let dots = settings.dots;
+            let infinite = settings.infinite;
+            let pauseOnHover = settings.pauseOnHover;
+            let slideToShowRange = settings.slideToShowRange;
+            let MOBslideToShowRange = settings.MOBslideToShowRange;
+            let TABslideToShowRange = settings.TABslideToShowRange;
+            let autoplaySpeed = settings.autoplaySpeed;
+            let speed = settings.speed;
+
+            let arrowNextIcon = wrapper.getAttribute("data-arrowNextIcon");
+            let arrowPrevIcon = wrapper.getAttribute("data-arrowPrevIcon");
+            let showLightbox = wrapper.getAttribute("data-lightbox");
+
+            let slickType = wrapper.querySelector('.eb-slider-init');
+
+            (function ($) {
+                $(slickType).slick({
+                    arrows,
+                    autoplay,
+                    dots,
+                    infinite,
+                    pauseOnHover,
+                    slidesToShow: slideToShowRange,
+                    autoplaySpeed,
+                    speed,
+                    prevArrow: `<div class="slick-prev"><i aria-hidden="true" class="${arrowPrevIcon}"></i></div>`,
+                    nextArrow: `<div class="slick-next"><i aria-hidden="true" class="${arrowNextIcon}"></i></div>`,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: TABslideToShowRange,
+                            },
+                        },
+                        {
+                            breakpoint: 767,
+                            settings: {
+                                slidesToShow: MOBslideToShowRange,
+                            },
+                        },
+                    ],
+                });
 
                 if (showLightbox == 'true') {
                     $(slickType).slickLightbox({

@@ -12,7 +12,7 @@ class Slider extends Block
         'essential-blocks-slick-lightbox-js',
         'essential-blocks-vendor-bundle'
      ];
-    protected $frontend_styles = [ 'essential-blocks-frontend-style', 'essential-blocks-fontawesome', 'essential-blocks-slick-style', 'essential-blocks-common-style', 'essential-blocks-slick-lightbox-style' ];
+    protected $frontend_styles = [ 'essential-blocks-fontawesome', 'essential-blocks-slick-style', 'essential-blocks-common-style', 'essential-blocks-slick-lightbox-style' ];
 
     /**
      * Unique name of the block.
@@ -34,7 +34,7 @@ class Slider extends Block
         $this->assets_manager->register(
             'slider-frontend',
             $this->path() . '/frontend.js',
-            [ 'jquery','essential-blocks-controls-frontend', 'essential-blocks-slick-lightbox-js' ]
+            [ 'jquery', 'essential-blocks-controls-frontend', 'essential-blocks-slick-lightbox-js' ]
         );
     }
 }

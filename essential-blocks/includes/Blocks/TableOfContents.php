@@ -8,7 +8,7 @@ class TableOfContents extends Block
 {
     protected $frontend_scripts = [ 'essential-blocks-table-of-contents-block-frontend' ];
     protected $frontend_styles  = [
-        'essential-blocks-frontend-style',
+
         'essential-blocks-fontawesome'
      ];
 
@@ -32,9 +32,10 @@ class TableOfContents extends Block
      */
     protected $default_attributes;
 
-     public function __construct(){
+    public function __construct()
+    {
         $this->default_attributes = [
-            "title"              => esc_html__("Table of Contents","essential-blocks"),
+            "title"              => esc_html__( "Table of Contents", "essential-blocks" ),
             "titleTag"           => "h2",
             "collapsible"        => false,
             "initialCollapse"    => false,
@@ -59,8 +60,8 @@ class TableOfContents extends Block
             "preset"             => "style-1",
             "enableListStyle"    => false,
             "enableHighlight"    => false
-        ];
-     }
+         ];
+    }
 
     /**
      * Unique name of the block.
@@ -273,6 +274,7 @@ class TableOfContents extends Block
 
         return urldecode( rawurlencode( $parsedSlug ) );
     }
+
     /**
      * Callback function for wp_kses_allowed_html
      *
@@ -280,25 +282,26 @@ class TableOfContents extends Block
      *
      * @return array
      */
-    public function allowed_html( $tags ){
-            return array_merge($tags, [
-                'svg' => array(
-                    'xmlns' => true,
-                    'version' => true,
-                    'width' => true,
-                    'height' => true,
-                    'viewBox' => true,
-                    'fill' => true,
-                    'stroke' => true,
-                    'stroke-width' => true,
-                    'xmlns:xlink' => true,
-                ),
-                'g' => array(),
-                'path' => array(
-                    'd' => true,
-                ),
-            ]);
-        }
+    public function allowed_html( $tags )
+    {
+        return array_merge( $tags, [
+            'svg'  => [
+                'xmlns'        => true,
+                'version'      => true,
+                'width'        => true,
+                'height'       => true,
+                'viewBox'      => true,
+                'fill'         => true,
+                'stroke'       => true,
+                'stroke-width' => true,
+                'xmlns:xlink'  => true
+            ],
+            'g'    => [],
+            'path' => [
+                'd' => true
+            ]
+         ] );
+    }
 
     /**
      * Render Table of Contents Block
@@ -312,8 +315,6 @@ class TableOfContents extends Block
         if ( ! $the_post ) {
             return;
         }
-
-        
 
         $attributes         = wp_parse_args( $attributes, $this->default_attributes );
         $blockId            = esc_attr( $attributes[ 'blockId' ] );
@@ -341,7 +342,7 @@ class TableOfContents extends Block
         $visibleHeaders     = isset( $attributes[ 'visibleHeaders' ] ) ? $attributes[ 'visibleHeaders' ] : array_fill( 0, 6, true );
         $content            = html_entity_decode( preg_replace( "~<!--(.*?)-->~s", "", $the_post->post_content ) );
         $headers            = $this->getHeadersFromContent( $visibleHeaders, wp_kses_post( $content ) );
-        $enableHighlight =  $attributes['enableHighlight'] ? 'true' : 'false';
+        $enableHighlight    = $attributes[ 'enableHighlight' ] ? 'true' : 'false';
         $deleteHeaderList   = isset( $attributes[ 'deleteHeaderList' ] ) ? $attributes[ 'deleteHeaderList' ] : [  ];
         $classHook          = isset( $attributes[ 'classHook' ] ) ? $attributes[ 'classHook' ] : '';
 
@@ -361,7 +362,7 @@ class TableOfContents extends Block
         $wrapper_attributes = get_block_wrapper_attributes(
             [
                 'class' => 'root-' . $blockId
-            ]
+             ]
         );
 
         $output = "";
@@ -380,7 +381,7 @@ class TableOfContents extends Block
                 data-hide-tab="' . $hideOnTab . '"
                 data-hide-mobile="' . $hideOnMobile . '"
                 data-itemCollapsed="' . $itemCollapsed . '"
-                data-highlight-scroll="'.$enableHighlight.'"
+                data-highlight-scroll="' . $enableHighlight . '"
                 >';
         $output .= '<div class="eb-toc-header">';
         if ( $isSticky == 'true' ) {
@@ -388,7 +389,7 @@ class TableOfContents extends Block
             $output .= '</span>';
         }
         if ( $displayTitle == 'true' ) {
-            $output .= '<'.$titleTag.' class="eb-toc-title">' . $title . '</'.$titleTag.'>';
+            $output .= '<' . $titleTag . ' class="eb-toc-title">' . $title . '</' . $titleTag . '>';
         }
 
         $output .= '</div>'; // header
@@ -435,9 +436,9 @@ class TableOfContents extends Block
         $output .= '</div>'; // parent wrapper
         $output .= "</div>"; // block
 
-        add_filter( 'wp_kses_allowed_html', [$this, 'allowed_html'] );
-        $content = wp_kses_post($output);
-        remove_filter( 'wp_kses_allowed_html', [$this, 'allowed_html'] );
+        add_filter( 'wp_kses_allowed_html', [ $this, 'allowed_html' ] );
+        $content = wp_kses_post( $output );
+        remove_filter( 'wp_kses_allowed_html', [ $this, 'allowed_html' ] );
 
         return $content;
     }

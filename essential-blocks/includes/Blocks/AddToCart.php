@@ -5,8 +5,8 @@ use EssentialBlocks\Core\Block;
 use EssentialBlocks\Utils\Helper;
 class AddToCart extends Block
 {
-    protected $frontend_styles = [ 'essential-blocks-frontend-style','essential-blocks-fontawesome' ];
-    private $attributesList = [];
+    protected $frontend_styles = [ 'essential-blocks-fontawesome' ];
+    private $attributesList    = [  ];
     /**
      * Unique name of the block.
      *
@@ -28,18 +28,20 @@ class AddToCart extends Block
     }
 
     protected static $default_attributes = [
-        'displayType' => 'inline',
-        'cartBtnText' => 'Add to cart',
-        'showQuantity' => true,
+        'displayType'  => 'inline',
+        'cartBtnText'  => 'Add to cart',
+        'showQuantity' => true
      ];
 
-    public function eb_single_add_to_cart_text() {
+    public function eb_single_add_to_cart_text()
+    {
         $attributes = $this->attributesList;
 
-        return $attributes['cartBtnText'];
-     }
+        return $attributes[ 'cartBtnText' ];
+    }
 
-     public function eb_remove_quantity_fields( $return, $product ) {
+    public function eb_remove_quantity_fields( $return, $product )
+    {
         return true;
     }
 
@@ -60,11 +62,13 @@ class AddToCart extends Block
 
         $this->attributesList = $attributes;
 
-        $className  = isset( $attributes[ "className" ] ) ? $attributes[ "className" ] : "";
-        $classHook  = isset( $attributes[ 'classHook' ] ) ? $attributes[ 'classHook' ] : '';
+        $className = isset( $attributes[ "className" ] ) ? $attributes[ "className" ] : "";
+        $classHook = isset( $attributes[ 'classHook' ] ) ? $attributes[ 'classHook' ] : '';
 
         $product = wc_get_product( get_the_ID() );
-        if (!$product) return;
+        if ( ! $product ) {
+            return;
+        }
 
         $root_attributes = get_block_wrapper_attributes(
             [
@@ -83,23 +87,23 @@ class AddToCart extends Block
             $attributes[ 'blockId' ]
          ];
 
-        if ($attributes['showQuantity'] === true) {
-            $_wrapper_classes[] = 'layout-'. $attributes[ 'displayType' ];
+        if ( $attributes[ 'showQuantity' ] === true ) {
+            $_wrapper_classes[  ] = 'layout-' . $attributes[ 'displayType' ];
         }
 
-        if ( ! $attributes['showQuantity'] ) {
-        add_filter( 'woocommerce_is_sold_individually', [ $this, 'eb_remove_quantity_fields'], 10, 2 );
+        if ( ! $attributes[ 'showQuantity' ] ) {
+            add_filter( 'woocommerce_is_sold_individually', [ $this, 'eb_remove_quantity_fields' ], 10, 2 );
         }
-        add_filter( 'woocommerce_product_single_add_to_cart_text', [$this, 'eb_single_add_to_cart_text'] );
+        add_filter( 'woocommerce_product_single_add_to_cart_text', [ $this, 'eb_single_add_to_cart_text' ] );
 
         ob_start();
         woocommerce_template_single_add_to_cart();
         $add_to_cart_markup = ob_get_clean();
 
-        remove_filter( 'woocommerce_product_single_add_to_cart_text', [$this, 'eb_single_add_to_cart_text'] );
+        remove_filter( 'woocommerce_product_single_add_to_cart_text', [ $this, 'eb_single_add_to_cart_text' ] );
 
-        if ( ! $attributes['showQuantity'] ) {
-        remove_filter( 'woocommerce_is_sold_individually', [ $this, 'eb_remove_quantity_fields'], 10, 2 );
+        if ( ! $attributes[ 'showQuantity' ] ) {
+            remove_filter( 'woocommerce_is_sold_individually', [ $this, 'eb_remove_quantity_fields' ], 10, 2 );
         }
 
         $wrapper = sprintf( '
@@ -112,7 +116,7 @@ class AddToCart extends Block
         </div>',
             $root_attributes,
             implode( ' ', $_parent_classes ),
-            implode( ' ', $_wrapper_classes),
+            implode( ' ', $_wrapper_classes ),
             $attributes[ 'blockId' ],
             $add_to_cart_markup,
         );

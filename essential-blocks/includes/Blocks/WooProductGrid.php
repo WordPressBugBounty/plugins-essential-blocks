@@ -10,7 +10,7 @@ use EssentialBlocks\Utils\Helper;
 class WooProductGrid extends Block
 {
     protected $frontend_scripts = [ 'essential-blocks-woo-product-grid-frontend' ];
-    protected $frontend_styles  = [ 'essential-blocks-fontawesome', 'essential-blocks-frontend-style' ];
+    protected $frontend_styles  = [ 'essential-blocks-fontawesome' ];
 
     /**
      * Unique name of the block.

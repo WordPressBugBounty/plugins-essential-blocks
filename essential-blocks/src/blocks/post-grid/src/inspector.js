@@ -78,8 +78,6 @@ import {
     FILTER_ITEM_TYPOGRAPHY,
 } from "./constants/typographyPrefixConstants";
 
-import objAttributes from "./attributes";
-
 import {
     ColorControl,
     ResponsiveDimensionsControl,
@@ -102,7 +100,6 @@ function Inspector(props) {
     const { attributes, setAttributes, taxonomyData, setQueryResults } = props;
     const { terms, taxonomies } = taxonomyData;
     const {
-        resOption,
         preset,
         queryData,
         postTerms,
@@ -187,7 +184,6 @@ function Inspector(props) {
     } = attributes;
 
     const [metaOptions, setMetaOptions] = useState([]);
-    const [defaultFilterOptions, setDefaultFilterOptions] = useState('');
 
     /**
      * Prepare Post Terms
@@ -224,6 +220,7 @@ function Inspector(props) {
      */
     const prevSource = useRef(queryData?.source);
     const prevterms = useRef(postTerms);
+    const selectedTaxonomyRef = useRef(selectedTaxonomy);
 
 
     useEffect(() => {
@@ -285,7 +282,10 @@ function Inspector(props) {
     }, [enableThumbnailSort]);
 
     useEffect(() => {
-        setAttributes({ selectedTaxonomyItems: '[{"value":"all","label":"All"}]' })
+        if (selectedTaxonomyRef.current !== selectedTaxonomy) {
+            selectedTaxonomyRef.current = selectedTaxonomy
+            setAttributes({ selectedTaxonomyItems: '[{"value":"all","label":"All"}]' })
+        }
     }, [selectedTaxonomy])
 
     return (
@@ -751,19 +751,8 @@ function Inspector(props) {
                                 </div>
                                 {selectedTaxonomy && selectedTaxonomy.length > 0 && (
                                     <>
-                                        <SelectControl
-                                            label={__(
-                                                "Default Selected Filter",
-                                                "essential-blocks"
-                                            )}
-                                            value={defaultFilter}
-                                            options={defaultFilterOptions}
-                                            onChange={(selected) =>
-                                                setAttributes({ defaultFilter: selected })
-                                            }
-                                        />
                                         <div className="eb-control-item-wrapper">
-                                            <PanelRow>Select Taxonomy</PanelRow>
+                                            <PanelRow>Select Taxonomy 2</PanelRow>
                                             <Select2
                                                 name="select-header-meta"
                                                 value={

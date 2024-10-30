@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.0.5
+Stable tag: 5.0.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,14 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.0.6 - 30/10/2024 =
+- Improved: Optimized predefined CSS loading
+- Improved: Dual Button | Added support for nofollow and download attributes
+- Improved: Infobox | Enhanced styling options with additional control settings
+- Fixed: Post Grid | Resolved issue with taxonomy filter settings resetting
+- Fixed: Slider | Corrected HTML input error display in the editor
+- Minor bug fixes and improvements
 
 = 5.0.5 - 22/10/2024 =
 - Fixed: Toggle Content & Advanced Tabs | Mismatched inner blocks data for click events

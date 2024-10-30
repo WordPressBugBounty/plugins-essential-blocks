@@ -15,12 +15,17 @@ import InfoboxContainer from "./components/infobox-edit";
 import Inspector from "./inspector";
 import Style from "./style";
 import defaultAttributes from './attributes';
+import { useEffect } from "react";
 
 function Edit(props) {
     const {
         attributes,
         setAttributes,
         isSelected,
+        enableTitle,
+        showMedia,
+        iconView,
+        iconShape
     } = props;
 
     // you must declare this variable
@@ -29,6 +34,21 @@ function Edit(props) {
         blockPrefix: 'eb-infobox',
         style: <Style {...props} />
     };
+
+    useEffect(() => {
+        if (enableTitle == undefined) {
+            setAttributes({ enableTitle: true });
+        }
+        if (showMedia == undefined) {
+            setAttributes({ showMedia: true });
+        }
+        if (!iconView) {
+            setAttributes({ iconView: 'default' });
+        }
+        if (!iconShape) {
+            setAttributes({ iconShape: 'circle' });
+        }
+    }, [])
 
     return (
         <>

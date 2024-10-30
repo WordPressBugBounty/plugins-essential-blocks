@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function (event) {
+    let SetEqualHeightOfMultiColumnBlock = false;
+    if (window?.eb_frontend && window?.eb_frontend.SetEqualHeightOfMultiColumnBlock === 'function') {
+        SetEqualHeightOfMultiColumnBlock = window.eb_frontend.SetEqualHeightOfMultiColumnBlock
+    }
     let toggleBlocks = document.querySelectorAll(".eb-toggle-wrapper");
 
     if (!toggleBlocks) return;
@@ -31,12 +35,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         const defaultBg = "inherit";
         const defaultActiveBg = "inherit";
-
-        // Set initial display values, we'll use them to toggle content
-        let primaryDisplay = window.getComputedStyle(content.children[0])
-            .display;
-        let secondaryDisplay = window.getComputedStyle(content.children[1])
-            .display;
 
         // Move slider for different size
         let getTransform = () => {
@@ -133,13 +131,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
         function showPrimary() {
             switcher.checked = false;
 
-             // Fade out secondary content
+            // Fade out secondary content
             const secondaryContent = content.children[1];
             secondaryContent.classList.remove("active");
             secondaryContent.classList.add("inactive");
 
             // Wait for the transition to finish before setting display to none
-            secondaryContent.addEventListener('transitionend', function() {
+            secondaryContent.addEventListener('transitionend', function () {
                 if (secondaryContent.classList.contains("inactive")) {
                     secondaryContent.style.display = 'none';
                 }
@@ -148,8 +146,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
             // Show primary content
             const primaryContent = content.children[0];
             primaryContent.classList.remove("inactive");
-            primaryContent.classList.add("active");
             primaryContent.style.display = 'block';
+
+            setTimeout(function () {
+                const multiColumn = primaryContent.querySelector('.eb-mcpt-wrap');
+                if (SetEqualHeightOfMultiColumnBlock && multiColumn) {
+                    SetEqualHeightOfMultiColumnBlock(multiColumn);
+                }
+            }, 10)
+            primaryContent.classList.add("active");
 
             secondaryLabel.style.color = secondaryColor;
             primaryLabel.style.color = activeColor || primaryColor;
@@ -166,23 +171,30 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         function showSecondary() {
             switcher.checked = true;
-
             // Fade out primary content
             const primaryContent = content.children[0];
+            const secondaryContent = content.children[1];
+
             primaryContent.classList.remove("active");
             primaryContent.classList.add("inactive");
-        
+
             // Wait for the transition to finish before setting display to none
-            primaryContent.addEventListener('transitionend', function() {
+            primaryContent.addEventListener('transitionend', function () {
                 if (primaryContent.classList.contains("inactive")) {
                     primaryContent.style.display = 'none';
                 }
             }, { once: true });
-        
+
             // Show secondary content
-            const secondaryContent = content.children[1];
             secondaryContent.style.display = 'block';
             secondaryContent.classList.remove("inactive");
+
+            setTimeout(function () {
+                const multiColumn = secondaryContent.querySelector('.eb-mcpt-wrap');
+                if (SetEqualHeightOfMultiColumnBlock && multiColumn) {
+                    SetEqualHeightOfMultiColumnBlock(multiColumn);
+                }
+            }, 10)
             secondaryContent.classList.add("active");
 
 
