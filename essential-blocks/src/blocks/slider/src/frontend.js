@@ -221,6 +221,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             let settingsData = atob(wrapper.getAttribute("data-settings"));
             let settings = JSON.parse(settingsData);
 
+            let adaptiveHeight = settings.adaptiveHeight;
             let arrows = settings.arrows;
             let autoplay = settings.autoplay;
             let dots = settings.dots;
@@ -248,6 +249,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     slidesToShow: slideToShowRange,
                     autoplaySpeed,
                     speed,
+                    adaptiveHeight,
                     prevArrow: `<div class="slick-prev"><i aria-hidden="true" class="${arrowPrevIcon}"></i></div>`,
                     nextArrow: `<div class="slick-next"><i aria-hidden="true" class="${arrowNextIcon}"></i></div>`,
                     responsive: [

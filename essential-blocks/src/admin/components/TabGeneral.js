@@ -277,45 +277,27 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.6", "essential-blocks")}
+                                    {__("Version: 5.0.7", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("30/10/2024", "essential-blocks")}
+                                        {__("01/11/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Improved: Optimized predefined CSS loading",
+                                            "Fixed: Predefined CSS not loading properly",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Dual Button | Added support for nofollow and download attributes",
+                                            "Fixed: Progress Bar | Style broken in frontend",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Infobox | Enhanced styling options with additional control settings",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Post Grid | Resolved issue with taxonomy filter settings resetting",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Slider | Corrected HTML input error display in the editor",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Minor bug fixes and improvements",
+                                            "Fixed: Feature List | Icon not showing in frontend",
                                             "essential-blocks"
                                         )}
                                     </li>

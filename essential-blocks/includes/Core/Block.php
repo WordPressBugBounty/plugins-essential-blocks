@@ -31,7 +31,7 @@ abstract class Block
     protected $animation_script = 'essential-blocks-eb-animation';
     protected $animation_style  = 'essential-blocks-animation';
 
-    protected $frontend_styles  = [ 'essential-blocks-frontend-style' ];
+    protected $frontend_styles  = [  ];
     protected $frontend_scripts = [  ];
 
     /**

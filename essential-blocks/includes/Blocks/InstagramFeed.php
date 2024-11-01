@@ -85,9 +85,6 @@ class InstagramFeed extends Block
         'essential-blocks-image-loaded',
         'essential-blocks-instagram-feed-block-script'
      ];
-    protected $frontend_styles = [
-        'essential-blocks-frontend-style'
-     ];
 
     protected static $default_attributes = [
         'blockId'         => '',

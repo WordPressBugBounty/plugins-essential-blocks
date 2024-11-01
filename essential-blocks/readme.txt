@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.0.6
+Stable tag: 5.0.7
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -240,6 +240,11 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 == Changelog ==
 
+= 5.0.7 - 01/11/2024 =
+- Fixed: Predefined CSS not loading properly
+- Fixed: Progress Bar | Style broken in frontend
+- Fixed: Feature List | Icon not showing in frontend
+
 = 5.0.6 - 30/10/2024 =
 - Improved: Optimized predefined CSS loading
 - Improved: Dual Button | Added support for nofollow and download attributes
@@ -265,40 +270,6 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 - Fixed: Predefined font size conflict with Theme/Global settings
 - Fixed: Post Grid & Post Carousel | Featured image size issue with lazy load plugin
 - Fixed: Inspector Help Panel position issue
-
-= 5.0.2 - 02/10/2024 =
-- Improved: Post Grid & Post Carousel | Added an option to set a default featured image for posts with blank featured image
-- Improved: Woo Product Grid | Added new query options to include or exclude specific products
-- Improved: Woo Product Grid | Added a "Visit Product" button for easier navigation
-- Improved: Table of Contents | Added heading highlight within the viewport during scroll
-- Improved: Post Query | Added options to exclude taxonomies across all post queries
-- Fixed: Accordion | Opening an accordion via anchor ID not functioning
-- Fixed: Infobox | Corrected the button background hover color not applying as expected
-
-= 5.0.1 - 23/09/2024 =
-- Improved: Post Meta | Added Icon option for each meta
-- Improved: Taxonomy | Added Vertical alignment option for Prefix and Suffix
-- Improved: Slider | Added Lightbox option for slider images
-- Fixed: Slider | Seems broken if only one image is in the slide
-- Fixed: Number Counter | Background color not working properly
-- Few minor bug fixes & improvements
-
-= 5.0.0 - 12/09/2024 =
-- Added: New Block | Text
-- Added: New Block | Taxonomy
-- Added: New Block | Post Meta
-- Added: New Block | Breadcrumbs
-- Added: New Block | Woo Add to Cart
-- Added: New Block | Woo Product Price
-- Added: New Block | Woo Product Images
-- Added: New Block | Woo Product Rating
-- Added: New Block | Woo Product Details
-- Added: Product Grid | Related product query option
-- Fixed: Advanced Heading | Dynamic Title loading issue in FSE
-- Fixed: Row Block | Columns equal height not working in frontend
-- Fixed: Slider Block| Loading animation always showing
-- Fixed: Synced Pattern issue fix
-- Few minor bug fixes & improvements
 
 [See changelog for all versions](https://essential-blocks.com/changelog).
 
