@@ -277,27 +277,33 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.7", "essential-blocks")}
+                                    {__("Version: 5.0.8", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("01/11/2024", "essential-blocks")}
+                                        {__("07/11/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Fixed: Predefined CSS not loading properly",
+                                            "Fixed: Flickering effect due to delayed CSS loading",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Progress Bar | Style broken in frontend",
+                                            "Fixed: Infobox | Alignment issues with icons and content for Preset 3 & 4",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Feature List | Icon not showing in frontend",
+                                            "Fixed: Infobox | Image border radius resetting on editor reload",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Slider | Slides to show option not displaying correctly on frontend",
                                             "essential-blocks"
                                         )}
                                     </li>

@@ -22,11 +22,15 @@ function Edit(props) {
         attributes,
         setAttributes,
         isSelected,
+    } = props;
+
+    const {
         enableTitle,
         showMedia,
         iconView,
-        iconShape
-    } = props;
+        iconShape,
+        layoutPreset
+    } = attributes;
 
     // you must declare this variable
     const enhancedProps = {
@@ -36,16 +40,16 @@ function Edit(props) {
     };
 
     useEffect(() => {
-        if (enableTitle == undefined) {
+        if (enableTitle === undefined) {
             setAttributes({ enableTitle: true });
         }
-        if (showMedia == undefined) {
+        if (showMedia === undefined) {
             setAttributes({ showMedia: true });
         }
-        if (!iconView) {
+        if (iconView === undefined) {
             setAttributes({ iconView: 'default' });
         }
-        if (!iconShape) {
+        if (iconShape === undefined) {
             setAttributes({ iconShape: 'circle' });
         }
     }, [])

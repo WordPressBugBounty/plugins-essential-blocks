@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.0.7
+Stable tag: 5.0.8
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.0.8 - 07/11/2024 =
+- Fixed: Flickering effect due to delayed CSS loading
+- Fixed: Infobox | Alignment issues with icons and content for Preset 3 & 4
+- Fixed: Infobox | Image border radius resetting on editor reload
+- Fixed: Slider | "Slides to show" option not displaying correctly on frontend
 
 = 5.0.7 - 01/11/2024 =
 - Fixed: Predefined CSS not loading properly

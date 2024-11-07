@@ -1,7 +1,8 @@
-import { render, createRef } from "@wordpress/element";
+import { createRoot, createRef } from "@wordpress/element";
 /**
  * External dependencies
  */
+
 import Slider from "react-slick";
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -10,7 +11,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     for (let wrapper of wrappers) {
         let version = wrapper.getAttribute("data-version");
 
-        if (version == null || version == 'v1') {
+        if (version == null || version === 'v1') {
             let settings = JSON.parse(wrapper.getAttribute("data-settings"));
             let images = JSON.parse(wrapper.getAttribute("data-images"));
             let sliderContentType = wrapper.getAttribute("data-sliderContentType");
@@ -23,7 +24,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
             const slider = createRef();
 
-            function SampleNextArrow(props) {
+            const SampleNextArrow = (props) => {
                 const { className, style, onClick, arrowNextIcon } = props;
                 return (
                     <div
@@ -36,7 +37,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 );
             }
 
-            function SamplePrevArrow(props) {
+            const SamplePrevArrow = (props) => {
                 const { className, style, onClick, arrowPrevIcon } = props;
                 return (
                     <div
@@ -54,7 +55,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
             const sliderTypeClass = sliderType === 'content' ? 'eb-slider-type-content' : 'eb-slider-type-image';
 
-            render(
+            const SliderComponent = () => (
                 <Slider
                     ref={slider}
                     {...settings}
@@ -186,9 +187,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
                             )}
                         </div>
                     ))}
-                </Slider>,
-                wrapper
+                </Slider>
             );
+
+            const rootElement = document.getElementsByClassName('eb-slider-wrapper')[0];
+            if (rootElement) {
+                const root = createRoot(rootElement);
+                root.render(<SliderComponent />);
+            }
         }
 
         if (version === 'v2') {
@@ -227,9 +233,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
             let dots = settings.dots;
             let infinite = settings.infinite;
             let pauseOnHover = settings.pauseOnHover;
-            let slideToShowRange = settings.slideToShowRange;
-            let MOBslideToShowRange = settings.MOBslideToShowRange;
-            let TABslideToShowRange = settings.TABslideToShowRange;
+            let slideToShowRange = settings.slidesToShow;
+            let responsive = settings.responsive
             let autoplaySpeed = settings.autoplaySpeed;
             let speed = settings.speed;
 
@@ -252,20 +257,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     adaptiveHeight,
                     prevArrow: `<div class="slick-prev"><i aria-hidden="true" class="${arrowPrevIcon}"></i></div>`,
                     nextArrow: `<div class="slick-next"><i aria-hidden="true" class="${arrowNextIcon}"></i></div>`,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: TABslideToShowRange,
-                            },
-                        },
-                        {
-                            breakpoint: 767,
-                            settings: {
-                                slidesToShow: MOBslideToShowRange,
-                            },
-                        },
-                    ],
+                    responsive: [...responsive],
                 });
 
                 if (showLightbox == 'true') {

@@ -16,8 +16,8 @@ final class StyleHandler
     private $eb_fixed_style_dir;
     private $eb_fixed_style_url;
 
-    private $free_block_names = [  ];
-    private $pro_block_names  = [  ];
+    private $block_names             = [  ];
+    private $templately_template_ids = [  ];
 
     /**
      * Holds block styles array
@@ -76,24 +76,22 @@ final class StyleHandler
         }, 999 );
         add_action( 'wp_footer', [ $this, 'eb_add_widget_css_footer' ] );
 
-        //If File doesn't exists, run render block filter
-        add_action( 'wp', function () {
-            global $post;
-            if ( isset( $post->ID ) ) {
-                $css_file = $this->eb_fixed_style_dir . $this->fixed_prefix . '-' . $post->ID . '.min.css';
-                if ( ! file_exists( $css_file ) ) {
-                    add_filter( 'render_block', [ $this, 'get_block_name' ], 10, 2 );
-                }
-            }
+        //Enqueue Styles based on Block theme or not
+        add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_assets' ] );
 
-            //Enqueue Styles based on Block theme or not
-            add_action( 'wp_footer', [ $this, 'enqueue_frontend_assets' ], -1 );
-            // if ( wp_is_block_theme() ) {
-            //     add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend_assets' ] );
-            // } else {
-            //     add_action( 'wp_footer', [ $this, 'enqueue_frontend_assets' ], -1 );
-            // }
-        } );
+        //For Templately templates
+        add_action( 'templately_printed_location', [ $this, 'templately_templates' ], 10, 3 );
+    }
+
+    public function templately_templates( $template_id, $location, $template )
+    {
+        $post = get_post( $template_id );
+        if ( is_object( $post ) && property_exists( $post, 'post_content' ) ) {
+            $content        = $post->post_content;
+            $parsed_content = parse_blocks( $content );
+            $this->write_css_from_content( $post, $template_id, $parsed_content );
+            $this->templately_template_ids[  ] = $template_id;
+        }
     }
 
     public function eb_add_widget_css_footer()
@@ -121,7 +119,7 @@ final class StyleHandler
         $parsed_content = isset( $instance[ 'content' ] ) ? parse_blocks( $instance[ 'content' ] ) : [  ];
         if ( is_array( $parsed_content ) && ! empty( $parsed_content ) ) {
             $eb_blocks          = [  ];
-            $recursive_response = CSSParser::eb_block_style_recursive( $parsed_content, $eb_blocks );
+            $recursive_response = CSSParser::eb_block_style_recursive( $parsed_content, $eb_blocks, $this->block_names );
             unset( $recursive_response[ "reusableBlocks" ] );
             $style = CSSParser::blocks_to_style_array( $recursive_response );
 
@@ -169,26 +167,6 @@ final class StyleHandler
     }
 
     /**
-     * Function for get Essential Blocks names and put the names to Private Variable
-     * @param string $block_content
-     * @param array $block
-     * @return string
-     */
-    public function get_block_name( $block_content, $block )
-    {
-        if ( isset( $block[ 'blockName' ] ) ) {
-            if ( str_starts_with( $block[ 'blockName' ], 'essential-blocks/pro-' ) ) {
-                $split_name                = explode( '/', $block[ 'blockName' ] );
-                $this->pro_block_names[  ] = str_replace( 'pro-', '', $split_name[ 1 ] );
-            } else if ( str_starts_with( $block[ 'blockName' ], 'essential-blocks/' ) ) {
-                $split_name                 = explode( '/', $block[ 'blockName' ] );
-                $this->free_block_names[  ] = $split_name[ 1 ];
-            }
-        }
-        return $block_content;
-    }
-
-    /**
      * Generate FSE Assets
      */
     public function fse_assets_generation( $template, $type, $templates )
@@ -233,7 +211,7 @@ final class StyleHandler
     public function write_css_from_content( $post, $post_id, $parsed_content )
     {
         $eb_blocks          = [  ];
-        $recursive_response = CSSParser::eb_block_style_recursive( $parsed_content, $eb_blocks );
+        $recursive_response = CSSParser::eb_block_style_recursive( $parsed_content, $eb_blocks, $this->block_names );
         $reusable_Blocks    = ! empty( $recursive_response[ 'reusableBlocks' ] ) ? $recursive_response[ 'reusableBlocks' ] : [  ];
         // remove empty reusable blocks
         $reusable_Blocks = array_filter( $reusable_Blocks, function ( $v ) {
@@ -266,7 +244,7 @@ final class StyleHandler
         $parsed_content = isset( $request[ 'instance' ][ 'raw' ][ 'content' ] ) ? parse_blocks( $request[ 'instance' ][ 'raw' ][ 'content' ] ) : [  ];
         if ( is_array( $parsed_content ) && ! empty( $parsed_content ) ) {
             $eb_blocks          = [  ];
-            $recursive_response = CSSParser::eb_block_style_recursive( $parsed_content, $eb_blocks );
+            $recursive_response = CSSParser::eb_block_style_recursive( $parsed_content, $eb_blocks, $this->block_names );
             unset( $recursive_response[ "reusableBlocks" ] );
             $style = CSSParser::blocks_to_style_array( $recursive_response );
             //Write CSS file for Widget
@@ -292,6 +270,88 @@ final class StyleHandler
         global $post;
 
         $deps = apply_filters( 'eb_generated_css_frontend_deps', [  ] );
+
+        if ( ! empty( $post ) && ! empty( $post->ID ) ) {
+            //Page/Post Predefined Style Enqueue
+            $css_file = $this->eb_fixed_style_dir . $this->fixed_prefix . '-' . $post->ID . '.min.css';
+            $css_url  = $this->eb_fixed_style_url . $this->fixed_prefix . '-' . $post->ID . '.min.css';
+
+            if ( file_exists( $css_file ) ) {
+                wp_enqueue_style( 'essential-blocks-frontend-style', $css_url, [  ], filemtime( $css_file ) );
+                $deps[  ] = 'essential-blocks-frontend-style';
+            } else {
+                $all_blocks = array_unique( $this->block_names );
+
+                $css = '';
+                if ( count( $all_blocks ) > 0 ) {
+                    foreach ( $all_blocks as $block ) {
+                        $blockname = '';
+                        $dir       = '';
+                        if ( defined( 'ESSENTIAL_BLOCKS_PRO_DIR_PATH' ) && str_starts_with( $block, 'essential-blocks/pro-' ) ) {
+                            $split_name = explode( '/', $block );
+                            $blockname  = str_replace( 'pro-', '', $split_name[ 1 ] );
+                            $dir        = ESSENTIAL_BLOCKS_PRO_DIR_PATH . 'assets' . DIRECTORY_SEPARATOR . 'blocks' . DIRECTORY_SEPARATOR . $blockname . DIRECTORY_SEPARATOR . 'style.css';
+                        } else if ( str_starts_with( $block, 'essential-blocks/' ) ) {
+                            $split_name = explode( '/', $block );
+                            $blockname  = $split_name[ 1 ];
+                            $dir        = ESSENTIAL_BLOCKS_DIR_PATH . 'assets' . DIRECTORY_SEPARATOR . 'blocks' . DIRECTORY_SEPARATOR . $split_name[ 1 ] . DIRECTORY_SEPARATOR . 'style.css';
+                        } else {
+                            continue;
+                        }
+                        if ( file_exists( $dir ) && strlen( $blockname ) > 0 ) {
+                            $css .= apply_filters( "eb_fixed_frontend_styles/{$blockname}", file_get_contents( $dir ), $blockname, );
+                        }
+                    }
+                }
+
+                //Write CSS File and Enqueue
+                if ( strlen( trim( $css ) ) > 0 ) {
+                    if ( ! file_exists( $this->eb_fixed_style_dir ) ) {
+                        mkdir( $this->eb_fixed_style_dir );
+                    }
+
+                    //Replace Breakpoints
+                    $breakpoints = [
+                        'tablet' => CSSParser::get_responsive_breakpoints( 'tablet' ),
+                        'mobile' => CSSParser::get_responsive_breakpoints( 'mobile' )
+                     ];
+
+                    $all_breakpoints = [
+                        '1024' => $breakpoints[ 'tablet' ],
+                        '1023' => $breakpoints[ 'tablet' ] - 1,
+                        '1025' => $breakpoints[ 'tablet' ] + 1,
+                        '767'  => $breakpoints[ 'mobile' ],
+                        '768'  => $breakpoints[ 'mobile' ] + 1
+                     ];
+
+                    foreach ( $all_breakpoints as $old => $new ) {
+                        $css = preg_replace( "/(@media[^{]+)width:\s*" . preg_quote( $old ) . "px/", "$1width:" . $new . "px", $css, -1, $count );
+                    }
+                    file_put_contents( $css_file, $css );
+                    //Enqueue
+                    wp_enqueue_style( 'essential-blocks-frontend-style', $css_url, [  ], filemtime( $css_file ) );
+                    $deps[  ] = 'essential-blocks-frontend-style';
+                }
+            }
+
+            //Page/Post Generated Style Enqueue
+            if ( file_exists( $this->eb_style_dir . $this->prefix . '-' . $post->ID . '.min.css' ) ) {
+                wp_enqueue_style( 'eb-block-style-' . $post->ID, $this->eb_style_url . $this->prefix . '-' . $post->ID . '.min.css', $deps, substr( md5( microtime( true ) ), 0, 10 ) );
+            }
+
+            // Reusable block Style Enqueues
+            $reusableIds         = get_post_meta( $post->ID, '_eb_reusable_block_ids', true );
+            $reusableIds         = ! empty( $reusableIds ) ? $reusableIds : [  ];
+            $templateReusableIds = get_option( '_eb_reusable_block_ids', [  ] );
+            $reusableIds         = array_unique( array_merge( $reusableIds, $templateReusableIds ) );
+            if ( ! empty( $reusableIds ) ) {
+                foreach ( $reusableIds as $reusableId ) {
+                    if ( file_exists( $this->eb_style_dir . 'reusable-blocks/eb-reusable-' . $reusableId . '.min.css' ) ) {
+                        wp_enqueue_style( 'eb-reusable-block-style-' . $reusableId, $this->eb_style_url . 'reusable-blocks/eb-reusable-' . $reusableId . '.min.css', $deps, substr( md5( microtime( true ) ), 0, 10 ) );
+                    }
+                }
+            }
+        }
 
         // generatepress elements
         if ( in_array( 'gp-premium/gp-premium.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -322,82 +382,16 @@ final class StyleHandler
             }
         }
 
-        if ( ! empty( $post ) && ! empty( $post->ID ) ) {
-            //Page/Post Predefined Style Enqueue
-            $free_blocks = array_unique( $this->free_block_names );
-            $pro_blocks  = array_unique( $this->pro_block_names );
-            $css_file    = $this->eb_fixed_style_dir . $this->fixed_prefix . '-' . $post->ID . '.min.css';
-            $css_url     = $this->eb_fixed_style_url . $this->fixed_prefix . '-' . $post->ID . '.min.css';
-
-            if ( file_exists( $css_file ) ) {
-                wp_enqueue_style( 'essential-blocks-frontend-style', $css_url, [  ], filemtime( $css_file ) );
-                $deps[  ] = 'essential-blocks-frontend-style';
-            } else {
-                $css = '';
-                if ( count( $free_blocks ) > 0 ) {
-                    foreach ( $free_blocks as $block ) {
-                        $filepath = 'blocks' . DIRECTORY_SEPARATOR . $block . DIRECTORY_SEPARATOR . 'style.css';
-                        $dir      = ESSENTIAL_BLOCKS_DIR_PATH . 'assets' . DIRECTORY_SEPARATOR . $filepath;
-                        if ( file_exists( $dir ) ) {
-                            $css .= apply_filters( "eb_fixed_frontend_styles/{$block}", file_get_contents( $dir ), $block, );
-                        }
-                    }
-                }
-                if ( defined( 'ESSENTIAL_BLOCKS_PRO_DIR_PATH' ) && count( $pro_blocks ) > 0 ) {
-                    foreach ( $pro_blocks as $block ) {
-                        $filepath = 'blocks' . DIRECTORY_SEPARATOR . $block . DIRECTORY_SEPARATOR . 'style.css';
-                        $dir      = ESSENTIAL_BLOCKS_PRO_DIR_PATH . 'assets' . DIRECTORY_SEPARATOR . $filepath;
-                        if ( file_exists( $dir ) ) {
-                            $css .= file_get_contents( $dir );
-                        }
-                    }
-                }
-                //Write CSS File and Enqueue
-                if ( strlen( trim( $css ) ) > 0 ) {
-                    if ( ! file_exists( $this->eb_fixed_style_dir ) ) {
-                        mkdir( $this->eb_fixed_style_dir );
-                    }
-
-                    //Replace Breakpoints
-                    $breakpoints = [
-                        'tablet' => CSSParser::get_responsive_breakpoints( 'tablet' ),
-                        'mobile' => CSSParser::get_responsive_breakpoints( 'mobile' )
-                     ];
-
-                    $all_breakpoints = [
-                        '1024' => $breakpoints[ 'tablet' ],
-                        '1023' => $breakpoints[ 'tablet' ] - 1,
-                        '1025' => $breakpoints[ 'tablet' ] + 1,
-                        '767'  => $breakpoints[ 'mobile' ],
-                        '768'  => $breakpoints[ 'mobile' ] + 1
-                     ];
-
-                    foreach ( $all_breakpoints as $old => $new ) {
-                        $css = preg_replace( "/(@media[^{]+)width:\s*" . preg_quote( $old ) . "px/", "$1width:" . $new . "px", $css, -1, $count );
-                    }
-                    file_put_contents( $css_file, $css );
-                    //Enqueue
-                    wp_enqueue_style( 'essential-blocks-frontend-style', $css_url, [  ], filemtime( $css_file ) );
-
-                    $deps[  ] = 'essential-blocks-frontend-style';
-                }
-            }
-
-            //Page/Post Generated Style Enqueue
-            if ( file_exists( $this->eb_style_dir . $this->prefix . '-' . $post->ID . '.min.css' ) ) {
-                wp_enqueue_style( 'eb-block-style-' . $post->ID, $this->eb_style_url . $this->prefix . '-' . $post->ID . '.min.css', $deps, substr( md5( microtime( true ) ), 0, 10 ) );
-            }
-
-            // Reusable block Style Enqueues
-            $reusableIds         = get_post_meta( $post->ID, '_eb_reusable_block_ids', true );
-            $reusableIds         = ! empty( $reusableIds ) ? $reusableIds : [  ];
-            $templateReusableIds = get_option( '_eb_reusable_block_ids', [  ] );
-            $reusableIds         = array_unique( array_merge( $reusableIds, $templateReusableIds ) );
-            if ( ! empty( $reusableIds ) ) {
-                foreach ( $reusableIds as $reusableId ) {
-                    if ( file_exists( $this->eb_style_dir . 'reusable-blocks/eb-reusable-' . $reusableId . '.min.css' ) ) {
-                        wp_enqueue_style( 'eb-reusable-block-style-' . $reusableId, $this->eb_style_url . 'reusable-blocks/eb-reusable-' . $reusableId . '.min.css', $deps, substr( md5( microtime( true ) ), 0, 10 ) );
-                    }
+        //Template Templates
+        if ( is_array( $this->templately_template_ids ) && count( $this->templately_template_ids ) > 0 ) {
+            foreach ( $this->templately_template_ids as $template ) {
+                if ( file_exists( $this->eb_style_dir . $this->prefix . '-' . $template . '.min.css' ) ) {
+                    wp_enqueue_style(
+                        'eb-block-style-' . $template,
+                        $this->eb_style_url . $this->prefix . '-' . $template . '.min.css',
+                        $deps,
+                        substr( md5( microtime( true ) ), 0, 10 )
+                    );
                 }
             }
         }

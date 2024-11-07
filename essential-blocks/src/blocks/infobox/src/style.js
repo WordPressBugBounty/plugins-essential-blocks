@@ -36,11 +36,13 @@ import {
     generateBorderShadowStyles,
     generateResponsiveRangeStyles,
     StyleComponent,
-    EBButton
+    EBButton,
+    useBlockAttributes
 } from "@essential-blocks/controls";
 
 export default function Style(props) {
-    const { attributes, setAttributes, name } = props;
+    const { setAttributes, name } = props;
+    const attributes = useBlockAttributes();
     const {
         // responsive control attributes ⬇
         resOption,

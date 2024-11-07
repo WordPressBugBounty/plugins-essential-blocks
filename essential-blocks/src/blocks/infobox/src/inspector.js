@@ -137,6 +137,9 @@ function Inspector(props) {
                     flexDirection: "column",
                     contentAlignment: "center",
                     mediaAlignSelf: "center",
+                    contentsAlignment: "center",
+                    mediaAlignment: "center",
+                    btnAlign: "center",
                 });
                 break;
 
@@ -145,6 +148,9 @@ function Inspector(props) {
                     flexDirection: "column-reverse",
                     contentAlignment: "center",
                     mediaAlignSelf: "center",
+                    contentsAlignment: "center",
+                    mediaAlignment: "center",
+                    btnAlign: "center",
                 });
                 break;
 
@@ -153,6 +159,9 @@ function Inspector(props) {
                     flexDirection: "row",
                     contentAlignment: "left",
                     mediaAlignSelf: "flex-start",
+                    contentsAlignment: "left",
+                    mediaAlignment: "flex-start",
+                    btnAlign: "flex-start",
                 });
                 break;
 
@@ -161,6 +170,9 @@ function Inspector(props) {
                     flexDirection: "row-reverse",
                     contentAlignment: "right",
                     mediaAlignSelf: "flex-start",
+                    contentsAlignment: "right",
+                    mediaAlignment: "flex-start",
+                    btnAlign: "flex-end",
                 });
                 break;
         }
@@ -176,74 +188,80 @@ function Inspector(props) {
     }, [media]);
 
     useEffect(() => {
-        if (iconView !== 'default') {
-            if (iconView == 'framed') {
-                setAttributes({
-                    mediaBdShd_BorderType: "normal",
-                    mediaBdShd_borderColor: "rgba(179,44,44,1)",
-                    mediaBdShd_borderStyle: "solid",
-                    mediaBdShd_Bdr_Bottom: "6",
-                    mediaBdShd_Bdr_Left: "6",
-                    mediaBdShd_Bdr_Right: "6",
-                    mediaBdShd_Bdr_Top: "6",
-                    mediaBdShd_Bdr_Unit: "px",
-                    mediaBdShd_Bdr_isLinked: true,
+        if (media === "icon") {
+            if (iconView !== 'default') {
+                if (iconView == 'framed') {
+                    setAttributes({
+                        mediaBdShd_BorderType: "normal",
+                        mediaBdShd_borderColor: "rgba(0,0,0,1)",
+                        mediaBdShd_borderStyle: "solid",
+                        mediaBdShd_Bdr_Bottom: "6",
+                        mediaBdShd_Bdr_Left: "6",
+                        mediaBdShd_Bdr_Right: "6",
+                        mediaBdShd_Bdr_Top: "6",
+                        mediaBdShd_Bdr_Unit: "px",
+                        mediaBdShd_Bdr_isLinked: true,
 
-                    numIconBgType: "fill",
-                    numIconBgColor: "",
-                    numIconColor: "var(--eb-global-primary-color)",
-                });
-            } else if (iconView == 'stacked') {
-                setAttributes({
-                    mediaBdShd_BorderType: "normal",
-                    mediaBdShd_borderColor: "var(--eb-global-primary-color)",
-                    mediaBdShd_borderStyle: "none",
-                    mediaBdShd_Bdr_Bottom: "6",
-                    mediaBdShd_Bdr_Left: "6",
-                    mediaBdShd_Bdr_Right: "6",
-                    mediaBdShd_Bdr_Top: "6",
-                    mediaBdShd_Bdr_Unit: "px",
-                    mediaBdShd_Bdr_isLinked: true,
+                        numIconBgType: "fill",
+                        numIconBgColor: "",
+                        numIconColor: "var(--eb-global-primary-color)",
+                    });
+                } else if (iconView == 'stacked') {
+                    setAttributes({
+                        mediaBdShd_BorderType: "normal",
+                        mediaBdShd_borderColor: "var(--eb-global-primary-color)",
+                        mediaBdShd_borderStyle: "none",
+                        mediaBdShd_Bdr_Bottom: "6",
+                        mediaBdShd_Bdr_Left: "6",
+                        mediaBdShd_Bdr_Right: "6",
+                        mediaBdShd_Bdr_Top: "6",
+                        mediaBdShd_Bdr_Unit: "px",
+                        mediaBdShd_Bdr_isLinked: true,
 
+                        numIconBgType: "fill",
+                        numIconBgColor: "var(--eb-global-primary-color)",
+                        numIconColor: "var(--eb-global-background-color)",
+                    });
+                }
+
+                if (iconShape == 'circle') {
+                    setAttributes({
+                        mediaBgRadiusBottom: "50",
+                        mediaBgRadiusLeft: "50",
+                        mediaBgRadiusRight: "50",
+                        mediaBgRadiusTop: "50",
+                        mediaBgRadiusUnit: "%",
+                        mediaBgRadiusisLinked: true,
+                    });
+                } else {
+                    setAttributes({
+                        mediaBgRadiusBottom: "0",
+                        mediaBgRadiusLeft: "0",
+                        mediaBgRadiusRight: "0",
+                        mediaBgRadiusTop: "0",
+                        mediaBgRadiusUnit: "px",
+                        mediaBgRadiusisLinked: true,
+                    });
+                }
+            } else {
+                setAttributes({
+                    mediaBgRadiusBottom: "20",
+                    mediaBgRadiusLeft: "0",
+                    mediaBgRadiusRight: "0",
+                    mediaBgRadiusTop: "20",
+                    mediaBgRadiusUnit: "px",
+                    mediaBgRadiusisLinked: false,
                     numIconBgType: "fill",
                     numIconBgColor: "var(--eb-global-primary-color)",
                     numIconColor: "var(--eb-global-background-color)",
                 });
             }
-
-            if (iconShape == 'circle') {
-                setAttributes({
-                    mediaBgRadiusBottom: "50",
-                    mediaBgRadiusLeft: "50",
-                    mediaBgRadiusRight: "50",
-                    mediaBgRadiusTop: "50",
-                    mediaBgRadiusUnit: "%",
-                    mediaBgRadiusisLinked: true,
-                });
-            } else {
-                setAttributes({
-                    mediaBgRadiusBottom: "0",
-                    mediaBgRadiusLeft: "0",
-                    mediaBgRadiusRight: "0",
-                    mediaBgRadiusTop: "0",
-                    mediaBgRadiusUnit: "px",
-                    mediaBgRadiusisLinked: true,
-                });
-            }
-        } else {
-            setAttributes({
-                mediaBgRadiusBottom: "20",
-                mediaBgRadiusLeft: "0",
-                mediaBgRadiusRight: "0",
-                mediaBgRadiusTop: "20",
-                mediaBgRadiusUnit: "px",
-                mediaBgRadiusisLinked: false,
-                numIconBgType: "fill",
-                numIconBgColor: "var(--eb-global-primary-color)",
-                numIconColor: "var(--eb-global-background-color)",
-            });
         }
-    }, [iconView, iconShape]);
+
+    }, [media, iconView, iconShape]);
+
+    console.log('attr', iconView);
+
 
     return (
         <InspectorPanel advancedControlProps={{
@@ -486,10 +504,8 @@ function Inspector(props) {
                                             label={__("Icon View", "essential-blocks")}
                                             value={iconView}
                                             options={SHAPE_VIEW}
-                                            onChange={(newIconView) =>
-                                                setAttributes({
-                                                    iconView: newIconView,
-                                                })
+                                            onChange={(iconView) =>
+                                                setAttributes({ iconView })
                                             }
                                         />
                                         {iconView !== "default" && (
