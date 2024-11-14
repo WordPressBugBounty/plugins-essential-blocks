@@ -2,9 +2,9 @@
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gutenberg Plugin
 Requires at least: 5.8
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 5.0.8
+Stable tag: 5.0.9
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,10 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.0.9 - 13/11/2024 =
+- Fixed: Pricing Table | Icon control not showing for feature items
+- Minor bug fixes and improvements
 
 = 5.0.8 - 07/11/2024 =
 - Fixed: Flickering effect due to delayed CSS loading

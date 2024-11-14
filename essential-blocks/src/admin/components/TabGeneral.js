@@ -277,33 +277,21 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.8", "essential-blocks")}
+                                    {__("Version: 5.0.9", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("07/11/2024", "essential-blocks")}
+                                        {__("13/11/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Fixed: Flickering effect due to delayed CSS loading",
+                                            "Fixed: Pricing Table | Icon control not showing for feature items",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Infobox | Alignment issues with icons and content for Preset 3 & 4",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Infobox | Image border radius resetting on editor reload",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Slider | Slides to show option not displaying correctly on frontend",
+                                            "Minor bug fixes and improvements",
                                             "essential-blocks"
                                         )}
                                     </li>
