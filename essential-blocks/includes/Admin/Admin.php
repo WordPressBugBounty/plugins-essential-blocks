@@ -294,9 +294,9 @@
                         'label'      => __( 'Sure, you deserve it!', 'essential-blocks' ),
                         'icon_class' => 'dashicons dashicons-external',
                         'attributes' => [
-                            'target'       => '_blank',
-                            'class'        => 'btn',
-                            'data-dismiss' => false
+                            'target' => '_blank',
+                            'class'  => 'btn'
+                            // 'data-dismiss' => false
                          ]
                      ],
                     'allready'         => [
@@ -337,7 +337,7 @@
                 'review',
                 $_review_notice,
                 [
-                    'start'       => $notices->strtotime( '+10 days' ),
+                    'start'       => $notices->strtotime( '+7 days' ),
                     // 'start'       => $notices->time(),
                     'recurrence'  => 15,
                     'dismissible' => true,
@@ -739,7 +739,7 @@
         <span class="e-notice__dismiss eb-admin-promotion-close dashicons dashicons-no-alt" role="button" aria-label="Dismiss" tabindex="0"></span>
         <?php
             printf(
-                        __( "<p> <i>📣</i> Introducing Essential Blocks <strong>v5.0</strong> with 5 New WooCommerce Blocks, Taxonomy, Text, Post Meta, Breadcrumbs. For more info, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>", "essential-blocks" ),
+                        __( "<p> <i>📣</i> Introducing Essential Blocks <strong>v5.1.0</strong> with new & improved <strong>Accordion Block</strong> with new presets, styling controls & many more. For more info, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>", "essential-blocks" ),
                         esc_url( 'https://essential-blocks.com/changelog/' )
                     );
                 ?>

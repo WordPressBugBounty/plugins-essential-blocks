@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 5.0.9
+Stable tag: 5.1.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,18 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.1.0 - 04/12/2024 =
+- Improved: Accordion Block | Added New Presets
+- Improved: Accordion Block | More Styling controls & options
+- Added: Woo Product Grid | Featured image size option
+- Fixed: Widget CSS not loading on the frontend
+- Fixed: FSE templates CSS not loading on the frontend
+- Fixed: Form Block | Custom fields data not being sent in emails
+- Fixed: Woo Product Grid | Showing PHP notice for an undefined variable
+- Fixed: Advanced Navigation | Overlapping issue with Post Grid
+- Fixed: Advanced Tabs | Global typography not applying to title font size
+- Minor bug fixes and improvements
 
 = 5.0.9 - 13/11/2024 =
 - Fixed: Pricing Table | Icon control not showing for feature items

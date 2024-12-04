@@ -277,15 +277,63 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.0.9", "essential-blocks")}
+                                    {__("Version: 5.1.0", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("13/11/2024", "essential-blocks")}
+                                        {__("04/12/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Fixed: Pricing Table | Icon control not showing for feature items",
+                                            "Improved: Accordion Block | Added New Presets",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Accordion Block | More Styling controls & options",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Added: Woo Product Grid | Featured image size option",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Widget CSS not loading on the frontend",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: FSE templates CSS not loading on the frontend",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Form | Custom fields data not being sent in emails",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Woo Product Grid | Showing PHP notice for an undefined variable",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Navigation | Overlapping issue with Post Grid",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Tab | Global typography not applying to title font size",
                                             "essential-blocks"
                                         )}
                                     </li>

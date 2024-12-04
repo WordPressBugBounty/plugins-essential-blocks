@@ -260,8 +260,6 @@ function Inspector(props) {
 
     }, [media, iconView, iconShape]);
 
-    console.log('attr', iconView);
-
 
     return (
         <InspectorPanel advancedControlProps={{
