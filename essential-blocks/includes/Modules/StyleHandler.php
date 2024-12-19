@@ -301,6 +301,10 @@ final class StyleHandler
 
             if ( isset( $template->content ) && isset( $template->wp_id ) && isset( $template->type ) ) {
                 $this->write_css_from_content( parse_blocks( $template->content ), $template->wp_id, $template->type );
+
+                if ( empty( $this->fse_page_template_id ) ) {
+                    $this->fse_page_template_id = $template->wp_id;
+                }
             }
         } else if ( isset( $content[ 'innerBlocks' ] ) && count( $content[ 'innerBlocks' ] ) > 0 ) {
             if ( count( $content[ 'innerBlocks' ] ) > 0 ) {

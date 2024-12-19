@@ -277,7 +277,7 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.1.0", "essential-blocks")}
+                                    {__("Version: 5.1.1", "essential-blocks")}
                                     <span className="changelog-date">
                                         {__("04/12/2024", "essential-blocks")}
                                     </span>
@@ -285,55 +285,19 @@ export default function TabGeneral() {
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Improved: Accordion Block | Added New Presets",
+                                            "Fixed: Site templates Header/Footer predefined CSS not loading on the frontend",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Accordion Block | More Styling controls & options",
+                                            "Fixed: Global Styles not loading in Full Site Editor",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: Woo Product Grid | Featured image size option",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Widget CSS not loading on the frontend",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: FSE templates CSS not loading on the frontend",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Form | Custom fields data not being sent in emails",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Woo Product Grid | Showing PHP notice for an undefined variable",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Navigation | Overlapping issue with Post Grid",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Tab | Global typography not applying to title font size",
+                                            "Improved: Security enhancement",
                                             "essential-blocks"
                                         )}
                                     </li>
