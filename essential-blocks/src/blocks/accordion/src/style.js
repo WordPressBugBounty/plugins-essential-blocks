@@ -722,14 +722,12 @@ export default function Style(props) {
 	}
 
 
-	.${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-wrapper + .eb-accordion-wrapper, 
-    .${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-item ,
+	.${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) > .eb-accordion-inner > .eb-accordion-wrapper + .eb-accordion-wrapper, 
     .${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-item {
 		${accGapDesktop}
 	}
 
-    .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-wrapper + .eb-accordion-wrapper, 
-    .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-item , 
+    .${blockId}.eb-accordion-container.eb-accordion-type-horizontal > .eb-accordion-inner  > .eb-accordion-wrapper + .eb-accordion-wrapper, 
     .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-item {
         ${accHorizontalGapDesktop}
     }
@@ -790,7 +788,8 @@ ${
         : ""
 }
 
-	.${blockId}.eb-accordion-container .eb-accordion-title-wrapper-${blockId} {
+	.${blockId}.eb-accordion-container .eb-accordion-title-wrapper-${blockId}
+    {
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -803,6 +802,14 @@ ${
 		${tabBdShdStyesDesktop}
 		transition:${tabBgTransitionStyle}, ${tabBdShdTransitionStyle};
 	}
+
+    .${blockId}.eb-accordion-container .eb-accordion-content .title-content-${blockId} {
+		${tabBackgroundStylesDesktop}
+		${tabMarginDesktop}
+		${tabPaddingDesktop}
+		${tabBdShdStyesDesktop}
+		transition:${tabBgTransitionStyle}, ${tabBdShdTransitionStyle};
+    }
 
 	.${blockId}.eb-accordion-container .eb-accordion-title-wrapper-${blockId}:hover{
 		${tabHoverBackgroundStylesDesktop}
@@ -940,12 +947,12 @@ ${
 
     const wrapperStylesTab = `
 
-	.${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-wrapper + .eb-accordion-wrapper, 
+	.${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) > .eb-accordion-inner >  .eb-accordion-wrapper + .eb-accordion-wrapper, 
     .${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-item {
 		${accGapTab}
 	}
 
-     .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-wrapper + .eb-accordion-wrapper, 
+     .${blockId}.eb-accordion-container.eb-accordion-type-horizontal > .eb-accordion-inner > .eb-accordion-wrapper + .eb-accordion-wrapper, 
      .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-item  {
         ${accHorizontalGapTab}
     }
@@ -1076,12 +1083,12 @@ ${
 
     const wrapperStylesMobile = `
 
-	.${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-wrapper + .eb-accordion-wrapper, 
+	.${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) > .eb-accordion-inner >  .eb-accordion-wrapper + .eb-accordion-wrapper, 
     .${blockId}.eb-accordion-container:not(.eb-accordion-type-horizontal) .eb-accordion-item {
 		${accGapMobile}
 	}
 
-     .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-wrapper + .eb-accordion-wrapper, 
+     .${blockId}.eb-accordion-container.eb-accordion-type-horizontal  > .eb-accordion-inner >  .eb-accordion-wrapper + .eb-accordion-wrapper, 
      .${blockId}.eb-accordion-container.eb-accordion-type-horizontal .eb-accordion-item {
         ${accHorizontalGapMobile}
     }

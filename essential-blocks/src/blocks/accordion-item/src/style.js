@@ -19,14 +19,16 @@ export default function Style(props) {
     const desktopAllStyles = softMinifyCssStrings(`
         ${
             foundItem?.accordionColor
-                ? `.${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} {
+                ? `.${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId},
+                .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-content .title-content-${parentBlockId} {
             background: ${foundItem?.accordionColor};
         }`
             : ""
         }
         ${
             foundItem?.titleColor
-                ? `.${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title {
+                ? `.${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title,
+                .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-content .eb-accordion-title {
             color: ${foundItem?.titleColor};
         }`
             : ""
@@ -39,12 +41,16 @@ export default function Style(props) {
             : ""
         }
         .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title-prefix-text,
-        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title-prefix-icon {
+        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title-prefix-icon,
+        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-content .eb-accordion-title-prefix-text,
+        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-content .eb-accordion-title-prefix-icon {
             color: ${foundItem?.titlePrefixColor};
             background: ${foundItem?.titlePrefixBGColor}
         }
         .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title-suffix-text,
-        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title-suffix-icon {
+        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-title-wrapper-${parentBlockId} .eb-accordion-title-suffix-icon,
+        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-content .eb-accordion-title-suffix-text,
+        .${parentBlockId}.eb-accordion-container .${blockId}.eb-accordion-wrapper .eb-accordion-content .eb-accordion-title-suffix-icon {
             color: ${foundItem?.titleSuffixIconColor};
             background: ${foundItem?.titleSuffixBGColor};
         }

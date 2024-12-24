@@ -117,6 +117,15 @@ final class StyleHandler
                     }
                 }
             }
+        } else {
+            if ( ! empty( $this->block_names ) && ! empty( $this->templately_template_ids ) ) {
+                foreach ( $this->templately_template_ids as $template ) {
+                    $handle = $this->load_frontend_css_file( $template, 'essential-blocks-frontend-style-' . $template, $this->block_names );
+                    if ( ! empty( $handle ) ) {
+                        $deps[  ] = $handle;
+                    }
+                }
+            }
         }
 
         // generatepress elements
@@ -695,13 +704,15 @@ final class StyleHandler
         }
         $this->templately_template_ids[  ] = $template_id;
         $css_filepath                      = $this->style_dir . $this->get_eb_filename( $template_id );
-        if ( ! file_exists( $css_filepath ) ) {
-            $post = get_post( $template_id );
-            if ( is_object( $post ) && property_exists( $post, 'post_content' ) ) {
-                $content        = $post->post_content;
-                $parsed_content = parse_blocks( $content );
-                $this->write_css_from_content( $parsed_content, $template_id, $post->post_type );
-            }
+        // If check file_exists, it creates issue for frontend asset load. We will fix this later
+        // if ( ! file_exists( $css_filepath ) ) {
+
+        // }
+        $post = get_post( $template_id );
+        if ( is_object( $post ) && property_exists( $post, 'post_content' ) ) {
+            $content        = $post->post_content;
+            $parsed_content = parse_blocks( $content );
+            $this->write_css_from_content( $parsed_content, $template_id, $post->post_type );
         }
     }
 

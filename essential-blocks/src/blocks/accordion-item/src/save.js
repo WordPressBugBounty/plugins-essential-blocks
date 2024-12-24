@@ -25,7 +25,7 @@ const save = ({ attributes }) => {
     return (
         <div {...blockProps} data-clickable={foundItem?.clickable}>
             <div 
-                className={`eb-accordion-title-wrapper eb-accordion-title-wrapper-${parentBlockId}`}
+                className={`eb-accordion-title-wrapper eb-accordion-title-wrapper-${parentBlockId}${inheritedAccordionType == "horizontal" ? " eb-accordion-horizontal-enable" : ""}`}
                 tabIndex={0}
                 {...(inheritedAccordionType === 'image' && foundItem?.imageUrl ? {"data-image-url": foundItem?.imageUrl} : {})}
                 {...(inheritedAccordionType === 'image' && foundItem?.imageAlt ? {"data-image-alt": foundItem?.imageAlt} : {})}

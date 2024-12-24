@@ -27,6 +27,7 @@ const Edit = (props) => {
         accordionLists,
         itemId,
         accordionType,
+        inheritedAccordionType
     } = attributes;
 
     const enhancedProps = {
@@ -121,7 +122,7 @@ const Edit = (props) => {
                     data-clickable={foundItem?.clickable}
                 >
                     <div
-                        className={`eb-accordion-title-wrapper eb-accordion-title-wrapper-${parentBlockId}`}
+                        className={`eb-accordion-title-wrapper eb-accordion-title-wrapper-${parentBlockId}${inheritedAccordionType == "horizontal" ? " eb-accordion-horizontal-enable" : ""}`}
                         onClick={handleSlidingOfAccordion}
                         ref={accordionTitle}
                         data-tab-icon={inheritedTabIcon}

@@ -32,11 +32,12 @@
             require_once ESSENTIAL_BLOCKS_DIR_PATH . 'includes/Dependencies/wpnotice.php';
 
             self::$cache_bank = CacheBank::get_instance();
-            try {
-                $this->notices();
-            } catch ( \Exception $e ) {
-                unset( $e );
-            }
+
+            // try {
+            //     $this->notices();
+            // } catch ( \Exception $e ) {
+            //     unset( $e );
+            // }
 
             // Remove OLD notice from 1.0.0 (if other WPDeveloper plugin has notice)
             NoticeRemover::get_instance( '1.0.0' );
@@ -66,6 +67,19 @@
 
             // Redirect after Plugin is updated
             add_action( 'admin_init', [ $this, 'maybe_redirect' ] );
+            add_action( 'admin_init', [ $this, 'enable_notices' ], 11 );
+        }
+
+        public function enable_notices()
+        {
+            // called plugin insights
+            // $this->plugin_usage_insights();
+
+            try {
+                $this->notices();
+            } catch ( \Exception $e ) {
+                unset( $e );
+            }
         }
 
         public function maybe_redirect()
@@ -181,19 +195,23 @@
                     'item_id'      => 'fa45e4a52a650579e98c'
                  ]
             );
-            $this->insights->set_notice_options(
-                [
-                    'notice'       => __( 'Congratulations, you’ve successfully installed <strong>Essential Blocks for Gutenberg</strong>. We got <strong>2500+ FREE Gutenberg ready Templates</strong> waiting for you <span class="gift-icon">&#127873;</span>', 'essential-blocks' ),
-                    'extra_notice' => __(
-                        'We collect non-sensitive diagnostic data and plugin usage information.
-			Your site URL, WordPress & PHP version, plugins & themes and email address to send you exciting deals. This data lets us make sure this plugin always stays compatible with the most
-			popular plugins and themes.',
-                        'essential-blocks'
-                    ),
-                    'yes'          => __( 'Send me FREE Templates', 'wpinsight' ),
-                    'no'           => __( 'I don\'t want FREE Templates', 'wpinsight' )
-                 ]
-            );
+
+            add_action( 'admin_init', function () {
+                $this->insights->set_notice_options(
+                    [
+                        'notice'       => __( 'Congratulations, you’ve successfully installed <strong>Essential Blocks for Gutenberg</strong>. We got <strong>2500+ FREE Gutenberg ready Templates</strong> waiting for you <span class="gift-icon">&#127873;</span>', 'essential-blocks' ),
+                        'extra_notice' => __(
+                            'We collect non-sensitive diagnostic data and plugin usage information.
+                Your site URL, WordPress & PHP version, plugins & themes and email address to send you exciting deals. This data lets us make sure this plugin always stays compatible with the most
+                popular plugins and themes.',
+                            'essential-blocks'
+                        ),
+                        'yes'          => __( 'Send me FREE Templates', 'wpinsight' ),
+                        'no'           => __( 'I don\'t want FREE Templates', 'wpinsight' )
+                     ]
+                );
+            } );
+
             $this->insights->init();
         }
 
@@ -740,7 +758,7 @@
         <span class="e-notice__dismiss eb-admin-promotion-close dashicons dashicons-no-alt" role="button" aria-label="Dismiss" tabindex="0"></span>
         <?php
             printf(
-                        __( "<p> <i>📣</i> Introducing Essential Blocks <strong>v5.1.0</strong> with new & improved <strong>Accordion Block</strong> with new presets, styling controls & many more. For more info, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>", "essential-blocks" ),
+                        __( "<p> <i>📣</i> Introducing Essential Blocks <strong>v5.2.0</strong> with new & improved <strong>Filterable Gallery</strong> with new presets, styling controls & many more. For more info, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>", "essential-blocks" ),
                         esc_url( 'https://essential-blocks.com/changelog/' )
                     );
                 ?>

@@ -37,7 +37,7 @@
 
 	&.eb-accordion-type-horizontal {
 		&.eb-accordion-top-bottom {
-			.eb-accordion-title-wrapper:not(.eb-accordion-content .eb-accordion-title-wrapper) {
+			.eb-accordion-title-wrapper.eb-accordion-horizontal-enable {
 				flex-direction: column-reverse;
 			}
 			.eb-accordion-icon-wrapper {
@@ -45,14 +45,14 @@
 			}
 		}
 		&.eb-accordion-bottom-top {
-			.eb-accordion-title-wrapper:not(.eb-accordion-content .eb-accordion-title-wrapper) {
+			.eb-accordion-title-wrapper.eb-accordion-horizontal-enable {
 				flex-direction: column;
-			}
-			.eb-accordion-title-content-wrap:not(.eb-accordion-content .eb-accordion-title-content-wrap) {
-				transform: rotate(180deg);
-			}
-			.eb-accordion-icon-wrapper {
-				transform: rotate(-90deg);
+				.eb-accordion-title-content-wrap {
+					transform: rotate(180deg);
+				}
+				.eb-accordion-icon-wrapper {
+					transform: rotate(-90deg);
+				}
 			}
 		}
 		.eb-accordion-inner {
@@ -65,27 +65,26 @@
 				position: relative;
 				display: flex;
 				width: max-content;
-				.eb-accordion-title-wrapper:not(.eb-accordion-content .eb-accordion-title-wrapper) {
+				.eb-accordion-title-wrapper.eb-accordion-horizontal-enable {
 					height: 100%;
-					padding: 0;
 					align-items: center;
 					justify-content: space-between;
-					&.eb-transition-add {
-						opacity: 0;
-						visibility: hidden;
-					}
-				}
-				.eb-accordion-title-content-wrap:not(.eb-accordion-content .eb-accordion-title-content-wrap) {
-					writing-mode: vertical-rl;
-					text-orientation: mixed;
-					transform-origin: center;
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					.eb-accordion-title {
+					.eb-accordion-title-content-wrap {
+						writing-mode: vertical-rl;
+						text-orientation: mixed;
+						transform-origin: center;
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
+						.eb-accordion-title {
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						}
+					}
+					&.eb-transition-add {
+						opacity: 0;
+						visibility: hidden;
 					}
 				}
 			}
