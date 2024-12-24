@@ -35,7 +35,7 @@ class ImageGallery extends Block
             'image-gallery-frontend',
             $this->path() . '/frontend.js'
         );
-        // $this->assets_manager->register( 'tweenMaxjs', 'js/TweenMax.min.js' );
+        $this->assets_manager->register( 'tweenMaxjs', 'js/TweenMax.min.js' );
     }
 
     /**

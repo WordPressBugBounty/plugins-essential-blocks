@@ -277,66 +277,12 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.2.0", "essential-blocks")}
+                                    {__("Version: 5.2.1", "essential-blocks")}
                                     <span className="changelog-date">
                                         {__("24/12/2024", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
-                                    <li>
-                                        {__(
-                                            "Revamped: Filterable Gallery | Added new Presets & Styling controls",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: Advanced Heading | Multiple heading support with new styles",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: Gradient border color support for Border control",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Accordion | Horizontal Accordion broken in nested Accordion block",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Accordion | Animation conflict with other blocks",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Post Carousel | PHP notice fixed",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Infobox | Alignment reset to center on reload in editor",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Pricing Table | Enable/disable icons for each feature item",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Pricing Table | Added title tag change control",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
                                     <li>
                                         {__(
                                             "Few bug fixes and improvements",
