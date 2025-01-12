@@ -277,18 +277,73 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.2.1", "essential-blocks")}
+                                    {__("Version: 5.2.2", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("24/12/2024", "essential-blocks")}
+                                        {__("12/01/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Few bug fixes and improvements",
+                                            "Added: Heading tag selection option for all blocks utilizing heading tags",
                                             "essential-blocks"
                                         )}
                                     </li>
+                                    <li>
+                                        {__(
+                                            "Added: TOC | Additional position styles for sticky TOC",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Added: Slider | Lazy load support for slider images",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Filterable Gallery | Old images disappearing when new images are added",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Heading | Heading URL not working on the first attempt",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Image | Link URL not functioning correctly",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Slider | Fade effect not displaying properly on the frontend",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Infobox | Icon color resetting after editor reload",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Security enhancement",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Minor bug fixes and overall improvements",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+
                                 </ul>
 
                             </div>
