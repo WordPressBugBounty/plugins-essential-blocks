@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 5.2.2
+Stable tag: 5.2.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -239,6 +239,9 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.2.3 - 15/01/2025 =
+- Fixed: Filterable Gallery | Editor not working if filterable gallery is used
 
 = 5.2.2 - 12/01/2025 =
 - Added: Heading tag selection option for all blocks utilizing heading tags
