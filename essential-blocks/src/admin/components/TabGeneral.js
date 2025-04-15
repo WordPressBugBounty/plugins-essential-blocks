@@ -277,33 +277,27 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.3.3", "essential-blocks")}
+                                    {__("Version: 5.3.4", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("24/03/2025", "essential-blocks")}
+                                        {__("15/04/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Form | Min-Max value support for number field",
+                                            "Fixed: FSE throws error in Firefox",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Popup | Page not scrolling properly after closing popup",
+                                            "Fixed: Slider | Adaptive height getting enabled on page reload",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Woo Product Grid | Added option to show/hide product category",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Filterable Gallery | Extra border appearing on focused image",
+                                            "Fixed: Popup | Popup block conflict with WPForms",
                                             "essential-blocks"
                                         )}
                                     </li>

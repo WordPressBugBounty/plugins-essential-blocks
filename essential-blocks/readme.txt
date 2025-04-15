@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 5.3.3
+Stable tag: 5.3.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -244,6 +244,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.3.4 - 15/04/2025 =
+- Fixed: FSE throws error in Firefox
+- Fixed: Slider | Adaptive height getting enabled on page reload
+- Fixed: Popup | Popup block conflict with WPForms
+- Few minor bug fixes & improvements
 
 = 5.3.3 - 24/03/2025 =
 - Added: Form | Min-Max value support for number field
