@@ -1,10 +1,10 @@
 === Essential Blocks – Page Builder Gutenberg Blocks, Patterns & Templates ===
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gutenberg Plugin
-Requires at least: 5.8
-Tested up to: 6.7
+Requires at least: 6.2
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.3.4
+Stable tag: 5.3.5
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -244,6 +244,11 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.3.5 - 23/04/2025 =
+- Added: Quick Setup Wizard
+- Fixed: Advanced Tabs | Conflict with Spectra Image Gallery
+- Few minor bug fixes and improvements
 
 = 5.3.4 - 15/04/2025 =
 - Fixed: FSE throws error in Firefox
