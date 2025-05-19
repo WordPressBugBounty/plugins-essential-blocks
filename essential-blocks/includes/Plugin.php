@@ -26,12 +26,13 @@ use EssentialBlocks\Integrations\Pagination;
 use EssentialBlocks\Integrations\GlobalStyles;
 use EssentialBlocks\Integrations\AssetGeneration;
 use EssentialBlocks\Integrations\PluginInstaller;
+use EssentialBlocks\Utils\SvgSanitizer;
 use EssentialBlocks\Admin\QuickSetup;
 
 final class Plugin
 {
     use HasSingletone;
-    public $version = '5.4.0';
+    public $version = '5.4.1';
 
     public $admin;
     /**
@@ -123,6 +124,9 @@ final class Plugin
         // Fetch Enabled Blocks if not than Default Block List
         self::$blocks = Blocks::get_instance( self::$settings );
 
+        // SVG Sanitizer
+        SvgSanitizer::get_instance();
+
         add_action( 'init', function () {
             /**
              * Register a meta `_eb_attr`
@@ -141,6 +145,7 @@ final class Plugin
 
         add_filter( 'upload_mimes', [ $this, 'eb_custom_mines_uploads' ], 20 );
         add_filter( 'wp_check_filetype_and_ext', [ $this, 'eb_handle_filetypes' ], 10, 5 );
+        add_filter( "wp_handle_upload_prefilter", [ $this, 'eb_handle_sanitize_svg' ] );
 
         /**
          * Initialize.
@@ -215,8 +220,8 @@ final class Plugin
         $this->define( 'EB_PATTERN', true );
 
         //Those flags needs to update if notice
-        $this->define( 'EB_PROMOTION_FLAG', 9 );
-        $this->define( 'EB_ADMIN_MENU_FLAG', 9 );
+        $this->define( 'EB_PROMOTION_FLAG', 10 );
+        $this->define( 'EB_ADMIN_MENU_FLAG', 10 );
         $this->define( 'EB_SHOW_WHATS_NEW_NOTICE', 1 );
 
         //Table Name constants
@@ -273,7 +278,11 @@ final class Plugin
      */
     public function eb_custom_mines_uploads( $mimes )
     {
-        // Allow Plain text/JSON files.
+        $eb_settings          = get_option( 'eb_settings', [  ] );
+        $enableUnfilteredFile = ! empty( $eb_settings[ 'unfilteredFile' ] ) ? $eb_settings[ 'unfilteredFile' ] : 'false';
+        if ( $enableUnfilteredFile === 'true' ) {
+            $mimes[ 'svg' ] = 'image/svg+xml';
+        }
         $mimes[ 'txt' ]    = 'text/plain';
         $mimes[ 'json' ]   = 'application/json';
         $mimes[ 'lottie' ] = 'application/zip';
@@ -298,5 +307,42 @@ final class Plugin
         }
 
         return $data;
+    }
+
+    public function eb_handle_sanitize_svg( $file )
+    {
+
+        // Check if the file type is SVG (case-insensitive)
+        if ( strtolower( $file[ 'type' ] ) === 'image/svg+xml' ) {
+            // Verify file extension is .svg (case-insensitive)
+            $path_parts = pathinfo( $file[ 'name' ] );
+            $extension  = isset( $path_parts[ 'extension' ] ) ? strtolower( $path_parts[ 'extension' ] ) : '';
+
+            if ( $extension !== 'svg' ) {
+                $file[ 'error' ] = __( 'File has incorrect extension for SVG type', 'essential-blocks' );
+                return $file;
+            }
+
+            // Get file contents
+            $contents = file_get_contents( $file[ 'tmp_name' ] );
+
+            // Check if content actually contains SVG structure
+            if ( stripos( $contents, '<svg' ) === false || stripos( $contents, '</svg>' ) === false ) {
+                $file[ 'error' ] = __( 'File is not a valid SVG document', 'essential-blocks' );
+                return $file;
+            }
+
+            // Use the sanitizer to clean and validate the SVG
+            $sanitizer = new SvgSanitizer();
+            $sanitized = $sanitizer->sanitize( $contents );
+
+            if ( ! $sanitized ) {
+                $file[ 'error' ] = __( 'Invalid or unsafe SVG file', 'essential-blocks' );
+            } else {
+                file_put_contents( $file[ 'tmp_name' ], $sanitized );
+            }
+        }
+
+        return $file;
     }
 }
