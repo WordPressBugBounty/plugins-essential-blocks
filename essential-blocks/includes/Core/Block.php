@@ -157,6 +157,9 @@ abstract class Block
         if (method_exists($this, 'render_callback')) {
             $_args['render_callback'] = function ($attributes, $content) {
                 if (!is_admin()) {
+                    $this->load_scripts();
+                }
+                if (!is_admin()) {
 
                     if (!$this->should_display_block($attributes)) {
                         return ''; // Stop execution and return empty content
@@ -169,10 +172,10 @@ abstract class Block
             };
         }
 
-
-        if ((! empty($this->frontend_scripts) || ! empty($this->frontend_styles)) && ! method_exists($this, 'render_callback')) {
+        if ((!empty($this->frontend_scripts) || !empty($this->frontend_styles)) && ! method_exists($this, 'render_callback')) {
             $_args['render_callback'] = function ($attributes, $content) {
-                if (! is_admin()) {
+                if (!is_admin()) {
+
 
                     if (!$this->should_display_block($attributes)) {
                         return ''; // Stop execution and return empty content

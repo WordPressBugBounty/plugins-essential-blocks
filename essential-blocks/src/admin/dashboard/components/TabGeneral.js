@@ -277,33 +277,33 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.4.1", "essential-blocks")}
+                                    {__("Version: 5.4.2", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("19/05/2025", "essential-blocks")}
+                                        {__("01/06/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: SVG image support",
+                                            "Added: Infobox | Link option added for the title",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: Popup Block | Open popup on scroll trigger",
+                                            "Fixed: Dual Button | Button gap issue on Preset 4",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Security enhancements",
+                                            "Improved: Security enhancement",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Minor bug fixes & improvements",
+                                            "Updated: Minor bug fixes & performance improvements",
                                             "essential-blocks"
                                         )}
                                     </li>

@@ -34,37 +34,37 @@ class Admin
         self::$cache_bank = CacheBank::get_instance();
 
         // Remove OLD notice from 1.0.0 (if other WPDeveloper plugin has notice)
-        NoticeRemover::get_instance( '1.0.0' );
+        NoticeRemover::get_instance('1.0.0');
 
-        add_action( 'admin_init', [ $this, 'notices' ] );
+        add_action('admin_init', [$this, 'notices']);
 
-        add_action( 'admin_menu', [ $this, 'admin_menu' ] );
+        add_action('admin_menu', [$this, 'admin_menu']);
 
         // Update message for showing notice for new release
-        add_action( 'in_plugin_update_message-essential-blocks/essential-blocks.php', [ $this, 'plugin_update' ], 10, 2 );
+        add_action('in_plugin_update_message-essential-blocks/essential-blocks.php', [$this, 'plugin_update'], 10, 2);
 
-        add_filter( 'block_categories_all', [ $this, 'register_category' ], 99, 2 );
+        add_filter('block_categories_all', [$this, 'register_category'], 99, 2);
 
-        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_styles' ] );
-        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_styles']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
 
-        add_action( 'wp_ajax_save_eb_admin_options', [ $this, 'save' ] );
-        add_action( 'wp_ajax_get_eb_admin_options', [ $this, 'get' ] );
-        add_action( 'wp_ajax_eb_save_quick_toolbar_blocks', [ $this, 'eb_save_quick_toolbar_blocks' ] );
-        add_action( 'wp_ajax_hide_pattern_library', [ $this, 'hide_pattern_library' ] );
-        add_action( 'wp_ajax_reset_eb_admin_options', [ $this, 'reset' ] );
-        add_action( 'wp_ajax_get_eb_admin_templates', [ $this, 'templates' ] );
-        add_action( 'wp_ajax_get_eb_admin_template_count', [ $this, 'template_count' ] );
-        add_action( 'wp_ajax_eb_admin_promotion', [ $this, 'eb_admin_promotion' ] );
-        add_action( 'wp_ajax_write_with_ai', [ $this, 'eb_write_with_ai' ] );
-        add_action( 'plugin_action_links', [ $this, 'eb_menu_action_links' ], 10, 2 );
-        add_action( 'eb_admin_page_setting', [ $this, 'eb_show_admin_menu_notice' ] );
-        add_action( 'in_admin_header', [ $this, 'remove_admin_notice' ], 99 );
+        add_action('wp_ajax_save_eb_admin_options', [$this, 'save']);
+        add_action('wp_ajax_get_eb_admin_options', [$this, 'get']);
+        add_action('wp_ajax_eb_save_quick_toolbar_blocks', [$this, 'eb_save_quick_toolbar_blocks']);
+        add_action('wp_ajax_hide_pattern_library', [$this, 'hide_pattern_library']);
+        add_action('wp_ajax_reset_eb_admin_options', [$this, 'reset']);
+        add_action('wp_ajax_get_eb_admin_templates', [$this, 'templates']);
+        add_action('wp_ajax_get_eb_admin_template_count', [$this, 'template_count']);
+        add_action('wp_ajax_eb_admin_promotion', [$this, 'eb_admin_promotion']);
+        add_action('wp_ajax_write_with_ai', [$this, 'eb_write_with_ai']);
+        add_action('plugin_action_links', [$this, 'eb_menu_action_links'], 10, 2);
+        add_action('eb_admin_page_setting', [$this, 'eb_show_admin_menu_notice']);
+        add_action('in_admin_header', [$this, 'remove_admin_notice'], 99);
 
         // Redirect after Plugin is updated
-        add_action( 'admin_init', [ $this, 'maybe_redirect' ] );
-        add_action( 'admin_init', [ $this, 'enable_notices' ], 11 );
-        add_action( 'admin_footer', [ $this, 'eb_whats_new_notice' ] );
+        add_action('admin_init', [$this, 'maybe_redirect']);
+        add_action('admin_init', [$this, 'enable_notices'], 11);
+        add_action('admin_footer', [$this, 'eb_whats_new_notice']);
     }
 
     public function enable_notices()
@@ -74,39 +74,39 @@ class Admin
 
         try {
             $this->notices();
-        } catch ( \Exception $e ) {
-            unset( $e );
+        } catch (\Exception $e) {
+            unset($e);
         }
     }
 
     public function maybe_redirect()
     {
         // Do not redirect AJAX requests
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+        if (defined('DOING_AJAX') && DOING_AJAX) {
             return;
         }
 
-        if ( get_transient( 'essential_block_maybe_whatsnew_redirect' ) == true ) {
-            delete_transient( 'essential_block_maybe_whatsnew_redirect' );
+        if (get_transient('essential_block_maybe_whatsnew_redirect') == true) {
+            delete_transient('essential_block_maybe_whatsnew_redirect');
 
-            if ( ! is_multisite() ) {
-                wp_safe_redirect( add_query_arg( [ 'page' => 'welcome-essential-blocks' ], admin_url( 'admin.php' ) ) );
+            if (! is_multisite()) {
+                wp_safe_redirect(add_query_arg(['page' => 'welcome-essential-blocks'], admin_url('admin.php')));
             }
         }
     }
 
     public function admin_menu()
     {
-        $eb_version = get_option( 'essential_blocks_version' );
+        $eb_version = get_option('essential_blocks_version');
 
-        $menu_notice = ( $this->menu_notice_should_show() ) ? '<span class="eb-menu-notice">1</span>' : '';
+        $menu_notice = ($this->menu_notice_should_show()) ? '<span class="eb-menu-notice">1</span>' : '';
         add_menu_page(
-            __( 'Essential Blocks', 'essential-blocks' ),
+            __('Essential Blocks', 'essential-blocks'),
             /* translators: 1: notice number */
-            sprintf( __( 'Essential Blocks %s', 'essential-blocks' ), $menu_notice ),
+            sprintf(__('Essential Blocks %s', 'essential-blocks'), $menu_notice),
             'activate_plugins',
             'essential-blocks',
-            [ $this, 'admin_page' ],
+            [$this, 'admin_page'],
             ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/eb-icon-21x21.svg',
             60
         );
@@ -118,18 +118,18 @@ class Admin
             'Welcome Page',
             'activate_plugins',
             'welcome-essential-blocks',
-            [ $this, 'welcome_page' ]
+            [$this, 'welcome_page']
         );
     }
 
     public function admin_page()
     {
-        Helper::views( 'admin', [  ] );
+        Helper::views('admin', []);
     }
 
     public function welcome_page()
     {
-        Helper::views( 'welcome', [  ] );
+        Helper::views('welcome', []);
     }
 
     /**
@@ -137,35 +137,46 @@ class Admin
      *
      * @since 4.1.0
      */
-    public function eb_menu_action_links( $links, $file )
+    public function eb_menu_action_links($links, $file)
     {
-        if ( $file === ESSENTIAL_BLOCKS_PLUGIN_BASENAME ) {
+        if ($file === ESSENTIAL_BLOCKS_PLUGIN_BASENAME) {
             $settings_links = sprintf(
                 '<a href="%1$s">Settings</a>',
-                admin_url( 'admin.php?page=essential-blocks' )
+                admin_url('admin.php?page=essential-blocks')
             );
 
-            array_unshift( $links, $settings_links );
+            array_unshift($links, $settings_links);
 
-            if ( ! class_exists( 'EssentialBlocks\Pro\Plugin' ) ) {
+            if (! class_exists('EssentialBlocks\Pro\Plugin')) {
                 $go_pro_link = sprintf(
                     '<a target="_blank" href="%1$s"><strong style="color:#5e2eff;display: inline-block;">Go Pro</strong></a>',
                     ESSENTIAL_BLOCKS_UPGRADE_PRO_URL
                 );
-                array_push( $links, $go_pro_link );
+                array_push($links, $go_pro_link);
             }
         }
 
         return $links;
     }
-
-    public function register_category( $categories, $post )
+    /**
+     * Register Block Category
+     */
+    public function register_category($categories, $post)
     {
-        array_unshift( $categories, [
+        // Add another category only if Essential Pro Block is not active
+        if (! defined('ESSENTIAL_BLOCKS_IS_PRO_ACTIVE') || ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE) {
+            array_unshift($categories, [
+                'slug'  => 'essential-blocks-pro',
+                'title' => __('Essential Blocks Pro', 'essential-blocks'),
+                'icon'  => ESSENTIAL_BLOCKS_ICON
+            ]);
+        }
+
+        array_unshift($categories, [
             'slug'  => 'essential-blocks',
-            'title' => __( 'Essential Blocks', 'essential-blocks' ),
+            'title' => __('Essential Blocks', 'essential-blocks'),
             'icon'  => ESSENTIAL_BLOCKS_ICON
-         ] );
+        ]);
 
         return $categories;
     }
@@ -173,15 +184,15 @@ class Admin
     /**
      * Update message for showing notice for new release
      */
-    public function plugin_update( $plugin_data, $new_data )
+    public function plugin_update($plugin_data, $new_data)
     {
         require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         $upgrade_notice = false;
-        if ( isset( $new_data->upgrade_notice ) ) {
+        if (isset($new_data->upgrade_notice)) {
             $upgrade_notice = $new_data->upgrade_notice;
         }
 
-        Helper::version_update_warning( $plugin_data[ 'Version' ], $plugin_data[ 'new_version' ], $upgrade_notice );
+        Helper::version_update_warning($plugin_data['Version'], $plugin_data['new_version'], $upgrade_notice);
     }
 
     /**
@@ -195,24 +206,24 @@ class Admin
                 'opt_in'       => true,
                 'goodbye_form' => true,
                 'item_id'      => 'fa45e4a52a650579e98c'
-             ]
+            ]
         );
 
-        add_action( 'admin_init', function () {
+        add_action('admin_init', function () {
             $this->insights->set_notice_options(
                 [
-                    'notice'       => __( 'Congratulations, you’ve successfully installed <strong>Essential Blocks for Gutenberg</strong>. We got <strong>2500+ FREE Gutenberg ready Templates</strong> waiting for you <span class="gift-icon">&#127873;</span>', 'essential-blocks' ),
+                    'notice'       => __('Congratulations, you’ve successfully installed <strong>Essential Blocks for Gutenberg</strong>. We got <strong>2500+ FREE Gutenberg ready Templates</strong> waiting for you <span class="gift-icon">&#127873;</span>', 'essential-blocks'),
                     'extra_notice' => __(
                         'We collect non-sensitive diagnostic data and plugin usage information.
                 Your site URL, WordPress & PHP version, plugins & themes and email address to send you exciting deals. This data lets us make sure this plugin always stays compatible with the most
                 popular plugins and themes.',
                         'essential-blocks'
                     ),
-                    'yes'          => __( 'Send me FREE Templates', 'wpinsight' ),
-                    'no'           => __( 'I don\'t want FREE Templates', 'wpinsight' )
-                 ]
+                    'yes'          => __('Send me FREE Templates', 'wpinsight'),
+                    'no'           => __('I don\'t want FREE Templates', 'wpinsight')
+                ]
             );
-        } );
+        });
 
         $this->insights->init();
     }
@@ -225,7 +236,7 @@ class Admin
     public function notices()
     {
         global $pagenow;
-        if ( $pagenow === 'post.php' || $pagenow === 'post-new.php' || $pagenow === 'site-editor.php' ) {
+        if ($pagenow === 'post.php' || $pagenow === 'post-new.php' || $pagenow === 'site-editor.php') {
             return;
         }
         $notices = new Notices(
@@ -237,7 +248,7 @@ class Admin
                 'stylesheet_url' => ESSENTIAL_BLOCKS_URL . 'assets/css/notices.css',
                 'styles'         => ESSENTIAL_BLOCKS_URL . 'assets/css/notices.css'
                 // 'dev_mode'       => true
-             ]
+            ]
         );
 
         /**
@@ -253,7 +264,7 @@ class Admin
         $occasional_sale_notice = [
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
             'html'      => $occasional_sale_message
-         ];
+        ];
 
         //Occasional Sale Notice Add
         $notices->add(
@@ -261,13 +272,13 @@ class Admin
             $occasional_sale_notice,
             [
                 'start'       => $notices->time(),
-                'expire'      => strtotime( '11:59:59pm 10th January, 2025' ),
+                'expire'      => strtotime('11:59:59pm 10th January, 2025'),
                 'classes'     => 'eb-notice put-dismiss-notice',
                 'dismissible' => true,
                 'refresh'     => ESSENTIAL_BLOCKS_VERSION,
                 'do_action'   => 'eb_occasional_sale_campaign',
                 'display_if'  => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
-             ]
+            ]
         );
 
         /**
@@ -279,20 +290,20 @@ class Admin
         $early_bird_notice = [
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
             'html'      => $early_bird_message
-         ];
+        ];
 
         //Early bird Notice Add
         $notices->add(
             'early_bird',
             $early_bird_notice,
             [
-                'start'       => $notices->strtotime( '+1 days' ),
+                'start'       => $notices->strtotime('+1 days'),
                 'classes'     => 'eb-notice put-dismiss-notice',
                 'dismissible' => true,
                 'refresh'     => ESSENTIAL_BLOCKS_VERSION,
                 'do_action'   => 'eb_early_bird_campaign',
                 'display_if'  => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
-             ]
+            ]
         );
 
         /**
@@ -312,53 +323,53 @@ class Admin
             'links'     => [
                 'later'            => [
                     'link'       => 'https://wordpress.org/support/plugin/essential-blocks/reviews/#new-post',
-                    'label'      => __( 'Sure, you deserve it!', 'essential-blocks' ),
+                    'label'      => __('Sure, you deserve it!', 'essential-blocks'),
                     'icon_class' => 'dashicons dashicons-external',
                     'attributes' => [
                         'target' => '_blank',
                         'class'  => 'btn'
                         // 'data-dismiss' => false
-                     ]
-                 ],
+                    ]
+                ],
                 'allready'         => [
-                    'label'      => __( 'I already did', 'essential-blocks' ),
+                    'label'      => __('I already did', 'essential-blocks'),
                     'icon_class' => 'dashicons dashicons-smiley',
                     'attributes' => [
                         'data-dismiss' => true
-                     ]
-                 ],
+                    ]
+                ],
                 'maybe_later'      => [
-                    'label'      => __( 'Maybe Later', 'essential-blocks' ),
+                    'label'      => __('Maybe Later', 'essential-blocks'),
                     'icon_class' => 'dashicons dashicons-calendar-alt',
                     'attributes' => [
                         'data-later' => true,
                         'class'      => 'dismiss-btn'
-                     ]
-                 ],
+                    ]
+                ],
                 'support'          => [
                     'link'       => 'https://wpdeveloper.com/support',
                     'attributes' => [
                         'target' => '_blank'
-                     ],
-                    'label'      => __( 'I need help', 'essential-blocks' ),
+                    ],
+                    'label'      => __('I need help', 'essential-blocks'),
                     'icon_class' => 'dashicons dashicons-sos'
-                 ],
+                ],
                 'never_show_again' => [
-                    'label'      => __( 'Never show again', 'essential-blocks' ),
+                    'label'      => __('Never show again', 'essential-blocks'),
                     'icon_class' => 'dashicons dashicons-dismiss',
                     'attributes' => [
                         'data-dismiss' => true
-                     ]
-                 ]
-             ]
-         ];
+                    ]
+                ]
+            ]
+        ];
 
         // Review Notice Add
         $notices->add(
             'review',
             $_review_notice,
             [
-                'start'       => $notices->strtotime( '+7 days' ),
+                'start'       => $notices->strtotime('+7 days'),
                 // 'start'       => $notices->time(),
                 'recurrence'  => 15,
                 'dismissible' => true,
@@ -373,60 +384,60 @@ class Admin
                     'tools',
                     'options-general',
                     'nav-menus'
-                 ]
-             ]
+                ]
+            ]
         );
 
         /**
          * Opt-In Notice
          */
-        if ( $this->insights != null ) {
+        if ($this->insights != null) {
             $notices->add(
                 'opt_in',
-                [ $this->insights, 'notice' ],
+                [$this->insights, 'notice'],
                 [
                     'classes'     => 'updated put-dismiss-notice',
-                    'start'       => $notices->strtotime( '+2 days' ),
+                    'start'       => $notices->strtotime('+2 days'),
                     // 'start'       => $notices->time(),
                     'dismissible' => true,
                     'refresh'     => ESSENTIAL_BLOCKS_VERSION,
                     'do_action'   => 'wpdeveloper_notice_clicked_for_essential-blocks',
                     'display_if'  => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
-                 ]
+                ]
             );
         }
 
-        self::$cache_bank->create_account( $notices );
-        self::$cache_bank->calculate_deposits( $notices );
+        self::$cache_bank->create_account($notices);
+        self::$cache_bank->calculate_deposits($notices);
     }
 
-    public function enqueue_styles( $hook )
+    public function enqueue_styles($hook)
     {
-        wpdev_essential_blocks()->assets->enqueue( 'menu', 'css/eb-menu.css' );
+        wpdev_essential_blocks()->assets->enqueue('menu', 'css/eb-menu.css');
         $this->eb_admin_inline_css();
-        if ( $hook !== 'toplevel_page_essential-blocks' ) {
+        if ($hook !== 'toplevel_page_essential-blocks') {
             return;
         }
 
-        wpdev_essential_blocks()->assets->enqueue( 'admin', 'css/admin.css' );
-        wpdev_essential_blocks()->assets->enqueue( 'admin-custom', 'admin/dashboard/admin.css' );
+        wpdev_essential_blocks()->assets->enqueue('admin', 'css/admin.css');
+        wpdev_essential_blocks()->assets->enqueue('admin-custom', 'admin/dashboard/admin.css');
     }
 
-    public function enqueue_scripts( $hook )
+    public function enqueue_scripts($hook)
     {
-        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script('jquery');
 
-        wpdev_essential_blocks()->assets->register( 'admin-controls-util', 'admin/controls/controls.js', [
+        wpdev_essential_blocks()->assets->register('admin-controls-util', 'admin/controls/controls.js', [
             'essential-blocks-blocks-localize'
-         ] );
+        ]);
 
-        wpdev_essential_blocks()->assets->register( 'babel-bundle', 'vendors/js/bundle.babel.js' );
-        wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', [ 'essential-blocks-babel-bundle' ] );
-        wpdev_essential_blocks()->assets->register( 'flv', 'js/react-player/flv.min.js' );
-        wpdev_essential_blocks()->assets->register( 'dash', 'js/react-player/dash.all.min.js' );
-        wpdev_essential_blocks()->assets->register( 'hls', 'js/react-player/hls.min.js' );
+        wpdev_essential_blocks()->assets->register('babel-bundle', 'vendors/js/bundle.babel.js');
+        wpdev_essential_blocks()->assets->register('vendor-bundle', 'vendors/js/bundles.js', ['essential-blocks-babel-bundle']);
+        wpdev_essential_blocks()->assets->register('flv', 'js/react-player/flv.min.js');
+        wpdev_essential_blocks()->assets->register('dash', 'js/react-player/dash.all.min.js');
+        wpdev_essential_blocks()->assets->register('hls', 'js/react-player/hls.min.js');
 
-        if ( $hook !== 'toplevel_page_essential-blocks' ) {
+        if ($hook !== 'toplevel_page_essential-blocks') {
             return;
         }
         wpdev_essential_blocks()->assets->enqueue(
@@ -440,10 +451,10 @@ class Admin
                 'essential-blocks-flv',
                 'essential-blocks-dash',
                 'regenerator-runtime'
-             ]
+            ]
         );
 
-        wpdev_essential_blocks()->assets->enqueue( 'eb-admin', 'js/admin.js' );
+        wpdev_essential_blocks()->assets->enqueue('eb-admin', 'js/admin.js');
     }
 
     /**
@@ -451,45 +462,45 @@ class Admin
      */
     public function save()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('activate_plugins')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        if ( isset( $_POST[ 'type' ] ) ) {
-            $type  = trim( sanitize_text_field( $_POST[ 'type' ] ) );
-            $key   = isset( $_POST[ 'key' ] ) ? trim( sanitize_text_field( $_POST[ 'key' ] ) ) : '';
-            $value = isset( $_POST[ 'value' ] ) ? trim( sanitize_text_field( $_POST[ 'value' ] ) ) : '';
+        if (isset($_POST['type'])) {
+            $type  = trim(sanitize_text_field($_POST['type']));
+            $key   = isset($_POST['key']) ? trim(sanitize_text_field($_POST['key'])) : '';
+            $value = isset($_POST['value']) ? trim(sanitize_text_field($_POST['value'])) : '';
 
             $settings = Settings::get_instance();
 
-            switch ( $type ) {
+            switch ($type) {
                 case 'settings':
                     /**
                      * Save blocks Settings options
                      */
-                    $updated = $settings->save_eb_settings( $key, $value );
-                    wp_send_json_success( $updated );
+                    $updated = $settings->save_eb_settings($key, $value);
+                    wp_send_json_success($updated);
                     break;
 
                 case 'enable_disable':
                     /**
                      * Save Enable/disable blocks options
                      */
-                    $value   = json_decode( wp_unslash( $value ), true );
-                    $updated = $settings->save_blocks_option( $value );
-                    wp_send_json_success( $updated );
+                    $value   = json_decode(wp_unslash($value), true);
+                    $updated = $settings->save_blocks_option($value);
+                    wp_send_json_success($updated);
                     break;
                 case 'write_with_ai':
                     /**
                      * Save blocks write_with_ai options
                      */
-                    $value = json_decode( wp_unslash( $value ) );
+                    $value = json_decode(wp_unslash($value));
 
                     // Validate API key if provided
-                    if ( isset( $value->apiKey ) && ! empty( $value->apiKey ) ) {
+                    if (isset($value->apiKey) && ! empty($value->apiKey)) {
                         // Include the OpenAI class
                         require_once ESSENTIAL_BLOCKS_DIR_PATH . 'includes/Admin/OpenAI.php';
 
@@ -497,25 +508,25 @@ class Admin
                         $openai = new OpenAI();
 
                         // Validate the API key
-                        $validation = $openai->validate_api_key( $value->apiKey );
+                        $validation = $openai->validate_api_key($value->apiKey);
 
-                        if ( ! $validation[ 'success' ] ) {
-                            wp_send_json_error( [
-                                'message' => $validation[ 'message' ],
+                        if (! $validation['success']) {
+                            wp_send_json_error([
+                                'message' => $validation['message'],
                                 'type'    => 'api_key_error'
-                             ] );
+                            ]);
                             return;
                         }
                     }
 
-                    $updated = $settings->save_eb_write_with_ai( $value );
-                    wp_send_json_success( $updated );
+                    $updated = $settings->save_eb_write_with_ai($value);
+                    wp_send_json_success($updated);
                     break;
                 default:
-                    wp_send_json_error( __( 'Something went wrong regarding saving options data.', 'essential-blocks' ) );
+                    wp_send_json_error(__('Something went wrong regarding saving options data.', 'essential-blocks'));
             }
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding saving options data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding saving options data.', 'essential-blocks'));
         }
     }
 
@@ -524,26 +535,26 @@ class Admin
      */
     public function reset()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('activate_plugins')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        if ( isset( $_POST[ 'type' ] ) ) {
-            $type = trim( sanitize_text_field( $_POST[ 'type' ] ) );
-            $key  = isset( $_POST[ 'key' ] ) ? trim( sanitize_text_field( $_POST[ 'key' ] ) ) : '';
+        if (isset($_POST['type'])) {
+            $type = trim(sanitize_text_field($_POST['type']));
+            $key  = isset($_POST['key']) ? trim(sanitize_text_field($_POST['key'])) : '';
 
             $settings = Settings::get_instance();
 
-            switch ( $type ) {
+            switch ($type) {
                 case 'settings':
                     /**
                      * Reset blocks Settings options
                      */
-                    $updated = $settings->reset_eb_settings( $key );
-                    wp_send_json_success( $updated );
+                    $updated = $settings->reset_eb_settings($key);
+                    wp_send_json_success($updated);
                     break;
 
                 case 'enable_disable':
@@ -553,10 +564,10 @@ class Admin
 
                     break;
                 default:
-                    wp_send_json_error( __( 'Something went wrong regarding reset options data.', 'essential-blocks' ) );
+                    wp_send_json_error(__('Something went wrong regarding reset options data.', 'essential-blocks'));
             }
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding reset options data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding reset options data.', 'essential-blocks'));
         }
     }
 
@@ -565,29 +576,29 @@ class Admin
      */
     public function get()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('edit_posts')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        if ( isset( $_POST[ 'key' ] ) ) {
-            $key = trim( sanitize_text_field( $_POST[ 'key' ] ) );
-            if ( str_contains( $key, 'eb_' ) ) {
+        if (isset($_POST['key'])) {
+            $key = trim(sanitize_text_field($_POST['key']));
+            if (str_contains($key, 'eb_')) {
                 $settings = Settings::get_instance();
-                $data     = $settings->get( $key );
+                $data     = $settings->get($key);
 
-                if ( $data ) {
-                    wp_send_json_success( wp_unslash( $data ) );
+                if ($data) {
+                    wp_send_json_success(wp_unslash($data));
                 } else {
-                    wp_send_json_error( __( 'Invalid Key', 'essential-blocks' ) );
+                    wp_send_json_error(__('Invalid Key', 'essential-blocks'));
                 }
             } else {
-                wp_send_json_error( __( 'Invalid Key', 'essential-blocks' ) );
+                wp_send_json_error(__('Invalid Key', 'essential-blocks'));
             }
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding getting options data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding getting options data.', 'essential-blocks'));
         }
     }
 
@@ -596,18 +607,18 @@ class Admin
      */
     public function hide_pattern_library()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('edit_posts')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        $save = update_option( ESSENTIAL_BLOCKS_HIDE_PATTERN_LIBRARY, true );
-        if ( $save ) {
-            wp_send_json_success( __( 'Settings Updated Successfully', 'essential-blocks' ) );
+        $save = update_option(ESSENTIAL_BLOCKS_HIDE_PATTERN_LIBRARY, true);
+        if ($save) {
+            wp_send_json_success(__('Settings Updated Successfully', 'essential-blocks'));
         } else {
-            wp_send_json_error( __( 'Couldn\'t Save Settings Data', 'essential-blocks' ) );
+            wp_send_json_error(__('Couldn\'t Save Settings Data', 'essential-blocks'));
         }
     }
 
@@ -616,17 +627,17 @@ class Admin
      */
     public function templates()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
 
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json_error( __( 'You are not authorized!', 'essential-blocks' ) );
+        if (! current_user_can('activate_plugins')) {
+            wp_send_json_error(__('You are not authorized!', 'essential-blocks'));
         }
 
         $headers = [
             'Content-Type' => 'application/json'
-         ];
+        ];
         $query = '{
 			packs(plan_type: 0, per_page: 8){
 			  data{
@@ -648,14 +659,14 @@ class Admin
                 'body'    => wp_json_encode(
                     [
                         'query' => $query
-                     ]
+                    ]
                 )
-             ]
+            ]
         );
-        if ( $response ) {
-            wp_send_json_success( $response );
+        if ($response) {
+            wp_send_json_success($response);
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding getting data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding getting data.', 'essential-blocks'));
         }
     }
 
@@ -664,16 +675,16 @@ class Admin
      */
     public function template_count()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json_error( __( 'You are not authorized!', 'essential-blocks' ) );
+        if (! current_user_can('activate_plugins')) {
+            wp_send_json_error(__('You are not authorized!', 'essential-blocks'));
         }
 
         $headers = [
             'Content-Type' => 'application/json'
-         ];
+        ];
         $query = '{
 			getCounts {
                 key
@@ -688,14 +699,14 @@ class Admin
                 'body'    => wp_json_encode(
                     [
                         'query' => $query
-                     ]
+                    ]
                 )
-             ]
+            ]
         );
-        if ( $response ) {
-            wp_send_json_success( $response );
+        if ($response) {
+            wp_send_json_success($response);
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding getting data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding getting data.', 'essential-blocks'));
         }
     }
 
@@ -706,22 +717,22 @@ class Admin
      */
     public function menu_notice_should_show()
     {
-        return ( get_option( 'eb_admin_menu_notice' ) < EB_ADMIN_MENU_FLAG && get_option( 'eb_admin_promotion' ) < EB_PROMOTION_FLAG );
+        return (get_option('eb_admin_menu_notice') < EB_ADMIN_MENU_FLAG && get_option('eb_admin_promotion') < EB_PROMOTION_FLAG);
     }
 
     public function eb_admin_inline_css()
     {
         $screen = get_current_screen();
 
-        if ( ! empty( $screen->id ) && $screen->id == 'toplevel_page_essential-blocks' ) {
+        if (! empty($screen->id) && $screen->id == 'toplevel_page_essential-blocks') {
             $custom_css = "
                 .notice:not(.wpdeveloper-licensing-notice) {
                     display: none !important;
                 }";
-            wp_add_inline_style( 'admin-bar', $custom_css );
+            wp_add_inline_style('admin-bar', $custom_css);
         }
 
-        if ( $this->menu_notice_should_show() ) {
+        if ($this->menu_notice_should_show()) {
             $custom_css = "
                 #toplevel_page_essential-blocks .wp-submenu .wp-first-item .eb-menu-notice {
                     display: none !important;
@@ -734,43 +745,43 @@ class Admin
 				#toplevel_page_essential-blocks .eb-menu-notice {
                     display:block !important;
                 }";
-            wp_add_inline_style( 'admin-bar', $custom_css );
+            wp_add_inline_style('admin-bar', $custom_css);
         }
     }
 
     public function eb_admin_promotion()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('activate_plugins')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        $update_promotion = update_option( 'eb_admin_promotion', EB_PROMOTION_FLAG );
-        if ( $update_promotion ) {
-            wp_send_json_success( [ 'success' => true ] );
+        $update_promotion = update_option('eb_admin_promotion', EB_PROMOTION_FLAG);
+        if ($update_promotion) {
+            wp_send_json_success(['success' => true]);
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding getting data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding getting data.', 'essential-blocks'));
         }
     }
 
     //eb_write_with_ai
     public function eb_write_with_ai()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'edit_posts' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('edit_posts')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        if ( isset( $_POST[ 'prompt' ] ) ) {
-            $prompt = sanitize_textarea_field( $_POST[ 'prompt' ] );
+        if (isset($_POST['prompt'])) {
+            $prompt = sanitize_textarea_field($_POST['prompt']);
 
             $overwrite = false;
-            if ( isset( $_POST[ 'overwrite' ] ) ) {
-                $overwrite = rest_sanitize_boolean( $_POST[ 'overwrite' ] );
+            if (isset($_POST['overwrite'])) {
+                $overwrite = rest_sanitize_boolean($_POST['overwrite']);
             }
 
             // Include the OpenAI class
@@ -780,7 +791,7 @@ class Admin
             $openai = new OpenAI();
 
             // Generate content using OpenAI with the complete prompt
-            $response = $openai->generate_content( $prompt );
+            $response = $openai->generate_content($prompt);
             //                 $response = [
             //                     'success' => true,
             //                     'usage'   => null,
@@ -831,20 +842,20 @@ class Admin
             // By incorporating these best programming practices into your WordPress development workflow, you can create high-quality, secure, and efficient websites that provide an excellent user experience. Stay updated with the latest trends and technologies in WordPress development to continuously improve your skills and deliver outstanding results.
             //                 '  ];
 
-            if ( $response[ 'success' ] ) {
-                wp_send_json_success( [
-                    'content'   => $response[ 'content' ],
-                    'usage'     => $response[ 'usage' ],
+            if ($response['success']) {
+                wp_send_json_success([
+                    'content'   => $response['content'],
+                    'usage'     => $response['usage'],
                     'overwrite' => $overwrite
-                 ] );
+                ]);
             } else {
-                wp_send_json_error( [
-                    'message'  => $response[ 'message' ],
-                    'response' => isset( $response[ 'response' ] ) ? $response[ 'response' ] : null
-                 ] );
+                wp_send_json_error([
+                    'message'  => $response['message'],
+                    'response' => isset($response['response']) ? $response['response'] : null
+                ]);
             }
         } else {
-            wp_send_json_error( __( 'Prompt is required', 'essential-blocks' ) );
+            wp_send_json_error(__('Prompt is required', 'essential-blocks'));
         }
     }
 
@@ -853,40 +864,40 @@ class Admin
      */
     public function eb_show_admin_menu_notice()
     {
-        $get_option = get_option( 'eb_admin_menu_notice' );
-        if ( get_option( 'eb_admin_menu_notice' ) < EB_ADMIN_MENU_FLAG ) {
-            update_option( 'eb_admin_menu_notice', EB_ADMIN_MENU_FLAG, false );
+        $get_option = get_option('eb_admin_menu_notice');
+        if (get_option('eb_admin_menu_notice') < EB_ADMIN_MENU_FLAG) {
+            update_option('eb_admin_menu_notice', EB_ADMIN_MENU_FLAG, false);
         }
     }
 
     public function remove_admin_notice()
     {
         $current_screen = get_current_screen();
-        if ( $current_screen->id == 'toplevel_page_essential-blocks' ) {
+        if ($current_screen->id == 'toplevel_page_essential-blocks') {
             // Added admin notice which is basically uses for display new promotion message
-            if ( get_option( 'eb_admin_promotion' ) < EB_PROMOTION_FLAG ) {
-                add_action( 'admin_notices', [ $this, 'promotion_message_on_admin_screen' ], 1 );
+            if (get_option('eb_admin_promotion') < EB_PROMOTION_FLAG) {
+                add_action('admin_notices', [$this, 'promotion_message_on_admin_screen'], 1);
             }
         }
     }
 
     public function eb_save_quick_toolbar_blocks()
     {
-        if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
-            wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
+        if (! isset($_POST['admin_nonce']) || ! wp_verify_nonce(sanitize_key($_POST['admin_nonce']), 'admin-nonce')) {
+            wp_send_json_error(__('Nonce Error', 'essential-blocks'));
         }
-        if ( ! current_user_can( 'activate_plugins' ) ) {
-            wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
+        if (! current_user_can('activate_plugins')) {
+            wp_send_json_error(__('You are not authorized to save this!', 'essential-blocks'));
         }
 
-        if ( isset( $_POST[ 'value' ] ) ) {
-            $value = isset( $_POST[ 'value' ] ) ? json_decode( stripslashes( $_POST[ 'value' ] ), true ) : '';
+        if (isset($_POST['value'])) {
+            $value = isset($_POST['value']) ? json_decode(stripslashes($_POST['value']), true) : '';
 
             $settings = Settings::get_instance();
-            $updated  = $settings->save( 'eb_quick_toolbar_allowed_blocks', $value );
-            wp_send_json_success( $updated );
+            $updated  = $settings->save('eb_quick_toolbar_allowed_blocks', $value);
+            wp_send_json_success($updated);
         } else {
-            wp_send_json_error( __( 'Something went wrong regarding saving options data.', 'essential-blocks' ) );
+            wp_send_json_error(__('Something went wrong regarding saving options data.', 'essential-blocks'));
         }
     }
 
@@ -902,15 +913,15 @@ class Admin
         $use_pro_message = false;
 
         // Check if Pro is active and meets version requirement
-        if ( defined( 'ESSENTIAL_BLOCKS_IS_PRO_ACTIVE' ) && ESSENTIAL_BLOCKS_IS_PRO_ACTIVE ) {
-            if ( defined( 'ESSENTIAL_BLOCKS_PRO_VERSION' ) ) {
-                if ( version_compare( ESSENTIAL_BLOCKS_PRO_VERSION, $min_pro_version, '>=' ) ) {
+        if (defined('ESSENTIAL_BLOCKS_IS_PRO_ACTIVE') && ESSENTIAL_BLOCKS_IS_PRO_ACTIVE) {
+            if (defined('ESSENTIAL_BLOCKS_PRO_VERSION')) {
+                if (version_compare(ESSENTIAL_BLOCKS_PRO_VERSION, $min_pro_version, '>=')) {
                     $use_pro_message = true;
                 }
             }
         }
 
-        $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
+        $changelog_url = esc_url('https://essential-blocks.com/changelog/');
 
         $message_template = __(
             "<p> <i>📣</i> Introducing Essential Blocks Pro <strong>v2.1.0</strong> with <strong>Conditional Display</strong> to add visibility logics to your certain Gutenberg blocks based on variety of factors, including date and time, query strings, user roles, & many more . For more info, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
@@ -922,7 +933,7 @@ class Admin
         //     $message_template = apply_filters( 'eb_promotion_message_on_admin_screen', $message_template );
         // }
 
-        $message = sprintf( $message_template, $changelog_url );
+        $message = sprintf($message_template, $changelog_url);
 
         // Output HTML using heredoc for better formatting
         echo <<<HTML
@@ -936,16 +947,16 @@ class Admin
 
     public function eb_whats_new_notice()
     {
-        if ( wp_doing_ajax() ) {
+        if (wp_doing_ajax()) {
             return;
         }
 
-        if ( get_transient( 'essential_block_whats_new_notice' ) === true ) {
-            delete_transient( 'essential_block_whats_new_notice' );
+        if (get_transient('essential_block_whats_new_notice') === true) {
+            delete_transient('essential_block_whats_new_notice');
 
             $view_path = ESSENTIAL_BLOCKS_DIR_PATH . 'includes/admin/whats-new-notice.php';
 
-            if ( file_exists( $view_path ) ) {
+            if (file_exists($view_path)) {
                 include $view_path;
             }
         }

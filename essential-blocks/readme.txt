@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.4.1
+Stable tag: 5.4.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -251,6 +251,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.4.2 - 01/06/2025 =
+- Added: Infobox | Link option added for the title
+- Fixed: Dual Button | Button gap issue on Preset 4
+- Improved: Security enhancement
+- Few minor bug fixes & improvements
 
 = 5.4.1 - 19/05/2025 =
 - Added: SVG image support
