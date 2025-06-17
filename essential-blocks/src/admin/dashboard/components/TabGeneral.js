@@ -277,33 +277,45 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.4.2", "essential-blocks")}
+                                    {__("Version: 5.5.0", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("01/06/2025", "essential-blocks")}
+                                        {__("17/06/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Infobox | Link option added for the title",
+                                            "Added: New Feature: AI Content Generation | RichText and Input field support",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Dual Button | Button gap issue on Preset 4",
+                                            "Fixed: EB Filterable Gallery | Lightbox displays all images instead of filtered items only",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Security enhancement",
+                                            "Fixed: Lottie Animation | Height and width set to auto control",
                                             "essential-blocks"
                                         )}
                                     </li>
                                     <li>
                                         {__(
-                                            "Updated: Minor bug fixes & performance improvements",
+                                            "Fixed: Lottie Animation | Incorrect animation behavior",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Navigation | Alignment issue",
+                                            "essential-blocks"
+                                        )}
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Few minor bug fixes & improvements",
                                             "essential-blocks"
                                         )}
                                     </li>
