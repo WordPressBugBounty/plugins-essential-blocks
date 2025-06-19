@@ -32,7 +32,7 @@ use EssentialBlocks\Admin\QuickSetup;
 final class Plugin
 {
     use HasSingletone;
-    public $version = '5.5.0';
+    public $version = '5.5.1';
 
     public $admin;
     /**

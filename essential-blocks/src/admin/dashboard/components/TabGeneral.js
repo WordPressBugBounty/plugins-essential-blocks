@@ -277,39 +277,15 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.5.0", "essential-blocks")}
+                                    {__("Version: 5.5.1", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("17/06/2025", "essential-blocks")}
+                                        {__("19/06/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: New Feature: AI Content Generation | RichText and Input field support",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: EB Filterable Gallery | Lightbox displays all images instead of filtered items only",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Lottie Animation | Height and width set to auto control",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Lottie Animation | Incorrect animation behavior",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Navigation | Alignment issue",
+                                            "Fixed: AI Content Generation | Popup was closing upon clicking the generate button in Firefox",
                                             "essential-blocks"
                                         )}
                                     </li>

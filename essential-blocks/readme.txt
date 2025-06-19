@@ -1,10 +1,10 @@
-=== Essential Blocks for Gutenberg - Page Builder for Gutenberg Blocks & Patterns ===
+=== Gutenberg Essential Blocks – Page Builder for Gutenberg Blocks & Patterns ===
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gutenberg Plugin
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.5.0
+Stable tag: 5.5.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -255,6 +255,10 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.5.1 - 19/06/2025 =
+- Fixed: AI Content Generation | Popup was closing upon clicking the generate button in Firefox
+- Few minor bug fixes & improvements
 
 = 5.5.0 - 17/06/2025 =
 - Added: New Feature: AI Content Generation | RichText and Input field support
