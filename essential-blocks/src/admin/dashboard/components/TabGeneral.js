@@ -277,18 +277,12 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.5.1", "essential-blocks")}
+                                    {__("Version: 5.5.2", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("19/06/2025", "essential-blocks")}
+                                        {__("20/06/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
-                                    <li>
-                                        {__(
-                                            "Fixed: AI Content Generation | Popup was closing upon clicking the generate button in Firefox",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
                                     <li>
                                         {__(
                                             "Few minor bug fixes & improvements",

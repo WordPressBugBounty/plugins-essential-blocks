@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Guten
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.5.1
+Stable tag: 5.5.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -255,6 +255,9 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.5.2 - 20/06/2025 =
+- Few minor bug fixes & improvements
 
 = 5.5.1 - 19/06/2025 =
 - Fixed: AI Content Generation | Popup was closing upon clicking the generate button in Firefox

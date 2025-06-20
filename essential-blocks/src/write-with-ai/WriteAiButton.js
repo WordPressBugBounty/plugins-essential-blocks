@@ -363,6 +363,10 @@ const WriteAIButton = () => {
 
     const isBlank = select('core/block-editor').getBlocks().length === 0 ? true : false;
 
+    if (!EssentialBlocksLocalize?.hasOpenAiApiKey) {
+        return "";
+    }
+
     return EssentialBlocksLocalize?.enableWriteAIPageContent !== "1" ? "" : (
         <>
             <Button

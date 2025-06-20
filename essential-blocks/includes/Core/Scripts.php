@@ -29,7 +29,7 @@ class Scripts
         $eb_settings                   = get_option( 'eb_settings', [  ] );
         $this->isEnableFontAwesome     = ! empty( $eb_settings[ 'enableFontawesome' ] ) ? $eb_settings[ 'enableFontawesome' ] : 'true';
         $this->isEnableGoogleFont      = ! empty( $eb_settings[ 'googleFont' ] ) ? $eb_settings[ 'googleFont' ] : 'true';
-        $this->isEnableQuickToolbar    = ! empty( $eb_settings[ 'quickToolbar' ] ) ? $eb_settings[ 'quickToolbar' ] : 'true';
+        $this->isEnableQuickToolbar    = ! empty( $eb_settings[ 'quickToolbar' ] ) ? $eb_settings[ 'quickToolbar' ] : 'false';
         $this->isEnableUnfilteredFiles = ! empty( $eb_settings[ 'unfilteredFile' ] ) ? $eb_settings[ 'unfilteredFile' ] : 'false';
         add_action(
             'init',
@@ -182,11 +182,12 @@ class Scripts
 
             //templately-installer
 
-            $show_pattern_library = get_option( ESSENTIAL_BLOCKS_HIDE_PATTERN_LIBRARY );
-            if ( ! $show_pattern_library ) {
-                wpdev_essential_blocks()->assets->register( 'templately-installer', 'admin/templately/templately.js' );
-                $editor_scripts_deps[  ] = 'essential-blocks-templately-installer';
-            }
+            //TODO: Hide for now on v5.5.2. Will make a plan later
+            // $show_pattern_library = get_option( ESSENTIAL_BLOCKS_HIDE_PATTERN_LIBRARY );
+            // if ( ! $show_pattern_library ) {
+            //     wpdev_essential_blocks()->assets->register( 'templately-installer', 'admin/templately/templately.js' );
+            //     $editor_scripts_deps[  ] = 'essential-blocks-templately-installer';
+            // }
 
             //Write with AI
             if ( $this->writeAIPageContent === true && $this->is_allowed_post_type_for_ai() ) {
