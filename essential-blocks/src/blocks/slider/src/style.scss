@@ -86,8 +86,8 @@
 				justify-content: flex-start;
 				flex-direction: row;
 
-				img {
-					width: 50%;
+				div {
+					flex: 1 1 100%;
 				}
 
 				.eb-slider-content {
@@ -101,8 +101,8 @@
 				flex-direction: row-reverse;
 				flex-wrap: nowrap;
 
-				img {
-					width: 50%;
+				div {
+					flex: 1 1 100%;
 				}
 
 				.eb-slider-content {

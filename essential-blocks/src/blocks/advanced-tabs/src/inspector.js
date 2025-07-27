@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { MediaUpload } from "@wordpress/block-editor";
 import { useState } from "@wordpress/element";
 import {
     SelectControl,
@@ -28,7 +27,7 @@ import {
     TypographyDropdown,
     InspectorPanel,
     SortControl,
-    ImageAvatar,
+    ImageComponent,
     EBIconPicker,
 } from "@essential-blocks/controls";
 
@@ -206,47 +205,15 @@ function Inspector(props) {
                 )}
 
                 {each.media === "image" && (
-                    <>
-                        {!each.imgUrl && (
-                            <MediaUpload
-                                onSelect={({ id, url }) => {
-                                    onTabChange(
-                                        ["imgId", "imgUrl"],
-                                        [id, url],
-                                        i,
-                                    );
-                                }}
-                                type="image"
-                                value={each.imgId}
-                                render={({ open }) => {
-                                    return (
-                                        <Button
-                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                            label={__(
-                                                "Upload Image",
-                                                "essential-blocks",
-                                            )}
-                                            icon="format-image"
-                                            onClick={open}
-                                        />
-                                    );
-                                }}
-                            />
-                        )}
-
-                        {each.imgUrl && (
-                            <ImageAvatar
-                                imageUrl={each.imgUrl}
-                                onDeleteImage={() => {
-                                    onTabChange(
-                                        ["imgId", "imgUrl"],
-                                        [null, null],
-                                        i,
-                                    );
-                                }}
-                            />
-                        )}
-                    </>
+                    <ImageComponent.GeneralTab
+                        onSelect={({ id, url }) => { onTabChange(["imgId", "imgUrl"], [id, url], i) }}
+                        value={each.imgUrl}
+                        hasTag={false}
+                        hasCaption={false}
+                        hasStyle={false}
+                        hasLink={false}
+                        showInPanel={false}
+                    />
                 )}
                 <TextControl
                     label={__("Custom ID", "essential-blocks")}
@@ -539,7 +506,7 @@ function Inspector(props) {
                 <InspectorPanel.Style>
                     <InspectorPanel.PanelBody
                         title={__("Tab Title", "essential-blocks")}
-                        // initialOpen={false}
+                    // initialOpen={false}
                     >
                         <TypographyDropdown
                             baseLabel={__("Typography", "essential-blocks")}
@@ -709,8 +676,8 @@ function Inspector(props) {
                             <BackgroundControl
                                 controlName={prefixTitleBg}
                                 noOverlay
-                                // noMainBgi
-                                // noOverlayBgi // if U pass 'noOverlay' prop U don't need to pass 'noOverlayBgi'
+                            // noMainBgi
+                            // noOverlayBgi // if U pass 'noOverlay' prop U don't need to pass 'noOverlayBgi'
                             />
                         </InspectorPanel.PanelBody>
 
@@ -720,8 +687,8 @@ function Inspector(props) {
                         >
                             <BorderShadowControl
                                 controlName={prefixTitleBdShadow}
-                                // noShadow
-                                // noBorder
+                            // noShadow
+                            // noBorder
                             />
                         </InspectorPanel.PanelBody>
 
@@ -852,8 +819,8 @@ function Inspector(props) {
                             <BackgroundControl
                                 controlName={prefixActTitleBg}
                                 noOverlay
-                                // noMainBgi
-                                // noOverlayBgi // if U pass 'noOverlay' prop U don't need to pass 'noOverlayBgi'
+                            // noMainBgi
+                            // noOverlayBgi // if U pass 'noOverlay' prop U don't need to pass 'noOverlayBgi'
                             />
                         </InspectorPanel.PanelBody>
 
@@ -866,8 +833,8 @@ function Inspector(props) {
                         >
                             <BorderShadowControl
                                 controlName={prefixActTitleBdShadow}
-                                // noShadow
-                                // noBorder
+                            // noShadow
+                            // noBorder
                             />
                         </InspectorPanel.PanelBody>
                     </InspectorPanel.PanelBody>

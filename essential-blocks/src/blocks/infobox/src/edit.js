@@ -36,6 +36,7 @@ function Edit(props) {
         contentsAlignment,
         mediaAlignment,
         btnAlign,
+        version
     } = attributes;
 
     // you must declare this variable
@@ -75,6 +76,10 @@ function Edit(props) {
         }
         if (btnAlign === undefined) {
             setAttributes({ btnAlign: 'center' });
+        }
+
+        if (!version || version == "1") {
+            setAttributes({ version: "2" });
         }
 
     }, [])

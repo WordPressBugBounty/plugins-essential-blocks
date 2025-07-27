@@ -9,6 +9,7 @@ import {
     generateBackgroundAttributes,
     generateBorderShadowAttributes,
 } from "@essential-blocks/controls";
+import { renderToString } from "@wordpress/element";
 
 import { buttonPadding } from "./constants/dimensionsConstants";
 import { infoBtnBg } from "./constants/backgroundsConstants";
@@ -23,11 +24,95 @@ import InfoboxContainer5 from "./components/infobox-save-depricated-5";
 import InfoboxContainer6 from "./components/infobox-save-depricated-6";
 import InfoboxContainer7 from "./components/infobox-save-depricated-7";
 import InfoboxContainer8 from "./components/infobox-save-depricated-8";
+import InfoboxContainer9 from "./components/infobox-save-depricated-9";
 import { omit } from "lodash";
 
 import attributes from "./attributes";
 
 const deprecated = [
+    // Deprecated v9: Changed from anchor wrapper to data attributes for clickable infobox
+    {
+        attributes: { ...attributes },
+        supports: {
+            align: ["wide", "full"],
+        },
+        save: ({ attributes }) => {
+            const {
+                blockId,
+                selectedIcon,
+                infoboxIcon,
+                number = 0,
+                media,
+                imageUrl,
+                imageAlt,
+                enableSubTitle,
+                enableDescription,
+                infoboxLink,
+                linkNewTab,
+                enableButton,
+                isInfoClick,
+                buttonText,
+                title,
+                subTitle,
+                description,
+                titleTag,
+                subTitleTag,
+                btnEffect,
+                classHook,
+                showMedia,
+                enableTitle,
+                addBtnIcon,
+                btnIconPosition,
+                btnIcon,
+            } = attributes;
+
+            const requiredProps = {
+                selectedIcon,
+                infoboxIcon,
+                blockId,
+                number,
+                media,
+                imageUrl,
+                imageAlt,
+                enableSubTitle,
+                enableDescription,
+                infoboxLink,
+                linkNewTab,
+                enableButton,
+                isInfoClick,
+                buttonText,
+                title,
+                subTitle,
+                description,
+                titleTag,
+                subTitleTag,
+                btnEffect,
+                classHook,
+                showMedia,
+                enableTitle,
+                addBtnIcon,
+                btnIconPosition,
+                btnIcon,
+            };
+
+            const ReturnComponent = () => {
+                return (
+                    <BlockProps.Save attributes={attributes}>
+                        <InfoboxContainer9
+                            requiredProps={requiredProps}
+                            attributes={attributes}
+                        />
+                    </BlockProps.Save>
+                );
+            };
+
+            const html = renderToString(<ReturnComponent />);
+
+            return (
+                <ReturnComponent />
+            );
+        },
+    },
     {
         attributes: {
             ...attributes,

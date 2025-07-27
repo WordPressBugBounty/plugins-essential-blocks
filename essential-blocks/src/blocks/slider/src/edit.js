@@ -5,7 +5,6 @@ import { __ } from "@wordpress/i18n";
 import { useEffect, createRef, memo } from "@wordpress/element";
 import {
     MediaUpload,
-    MediaPlaceholder,
     BlockControls,
     RichText,
 } from "@wordpress/block-editor";
@@ -283,10 +282,12 @@ const Edit = (props) => {
                 isAppender={hasImages}
                 dropZoneUIOnly={hasImages && !isSelected}
                 labels={{
-                    title: __("Slider", "essential-blocks"),
-                    instructions: __(
-                        "Drag images, upload new ones or select files from your library.",
-                    ),
+                    title: !hasImages && __("Images", "essential-blocks"),
+                    instructions:
+                        !hasImages &&
+                        __(
+                            "Drag images, upload new ones or select files from your library.",
+                        ),
                 }}
                 onSelect={(selectedImages) =>
                     onImageSelect(selectedImages, images)
@@ -296,6 +297,7 @@ const Edit = (props) => {
                 multiple
                 value={hasImages ? images : undefined}
                 icon={SliderIcon}
+                enableAI={false}
             />
         );
     }
@@ -370,10 +372,12 @@ const Edit = (props) => {
                                     className={`eb-slider-item ${sliderContentType}`}
                                     key={index}
                                 >
-                                    <img
-                                        className="eb-slider-image"
-                                        src={image.url}
-                                    />
+                                    <div>
+                                        <img
+                                            className="eb-slider-image"
+                                            src={image.url}
+                                        />
+                                    </div>
                                     {sliderType === "content" && (
                                         <div
                                             className={`eb-slider-content align-${textAlign}`}
@@ -438,15 +442,15 @@ const Edit = (props) => {
                                                 {image.showButton &&
                                                     image.buttonText &&
                                                     image.buttonText.length >
-                                                        0 && (
+                                                    0 && (
                                                         <>
                                                             <a
                                                                 href={
                                                                     image.buttonUrl &&
-                                                                    image.isValidUrl
+                                                                        image.isValidUrl
                                                                         ? sanitizeURL(
-                                                                              image.buttonUrl,
-                                                                          )
+                                                                            image.buttonUrl,
+                                                                        )
                                                                         : "#"
                                                                 }
                                                                 className="eb-slider-button"
@@ -489,10 +493,10 @@ const Edit = (props) => {
                                                             <a
                                                                 href={
                                                                     image.secondButtonUrl &&
-                                                                    image.isValidUrl
+                                                                        image.isValidUrl
                                                                         ? sanitizeURL(
-                                                                              image.secondButtonUrl,
-                                                                          )
+                                                                            image.secondButtonUrl,
+                                                                        )
                                                                         : "#"
                                                                 }
                                                                 className="eb-slider-second-button"

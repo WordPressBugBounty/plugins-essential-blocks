@@ -60,6 +60,10 @@ const attributes = {
         type: "string",
         default: "essential_block",
     },
+    version: {
+        type: "string",
+        default: "1",
+    },
 
     // blockMeta is for keeping all the styles ⬇
     blockMeta: {

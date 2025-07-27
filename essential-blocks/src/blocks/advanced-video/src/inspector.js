@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { MediaUpload } from "@wordpress/block-editor";
 import {
     PanelBody,
     SelectControl,
@@ -19,9 +18,6 @@ import { useEffect, useState } from "@wordpress/element";
 /**
  * Internal depencencies
  */
-
-import objAttributes from "./attributes";
-
 import {
     WRAPPER_BG,
     WRAPPER_MARGIN,
@@ -51,7 +47,7 @@ import {
 
 import {
     BorderShadowControl,
-    ImageAvatar,
+    ImageComponent,
     ResponsiveRangeController,
     ColorControl,
     ResponsiveSelectController,
@@ -159,7 +155,7 @@ function Inspector(props) {
                                 <ToggleControl
                                     label={__("Autoplay", "essential-blocks")}
                                     checked={videoConfig.autoplay}
-                                    onChange={(autoplay) =>{
+                                    onChange={(autoplay) => {
                                         setAttributes({
                                             videoConfig: {
                                                 ...videoConfig,
@@ -244,41 +240,15 @@ function Inspector(props) {
 
                                 {imageOverlay && (
                                     <>
-                                        {!previewImage && (
-                                            <MediaUpload
-                                                onSelect={({ id, url }) =>
-                                                    setAttributes({
-                                                        previewImage: url,
-                                                        previewImageId: id,
-                                                    })
-                                                }
-                                                type="image"
-                                                value={previewImageId}
-                                                render={({ open }) => {
-                                                    return (
-                                                        <Button
-                                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                                            label={__(
-                                                                "Upload Image",
-                                                                "essential-blocks"
-                                                            )}
-                                                            icon="format-image"
-                                                            onClick={open}
-                                                        />
-                                                    );
-                                                }}
-                                            />
-                                        )}
-                                        {previewImage && (
-                                            <ImageAvatar
-                                                imageUrl={previewImage}
-                                                onDeleteImage={() =>
-                                                    setAttributes({
-                                                        previewImage: null,
-                                                    })
-                                                }
-                                            />
-                                        )}
+                                        <ImageComponent.GeneralTab
+                                            onSelect={({ id, url }) => setAttributes({ previewImage: url, previewImageId: id })}
+                                            value={previewImage}
+                                            hasTag={false}
+                                            hasCaption={false}
+                                            hasStyle={false}
+                                            hasLink={false}
+                                            showInPanel={false}
+                                        />
 
                                         <ToggleControl
                                             label={__("Custom Play Icon", "essential-blocks")}
@@ -329,44 +299,17 @@ function Inspector(props) {
                                                     </BaseControl>
                                                 )}
                                                 {placeholderCustomPlayIconType === "image" && (
-                                                    <>
-                                                        {!customPlayIconURL && (
-                                                            <MediaUpload
-                                                                onSelect={({ id, url }) =>
-                                                                    setAttributes({
-                                                                        customPlayIconURL: url,
-                                                                        customPlayIconId: id,
-                                                                    })
-                                                                }
-                                                                type="image"
-                                                                value={customPlayIconId}
-                                                                render={({ open }) => {
-                                                                    return (
-                                                                        <Button
-                                                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                                                            label={__(
-                                                                                "Upload Image",
-                                                                                "essential-blocks"
-                                                                            )}
-                                                                            icon="format-image"
-                                                                            onClick={open}
-                                                                        />
-                                                                    );
-                                                                }}
-                                                            />
-                                                        )}
-
-                                                        {customPlayIconURL && (
-                                                            <ImageAvatar
-                                                                imageUrl={customPlayIconURL}
-                                                                onDeleteImage={() =>
-                                                                    setAttributes({
-                                                                        customPlayIconURL: null,
-                                                                    })
-                                                                }
-                                                            />
-                                                        )}
-                                                    </>
+                                                    <ImageComponent.GeneralTab
+                                                        onSelect={({ id, url }) => setAttributes({
+                                                            customPlayIconURL: url, customPlayIconId: id
+                                                        })}
+                                                        value={customPlayIconURL}
+                                                        hasTag={false}
+                                                        hasCaption={false}
+                                                        hasStyle={false}
+                                                        hasLink={false}
+                                                        showInPanel={false}
+                                                    />
                                                 )}
                                             </>
                                         )}
@@ -405,7 +348,7 @@ function Inspector(props) {
                                     </ButtonGroup>
                                 </BaseControl>
                                 <ResponsiveSelectController
-                                    baseLabel={__("Visibility","essential-blocks")}
+                                    baseLabel={__("Visibility", "essential-blocks")}
                                     controlName={stickyVisibility}
                                     options={STICKY_VISIBILITY}
                                     resOption={resOption}
@@ -416,39 +359,17 @@ function Inspector(props) {
                         {videoOptions == "lightbox" && (
                             <>
                                 <PanelRow>Placeholder Image</PanelRow>
-                                {!placeholderImage && (
-                                    <MediaUpload
-                                        onSelect={({ id, url }) =>
-                                            setAttributes({
-                                                placeholderImage: url,
-                                                placeholderImageId: id,
-                                            })
-                                        }
-                                        type="image"
-                                        value={placeholderImageId}
-                                        render={({ open }) => {
-                                            return (
-                                                <Button
-                                                    className="eb-background-control-inspector-panel-img-btn components-button"
-                                                    label={__("Upload Image", "essential-blocks")}
-                                                    icon="format-image"
-                                                    onClick={open}
-                                                />
-                                            );
-                                        }}
-                                    />
-                                )}
-
-                                {placeholderImage && (
-                                    <ImageAvatar
-                                        imageUrl={placeholderImage}
-                                        onDeleteImage={() =>
-                                            setAttributes({
-                                                placeholderImage: null,
-                                            })
-                                        }
-                                    />
-                                )}
+                                <ImageComponent.GeneralTab
+                                    onSelect={({ id, url }) => setAttributes({
+                                        placeholderImage: url, placeholderImageId: id
+                                    })}
+                                    value={placeholderImage}
+                                    hasTag={false}
+                                    hasCaption={false}
+                                    hasStyle={false}
+                                    hasLink={false}
+                                    showInPanel={false}
+                                />
 
                                 <PanelRow>Play Icon</PanelRow>
                                 <ToggleControl
@@ -494,44 +415,17 @@ function Inspector(props) {
                                         )}
 
                                         {lightboxPlayIconType === "image" && (
-                                            <>
-                                                {!placeholderPlayIconURL && (
-                                                    <MediaUpload
-                                                        onSelect={({ id, url }) =>
-                                                            setAttributes({
-                                                                placeholderPlayIconURL: url,
-                                                                placeholderPlayIconId: id,
-                                                            })
-                                                        }
-                                                        type="image"
-                                                        value={placeholderPlayIconId}
-                                                        render={({ open }) => {
-                                                            return (
-                                                                <Button
-                                                                    className="eb-background-control-inspector-panel-img-btn components-button"
-                                                                    label={__(
-                                                                        "Upload Image",
-                                                                        "essential-blocks"
-                                                                    )}
-                                                                    icon="format-image"
-                                                                    onClick={open}
-                                                                />
-                                                            );
-                                                        }}
-                                                    />
-                                                )}
-
-                                                {placeholderPlayIconURL && (
-                                                    <ImageAvatar
-                                                        imageUrl={placeholderPlayIconURL}
-                                                        onDeleteImage={() =>
-                                                            setAttributes({
-                                                                placeholderPlayIconURL: null,
-                                                            })
-                                                        }
-                                                    />
-                                                )}
-                                            </>
+                                            <ImageComponent.GeneralTab
+                                                onSelect={({ id, url }) => setAttributes({
+                                                    placeholderPlayIconURL: url, placeholderPlayIconId: id
+                                                })}
+                                                value={placeholderPlayIconURL}
+                                                hasTag={false}
+                                                hasCaption={false}
+                                                hasStyle={false}
+                                                hasLink={false}
+                                                showInPanel={false}
+                                            />
                                         )}
                                     </>
                                 )}

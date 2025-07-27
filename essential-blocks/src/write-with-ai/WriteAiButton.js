@@ -399,7 +399,7 @@ const WriteAIButton = () => {
                                         <p>
                                             {__("Please Insert your OpenAI API Key to use this Write with AI feature.", "essential-blocks")}
                                         </p>
-                                        <a href={`${EssentialBlocksLocalize?.eb_admin_url}admin.php?page=essential-blocks&tab=writewithai`} target="_blank" rel="noopener noreferrer">
+                                        <a href={`${EssentialBlocksLocalize?.eb_admin_url}admin.php?page=essential-blocks&tab=ai-suite`} target="_blank" rel="noopener noreferrer">
                                             {__("OpenAI API Key will redirect to our Write with AI Dashboard", "essential-blocks")}
                                         </a>
                                     </div>

@@ -66,7 +66,7 @@ export default function save({ attributes }) {
 
     return (
         <BlockProps.Save attributes={attributes}>
-            <InfoboxContainer requiredProps={requiredProps} attributes={attributes}/>
+            <InfoboxContainer requiredProps={requiredProps} attributes={attributes} />
         </BlockProps.Save>
     );
 }

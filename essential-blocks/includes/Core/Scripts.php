@@ -18,6 +18,7 @@ class Scripts
     private $writeAIPageContent      = false;
     private $writeAIRichtextContent  = false;
     private $writeAIInputField       = false;
+    private $generateImage           = false;
     private $hasOpenAiApiKey         = false;
     private $writeAiPostTypes        = [ 'all' ];
     private $isEnableUnfilteredFiles = false;
@@ -44,6 +45,7 @@ class Scripts
         $this->writeAIPageContent     = isset( $eb_write_with_ai[ 'writePageContent' ] ) ? $eb_write_with_ai[ 'writePageContent' ] : true;
         $this->writeAIRichtextContent = isset( $eb_write_with_ai[ 'writeRichtext' ] ) ? $eb_write_with_ai[ 'writeRichtext' ] : true;
         $this->writeAIInputField      = isset( $eb_write_with_ai[ 'writeInputFields' ] ) ? $eb_write_with_ai[ 'writeInputFields' ] : true;
+        $this->generateImage          = isset( $eb_write_with_ai[ 'generateImage' ] ) ? $eb_write_with_ai[ 'generateImage' ] : true;
         $this->hasOpenAiApiKey        = isset( $eb_write_with_ai[ 'apiKey' ] ) && ! empty( $eb_write_with_ai[ 'apiKey' ] ) ? true : false;
 
         // Get post types for Write with AI
@@ -624,6 +626,7 @@ class Scripts
                 'enableWriteAIPageContent' => $this->writeAIPageContent && $this->is_allowed_post_type_for_ai(),
                 'enableWriteAIRichtext'    => $this->writeAIRichtextContent,
                 'enableWriteAIInputField'  => $this->writeAIInputField,
+                'enableGenerateImage'      => $this->generateImage,
                 'hasOpenAiApiKey'          => $this->hasOpenAiApiKey,
                 'writeAiPostTypes'         => $this->writeAiPostTypes,
                 'globalColors'             => Helper::global_colors(),

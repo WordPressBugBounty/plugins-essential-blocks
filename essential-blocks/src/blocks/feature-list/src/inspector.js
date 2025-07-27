@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { MediaUpload } from "@wordpress/block-editor";
 import {
     PanelBody,
     ToggleControl,
@@ -60,7 +59,7 @@ import {
     BorderShadowControl,
     InspectorPanel,
     SortControl,
-    ImageAvatar,
+    ImageComponent,
     EBIconPicker,
 } from "@essential-blocks/controls";
 
@@ -166,8 +165,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 }
                             />
                         )}
-                        {each.iconType === "image" && !each.featureImage && (
-                            <MediaUpload
+                        {each.iconType === "image" && (
+                            <ImageComponent.GeneralTab
                                 onSelect={({ id, url, alt, title }) => {
                                     onFeatureChange(
                                         [
@@ -180,38 +179,12 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         i,
                                     );
                                 }}
-                                type="image"
-                                value={each.featureImageId}
-                                render={({ open }) => {
-                                    return (
-                                        <Button
-                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                            label={__(
-                                                "Upload Image",
-                                                "essential-blocks",
-                                            )}
-                                            icon="format-image"
-                                            onClick={open}
-                                        />
-                                    );
-                                }}
-                            />
-                        )}
-                        {each.iconType === "image" && each.featureImage && (
-                            <ImageAvatar
-                                imageUrl={each.featureImage}
-                                onDeleteImage={() => {
-                                    onFeatureChange(
-                                        [
-                                            "featureImageId",
-                                            "featureImage",
-                                            "featureImageAlt",
-                                            "featureImageTitle",
-                                        ],
-                                        [null, null, null, null],
-                                        i,
-                                    );
-                                }}
+                                value={each.featureImage}
+                                hasTag={false}
+                                hasCaption={false}
+                                hasStyle={false}
+                                hasLink={false}
+                                showInPanel={false}
                             />
                         )}
                         {each.iconType === "icon" && each.icon && (

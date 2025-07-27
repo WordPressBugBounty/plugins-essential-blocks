@@ -3,7 +3,6 @@
  */
 import { __ } from "@wordpress/i18n";
 import { useEffect } from "@wordpress/element";
-import { MediaUpload } from "@wordpress/block-editor";
 import {
     SelectControl,
     ToggleControl,
@@ -26,7 +25,6 @@ import {
     TypographyDropdown,
     ResponsiveDimensionsControl,
     ResponsiveRangeController,
-    ImageAvatar,
     ColorControl,
     GradientColorControl,
     BorderShadowControl,
@@ -34,7 +32,8 @@ import {
     DynamicInputControl,
     SortControl,
     EBIconPicker,
-    InspectorPanel
+    InspectorPanel,
+    ImageComponent
 } from "@essential-blocks/controls";
 
 import objAttributes from "./attributes";
@@ -355,40 +354,18 @@ function Inspector({ attributes, setAttributes }) {
                         title={__("Content", "essential-blocks")}
                         initialOpen={false}
                     >
-                        {!imageNewUrl && (
-                            <MediaUpload
-                                onSelect={({ id, url, alt }) =>
-                                    setAttributes({
-                                        imageNewUrl: url,
-                                        imageId: id,
-                                        imageAlt: alt,
-                                    })
-                                }
-                                type="image"
-                                value={imageId}
-                                render={({ open }) => {
-                                    return (
-                                        <Button
-                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                            label={__("Upload Image", "essential-blocks")}
-                                            icon="format-image"
-                                            onClick={open}
-                                        />
-                                    );
-                                }}
-                            />
-                        )}
+                        <ImageComponent.GeneralTab
+                            onSelect={({ id, url, alt }) => setAttributes({ imageNewUrl: url, imageId: id, imageAlt: alt })}
+                            value={imageNewUrl}
+                            hasTag={false}
+                            hasCaption={false}
+                            hasStyle={false}
+                            hasLink={false}
+                            showInPanel={false}
+                        />
 
                         {imageNewUrl && (
                             <>
-                                <ImageAvatar
-                                    imageUrl={imageNewUrl}
-                                    onDeleteImage={() =>
-                                        setAttributes({
-                                            imageNewUrl: null,
-                                        })
-                                    }
-                                />
                                 <DynamicInputControl
                                     label={__(
                                         "URL",
@@ -1024,29 +1001,17 @@ function Inspector({ attributes, setAttributes }) {
                         )}
                     </InspectorPanel.PanelBody>
                     <InspectorPanel.PanelBody title={__("Avatar", "essential-blocks")} initialOpen={false}>
-                        {!imageNewUrl && (
-                            <MediaUpload
-                                onSelect={({ id, url }) =>
-                                    setAttributes({
-                                        imageNewUrl: url,
-                                        imageId: id,
-                                        imageAlt: alt,
-                                    })
-                                }
-                                type="image"
-                                value={imageId}
-                                render={({ open }) => {
-                                    return (
-                                        <Button
-                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                            label={__("Upload Image", "essential-blocks")}
-                                            icon="format-image"
-                                            onClick={open}
-                                        />
-                                    );
-                                }}
-                            />
-                        )}
+                        <ImageComponent.GeneralTab
+                            onSelect={({ id, url }) => setAttributes({
+                                imageNewUrl: url, imageId: id, imageAlt: alt
+                            })}
+                            value={imageNewUrl}
+                            hasTag={false}
+                            hasCaption={false}
+                            hasStyle={false}
+                            hasLink={false}
+                            showInPanel={false}
+                        />
                         {imageNewUrl && (
                             <>
                                 <ResponsiveRangeController

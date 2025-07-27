@@ -215,22 +215,22 @@ function Inspector(props) {
                         prevImageSize.current === imageSize && widthRange
                             ? widthRange
                             : newWidth
-                            ? newWidth
-                            : "",
+                                ? newWidth
+                                : "",
                     widthUnit:
                         prevImageSize.current === imageSize &&
-                        attributes["widthUnit"]
+                            attributes["widthUnit"]
                             ? attributes["widthUnit"]
                             : "px",
                     heightRange:
                         prevImageSize.current === imageSize && heightRange
                             ? heightRange
                             : newHeight
-                            ? newHeight
-                            : "",
+                                ? newHeight
+                                : "",
                     heightUnit:
                         prevImageSize.current === imageSize &&
-                        attributes["heightUnit"]
+                            attributes["heightUnit"]
                             ? attributes["heightUnit"]
                             : "px",
                 });
@@ -241,8 +241,8 @@ function Inspector(props) {
                     newWidth = widthRange
                         ? widthRange
                         : image?.width
-                        ? image.width
-                        : "";
+                            ? image.width
+                            : "";
                     newHeight =
                         !autoHeight && image?.height ? image.height : "";
                 } else if (oldImageData?.media_details?.sizes) {
@@ -251,7 +251,7 @@ function Inspector(props) {
                             imageSize
                         ]?.source_url
                             ? oldImageData.media_details.sizes?.[imageSize]
-                                  ?.source_url
+                                ?.source_url
                             : oldImageData.source_url;
                     } else {
                         image.url = oldImageData.source_url;
@@ -279,8 +279,8 @@ function Inspector(props) {
                         !autoHeight && heightRange > 0
                             ? heightRange
                             : newHeight
-                            ? newHeight
-                            : "",
+                                ? newHeight
+                                : "",
                     // heightUnit: "px",
                     heightUnit: attributes["heightUnit"]
                         ? attributes["heightUnit"]
@@ -467,12 +467,7 @@ function Inspector(props) {
                             useImageAlign={true}
                         />
                     )}
-                    {/* <ResponsiveAlignControl
-                        baseLabel={__("Image Align", "essential-blocks")}
-                        controlName={IMAGE_ALIGNMENT}
-                        options={IMAGE_ALIGN}
-                        resOption={resOption}
-                    /> */}
+
                     <SelectControl
                         label={__("Hover Effect", "essential-blocks")}
                         value={hoverEffect}
@@ -508,8 +503,8 @@ function Inspector(props) {
                                     </BaseControl>
                                     <BorderShadowControl
                                         controlName={IMAGE_BORDER_SHADOW}
-                                        // noShadow
-                                        // noBorder
+                                    // noShadow
+                                    // noBorder
                                     />
                                 </>
                             )}

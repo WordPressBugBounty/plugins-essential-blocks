@@ -13,11 +13,12 @@ import {
     DynamicInputValueHandler,
     BlockProps,
     withBlockContext,
+    getBlockParentClientId
 } from "@essential-blocks/controls";
 import { select, dispatch } from "@wordpress/data";
 
 const Edit = (props) => {
-    const { attributes, setAttributes, context } = props;
+    const { attributes, setAttributes, context, clientId } = props;
     const {
         blockId,
         parentBlockId,
@@ -41,12 +42,12 @@ const Edit = (props) => {
     const accordionTitle = useRef(null);
 
     const { selectBlock } = dispatch("core/block-editor");
-    // Get all blocks
-    const blocks = select('core/block-editor').getBlocks();
 
     const handleSlidingOfAccordion = () => {
-        // Find the block with matching blockId
-        const parentBlock = blocks.find(block => block.attributes.blockId === parentBlockId);
+        const parentBlockClientId = getBlockParentClientId(clientId, "essential-blocks/accordion");
+
+        // Find the block with matching clientId
+        const parentBlock = parentBlockClientId ? select('core/block-editor').getBlock(parentBlockClientId) : null;
 
         let title = accordionTitle.current.querySelector(".eb-accordion-title");
         let prefixText = accordionTitle.current.querySelector(".eb-accordion-title-prefix-text");

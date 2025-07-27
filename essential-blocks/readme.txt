@@ -1,10 +1,10 @@
 === Gutenberg Essential Blocks – Page Builder for Gutenberg Blocks & Patterns ===
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
-Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gutenberg Plugin
+Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Generate with AI
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.5.3
+Stable tag: 5.6.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -12,7 +12,7 @@ Gutenberg block editor with AI. 60+ Gutenberg blocks, patterns, WooCommerce bloc
 
 == Description ==
 Bring your creative visions to life with **[Essential Blocks for Gutenberg](https://essential-blocks.com/)**, the ultimate Gutenberg blocks library for WordPress default editor!
-Enhance your Gutenberg experience with 60+ unique blocks (more coming soon) and the brand‑new Write With AI feature. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
+Enhance your Gutenberg experience with 60+ unique blocks (more coming soon) and the brand‑new AI feature for image generating & content writing. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
 
 https://youtu.be/PnZx4ZOMyzI
 
@@ -27,6 +27,9 @@ Generate engaging content for pages and posts in seconds with the Write With AI 
 ##✨ READY AI CONTENT FOR RICH TEXT INPUT
 
 Get AI-generated content in one click for all your rich text input blocks. With this global AI feature, you can automatically create, modify, or personalize your text content fields for any Gutenberg block.
+
+🦾 GENERATE IMAGE WITH AI IN WORDPRESS
+Directly from your Gutenberg editor, generate AI images with your given prompt within a few seconds. To get the best output, customize options like AI model, image type, sizes, etc. Create AI images for Gutenberg blocks in one click.
 
 ##🧱 BLOCK PLUGIN WITH FULL CUSTOMIZATION
 
@@ -256,6 +259,18 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 == Changelog ==
 
+= 5.6.0 - 27/07/2025 =
+- Added: New Feature | AI Image Generation
+- Fixed: Infobox | Image border appearing rounded
+- Fixed: Filterable Gallery | Missing image alt attribute
+- Fixed: Accordion | Animation not smooth on first click
+- Fixed: Slider | Image size issue in "Image with Content" layout
+- Fixed: Post Grid | API request blocked on servers with 8G firewall enabled
+- Fixed: Popup | Not Triggering in External Element
+- Fixed: Animation | FadeInLeft not working correctly on initial viewport
+- Improved: Accordion | Title editing experience enhanced
+- Few minor bug fixes & improvements
+
 = 5.5.3 - 29/06/2025 =
 - Fixed: Google Map | Map Becomes Unresponsive When Entering Diacritic Characters
 - Fixed: Row Column | Column gap issues with responsive device
@@ -298,54 +313,6 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 - Fixed: Image Comparison Block | Not working in editor since 5.3.5
 - Fixed: Advanced Video Block | Responsive issue on iPhone
 - Fixed: Slider Block | Slideshow block displays truncated images on initial load
-- Few minor bug fixes & improvements
-
-= 5.3.5 - 23/04/2025 =
-- Added: Quick Setup Wizard
-- Fixed: Advanced Tabs | Conflict with Spectra Image Gallery
-- Few minor bug fixes and improvements
-
-= 5.3.4 - 15/04/2025 =
-- Fixed: FSE throws error in Firefox
-- Fixed: Slider | Adaptive height getting enabled on page reload
-- Fixed: Popup | Popup block conflict with WPForms
-- Few minor bug fixes & improvements
-
-= 5.3.3 - 24/03/2025 =
-- Added: Form | Min-Max value support for number field
-- Fixed: Popup | Page not scrolling properly after closing popup
-- Fixed: Woo Product Grid | Added option to show/hide product category
-- Fixed: Filterable Gallery | Extra border appearing on focused image
-- Few minor bug fixes & improvements
-
-= 5.3.2 - 05/03/2025 =
-- Added: Quick Action Toolbar | Easily access most-used blocks
-- Added: Woo Product Grid | Display product category option
-- Fixed: Slider | RTL issues fixed
-- Fixed: Advanced Tab | Active tab not displaying properly in editor
-- Fixed: Filterable Gallery | Conflict with Autoptimize Lazyload
-- Fixed: Toggle Content | Multiple blocks not supported inside toggle content
-- Improved: Security enhancements
-- Few minor bug fixes & improvements
-
-= 5.3.1 - 26/02/2025 =
-- Added: Global Styles | Separate ‘Save’ and ‘Reset’ options
-- Fixed: Global Styles | Automatically resetting issue
-- Fixed: Filterable Gallery | Stacking issue with popup
-- Added: Popup | Option to prevent background page scroll when popup is open
-- Few minor bug fixes & improvements
-
-= 5.3.0 - 18/02/2025 =
-- Added: New Block | Lottie Animation
-- Fixed: Table of Contents | Design issue fixes
-- Fixed: Progress Bar | Display Alternate Value Based on Percentage Setting
-- Fixed: Advanced Image | Image height getting reset
-- Fixed: Toggle Content | Design control for active item and other design improvements
-- Fixed: Advanced Heading | Background overlay over title
-- Fixed: Editor broken and shows error after update plugin
-- Fixed: Blocks patterns cache update cron broken
-- Fixed: Reset control for Box Shadow
-- Improved: Security Enhancement
 - Few minor bug fixes & improvements
 
 [See changelog for all versions](https://essential-blocks.com/changelog).

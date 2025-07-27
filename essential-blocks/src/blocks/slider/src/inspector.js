@@ -13,7 +13,6 @@ import {
     TextareaControl,
     __experimentalDivider as Divider,
 } from "@wordpress/components";
-import { MediaUpload } from "@wordpress/block-editor";
 
 /*
  * Internal depencencies
@@ -51,7 +50,6 @@ import {
     TAGS_TYPE,
 } from "./constants/constants";
 
-import objAttributes from "./attributes";
 
 import { TITLE_TYPOGRAPHY, SUBTITLE_TYPOGRAPHY, BUTTON_TYPOGRAPHY, BUTTON2_TYPOGRAPHY } from "./constants/typography-constant";
 
@@ -73,7 +71,8 @@ import {
     isValidHtml,
     SortControl,
     ImageAvatar,
-    sanitizeIconValue
+    sanitizeIconValue,
+    ImageComponent
 } from "@essential-blocks/controls";
 
 function Inspector(props) {
@@ -129,52 +128,15 @@ function Inspector(props) {
                 <PanelRow>
                     {__("Image", "essential-blocks")}
                 </PanelRow>
-                {!each.url && (
-                    <MediaUpload
-                        onSelect={(value) =>
-                            handleImage(
-                                value,
-                                i,
-                                images,
-                                setAttributes
-                            )
-                        }
-                        type="image"
-                        value={each.id}
-                        render={({
-                            open,
-                        }) => {
-                            return (
-                                <Button
-                                    className="eb-background-control-inspector-panel-img-btn components-button"
-                                    label={__(
-                                        "Upload Image",
-                                        "essential-blocks"
-                                    )}
-                                    icon="format-image"
-                                    onClick={
-                                        open
-                                    }
-                                />
-                            );
-                        }}
-                    />
-                )}
-
-                {each.url && (
-                    <ImageAvatar
-                        imageUrl={each.url}
-                        onDeleteImage={() =>
-                            handleImageData(
-                                'url',
-                                null,
-                                each.id,
-                                images,
-                                setAttributes
-                            )
-                        }
-                    />
-                )}
+                <ImageComponent.GeneralTab
+                    onSelect={(value) => handleImage(value, i, images, setAttributes)}
+                    value={(!each.url || each.url.startsWith('data:image/')) ? each.id : each.url}
+                    hasTag={false}
+                    hasCaption={false}
+                    hasStyle={false}
+                    hasLink={false}
+                    showInPanel={false}
+                />
 
                 {sliderType === "content" && (
                     <>

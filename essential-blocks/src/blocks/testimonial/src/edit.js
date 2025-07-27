@@ -58,7 +58,7 @@ const Edit = (props) => {
         style: <Style {...props} />
     };
 
-    return(
+    return (
         <>
             {isSelected && showBlockContent && <Inspector attributes={attributes} setAttributes={setAttributes} />}
             <BlockProps.Edit {...enhancedProps}>

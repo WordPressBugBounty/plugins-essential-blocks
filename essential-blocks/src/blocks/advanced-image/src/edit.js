@@ -273,12 +273,12 @@ const Edit = (props) => {
                     // borderProps.className
                 )}
                 withIllustration
-                // style={{
-                //     height: !!aspectRatio && '100%',
-                //     width: !!aspectRatio && '100%',
-                //     // ...borderProps.style,
-                //     // ...shadowProps.style,
-                // }}
+            // style={{
+            //     height: !!aspectRatio && '100%',
+            //     width: !!aspectRatio && '100%',
+            //     // ...borderProps.style,
+            //     // ...shadowProps.style,
+            // }}
             >
                 {content}
             </Placeholder>
@@ -292,13 +292,13 @@ const Edit = (props) => {
                 alt={
                     media?.alt_text
                         ? sprintf(
-                              // translators: %s: The image's alt text.
-                              __("Featured image: %s"),
-                              media?.alt_text,
-                          )
+                            // translators: %s: The image's alt text.
+                            __("Featured image: %s"),
+                            media?.alt_text,
+                        )
                         : __("Featured image")
                 }
-                // style={imageStyles}
+            // style={imageStyles}
             />
         );
     };
@@ -422,7 +422,7 @@ const Edit = (props) => {
                             {imgSource === "custom" &&
                                 (!imageUrl || imageUrl === "") && (
                                     <>
-                                        <ImageComponent.Upload 
+                                        <ImageComponent.Upload
                                             labels={{
                                                 title: __("Advanced Image", "essential-blocks"),
                                                 instructions: __(
@@ -491,53 +491,76 @@ const Edit = (props) => {
                             imageUrl !== "") ||
                             (imgSource === "featured-img" &&
                                 featuredImage != 0)) && (
-                            <>
-                                <div
-                                    className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}
-                                >
-                                    <figure
-                                        className={`eb-advanced-image-wrapper ${blockId}${
-                                            imgSource !== "custom"
+                                <>
+                                    <div
+                                        className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}
+                                    >
+                                        <figure
+                                            className={`eb-advanced-image-wrapper ${blockId}${imgSource !== "custom"
                                                 ? " " + classes
                                                 : ""
-                                        } ${imgSource === "custom" ? hoverEffect : ''}`}
-                                        data-id={blockId}
-                                    >
-                                        {imgSource === "custom" && (
-                                            <ImageComponent />
-                                        )}
-                                        {imgSource === "featured-img" &&
-                                            eb_conditional_localize.editor_type !==
-                                                "edit-site" && (
-                                                <>
-                                                    <div className="image-wrapper">
-                                                        <>
-                                                            {!!enableLink ? (
-                                                                <a
-                                                                    href={
-                                                                        postPermalink
-                                                                    }
-                                                                    {...disabledClickProps}
-                                                                >
-                                                                    {
-                                                                        postFeaturedImage
-                                                                    }
-                                                                </a>
-                                                            ) : (
-                                                                postFeaturedImage
-                                                            )}
-                                                        </>
-                                                    </div>
-                                                </>
+                                                } ${imgSource === "custom" ? hoverEffect : ''}`}
+                                            data-id={blockId}
+                                        >
+                                            {imgSource === "custom" && (
+                                                <ImageComponent />
                                             )}
-                                    </figure>
-                                </div>
-                            </>
-                        )}
+                                            {imgSource === "featured-img" &&
+                                                eb_conditional_localize.editor_type !==
+                                                "edit-site" && (
+                                                    <>
+                                                        <div className="image-wrapper">
+                                                            <>
+                                                                {!!enableLink ? (
+                                                                    <a
+                                                                        href={
+                                                                            postPermalink
+                                                                        }
+                                                                        {...disabledClickProps}
+                                                                    >
+                                                                        {
+                                                                            postFeaturedImage
+                                                                        }
+                                                                    </a>
+                                                                ) : (
+                                                                    postFeaturedImage
+                                                                )}
+                                                            </>
+                                                        </div>
+                                                    </>
+                                                )}
+                                            {imgSource === "featured-img" &&
+                                                eb_conditional_localize.editor_type !==
+                                                "edit-site" && (
+                                                    <>
+                                                        <div className="image-wrapper">
+                                                            <>
+                                                                {!!enableLink ? (
+                                                                    <a
+                                                                        href={
+                                                                            postPermalink
+                                                                        }
+                                                                        {...disabledClickProps}
+                                                                    >
+                                                                        {
+                                                                            postFeaturedImage
+                                                                        }
+                                                                    </a>
+                                                                ) : (
+                                                                    postFeaturedImage
+                                                                )}
+                                                            </>
+                                                        </div>
+                                                    </>
+                                                )}
+                                        </figure>
+                                    </div>
+                                </>
+                            )}
 
                         {imgSource === "featured-img" &&
                             eb_conditional_localize.editor_type ===
-                                "edit-post" &&
+                            "edit-post" &&
                             !featuredImage && (
                                 <NoticeComponent
                                     Icon={AdvancedImageIcon}
@@ -547,7 +570,7 @@ const Edit = (props) => {
                             )}
                         {imgSource === "featured-img" &&
                             eb_conditional_localize.editor_type ===
-                                "edit-site" && (
+                            "edit-site" && (
                                 <div className="feature-image-placeholder">
                                     <img
                                         src={

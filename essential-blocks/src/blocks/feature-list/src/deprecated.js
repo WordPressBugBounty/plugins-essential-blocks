@@ -4,7 +4,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 import { omit } from "lodash";
 import {
-sanitizeURL, EBDisplayIcon
+    sanitizeURL, EBDisplayIcon
 } from "@essential-blocks/controls";
 import attributes from "./attributes";
 
