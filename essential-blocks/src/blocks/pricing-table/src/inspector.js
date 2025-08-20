@@ -68,7 +68,8 @@ import {
     DynamicInputControl,
     EBIconPicker,
     SortControl,
-    InspectorPanel
+    InspectorPanel,
+    EBTextControl
 } from "@essential-blocks/controls";
 
 const Inspector = ({ attributes, setAttributes }) => {
@@ -156,7 +157,7 @@ const Inspector = ({ attributes, setAttributes }) => {
 
         return attributes.features.map((each, i) => (
             <div key={i}>
-                <TextControl
+                <EBTextControl
                     onChange={(value) => onFeatureChange("text", value, i)}
                     label={__(
                         "Text",
@@ -172,10 +173,18 @@ const Inspector = ({ attributes, setAttributes }) => {
                     }
                 />
                 {each.clickable === "true" && (
-                    <TextControl
+                    <EBTextControl
                         label={__("Link", "essential-blocks")}
+                        fieldType="url"
                         value={each.link}
                         onChange={(value) => onFeatureChange("link", value, i)}
+                        placeholder="https://example.com"
+                        help={__(
+                            "Enter a valid URL.",
+                            "essential-blocks"
+                        )}
+                        showValidation={true}
+                        enableSecurity={true}
                     />
                 )}
                 {showFeatureIcon && (
@@ -244,7 +253,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                             }
                         /> */}
 
-                        <TextControl
+                        <EBTextControl
                             label={__(
                                 "Title",
                                 "essential-blocks"
@@ -286,7 +295,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         />
 
                         {showSubtitle && (
-                            <TextControl
+                            <EBTextControl
                                 label={__(
                                     "Sub Title",
                                     "essential-blocks"
@@ -591,19 +600,25 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 })
                             }
                         />
-                        <DynamicInputControl
+                        <EBTextControl
                             label={__(
                                 "Button Link",
                                 "essential-blocks"
                             )}
-                            attrName="buttonURL"
-                            inputValue={buttonURL}
-                            setAttributes={setAttributes}
+                            fieldType="url"
+                            value={buttonURL || ''}
                             onChange={(link) =>
                                 setAttributes({
                                     buttonURL: link,
                                 })
                             }
+                            placeholder="https://example.com"
+                            help={__(
+                                "Enter a valid URL.",
+                                "essential-blocks"
+                            )}
+                            showValidation={true}
+                            enableSecurity={true}
                         />
 
                         {buttonURL && (

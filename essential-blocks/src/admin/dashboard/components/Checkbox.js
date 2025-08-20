@@ -296,82 +296,86 @@ export default function Checkbox() {
             <div className="eb-admin-checkboxes-group-wrapper">
 
                 {Object.keys(groupBlocks).map((group, index) => (
-                    <div key={index}>
-                        <div className="eb-col-12 eb-group-title-wrapper">
-                            {groupNames[group] && (
-                                <h2 className="eb-block-group-title">{groupNames[group]}</h2>
-                            )}
-                        </div>
-                        <div className="eb-admin-checkboxes-wrapper eb-admin-grid">
-                            {groupBlocks[group] && Object.keys(groupBlocks[group]).length > 0 && Object.keys(groupBlocks[group]).map((block, index) => (
-                                <>
-                                    <div
-                                        key={index}
-                                        className={`eb-col-4 eb-admin-checkbox eb-block-box ${all_blocks_default[block]?.hasOwnProperty("status")
-                                            ? "eb-block-label " +
-                                            all_blocks_default[block].status
-                                            : ""
-                                            } ${all_blocks_default[block]?.is_pro ? "pro" : ""}`}
-                                    >
-                                        <div className="block-title">
-                                            <img
-                                                src={all_blocks_default[block]?.icon}
-                                                className="block-icon"
-                                            />
-                                            <h4>{all_blocks_default[block]?.label}</h4>
-                                        </div>
-
-                                        <div className="block-content">
-                                            <a
-                                                target="_blank"
-                                                href={all_blocks_default[block]?.demo}
-                                                className="element__icon"
+                    <>
+                        {group != "undefined" && (
+                            <div key={index}>
+                                <div className="eb-col-12 eb-group-title-wrapper">
+                                    {groupNames[group] && (
+                                        <h2 className="eb-block-group-title">{groupNames[group]}</h2>
+                                    )}
+                                </div>
+                                <div className="eb-admin-checkboxes-wrapper eb-admin-grid">
+                                    {groupBlocks[group] && Object.keys(groupBlocks[group]).length > 0 && Object.keys(groupBlocks[group]).map((block, index) => (
+                                        <>
+                                            <div
+                                                key={index}
+                                                className={`eb-col-4 eb-admin-checkbox eb-block-box ${all_blocks_default[block]?.hasOwnProperty("status")
+                                                    ? "eb-block-label " +
+                                                    all_blocks_default[block].status
+                                                    : ""
+                                                    } ${all_blocks_default[block]?.is_pro ? "pro" : ""}`}
                                             >
-                                                <IconDemo></IconDemo>
+                                                <div className="block-title">
+                                                    <img
+                                                        src={all_blocks_default[block]?.icon}
+                                                        className="block-icon"
+                                                    />
+                                                    <h4>{all_blocks_default[block]?.label}</h4>
+                                                </div>
 
-                                                <span className="tooltip-text">Live Demo</span>
-                                            </a>
-                                            <a
-                                                target="_blank"
-                                                href={all_blocks_default[block]?.doc}
-                                                className="element__icon"
-                                            >
-                                                <IconDoc></IconDoc>
+                                                <div className="block-content">
+                                                    <a
+                                                        target="_blank"
+                                                        href={all_blocks_default[block]?.demo}
+                                                        className="element__icon"
+                                                    >
+                                                        <IconDemo></IconDemo>
 
-                                                <span className="tooltip-text">
-                                                    Documentation
-                                                </span>
-                                            </a>
+                                                        <span className="tooltip-text">Live Demo</span>
+                                                    </a>
+                                                    <a
+                                                        target="_blank"
+                                                        href={all_blocks_default[block]?.doc}
+                                                        className="element__icon"
+                                                    >
+                                                        <IconDoc></IconDoc>
 
-                                            <label
-                                                htmlFor={blocks[block]?.value}
-                                                className="eb-admin-checkbox-label"
-                                            >
-                                                <Switch
-                                                    checked={blocks[block]?.visibility == "true"}
-                                                    onChange={(checked) =>
-                                                        onChangeSwitch(
-                                                            checked,
-                                                            blocks[block]?.value
-                                                        )
-                                                    }
-                                                    defaultChecked={
-                                                        blocks[block]?.visibility == "true"
-                                                    }
-                                                    disabled={false}
-                                                    checkedChildren="ON"
-                                                    unCheckedChildren="OFF"
-                                                />
-                                            </label>
-                                        </div>
-                                        {is_pro_active === "false" && all_blocks_default[block]?.is_pro && (
-                                            <div className="eb-pro">Pro</div>
-                                        )}
-                                    </div>
-                                </>
-                            ))}
-                        </div>
-                    </div>
+                                                        <span className="tooltip-text">
+                                                            Documentation
+                                                        </span>
+                                                    </a>
+
+                                                    <label
+                                                        htmlFor={blocks[block]?.value}
+                                                        className="eb-admin-checkbox-label"
+                                                    >
+                                                        <Switch
+                                                            checked={blocks[block]?.visibility == "true"}
+                                                            onChange={(checked) =>
+                                                                onChangeSwitch(
+                                                                    checked,
+                                                                    blocks[block]?.value
+                                                                )
+                                                            }
+                                                            defaultChecked={
+                                                                blocks[block]?.visibility == "true"
+                                                            }
+                                                            disabled={false}
+                                                            checkedChildren="ON"
+                                                            unCheckedChildren="OFF"
+                                                        />
+                                                    </label>
+                                                </div>
+                                                {is_pro_active === "false" && all_blocks_default[block]?.is_pro && (
+                                                    <div className="eb-pro">Pro</div>
+                                                )}
+                                            </div>
+                                        </>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </>
                 ))}
 
             </div >

@@ -10,7 +10,6 @@ import {
     ButtonGroup,
     BaseControl,
     TextControl,
-    TextareaControl,
     __experimentalDivider as Divider,
 } from "@wordpress/components";
 
@@ -25,6 +24,7 @@ import {
     SHAPE_VIEW,
     ICON_POSITION,
     FEATURE_ITEM_POSITION,
+    BADGE_POSITION,
     connectorWidth,
     listSpace,
     rowSpace,
@@ -43,11 +43,17 @@ import {
     wrapperBackgroundType,
     wrapperBorder,
     MEDIA_TYPES,
+    listBackgroundType,
+    listBorderShadow,
+    listPadding,
+    badgePadding,
+    badgeBorder,
 } from "./constants";
 
 import {
     typoPrefix_title,
     typoPrefix_content,
+    typoPrefix_badge,
 } from "./constants/typographyPrefixConstants";
 
 import {
@@ -61,7 +67,9 @@ import {
     SortControl,
     ImageComponent,
     EBIconPicker,
+    EBTextControl,
 } from "@essential-blocks/controls";
+import { RangeControl } from "@wordpress/components";
 
 const Inspector = ({ attributes, setAttributes }) => {
     const {
@@ -81,6 +89,10 @@ const Inspector = ({ attributes, setAttributes }) => {
         titleTextHoverColor,
         useInlineDesign,
         featureListAlign,
+        designItemBox,
+        badgeTextColor,
+        badgeBackgroundColor,
+        badgeGap
     } = attributes;
 
     const onFeatureAdd = () => {
@@ -99,6 +111,10 @@ const Inspector = ({ attributes, setAttributes }) => {
                 iconBackgroundColor: "",
                 link: "",
                 linkOpenNewTab: "false",
+                showBadge: 'false',
+                badgeText: "New",
+                badgeTextColor: "",
+                badgeBackgroundColor: "",
             },
         ];
 
@@ -124,19 +140,22 @@ const Inspector = ({ attributes, setAttributes }) => {
 
         return attributes.features.map((each, i) => (
             <div key={i}>
-                <TextControl
+                <EBTextControl
                     onChange={(value) => onFeatureChange("title", value, i)}
                     label={__("Text", "essential-blocks")}
                     value={each.title}
+                    enableAi={true}
                 />
 
                 {!useInlineDesign && (
-                    <TextareaControl
+                    <EBTextControl
                         label={__("Content", "essential-blocks")}
                         value={each.content}
                         onChange={(value) =>
                             onFeatureChange("content", value, i)
                         }
+                        enableAi={true}
+                        isTextarea={true}
                     />
                 )}
                 <BaseControl label={__("Icon Type", "essential-blocks")}>
@@ -205,10 +224,18 @@ const Inspector = ({ attributes, setAttributes }) => {
                         />
                     </>
                 )}
-                <TextControl
+                <EBTextControl
                     label={__("Link", "essential-blocks")}
+                    fieldType="url"
                     value={each.link}
                     onChange={(value) => onFeatureChange("link", value, i)}
+                    placeholder="https://example.com"
+                    help={__(
+                        "Enter a valid URL.",
+                        "essential-blocks"
+                    )}
+                    showValidation={true}
+                    enableSecurity={true}
                 />
                 <ToggleControl
                     label={__("Open in New Tab", "essential-blocks")}
@@ -243,7 +270,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onDeleteItem={(index) => {
                             setAttributes({
                                 features: attributes.features.filter(
-                                    (each, i) => i !== index,
+                                    (_, i) => i !== index,
                                 ),
                             });
                         }}
@@ -363,6 +390,18 @@ const Inspector = ({ attributes, setAttributes }) => {
                             });
                         }}
                     />
+
+                    {!showConnector && (
+                        <ToggleControl
+                            label={__("Design Item Box", "essentail-blocks")}
+                            checked={designItemBox}
+                            onChange={() => {
+                                setAttributes({
+                                    designItemBox: !designItemBox,
+                                });
+                            }}
+                        />
+                    )}
                 </InspectorPanel.PanelBody>
             </InspectorPanel.General>
             <InspectorPanel.Style>
@@ -387,6 +426,29 @@ const Inspector = ({ attributes, setAttributes }) => {
                             step={1}
                             noUnits
                         />
+                    )}
+
+                    {designItemBox && !showConnector && (
+                        <>
+                            <Divider />
+                            <ResponsiveDimensionsControl
+                                controlName={listPadding}
+                                baseLabel={__("Padding", "essential-blocks")}
+                            />
+                            <PanelBody title="Background">
+                                <BackgroundControl
+                                    controlName={listBackgroundType}
+                                    noOverlay={true}
+                                    noMainBgi={true}
+                                />
+                            </PanelBody>
+                            <PanelBody title="Border">
+                                <BorderShadowControl
+                                    controlName={listBorderShadow}
+                                    noShadow={true}
+                                />
+                            </PanelBody>
+                        </>
                     )}
                 </InspectorPanel.PanelBody>
                 <InspectorPanel.PanelBody
@@ -527,6 +589,43 @@ const Inspector = ({ attributes, setAttributes }) => {
                             </PanelBody>
                         </>
                     )}
+
+                    <InspectorPanel.PanelBody title={__("Badge", "essential-blocks")} initialOpen={false}>
+                        <TypographyDropdown
+                            baseLabel={__("Typography", "essential-blocks")}
+                            typographyPrefixConstant={typoPrefix_badge}
+                        />
+                        <ColorControl
+                            label={__("Text Color", "essential-blocks")}
+                            color={badgeTextColor}
+                            attributeName={"badgeTextColor"}
+                        />
+                        <ColorControl
+                            label={__("Background Color", "essential-blocks")}
+                            color={badgeBackgroundColor}
+                            attributeName={"badgeBackgroundColor"}
+                        />
+                        <ResponsiveDimensionsControl
+                            controlName={badgePadding}
+                            baseLabel={__("Padding", "essential-blocks")}
+                        />
+                        <RangeControl
+                            label={__("Gap from Title", "essential-blocks")}
+                            value={badgeGap}
+                            onChange={(badgeGap) => setAttributes({ badgeGap })}
+                            min={0}
+                            max={100}
+                            step={1}
+                        />
+                        <BaseControl>
+                            <h3 className="eb-control-title">
+                                {__("Border & Shadow", "essential-blocks")}
+                            </h3>
+                        </BaseControl>
+                        <BorderShadowControl
+                            controlName={badgeBorder}
+                        />
+                    </InspectorPanel.PanelBody>
                 </InspectorPanel.PanelBody>
                 {!useInlineDesign && showConnector && iconPosition != "top" && (
                     <>

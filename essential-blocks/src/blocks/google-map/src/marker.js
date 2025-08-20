@@ -9,7 +9,7 @@ import {
     ToggleControl,
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { ImageComponent } from "@essential-blocks/controls";
+import { ImageComponent, EBTextareaControl } from "@essential-blocks/controls";
 import { escapeAttribute } from "@wordpress/escape-html";
 import { safeHTML } from "@wordpress/dom";
 
@@ -159,12 +159,13 @@ const SortableItem = ({ marker, map, position, onTitleClick, clickedIndex, onDel
                             onMarkerChange("title", value, position)
                         }
                     />
-                    <TextareaControl
+                    <EBTextareaControl
                         label={__("Description", "essential-blocks")}
                         value={marker.content}
                         onChange={(value) =>
                             onMarkerChange("content", value, position)
                         }
+                        enableAi={true}
                     />
                     <ToggleControl
                         label={__(

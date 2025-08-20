@@ -346,8 +346,6 @@ export default function Style(props) {
                 editorTabStyles={tabAllStylesEditor}
                 editorMobileStyles={mobileAllStylesEditor}
                 blockName={name}
-                columnGap={columnGap}
-                columnNumber={columnNumber}
             />
         </>
     );

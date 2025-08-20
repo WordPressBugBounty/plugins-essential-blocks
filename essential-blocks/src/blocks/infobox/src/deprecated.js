@@ -33,6 +33,21 @@ const deprecated = [
     // Deprecated v9: Changed from anchor wrapper to data attributes for clickable infobox
     {
         attributes: { ...attributes },
+
+        migrate(attribute) {
+            const { imageUrlOld, imageUrl } = attribute;
+
+            const updatedAttributes = { ...attribute };
+
+            // If we have imageUrlOld but imageUrl is empty/undefined, migrate it
+            if (imageUrlOld && (!imageUrl || imageUrl === '')) {
+                updatedAttributes.imageUrl = imageUrlOld;
+            }
+            return updatedAttributes;
+        },
+        isEligible: (attributes) => {
+            return attributes.imageUrl !== undefined;
+        },
         supports: {
             align: ["wide", "full"],
         },
@@ -44,6 +59,7 @@ const deprecated = [
                 number = 0,
                 media,
                 imageUrl,
+                imageUrlOld,
                 imageAlt,
                 enableSubTitle,
                 enableDescription,
@@ -72,8 +88,8 @@ const deprecated = [
                 blockId,
                 number,
                 media,
-                imageUrl,
-                imageAlt,
+                imageUrl: imageUrlOld || imageUrl, // Use imageUrlOld as fallback
+                imageAlt, // Use imageAltOld as fallback
                 enableSubTitle,
                 enableDescription,
                 infoboxLink,

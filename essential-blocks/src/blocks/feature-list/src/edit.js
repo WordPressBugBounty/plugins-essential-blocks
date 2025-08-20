@@ -55,6 +55,8 @@ const Edit = (props) => {
 
     let iconStyle = {};
 
+    let badgeStyle = {};
+
     return (
         <>
             {isSelected && (
@@ -86,6 +88,10 @@ const Edit = (props) => {
                                         content,
                                         link,
                                         linkOpenNewTab,
+                                        showBadge,
+                                        badgeText,
+                                        badgeBackgroundColor,
+                                        badgeTextColor,
                                     },
                                     index
                                 ) => {
@@ -93,6 +99,11 @@ const Edit = (props) => {
                                         iconStyle = {
                                             color: iconColor,
                                             backgroundColor: iconBackgroundColor,
+                                        };
+
+                                        badgeStyle = {
+                                            color: badgeTextColor,
+                                            backgroundColor: badgeBackgroundColor,
                                         };
                                     }
                                     return (
@@ -111,6 +122,10 @@ const Edit = (props) => {
                                             data-icon-color={iconColor}
                                             data-icon-background-color={iconBackgroundColor}
                                             data-link={link}
+                                            data-show-badge={showBadge ? showBadge.toString() : "false"}
+                                            data-badge-text={badgeText}
+                                            data-badge-text-color={badgeTextColor}
+                                            data-badge-background-color={badgeBackgroundColor}
                                         >
                                             {iconType !== "none" && (
                                                 <div className="eb-feature-list-icon-box">
@@ -137,15 +152,22 @@ const Edit = (props) => {
                                             )}
 
                                             <div className="eb-feature-list-content-box">
-                                                {link ? (
-                                                    <attributes.titleTag className="eb-feature-list-title">
-                                                        <a href={sanitizeURL(link)}>{title}</a>
-                                                    </attributes.titleTag>
-                                                ) : (
-                                                    <attributes.titleTag className="eb-feature-list-title">
-                                                        {title}
-                                                    </attributes.titleTag>
-                                                )}
+                                                <div className="eb-feature-list-title-wrapper">
+                                                    {link ? (
+                                                        <attributes.titleTag className="eb-feature-list-title">
+                                                            <a href={sanitizeURL(link)}>{title}</a>
+                                                        </attributes.titleTag>
+                                                    ) : (
+                                                        <attributes.titleTag className="eb-feature-list-title">
+                                                            {title}
+                                                        </attributes.titleTag>
+                                                    )}
+                                                    {showBadge == "true" && badgeText && (
+                                                        <span className="eb-feature-list-badge" style={badgeStyle}>
+                                                            {badgeText}
+                                                        </span>
+                                                    )}
+                                                </div>
                                                 {!useInlineDesign && (
                                                     <p className="eb-feature-list-content">{content}</p>
                                                 )}

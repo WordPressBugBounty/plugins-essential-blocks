@@ -33,7 +33,8 @@ import {
     SortControl,
     EBIconPicker,
     InspectorPanel,
-    ImageComponent
+    ImageComponent,
+    EBTextControl
 } from "@essential-blocks/controls";
 
 import objAttributes from "./attributes";
@@ -217,10 +218,11 @@ function Inspector({ attributes, setAttributes }) {
                     value={each.icon || null}
                     onChange={(value) => onProfileChange('icon', value, i)}
                 />
-                <TextControl
+                <EBTextControl
                     label={__("Title", "essential-blocks")}
                     value={each.title}
                     onChange={(value) => onProfileChange('title', value, i)}
+                    enableAi={true}
                 />
                 <ColorControl
                     label={__("Icon Color", "essential-blocks")}
@@ -232,14 +234,18 @@ function Inspector({ attributes, setAttributes }) {
                     color={each.bgColor}
                     onChange={(value) => onProfileChange('bgColor', value, i)}
                 />
-                <TextControl
+                <EBTextControl
                     label={__("URL", "essential-blocks")}
+                    fieldType="url"
                     value={each.link}
                     onChange={(value) => onProfileChange('link', value, i)}
+                    placeholder="https://example.com"
                     help={__(
-                        "Use https or http",
+                        "Enter a valid URL.",
                         "essential-blocks"
                     )}
+                    showValidation={true}
+                    enableSecurity={true}
                 />
                 {showLinkNewTab && (
                     <ToggleControl
@@ -366,21 +372,25 @@ function Inspector({ attributes, setAttributes }) {
 
                         {imageNewUrl && (
                             <>
-                                <DynamicInputControl
+                                <EBTextControl
                                     label={__(
                                         "URL",
                                         "essential-blocks"
                                     )}
-                                    attrName="avatarURL"
-                                    inputValue={avatarURL}
-                                    setAttributes={
-                                        setAttributes
-                                    }
+                                    fieldType="url"
+                                    value={avatarURL || ''}
                                     onChange={(newURL) =>
                                         setAttributes({
                                             avatarURL: newURL,
                                         })
                                     }
+                                    placeholder="https://example.com"
+                                    help={__(
+                                        "Enter a valid URL.",
+                                        "essential-blocks"
+                                    )}
+                                    showValidation={true}
+                                    enableSecurity={true}
                                 />
                                 <DynamicInputControl
                                     label={__(

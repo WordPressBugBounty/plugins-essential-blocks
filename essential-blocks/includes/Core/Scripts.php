@@ -281,7 +281,7 @@ class Scripts
         wpdev_essential_blocks()->assets->register( 'fslightbox-js', 'js/fslightbox.min.js' );
         // dashicon
         wp_enqueue_style( 'dashicons' );
-        wpdev_essential_blocks()->assets->register( 'controls-frontend', 'admin/controls/frontend-controls.js' );
+        wpdev_essential_blocks()->assets->register( 'controls-frontend', 'admin/controls/frontend-controls.js', [ 'essential-blocks-babel-bundle' ] );
 
         // GSAP
         wpdev_essential_blocks()->assets->register( 'gsap', 'js/gsap/gsap.min.js' );

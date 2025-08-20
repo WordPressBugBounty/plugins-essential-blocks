@@ -104,7 +104,7 @@ function Inspector(props) {
         openInNewTab
     } = attributes;
 
-    const [ urlError, setUrlError ] = useState("");
+    const [urlError, setUrlError] = useState("");
 
     const changePreset = (selected) => {
         switch (selected) {
@@ -400,6 +400,7 @@ function Inspector(props) {
                                 }
                                 onBlur={(link) => onUrlBlur(link)}
                                 help={__("Use http:// or https://", "essential-blocks")}
+                                enableAi={false}
                             />
                             {urlError && <span className="eb-alert-error">{urlError}</span>}
                         </>

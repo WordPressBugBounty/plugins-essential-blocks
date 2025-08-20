@@ -31,6 +31,19 @@ export default function InfoboxContainer({ requiredProps, attributes }) {
         enableTitle,
     } = requiredProps;
 
+    // Extract imageUrlOld from attributes for fallback
+    const { imageUrlOld } = attributes || {};
+
+    // Use imageUrlOld as fallback if imageUrl is empty/undefined
+    const finalImageUrl = imageUrlOld || imageUrl;
+
+    // Create updated attributes object with fallback values
+    const updatedAttributes = {
+        ...attributes,
+        imageUrl: finalImageUrl,
+    };
+
+
     return (
         <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}>
             {isInfoClick && (
@@ -68,11 +81,11 @@ export default function InfoboxContainer({ requiredProps, attributes }) {
                                 </div>
                             ) : null}
 
-                            {media === "image" && imageUrl ? (
+                            {media === "image" && finalImageUrl ? (
                                 <div className="icon-img-wrapper">
                                     <div className="eb-infobox-image-wrapper">
                                         <ImageComponent.Content
-                                            attributes={attributes}
+                                            attributes={updatedAttributes}
                                             className="eb-infobox-image"
                                             hasStyle={true}
                                         />
@@ -110,7 +123,7 @@ export default function InfoboxContainer({ requiredProps, attributes }) {
 
                         {enableButton && !isInfoClick ? (
                             <EBButton.Content
-                                attributes={attributes}
+                                attributes={updatedAttributes}
                                 className={`infobox-btn  ${btnEffect || " "}`}
                                 buttonAttrProps={BUTTON_KEYS}
                                 btnWrapperClassName="eb-infobox-btn-wrapper"

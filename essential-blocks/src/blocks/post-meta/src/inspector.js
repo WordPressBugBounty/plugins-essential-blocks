@@ -36,7 +36,8 @@ import {
     SortControl,
     InspectorPanel,
     ResponsiveRangeController,
-    EBIconPicker
+    EBIconPicker,
+    EBTextControl
 } from "@essential-blocks/controls";
 
 export default function Inspector(props) {
@@ -164,7 +165,7 @@ export default function Inspector(props) {
                     />
                     {showAuthor && (
                         <>
-                            <TextControl
+                            <EBTextControl
                                 label={__("Author Label")}
                                 value={authorLabel}
                                 onChange={(value) => setAttributes({ authorLabel: value })}
@@ -181,7 +182,7 @@ export default function Inspector(props) {
 
                     {showDate && (
                         <>
-                            <TextControl
+                            <EBTextControl
                                 label={__("Date Label")}
                                 value={dateLabel}
                                 onChange={(value) => setAttributes({ dateLabel: value })}

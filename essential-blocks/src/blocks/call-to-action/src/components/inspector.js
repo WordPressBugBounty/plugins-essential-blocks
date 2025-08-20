@@ -303,6 +303,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     "Use https or http",
                                     "essential-blocks"
                                 )}
+                                enableAi={false}
                             />
                             {buttonURL && (
                                 <ToggleControl

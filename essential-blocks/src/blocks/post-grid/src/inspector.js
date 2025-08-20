@@ -212,8 +212,8 @@ function Inspector(props) {
                     ...item,
                     options: item.options.map(option => {
                         if (typeof option.label === "object") {
-                            const prefix = EssentialBlocksProLocalize?.eb_dynamic_tags 
-                                ? `${EssentialBlocksProLocalize.eb_dynamic_tags}/` 
+                            const prefix = EssentialBlocksProLocalize?.eb_dynamic_tags
+                                ? `${EssentialBlocksProLocalize.eb_dynamic_tags}/`
                                 : "";
                             return {
                                 ...option.label,
@@ -572,6 +572,7 @@ function Inspector(props) {
                                             readmoreText: text,
                                         })
                                     }
+                                    enableAi={true}
                                 />
                                 <InspectorPanel.PanelBody title={__("Icon", "essential-blocks")} initialOpen={false}>
                                     <ToggleControl

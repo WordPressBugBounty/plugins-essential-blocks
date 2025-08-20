@@ -1062,7 +1062,7 @@ class Admin
         $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
 
         $message_template = __(
-            "<p><i>🖼️</i> Introducing Essential Blocks <strong>v5.6.0</strong> with powerful <strong>AI Image Generation</strong> support! Instantly create stunning images directly within the block editor using natural language prompts. For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
+            "<p><i>📣</i> Introducing Essential Blocks Pro <strong>v2.3.0</strong> with powerful <strong>EB Mega Menu</strong> support! Create stunning, multi-column mega menus directly in the block editor, featuring sections, icons, images, and dynamic content for a responsive and accessible navigation across devices. For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
             "essential-blocks"
         );
 

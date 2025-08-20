@@ -78,6 +78,9 @@ const Edit = (props) => {
         if (imgSource === undefined && image.url.length > 0) {
             setAttributes({ imgSource: "custom" });
         }
+        if (imageUrl === undefined && image.url.length > 0) {
+            setAttributes({ imageUrl: image.url });
+        }
     }, []);
 
     // Get only urls

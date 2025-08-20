@@ -771,6 +771,17 @@ $pro_blocks = [
         'demo'       => ESSENTIAL_BLOCKS_SITE_URL . 'demo/offcanvas/',
         'doc'        => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-offcanvas/',
         'icon'       => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/offcanvas.svg'
+     ],
+    'mega_menu'                 => [
+        'label'      => __( 'Mega Menu', 'essential-blocks' ),
+        'value'      => 'mega_menu',
+        'visibility' => 'true',
+        'is_pro'     => true,
+        'name'       => 'pro-mega-menu',
+        'category'   => 'content',
+        'demo'       => ESSENTIAL_BLOCKS_SITE_URL . 'demo/mega-menu',
+        'doc'        => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-mega-menu',
+        'icon'       => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/mega-menu.svg'
      ]
  ];
 

@@ -1,6 +1,6 @@
 import { createRoot, createRef } from "@wordpress/element";
 import domReady from "@wordpress/dom-ready";
-const { sanitizeIconValue} = window.eb_frontend;
+const { sanitizeIconValue } = window.eb_frontend;
 /**
  * External dependencies
  */
@@ -88,7 +88,7 @@ domReady(function () {
                                         <a
                                             href={
                                                 image.buttonUrl &&
-                                                image.isValidUrl
+                                                    image.isValidUrl
                                                     ? image.buttonUrl
                                                     : "#"
                                             }
@@ -161,7 +161,7 @@ domReady(function () {
                                                     <a
                                                         href={
                                                             image.buttonUrl &&
-                                                            image.isValidUrl
+                                                                image.isValidUrl
                                                                 ? image.buttonUrl
                                                                 : "#"
                                                         }
@@ -181,11 +181,11 @@ domReady(function () {
                                             {image.showSecondButton &&
                                                 image.secondButtonText &&
                                                 image.secondButtonText.length >
-                                                    0 && (
+                                                0 && (
                                                     <a
                                                         href={
                                                             image.secondButtonUrl &&
-                                                            image.isValidUrl
+                                                                image.isValidUrl
                                                                 ? image.secondButtonUrl
                                                                 : "#"
                                                         }

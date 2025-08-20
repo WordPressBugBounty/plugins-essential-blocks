@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.6.0
+Stable tag: 5.6.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -163,6 +163,7 @@ Design without limits in WordPress block editor, using 60+ of the most useful Es
 - **[Post Meta](https://essential-blocks.com/demo/post-meta/)** - Attractively showcase your current post metadata like author, date, excerpt & more.
 - **[Text](https://essential-blocks.com/demo/text-block/)** - Add and customize text content on your website that catches the attention of the visitors.
 - **[Lottie Animation](https://essential-blocks.com/demo/lottie-animation/)** - Add LottiFiles Animations to your Gutenberg site seamlessly and customize how you want it to appear.
+- **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Create fully customized & mobile-friendly menu with grid, nested, dropdown,etc. dynamic layouts; add icons, badges, multimedia, etc.
 
 
 More Gutenberg blocks and demos coming soon for the block visual editor (weekly update)
@@ -258,6 +259,18 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+
+= 5.6.1 - 20/08/2025 =
+- Added: AI Content Generation | Added support for input fields
+- Improved: Link Control | Added validation and security enhancements
+- Fixed: Form | Email input field background color issue
+- Fixed: Infobox | Image src issue
+- Fixed: Slider | Full-width layout issue
+- Fixed: Slider | Error when changing the arrow icon
+- Fixed: Column | Editor performance improvements
+- Fixed: Table of Contents | PHP fatal error
+- Improved: Security enhancements
+- Minor bug fixes and improvements
 
 = 5.6.0 - 27/07/2025 =
 - Added: New Feature | AI Image Generation

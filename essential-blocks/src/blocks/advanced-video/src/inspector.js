@@ -53,6 +53,7 @@ import {
     ResponsiveSelectController,
     EBIconPicker,
     InspectorPanel, EBDisplayIcon,
+    EBTextControl,
 } from '@essential-blocks/controls'
 
 function Inspector(props) {
@@ -142,10 +143,18 @@ function Inspector(props) {
             <InspectorPanel.General>
                 <>
                     <PanelBody title={__("General", "essential-blocks")} initialOpen={true}>
-                        <TextControl
+                        <EBTextControl
                             label={__("URL", "essential-blocks")}
+                            fieldType="url"
                             value={videoURL}
                             onChange={(videoURL) => setAttributes({ videoURL })}
+                            placeholder="https://example.com/video.mp4"
+                            help={__(
+                                "Enter a valid video URL with security filtering and validation.",
+                                "essential-blocks"
+                            )}
+                            showValidation={true}
+                            enableSecurity={true}
                         />
                         <Divider />
                         <PanelRow> {__("Video Options", "essential-blocks")} </PanelRow>

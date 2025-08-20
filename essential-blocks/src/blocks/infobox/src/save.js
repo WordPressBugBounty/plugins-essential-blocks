@@ -1,6 +1,3 @@
-import {
-    sanitizeURL
-} from "@essential-blocks/controls";
 import InfoboxContainer from "./components/infobox-save";
 import {
     BlockProps

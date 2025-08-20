@@ -12,6 +12,7 @@ import {
     ButtonGroup,
     TextControl,
     PanelRow,
+    __experimentalDivider as Divider,
 } from "@wordpress/components";
 
 /**
@@ -29,6 +30,7 @@ import {
     SortControl,
     ImageComponent,
     EBIconPicker,
+    EBTextControl,
 } from "@essential-blocks/controls";
 
 import {
@@ -45,6 +47,7 @@ import {
     prefixActTitleBdShadow,
     prefixContentBdShadow,
     prefixTtlWrpBdShadow,
+    prefixIconBdShadow,
 } from "./constants/borderShadowConstants";
 
 import {
@@ -56,6 +59,7 @@ import {
     prefixContentPadding,
     prefixTtlWrpMargin,
     prefixTtlWrpPadding,
+    prefixIconPadding,
 } from "./constants/dimensionsConstants";
 
 import {
@@ -63,6 +67,7 @@ import {
     prefixIconSize,
     prefixIconGap,
     prefixCaretSize,
+    prefixSubtitleSpacing,
 } from "./constants/rangeNames";
 
 import objAttributes from "./attributes";
@@ -70,9 +75,10 @@ import objAttributes from "./attributes";
 import {
     //
     typoPrefixTabTitle,
+    typoPrefixTabSubtitle,
 } from "./constants/typographyPrefixConstants";
 
-import { HEADING, VERTICALTOHORIZONTAL } from "./constants";
+import { HEADING, VERTICALTOHORIZONTAL, TITLE_ALIGNMENTS } from "./constants";
 
 function Inspector(props) {
     const { attributes, setAttributes, clientId, handleTabTitleClick } = props;
@@ -103,6 +109,17 @@ function Inspector(props) {
         verticalToHorizontal,
         tagName,
         closeAllTabs,
+        subtitleColor,
+        hvSubtitleColor,
+        actSubtitleColor,
+        actHvSubtitleColor,
+        iconBgColor,
+        iconhvBgColor,
+        actIconBgColor,
+        actHvIconBgColor,
+        titleAlign,
+        addCaretIcon,
+        caretIcon,
     } = attributes;
 
     //
@@ -224,6 +241,23 @@ function Inspector(props) {
                         "essential-blocks",
                     )}
                 />
+
+                <ToggleControl
+                    label={__("Enable Subtitle", "essential-blocks")}
+                    checked={each.enableSubtitle || false}
+                    onChange={(value) => onTabChange("enableSubtitle", value, i)}
+                />
+
+                {each.enableSubtitle && (
+                    <EBTextControl
+                        label={__("Subtitle", "essential-blocks")}
+                        value={each.subtitle || ""}
+                        onChange={(value) => onTabChange("subtitle", value, i)}
+                        placeholder={__("Enter subtitle text...", "essential-blocks")}
+                        enableAi={true}
+                        aiContentType="text"
+                    />
+                )}
             </div>
         ));
     };
@@ -528,6 +562,42 @@ function Inspector(props) {
                                 { label: "%", value: "%" },
                             ]}
                         />
+                        <BaseControl
+                            label={__("Alignment", "essential-blocks")}
+                            id="eb-advTabs-type-btgrp"
+                        >
+                            <ButtonGroup id="eb-advTabs-type-btgrp">
+                                {TITLE_ALIGNMENTS.map((item, index) => (
+                                    <Button
+                                        key={index}
+                                        // isLarge
+                                        isSecondary={
+                                            titleAlign !== item.value
+                                        }
+                                        isPrimary={titleAlign === item.value}
+                                        onClick={() =>
+                                            setAttributes({
+                                                titleAlign: item.value,
+                                            })
+                                        }
+                                    >
+                                        {item.label}
+                                    </Button>
+                                ))}
+                            </ButtonGroup>
+                        </BaseControl>
+
+                        <ResponsiveDimensionsControl
+                            controlName={prefixTitlePadding}
+                            baseLabel={__("Padding", "essential-blocks")}
+                        />
+
+                        <ResponsiveDimensionsControl
+                            controlName={prefixTitleMargin}
+                            baseLabel={__("Margin", "essential-blocks")}
+                        />
+
+                        <Divider />
 
                         <ResponsiveRangeController
                             baseLabel={__("Icon Size", "essential-blocks")}
@@ -546,15 +616,9 @@ function Inspector(props) {
                             step={1}
                             noUnits
                         />
-
                         <ResponsiveDimensionsControl
-                            controlName={prefixTitlePadding}
-                            baseLabel={__("Padding", "essential-blocks")}
-                        />
-
-                        <ResponsiveDimensionsControl
-                            controlName={prefixTitleMargin}
-                            baseLabel={__("Margin", "essential-blocks")}
+                            controlName={prefixIconPadding}
+                            baseLabel={__("Icon Padding", "essential-blocks")}
                         />
 
                         <InspectorPanel.PanelBody
@@ -623,6 +687,18 @@ function Inspector(props) {
                                             })
                                         }
                                     />
+                                    <ColorControl
+                                        label={__("Icon Background", "essential-blocks")}
+                                        defaultColor={
+                                            objAttributes.iconBgColor.default
+                                        }
+                                        color={iconBgColor}
+                                        onChange={(iconBgColor) =>
+                                            setAttributes({
+                                                iconBgColor,
+                                            })
+                                        }
+                                    />
                                 </>
                             )}
 
@@ -650,6 +726,18 @@ function Inspector(props) {
                                         onChange={(hvIconColor) =>
                                             setAttributes({
                                                 hvIconColor,
+                                            })
+                                        }
+                                    />
+                                    <ColorControl
+                                        label={__("Icon Background", "essential-blocks")}
+                                        defaultColor={
+                                            objAttributes.iconhvBgColor.default
+                                        }
+                                        color={iconhvBgColor}
+                                        onChange={(iconhvBgColor) =>
+                                            setAttributes({
+                                                iconhvBgColor,
                                             })
                                         }
                                     />
@@ -759,6 +847,18 @@ function Inspector(props) {
                                             })
                                         }
                                     />
+                                    <ColorControl
+                                        label={__("Icon Background", "essential-blocks")}
+                                        defaultColor={
+                                            objAttributes.actIconBgColor.default
+                                        }
+                                        color={actIconBgColor}
+                                        onChange={(actIconBgColor) =>
+                                            setAttributes({
+                                                actIconBgColor,
+                                            })
+                                        }
+                                    />
                                 </>
                             )}
 
@@ -786,6 +886,18 @@ function Inspector(props) {
                                         onChange={(actHvIconColor) =>
                                             setAttributes({
                                                 actHvIconColor,
+                                            })
+                                        }
+                                    />
+                                    <ColorControl
+                                        label={__("Icon Background", "essential-blocks")}
+                                        defaultColor={
+                                            objAttributes.actHvIconBgColor.default
+                                        }
+                                        color={actHvIconBgColor}
+                                        onChange={(actHvIconBgColor) =>
+                                            setAttributes({
+                                                actHvIconBgColor,
                                             })
                                         }
                                     />
@@ -836,6 +948,178 @@ function Inspector(props) {
                             // noShadow
                             // noBorder
                             />
+                        </InspectorPanel.PanelBody>
+
+                        <InspectorPanel.PanelBody
+                            title={__("Icon Border", "essential-blocks")}
+                            initialOpen={false}
+                        >
+                            <BorderShadowControl
+                                controlName={prefixIconBdShadow}
+                            // noShadow
+                            // noBorder
+                            />
+                        </InspectorPanel.PanelBody>
+                    </InspectorPanel.PanelBody>
+                    <InspectorPanel.PanelBody
+                        title={__("Tab Subtitle", "essential-blocks")}
+                        initialOpen={false}
+                    >
+                        <TypographyDropdown
+                            baseLabel={__("Typography", "essential-blocks")}
+                            typographyPrefixConstant={typoPrefixTabSubtitle}
+                        />
+
+                        <ResponsiveRangeController
+                            baseLabel={__(
+                                "Subtitle Top Spacing",
+                                "essential-blocks",
+                            )}
+                            controlName={prefixSubtitleSpacing}
+                            min={0}
+                            max={100}
+                            step={1}
+                            noUnits
+                        />
+
+                        <InspectorPanel.PanelBody
+                            title={__("Colors", "essential-blocks")}
+                            initialOpen={false}
+                        >
+                            <BaseControl>
+                                <ButtonGroup>
+                                    {[
+                                        {
+                                            label: __(
+                                                "Normal",
+                                                "essential-blocks",
+                                            ),
+                                            value: "normal",
+                                        },
+                                        {
+                                            label: __(
+                                                "Hover",
+                                                "essential-blocks",
+                                            ),
+                                            value: "hover",
+                                        },
+                                    ].map(({ value, label }, index) => (
+                                        <Button
+                                            key={index}
+                                            isPrimary={colorSwitcher === value}
+                                            isSecondary={
+                                                colorSwitcher !== value
+                                            }
+                                            onClick={() =>
+                                                setColorSwitcher(value)
+                                            }
+                                        >
+                                            {label}
+                                        </Button>
+                                    ))}
+                                </ButtonGroup>
+                            </BaseControl>
+
+                            {colorSwitcher === "normal" && (
+                                <ColorControl
+                                    label={__("Subtitle", "essential-blocks")}
+                                    defaultColor={
+                                        objAttributes.subtitleColor.default
+                                    }
+                                    color={subtitleColor}
+                                    onChange={(subtitleColor) =>
+                                        setAttributes({
+                                            subtitleColor,
+                                        })
+                                    }
+                                />
+                            )}
+
+                            {colorSwitcher === "hover" && (
+                                <ColorControl
+                                    label={__("Subtitle", "essential-blocks")}
+                                    defaultColor={
+                                        objAttributes.hvSubtitleColor.default
+                                    }
+                                    color={hvSubtitleColor}
+                                    onChange={(hvSubtitleColor) =>
+                                        setAttributes({
+                                            hvSubtitleColor,
+                                        })
+                                    }
+                                />
+                            )}
+                        </InspectorPanel.PanelBody>
+
+                        <InspectorPanel.PanelBody
+                            title={__("Active Colors", "essential-blocks")}
+                            initialOpen={false}
+                        >
+                            <BaseControl>
+                                <ButtonGroup>
+                                    {[
+                                        {
+                                            label: __(
+                                                "Normal",
+                                                "essential-blocks",
+                                            ),
+                                            value: "normal",
+                                        },
+                                        {
+                                            label: __(
+                                                "Hover",
+                                                "essential-blocks",
+                                            ),
+                                            value: "hover",
+                                        },
+                                    ].map(({ value, label }, index) => (
+                                        <Button
+                                            key={index}
+                                            isPrimary={
+                                                activeColorSwitcher === value
+                                            }
+                                            isSecondary={
+                                                activeColorSwitcher !== value
+                                            }
+                                            onClick={() =>
+                                                setActiveColorSwitcher(value)
+                                            }
+                                        >
+                                            {label}
+                                        </Button>
+                                    ))}
+                                </ButtonGroup>
+                            </BaseControl>
+
+                            {activeColorSwitcher === "normal" && (
+                                <ColorControl
+                                    label={__("Subtitle", "essential-blocks")}
+                                    defaultColor={
+                                        objAttributes.actSubtitleColor.default
+                                    }
+                                    color={actSubtitleColor}
+                                    onChange={(actSubtitleColor) =>
+                                        setAttributes({
+                                            actSubtitleColor,
+                                        })
+                                    }
+                                />
+                            )}
+
+                            {activeColorSwitcher === "hover" && (
+                                <ColorControl
+                                    label={__("Subtitle", "essential-blocks")}
+                                    defaultColor={
+                                        objAttributes.actHvSubtitleColor.default
+                                    }
+                                    color={actHvSubtitleColor}
+                                    onChange={(actHvSubtitleColor) =>
+                                        setAttributes({
+                                            actHvSubtitleColor,
+                                        })
+                                    }
+                                />
+                            )}
                         </InspectorPanel.PanelBody>
                     </InspectorPanel.PanelBody>
 
@@ -930,8 +1214,38 @@ function Inspector(props) {
                             }
                         />
 
+
+
                         {showCaret && (
                             <>
+                                <ToggleControl
+                                    label={__(
+                                        "Add Caret Icon",
+                                        "essential-blocks",
+                                    )}
+                                    checked={addCaretIcon}
+                                    onChange={() =>
+                                        setAttributes({
+                                            addCaretIcon: !addCaretIcon,
+                                        })
+                                    }
+                                />
+                                {addCaretIcon && (
+                                    <EBIconPicker
+                                        value={caretIcon}
+                                        onChange={(caretIcon) =>
+                                            setAttributes({
+                                                caretIcon,
+                                            })
+                                        }
+                                        title={__(
+                                            "Caret Icon",
+                                            "essential-blocks",
+                                        )}
+                                    />
+                                )}
+                                <Divider />
+
                                 <ResponsiveRangeController
                                     baseLabel={__(
                                         "Caret Size",

@@ -7,7 +7,6 @@ import { MediaUpload } from "@wordpress/block-editor";
 import {
     SelectControl,
     ToggleControl,
-    TextControl,
     Button,
     BaseControl,
     ButtonGroup,
@@ -80,6 +79,7 @@ import {
     ICON_SHAPE,
     BUTTON_KEYS
 } from "./constants";
+import { EBTextControl } from "../../../controls/src";
 
 function Inspector(props) {
     const { attributes, setAttributes } = props;
@@ -609,19 +609,25 @@ function Inspector(props) {
 
                         {isInfoClick && (
                             <>
-                                <TextControl
-                                    // id={`info-link-input-${blockId}`}
-                                    help={__(
-                                        "URL (use https:// at the beginning)",
+                                <EBTextControl
+                                    label={__(
+                                        "Infobox Link",
                                         "essential-blocks"
                                     )}
-                                    placeholder="https://your-link.com"
-                                    value={infoboxLink}
+                                    fieldType="url"
+                                    value={infoboxLink || ''}
                                     onChange={(infoboxLink) =>
                                         setAttributes({
                                             infoboxLink,
                                         })
                                     }
+                                    placeholder="https://your-link.com"
+                                    help={__(
+                                        "Enter the URL for the clickable infobox.",
+                                        "essential-blocks"
+                                    )}
+                                    showValidation={true}
+                                    enableSecurity={true}
                                 />
                                 <ToggleControl
                                     label={__(

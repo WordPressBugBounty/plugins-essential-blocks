@@ -32,7 +32,7 @@ class InfoBox extends Block
         $this->assets_manager->register(
             'infobox-frontend',
             'blocks/infobox/frontend.js',
-            ['wp-dom-ready']
+            ['wp-dom-ready', 'essential-blocks-controls-frontend']
         );
     }
 }

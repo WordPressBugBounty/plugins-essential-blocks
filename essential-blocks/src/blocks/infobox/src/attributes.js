@@ -119,12 +119,12 @@ const attributes = {
     },
 
     //
-    // imageUrl: {
-    //     source: "attribute",
-    //     selector: ".eb-infobox-image",
-    //     attribute: "src",
-    //     // default: "https://source.unsplash.com/user/cristofer",
-    // },
+    imageUrlOld: {
+        source: "attribute",
+        selector: ".eb-infobox-image",
+        attribute: "src",
+        // default: "https://source.unsplash.com/user/cristofer",
+    },
 
     //
     // imageId: {
