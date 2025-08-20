@@ -277,66 +277,12 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.6.1", "essential-blocks")}
+                                    {__("Version: 5.6.2", "essential-blocks")}
                                     <span className="changelog-date">
                                         {__("20/08/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
-                                    <li>
-                                        {__(
-                                            "Added: AI Content Generation | Added support for input fields",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Link Control | Added validation and security enhancements",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Form | Email input field background color issue",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Infobox | Image src issue",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Slider | Full-width layout issue",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Slider | Error when changing the arrow icon",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Column | Editor performance improvements",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Table of Contents | PHP fatal error",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Security enhancements",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
                                     <li>
                                         {__(
                                             "Minor bug fixes and improvements",
