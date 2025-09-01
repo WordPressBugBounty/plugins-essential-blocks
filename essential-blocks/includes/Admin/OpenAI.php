@@ -440,8 +440,8 @@ class OpenAI
                 unset( $body[ 'response_format' ] );
                 break;
         }
-        error_log( 'GPT Model: ' . $model );
-        error_log( 'GPT Body: ' . print_r( $body, true ) );
+        // error_log( 'GPT Model: ' . $model );
+        // error_log( 'GPT Body: ' . print_r( $body, true ) );
 
         // return;
         // wp_die();
@@ -460,7 +460,7 @@ class OpenAI
              ]
         );
 
-        error_log( 'Response-----' . print_r( $response, true ) );
+        // error_log( 'Response-----' . print_r( $response, true ) );
 
         // Check for errors
         if ( is_wp_error( $response ) ) {
@@ -528,7 +528,7 @@ class OpenAI
 
         // Extract usage information from the API response
         $usage_info = $this->extract_image_usage_info( $response_body, $model, $validated_image_count );
-        error_log( 'Usage Info: ' . print_r( $usage_info, true ) );
+        // error_log( 'Usage Info: ' . print_r( $usage_info, true ) );
 
         // Return all generated images with usage information
         return [

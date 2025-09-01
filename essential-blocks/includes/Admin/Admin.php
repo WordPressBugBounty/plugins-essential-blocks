@@ -36,7 +36,7 @@ class Admin
         // Remove OLD notice from 1.0.0 (if other WPDeveloper plugin has notice)
         NoticeRemover::get_instance( '1.0.0' );
 
-        add_action( 'admin_init', [ $this, 'notices' ] );
+        add_action( 'init', [ $this, 'notices' ] );
 
         add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 
@@ -845,8 +845,6 @@ class Admin
             // Generate image using OpenAI
             $response = $openai->generate_image( $prompt, $model, $size, $quality, $style, 'writePageContent', $background, $output_format, $output_compression, $image_count );
 
-            error_log( 'Admin.php:' . print_r( $response, true ) );
-
             if ( $response[ 'success' ] ) {
                 wp_send_json_success( [
                     'images' => $response[ 'images' ],
@@ -1046,30 +1044,12 @@ class Admin
      */
     public function promotion_message_on_admin_screen()
     {
-        // Define the minimum required Pro version to override free message
-        $min_pro_version = '2.0.5';
-        $use_pro_message = false;
-
-        // Check if Pro is active and meets version requirement
-        if ( defined( 'ESSENTIAL_BLOCKS_IS_PRO_ACTIVE' ) && ESSENTIAL_BLOCKS_IS_PRO_ACTIVE ) {
-            if ( defined( 'ESSENTIAL_BLOCKS_PRO_VERSION' ) ) {
-                if ( version_compare( ESSENTIAL_BLOCKS_PRO_VERSION, $min_pro_version, '>=' ) ) {
-                    $use_pro_message = true;
-                }
-            }
-        }
-
         $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
 
         $message_template = __(
-            "<p><i>📣</i> Introducing Essential Blocks Pro <strong>v2.3.0</strong> with powerful <strong>EB Mega Menu</strong> support! Create stunning, multi-column mega menus directly in the block editor, featuring sections, icons, images, and dynamic content for a responsive and accessible navigation across devices. For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
+            "<p><i>📣</i> Introducing Loop Builder in Essential Blocks Pro <strong>v2.4.0</strong> - Effortlessly design dynamic post and content loops with the brand-new Loop Builder block for more flexible layouts.! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
             "essential-blocks"
         );
-
-        // Allow Pro to override message
-        // if ( $use_pro_message ) {
-        //     $message_template = apply_filters( 'eb_promotion_message_on_admin_screen', $message_template );
-        // }
 
         $message = sprintf( $message_template, $changelog_url );
 

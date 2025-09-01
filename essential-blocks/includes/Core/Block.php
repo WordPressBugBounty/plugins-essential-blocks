@@ -146,7 +146,7 @@ abstract class Block
             $this->register_scripts();
         }
 
-        $_args['render_callback'] = function ($attributes, $content) {
+        $_args['render_callback'] = function ($attributes, $content, $block = null) {
             if (!$this->should_display_block($attributes)) {
                 return ''; // Stop execution and return empty content
             }
@@ -155,7 +155,7 @@ abstract class Block
         };
 
         if (method_exists($this, 'render_callback')) {
-            $_args['render_callback'] = function ($attributes, $content) {
+            $_args['render_callback'] = function ($attributes, $content, $block = null) {
                 if (!is_admin()) {
                     $this->load_scripts();
                 }
@@ -168,12 +168,12 @@ abstract class Block
                     $this->load_scripts();
                 }
 
-                return $this->render_callback($attributes, $content);
+                return $this->render_callback($attributes, $content, $block);
             };
         }
 
         if ((!empty($this->frontend_scripts) || !empty($this->frontend_styles)) && ! method_exists($this, 'render_callback')) {
-            $_args['render_callback'] = function ($attributes, $content) {
+            $_args['render_callback'] = function ($attributes, $content, $block = null) {
                 if (!is_admin()) {
 
 

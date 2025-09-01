@@ -304,6 +304,9 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     "essential-blocks"
                                 )}
                                 enableAi={false}
+                                fieldType="url"
+                                showValidation={true}
+                                enableSecurity={true}
                             />
                             {buttonURL && (
                                 <ToggleControl

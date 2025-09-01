@@ -43,25 +43,19 @@ class Form extends ThirdPartyIntegration
 
         $fields = (array) json_decode( wp_unslash( $_POST[ 'form_data' ] ) );
 
-        error_log('Original form fields:');
-        error_log(print_r($fields, true));
-
         $settings = $this->get_form_settings( $form_id );
         // Get settings with field-step mapping
         // $settings = $this->get_form_settings_with_mapping($form_id);
-        $field_settings = [];
+        $field_settings = [  ];
 
-        if (is_object($settings)) {
-            $field_settings = isset($settings->settings) ? unserialize($settings->settings) : [];
+        if ( is_object( $settings ) ) {
+            $field_settings = isset( $settings->settings ) ? unserialize( $settings->settings ) : [  ];
         }
 
         // Apply filter to process conditional logic before validation
-        $fields = apply_filters('eb_form_before_validation', $fields, $field_settings);
+        $fields = apply_filters( 'eb_form_before_validation', $fields, $field_settings );
 
-        error_log('Fields after conditional logic processing:');
-        error_log(print_r($fields, true));
-
-        $success = false;
+        $success          = false;
         $response_message = "Form isn't configured!";
 
         if ( is_object( $settings ) ) {

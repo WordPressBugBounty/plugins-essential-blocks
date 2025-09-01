@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.6.2
+Stable tag: 5.6.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -164,6 +164,7 @@ Design without limits in WordPress block editor, using 60+ of the most useful Es
 - **[Text](https://essential-blocks.com/demo/text-block/)** - Add and customize text content on your website that catches the attention of the visitors.
 - **[Lottie Animation](https://essential-blocks.com/demo/lottie-animation/)** - Add LottiFiles Animations to your Gutenberg site seamlessly and customize how you want it to appear.
 - **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Create fully customized & mobile-friendly menu with grid, nested, dropdown,etc. dynamic layouts; add icons, badges, multimedia, etc.
+- **[Query Loop Builder (PRO)](https://essential-blocks.com/demo/query-loop-builder/)** - Easily create advanced, filterable post layouts in Gutenberg with the Query Loop Builder block. Display dynamic content stunningly and hook visitors, no coding required.
 
 
 More Gutenberg blocks and demos coming soon for the block visual editor (weekly update)
@@ -259,6 +260,10 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 5.6.3 - 01/09/2025 =
+- Fixed: Color Control | Color automatically reset to default color
+- Fixed: Accordion | Performance improvements
+- Few minor bug fixes & improvements
 
 = 5.6.2 - 20/08/2025 =
 - Minor bug fixes and improvements
@@ -297,38 +302,6 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 = 5.5.1 - 19/06/2025 =
 - Fixed: AI Content Generation | Popup was closing upon clicking the generate button in Firefox
-- Few minor bug fixes & improvements
-
-= 5.5.0 - 17/06/2025 =
-- Added: New Feature: AI Content Generation | RichText and Input field support
-- Fixed: EB Filterable Gallery | Lightbox displays all images instead of filtered items only
-- Fixed: Lottie Animation | Height and width set to auto control
-- Fixed: Lottie Animation | Incorrect animation behavior
-- Fixed: Advanced Navigation | Alignment issue
-- Few minor bug fixes & improvements
-
-= 5.4.2 - 01/06/2025 =
-- Added: Infobox | Link option added for the title
-- Fixed: Dual Button | Button gap issue on Preset 4
-- Improved: Security enhancement
-- Few minor bug fixes & improvements
-
-= 5.4.1 - 19/05/2025 =
-- Added: SVG image support
-- Added: Popup Block | Open popup on scroll trigger
-- Improved: Security enhancements
-- Few minor bug fixes & improvements
-
-= 5.4.0 - 08/05/2025 =
-- Added: Write with AI feature
-- Added: Form Block | “Reply-To” option in form settings
-- Added: Product Image | Controls to enable/disable zoom effect
-- Improved: Global Settings | Custom color opacity option and reset issue
-- Improved: Slider Block | Sliding items sorting option and image preview added
-- Improved: Accordion Block | Title edit panel opens on click in editor
-- Fixed: Image Comparison Block | Not working in editor since 5.3.5
-- Fixed: Advanced Video Block | Responsive issue on iPhone
-- Fixed: Slider Block | Slideshow block displays truncated images on initial load
 - Few minor bug fixes & improvements
 
 [See changelog for all versions](https://essential-blocks.com/changelog).

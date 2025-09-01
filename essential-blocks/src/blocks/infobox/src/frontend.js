@@ -3,14 +3,14 @@
  * Handles clickable infobox functionality while preserving inline links
  * Includes comprehensive XSS prevention measures
  */
-
 import domReady from "@wordpress/dom-ready";
-const { getDataAttribute, sanitizeTarget, sanitize, sanitizeAttribute } =
-    window.eb_frontend;
+
+const { getDataAttribute, sanitizeTarget, sanitize, sanitizeAttribute } = window.eb_frontend;
+
 domReady(function () {
     // Handle clickable infobox functionality
     const clickableInfoboxes = document.querySelectorAll(
-        '[data-clickable="true"]',
+        '.eb-infobox-wrapper[data-clickable="true"]',
     );
 
     clickableInfoboxes.forEach(function (infobox) {

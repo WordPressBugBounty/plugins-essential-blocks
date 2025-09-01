@@ -44,7 +44,7 @@ import {
 } from "@essential-blocks/controls";
 
 function Inspector(props) {
-    const { attributes, setAttributes, media, prevImageSize, oldImageData } =
+    const { attributes, setAttributes, media, prevImageSize, oldImageData, context } =
         props;
     const {
         image,
@@ -65,6 +65,16 @@ function Inspector(props) {
         heightRange,
         openInNewTab
     } = attributes;
+
+    // Check if block is inside Loop Builder context
+    const isInLoopBuilder = Boolean(
+        context &&
+            // Primary check: explicit isLoopBuilder flag
+            (context["essential-blocks/isLoopBuilder"] === true ||
+                // Secondary check: presence of loop context values (even if null initially)
+                (context.hasOwnProperty("essential-blocks/postId") &&
+                    context.hasOwnProperty("essential-blocks/postType"))),
+    );
 
     const [urlError, setUrlError] = useState("");
 
@@ -343,12 +353,14 @@ function Inspector(props) {
                     title={__("General", "essential-blocks")}
                     initialOpen={true}
                 >
-                    <SelectControl
-                        label={__("Source", "essential-blocks")}
-                        value={imgSource}
-                        options={SOURCE}
-                        onChange={(imgSource) => changImgSource(imgSource)}
-                    />
+                    {!isInLoopBuilder && (
+                        <SelectControl
+                            label={__("Source", "essential-blocks")}
+                            value={imgSource}
+                            options={SOURCE}
+                            onChange={(imgSource) => changImgSource(imgSource)}
+                        />
+                    )}
 
                     {imgSource !== "custom" && (
                         <>

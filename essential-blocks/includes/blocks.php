@@ -770,6 +770,44 @@ $pro_blocks = [
         'doc'        => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-offcanvas/',
         'icon'       => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/offcanvas.svg'
      ],
+    'loop_builder'              => [
+        'label'       => __( 'Loop Builder', 'essential-blocks' ),
+        'value'       => 'loop_builder',
+        'visibility'  => 'true',
+        'category'    => 'dynamic',
+        'is_pro'      => true,
+        'name'        => 'pro-loop-builder',
+        'description' => __( 'Create dynamic content layouts with a powerful visual Loop Builder. Query and design posts, products, and custom content without code.', 'essential-blocks' ),
+        'demo'        => ESSENTIAL_BLOCKS_SITE_URL . 'demo/query-loop-builder/',
+        'doc'         => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-loop-builder/',
+        'icon'        => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/loop-builder.svg'
+     ],
+    'post_template'             => [
+        'label'         => __( 'Post Template', 'essential-blocks' ),
+        'value'         => 'post_template',
+        'visibility'    => 'true',
+        'show_in_admin' => false,
+        'category'      => 'dynamic',
+        'is_pro'        => true,
+        'name'          => 'pro-post-template',
+        'description'   => __( 'Create dynamic content layouts with a powerful visual Post Template. Query and design posts, products, and custom content without code.', 'essential-blocks' ),
+        'demo'          => ESSENTIAL_BLOCKS_SITE_URL . 'demo/loop-builder/',
+        'doc'           => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-loop-builder/',
+        'icon'          => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/post-template.svg'
+     ],
+    'loop_pagination'           => [
+        'label'         => __( 'Loop Pagination', 'essential-blocks' ),
+        'value'         => 'loop_pagination',
+        'visibility'    => 'true',
+        'show_in_admin' => false,
+        'category'      => 'dynamic',
+        'is_pro'        => true,
+        'name'          => 'pro-loop-pagination',
+        'description'   => __( 'Create dynamic content layouts with a powerful visual Post Template. Query and design posts, products, and custom content without code.', 'essential-blocks' ),
+        'demo'          => ESSENTIAL_BLOCKS_SITE_URL . 'demo/loop-builder/',
+        'doc'           => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-loop-builder/',
+        'icon'          => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/loop-pagination.svg'
+     ],
     'mega_menu'                 => [
         'label'      => __( 'Mega Menu', 'essential-blocks' ),
         'value'      => 'mega_menu',

@@ -28,11 +28,12 @@ use EssentialBlocks\Integrations\AssetGeneration;
 use EssentialBlocks\Integrations\PluginInstaller;
 use EssentialBlocks\Utils\SvgSanitizer;
 use EssentialBlocks\Admin\QuickSetup;
+use EssentialBlocks\Integrations\BlockUsage;
 
 final class Plugin
 {
     use HasSingletone;
-    public $version = '5.6.2';
+                                                        public $version = '5.6.3';
 
     public $admin;
     /**
@@ -120,6 +121,9 @@ final class Plugin
 
         // pagination
         Pagination::get_instance();
+
+        // BlockUsage
+        BlockUsage::get_instance();
 
         // Fetch Enabled Blocks if not than Default Block List
         self::$blocks = Blocks::get_instance( self::$settings );

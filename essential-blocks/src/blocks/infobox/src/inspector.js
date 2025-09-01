@@ -31,7 +31,8 @@ import {
     EBIconPicker,
     InspectorPanel,
     EBButton,
-    ImageComponent
+    ImageComponent,
+    EBTextControl
 } from "@essential-blocks/controls";
 
 import {
@@ -79,7 +80,6 @@ import {
     ICON_SHAPE,
     BUTTON_KEYS
 } from "./constants";
-import { EBTextControl } from "../../../controls/src";
 
 function Inspector(props) {
     const { attributes, setAttributes } = props;

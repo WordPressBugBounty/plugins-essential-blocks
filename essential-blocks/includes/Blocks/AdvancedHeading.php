@@ -39,7 +39,7 @@ class AdvancedHeading extends Block
      * @param mixed $content
      * @return mixed
      */
-    public function render_callback( $attributes, $content )
+    public function render_callback( $attributes, $content, $block = null )
     {
         if ( is_admin() ) {
             return;
@@ -52,7 +52,20 @@ class AdvancedHeading extends Block
         if ( $attributes[ 'source' ] === 'custom' ) {
             return $content;
         } else {
-            $title = get_the_title();
+            // Get post ID from context (Loop Builder) or attributes
+            $post_id = null;
+            if ( $block && isset( $block->context['essential-blocks/postId'] ) ) {
+                // Use Loop Builder context
+                $post_id = $block->context['essential-blocks/postId'];
+            } elseif ( isset( $attributes['currentPostId'] ) && $attributes['currentPostId'] ) {
+                // Use attribute value
+                $post_id = $attributes['currentPostId'];
+            }
+            if ( $post_id ) {
+                $title = get_the_title( $post_id );
+            } else {
+                $title = get_the_title();
+            }
 
             if ( ! $title ) {
                 return '';
@@ -68,7 +81,10 @@ class AdvancedHeading extends Block
 
             if ( isset( $attributes[ 'enableLink' ] ) && $attributes[ 'enableLink' ] ) {
                 $rel   = $linkTarget === "_blank" ? 'rel="noopener"' : '';
-                $title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', esc_url( get_the_permalink( $attributes[ 'currentPostId' ] ) ), esc_attr( $linkTarget ), $rel, $title );
+                // Use the same post ID that was used for the title
+                $permalink_post_id = $post_id ? $post_id : null;
+                $permalink = $permalink_post_id ? get_the_permalink( $permalink_post_id ) : get_the_permalink();
+                $title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', esc_url( $permalink ), esc_attr( $linkTarget ), $rel, $title );
             }
 
             if ( $attributes[ 'seperatorType' ] === 'icon' ) {

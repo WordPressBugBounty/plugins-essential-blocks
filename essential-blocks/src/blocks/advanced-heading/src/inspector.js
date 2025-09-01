@@ -9,9 +9,9 @@ import {
     Button,
     ButtonGroup,
     BaseControl,
-    RangeControl
+    RangeControl,
 } from "@wordpress/components";
-import { useState, useEffect } from "@wordpress/element";
+import { useState } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
 
 /**
@@ -44,9 +44,14 @@ import {
     SEPERATOR_STYLES,
     SEPARATOR_TYPE,
     SOURCE,
-    EFFECTS
+    EFFECTS,
 } from "./constants/constants";
-import { TITLE_TYPOGRAPHY, TITLE2_TYPOGRAPHY, TITLE3_TYPOGRAPHY, SUBTITLE_TYPOGRAPHY } from "./constants/typographyPrefixConstants";
+import {
+    TITLE_TYPOGRAPHY,
+    TITLE2_TYPOGRAPHY,
+    TITLE3_TYPOGRAPHY,
+    SUBTITLE_TYPOGRAPHY,
+} from "./constants/typographyPrefixConstants";
 import {
     ResponsiveDimensionsControl,
     TypographyDropdown,
@@ -58,12 +63,19 @@ import {
     EBIconPicker,
     InspectorPanel,
     isGradientColor,
-    sanitizeURL
-} from '@essential-blocks/controls';
+    sanitizeURL,
+} from "@essential-blocks/controls";
 import { PanelRow } from "@wordpress/components";
 
 function Inspector(props) {
-    const { attributes, setAttributes } = props;
+    const { attributes, setAttributes, context } = props;
+
+    // Check if block is inside Loop Builder context
+    const isInLoopBuilder = Boolean(
+        context &&
+        context.hasOwnProperty("essential-blocks/postId") &&
+        context.hasOwnProperty("essential-blocks/postType"),
+    );
     const {
         resOption,
         preset,
@@ -101,7 +113,7 @@ function Inspector(props) {
         source,
         enableLink,
         titleLink,
-        openInNewTab
+        openInNewTab,
     } = attributes;
 
     const [urlError, setUrlError] = useState("");
@@ -201,7 +213,6 @@ function Inspector(props) {
                 setAttributes({
                     source: selected,
                     displaySubtitle: false,
-
                 });
                 break;
             case "dynamic-title":
@@ -229,35 +240,50 @@ function Inspector(props) {
     };
 
     return (
-        <InspectorPanel advancedControlProps={{
-            marginPrefix: WRAPPER_MARGIN,
-            paddingPrefix: WRAPPER_PADDING,
-            backgroundPrefix: WRAPPER_BG,
-            borderPrefix: WRAPPER_BORDER_SHADOW,
-            hasMargin: true
-        }}>
+        <InspectorPanel
+            advancedControlProps={{
+                marginPrefix: WRAPPER_MARGIN,
+                paddingPrefix: WRAPPER_PADDING,
+                backgroundPrefix: WRAPPER_BG,
+                borderPrefix: WRAPPER_BORDER_SHADOW,
+                hasMargin: true,
+            }}
+        >
             <InspectorPanel.General>
-                <PanelBody title={__("General", "essential-blocks")} initialOpen={true}>
-                    <SelectControl
-                        label={__("Source", "essential-blocks")}
-                        value={source}
-                        options={SOURCE}
-                        onChange={(selected) => changeSource(selected)}
-                    />
+                <PanelBody
+                    title={__("General", "essential-blocks")}
+                    initialOpen={true}
+                >
+                    {!isInLoopBuilder && (
+                        <SelectControl
+                            label={__("Source", "essential-blocks")}
+                            value={source}
+                            options={SOURCE}
+                            onChange={(selected) => changeSource(selected)}
+                        />
+                    )}
                     <SelectControl
                         label={__("Preset Designs", "essential-blocks")}
                         value={preset}
-                        options={applyFilters("eb_advanced_heading_preset", PRESETS)}
+                        options={applyFilters(
+                            "eb_advanced_heading_preset",
+                            PRESETS,
+                        )}
                         onChange={(selected) => changePreset(selected)}
                     />
                     <SelectControl
                         label={__("Effects", "essential-blocks")}
                         value={effects}
-                        options={applyFilters("eb_advanced_heading_effects", EFFECTS)}
-                        onChange={(selected) => setAttributes({ effects: selected })}
+                        options={applyFilters(
+                            "eb_advanced_heading_effects",
+                            EFFECTS,
+                        )}
+                        onChange={(selected) =>
+                            setAttributes({ effects: selected })
+                        }
                     />
 
-                    {effects === 'marquee' && (
+                    {effects === "marquee" && (
                         <>
                             <RangeControl
                                 initialPosition={50}
@@ -266,13 +292,23 @@ function Inspector(props) {
                                 max={100}
                                 min={0}
                                 step={1}
-                                onChange={(value) => setAttributes({ marqueeSpeed: value })}
+                                onChange={(value) =>
+                                    setAttributes({ marqueeSpeed: value })
+                                }
                             />
 
                             <ToggleControl
-                                label={__("Marquee Pause on Hover", "essential-blocks")}
+                                label={__(
+                                    "Marquee Pause on Hover",
+                                    "essential-blocks",
+                                )}
                                 checked={marqueePauseOnHover}
-                                onChange={() => setAttributes({ marqueePauseOnHover: !marqueePauseOnHover })}
+                                onChange={() =>
+                                    setAttributes({
+                                        marqueePauseOnHover:
+                                            !marqueePauseOnHover,
+                                    })
+                                }
                             />
                         </>
                     )}
@@ -295,7 +331,9 @@ function Inspector(props) {
                                     // isLarge
                                     isPrimary={tagName === item.value}
                                     isSecondary={tagName !== item.value}
-                                    onClick={() => setAttributes({ tagName: item.value })}
+                                    onClick={() =>
+                                        setAttributes({ tagName: item.value })
+                                    }
                                 >
                                     {item.label}
                                 </Button>
@@ -303,14 +341,17 @@ function Inspector(props) {
                         </ButtonGroup>
                     </BaseControl>
 
-                    {source == 'custom' && (
+                    {source == "custom" && (
                         <>
                             <DynamicInputControl
                                 label="Title Text (First)"
                                 attrName="titleText"
                                 inputValue={titleText}
                                 setAttributes={setAttributes}
-                                onChange={(text) => setAttributes({ titleText: text })}
+                                onChange={(text) =>
+                                    !isInLoopBuilder &&
+                                    setAttributes({ titleText: text })
+                                }
                             />
 
                             <DynamicInputControl
@@ -318,27 +359,39 @@ function Inspector(props) {
                                 attrName="title2Text"
                                 inputValue={title2Text}
                                 setAttributes={setAttributes}
-                                onChange={(text) => setAttributes({ title2Text: text })}
+                                onChange={(text) =>
+                                    !isInLoopBuilder &&
+                                    setAttributes({ title2Text: text })
+                                }
                             />
-
 
                             <DynamicInputControl
                                 label="Title Text (Third)"
                                 attrName="title3Text"
                                 inputValue={title3Text}
                                 setAttributes={setAttributes}
-                                onChange={(text) => setAttributes({ title3Text: text })}
+                                onChange={(text) =>
+                                    !isInLoopBuilder &&
+                                    setAttributes({ title3Text: text })
+                                }
                             />
 
                             <ToggleControl
-                                label={__("Display Subtilte", "essential-blocks")}
+                                label={__(
+                                    "Display Subtilte",
+                                    "essential-blocks",
+                                )}
                                 checked={displaySubtitle}
-                                onChange={() => setAttributes({ displaySubtitle: !displaySubtitle })}
+                                onChange={() =>
+                                    setAttributes({
+                                        displaySubtitle: !displaySubtitle,
+                                    })
+                                }
                             />
                         </>
                     )}
 
-                    {source == 'custom' && displaySubtitle && (
+                    {source == "custom" && displaySubtitle && (
                         <>
                             <BaseControl
                                 label={__("Subtitle Level", "essential-blocks")}
@@ -349,10 +402,16 @@ function Inspector(props) {
                                         <Button
                                             key={key}
                                             // isLarge
-                                            isPrimary={subtitleTagName === item.value}
-                                            isSecondary={subtitleTagName !== item.value}
+                                            isPrimary={
+                                                subtitleTagName === item.value
+                                            }
+                                            isSecondary={
+                                                subtitleTagName !== item.value
+                                            }
                                             onClick={() =>
-                                                setAttributes({ subtitleTagName: item.value })
+                                                setAttributes({
+                                                    subtitleTagName: item.value,
+                                                })
                                             }
                                         >
                                             {item.label}
@@ -365,49 +424,68 @@ function Inspector(props) {
                                 attrName="subtitleText"
                                 inputValue={subtitleText}
                                 setAttributes={setAttributes}
-                                onChange={(text) => setAttributes({ subtitleText: text })}
+                                onChange={(text) =>
+                                    !isInLoopBuilder &&
+                                    setAttributes({ subtitleText: text })
+                                }
                             />
                         </>
                     )}
                     <ToggleControl
                         label={__("Display Separator", "essential-blocks")}
                         checked={displaySeperator}
-                        onChange={() => setAttributes({ displaySeperator: !displaySeperator })}
+                        onChange={() =>
+                            setAttributes({
+                                displaySeperator: !displaySeperator,
+                            })
+                        }
                     />
 
                     <ToggleControl
-                        label={__("Enable Link for Heading?", "essential-blocks")}
+                        label={__(
+                            "Enable Link for Heading?",
+                            "essential-blocks",
+                        )}
                         checked={enableLink}
                         onChange={(enableLink) => setAttributes({ enableLink })}
                     />
 
-                    {source === 'custom' && enableLink && (
+                    {source === "custom" && enableLink && (
                         <>
                             <DynamicInputControl
-                                label={__(
-                                    "Link",
-                                    "essential-blocks"
-                                )}
+                                label={__("Link", "essential-blocks")}
                                 attrName="titleLink"
                                 inputValue={titleLink}
-                                setAttributes={
-                                    setAttributes
-                                }
+                                setAttributes={setAttributes}
                                 onChange={(link) =>
+                                    !isInLoopBuilder &&
                                     setAttributes({
                                         titleLink: link,
                                     })
                                 }
-                                onBlur={(link) => onUrlBlur(link)}
-                                help={__("Use http:// or https://", "essential-blocks")}
+                                // onBlur={(link) => onUrlBlur(link)}
+                                help={__(
+                                    "Use http:// or https://",
+                                    "essential-blocks",
+                                )}
                                 enableAi={false}
+                                fieldType="url"
+                                showValidation={true}
+                                enableSecurity={true}
                             />
-                            {urlError && <span className="eb-alert-error">{urlError}</span>}
+                            {urlError && (
+                                <span className="eb-alert-error">
+                                    {urlError}
+                                </span>
+                            )}
                         </>
                     )}
                     {enableLink && (
                         <ToggleControl
-                            label={__("Link open in New Tab", "essential-blocks")}
+                            label={__(
+                                "Link open in New Tab",
+                                "essential-blocks",
+                            )}
                             checked={openInNewTab}
                             onChange={(openInNewTab) =>
                                 setAttributes({
@@ -419,7 +497,10 @@ function Inspector(props) {
                 </PanelBody>
             </InspectorPanel.General>
             <InspectorPanel.Style>
-                <PanelBody title={__("Title", "essential-blocks")} initialOpen={true}>
+                <PanelBody
+                    title={__("Title", "essential-blocks")}
+                    initialOpen={true}
+                >
                     <PanelRow className="separator">First Heading</PanelRow>
                     <TypographyDropdown
                         baseLabel={__("Typography", "essential-blocks")}
@@ -428,13 +509,13 @@ function Inspector(props) {
                     <ColorControl
                         label={__("Text Color", "essential-blocks")}
                         color={titleColor}
-                        attributeName={'titleColor'}
+                        attributeName={"titleColor"}
                         isGradient={true}
                     />
                     <ColorControl
                         label={__("Hover Text Color", "essential-blocks")}
                         color={titleHoverColor}
-                        attributeName={'titleHoverColor'}
+                        attributeName={"titleHoverColor"}
                         isGradient={true}
                     />
 
@@ -442,30 +523,33 @@ function Inspector(props) {
                         <ColorControl
                             label={__("Background Color", "essential-blocks")}
                             color={titleBgColor}
-                            attributeName={'titleBgColor'}
+                            attributeName={"titleBgColor"}
                             isGradient={true}
                         />
                     )}
 
                     {!isGradientColor(titleHoverColor) && (
                         <ColorControl
-                            label={__("Hover Background Color", "essential-blocks")}
+                            label={__(
+                                "Hover Background Color",
+                                "essential-blocks",
+                            )}
                             color={titleHoverBgColor}
-                            attributeName={'titleHoverBgColor'}
+                            attributeName={"titleHoverBgColor"}
                             isGradient={true}
                         />
                     )}
 
-                    < ResponsiveDimensionsControl
+                    <ResponsiveDimensionsControl
                         controlName={TITLE1_PADDING}
                         baseLabel="Padding"
                     />
-                    <BorderShadowControl
-                        controlName={TITLE1_BORDER_SHADOW}
-                    />
+                    <BorderShadowControl controlName={TITLE1_BORDER_SHADOW} />
                     {title2Text && title2Text.length > 0 && (
                         <>
-                            <PanelRow className="separator">Second Heading</PanelRow>
+                            <PanelRow className="separator">
+                                Second Heading
+                            </PanelRow>
                             <TypographyDropdown
                                 baseLabel={__("Typography", "essential-blocks")}
                                 typographyPrefixConstant={TITLE2_TYPOGRAPHY}
@@ -473,29 +557,38 @@ function Inspector(props) {
                             <ColorControl
                                 label={__("Text Color", "essential-blocks")}
                                 color={title2Color}
-                                attributeName={'title2Color'}
+                                attributeName={"title2Color"}
                                 isGradient={true}
                             />
                             <ColorControl
-                                label={__("Hover Text Color", "essential-blocks")}
+                                label={__(
+                                    "Hover Text Color",
+                                    "essential-blocks",
+                                )}
                                 color={title2HoverColor}
-                                attributeName={'title2HoverColor'}
+                                attributeName={"title2HoverColor"}
                                 isGradient={true}
                             />
 
                             {!isGradientColor(title2Color) && (
                                 <ColorControl
-                                    label={__("Background Color", "essential-blocks")}
+                                    label={__(
+                                        "Background Color",
+                                        "essential-blocks",
+                                    )}
                                     color={title2BgColor}
-                                    attributeName={'title2BgColor'}
+                                    attributeName={"title2BgColor"}
                                     isGradient={true}
                                 />
                             )}
                             {!isGradientColor(title2HoverColor) && (
                                 <ColorControl
-                                    label={__("Hover Background Color", "essential-blocks")}
+                                    label={__(
+                                        "Hover Background Color",
+                                        "essential-blocks",
+                                    )}
                                     color={title2HoverBgColor}
-                                    attributeName={'title2HoverBgColor'}
+                                    attributeName={"title2HoverBgColor"}
                                     isGradient={true}
                                 />
                             )}
@@ -511,7 +604,9 @@ function Inspector(props) {
                     )}
                     {title3Text && title3Text.length > 0 && (
                         <>
-                            <PanelRow className="separator">Third Heading</PanelRow>
+                            <PanelRow className="separator">
+                                Third Heading
+                            </PanelRow>
                             <TypographyDropdown
                                 baseLabel={__("Typography", "essential-blocks")}
                                 typographyPrefixConstant={TITLE3_TYPOGRAPHY}
@@ -519,29 +614,38 @@ function Inspector(props) {
                             <ColorControl
                                 label={__("Text Color", "essential-blocks")}
                                 color={title3Color}
-                                attributeName={'title3Color'}
+                                attributeName={"title3Color"}
                                 isGradient={true}
                             />
                             <ColorControl
-                                label={__("Hover Text Color", "essential-blocks")}
+                                label={__(
+                                    "Hover Text Color",
+                                    "essential-blocks",
+                                )}
                                 color={title3HoverColor}
-                                attributeName={'title3HoverColor'}
+                                attributeName={"title3HoverColor"}
                                 isGradient={true}
                             />
 
                             {!isGradientColor(title3Color) && (
                                 <ColorControl
-                                    label={__("Background Color", "essential-blocks")}
+                                    label={__(
+                                        "Background Color",
+                                        "essential-blocks",
+                                    )}
                                     color={title3BgColor}
-                                    attributeName={'title3BgColor'}
+                                    attributeName={"title3BgColor"}
                                     isGradient={true}
                                 />
                             )}
                             {!isGradientColor(title3HoverColor) && (
                                 <ColorControl
-                                    label={__("Hover Background Color", "essential-blocks")}
+                                    label={__(
+                                        "Hover Background Color",
+                                        "essential-blocks",
+                                    )}
                                     color={title3HoverBgColor}
-                                    attributeName={'title3HoverBgColor'}
+                                    attributeName={"title3HoverBgColor"}
                                     isGradient={true}
                                 />
                             )}
@@ -560,8 +664,11 @@ function Inspector(props) {
                         baseLabel="Margin"
                     />
                 </PanelBody>
-                {source == 'custom' && displaySubtitle && (
-                    <PanelBody title={__("Subtitle", "essential-blocks")} initialOpen={false}>
+                {source == "custom" && displaySubtitle && (
+                    <PanelBody
+                        title={__("Subtitle", "essential-blocks")}
+                        initialOpen={false}
+                    >
                         <TypographyDropdown
                             baseLabel={__("Typography", "essential-blocks")}
                             typographyPrefixConstant={SUBTITLE_TYPOGRAPHY}
@@ -570,12 +677,15 @@ function Inspector(props) {
                         <ColorControl
                             label={__("Subtitle Color", "essential-blocks")}
                             color={subtitleColor}
-                            attributeName={'subtitleColor'}
+                            attributeName={"subtitleColor"}
                         />
                         <ColorControl
-                            label={__("Subtitle Hover Color", "essential-blocks")}
+                            label={__(
+                                "Subtitle Hover Color",
+                                "essential-blocks",
+                            )}
                             color={subtitleHoverColor}
-                            attributeName={'subtitleHoverColor'}
+                            attributeName={"subtitleHoverColor"}
                         />
 
                         <ResponsiveDimensionsControl
@@ -585,12 +695,17 @@ function Inspector(props) {
                     </PanelBody>
                 )}
                 {displaySeperator && (
-                    <PanelBody title={__("Separator", "essential-blocks")} initialOpen={false}>
+                    <PanelBody
+                        title={__("Separator", "essential-blocks")}
+                        initialOpen={false}
+                    >
                         <SelectControl
                             label={__("Separator Position", "essential-blocks")}
                             value={seperatorPosition}
                             options={SEPARATOR_POSITION}
-                            onChange={(seperatorPosition) => setAttributes({ seperatorPosition })}
+                            onChange={(seperatorPosition) =>
+                                setAttributes({ seperatorPosition })
+                            }
                         />
                         <BaseControl
                             label={__("Separator Type", "essential-blocks")}
@@ -602,7 +717,9 @@ function Inspector(props) {
                                         key={key}
                                         // isLarge
                                         isPrimary={seperatorType === item.value}
-                                        isSecondary={seperatorType !== item.value}
+                                        isSecondary={
+                                            seperatorType !== item.value
+                                        }
                                         onClick={() =>
                                             setAttributes({
                                                 seperatorType: item.value,
@@ -618,13 +735,21 @@ function Inspector(props) {
                         {seperatorType === "line" && (
                             <>
                                 <SelectControl
-                                    label={__("Separator Style", "essential-blocks")}
+                                    label={__(
+                                        "Separator Style",
+                                        "essential-blocks",
+                                    )}
                                     value={seperatorStyle}
                                     options={SEPERATOR_STYLES}
-                                    onChange={(seperatorStyle) => setAttributes({ seperatorStyle })}
+                                    onChange={(seperatorStyle) =>
+                                        setAttributes({ seperatorStyle })
+                                    }
                                 />
                                 <ResponsiveRangeController
-                                    baseLabel={__("Separator Height", "essential-blocks")}
+                                    baseLabel={__(
+                                        "Separator Height",
+                                        "essential-blocks",
+                                    )}
                                     controlName={SEPARATOR_LINE_SIZE}
                                     units={UNIT_TYPES}
                                     min={0}
@@ -638,10 +763,13 @@ function Inspector(props) {
                             <>
                                 <EBIconPicker
                                     value={separatorIcon}
-                                    attributeName={'separatorIcon'}
+                                    attributeName={"separatorIcon"}
                                 />
                                 <ResponsiveRangeController
-                                    baseLabel={__("Icon Size", "essential-blocks")}
+                                    baseLabel={__(
+                                        "Icon Size",
+                                        "essential-blocks",
+                                    )}
                                     controlName={SEPARATOR_ICON_SIZE}
                                     units={UNIT_TYPES}
                                     min={0}
@@ -651,7 +779,10 @@ function Inspector(props) {
                             </>
                         )}
                         <ResponsiveRangeController
-                            baseLabel={__("Separator Width", "essential-blocks")}
+                            baseLabel={__(
+                                "Separator Width",
+                                "essential-blocks",
+                            )}
                             controlName={SEPARATOR_WIDTH}
                             units={SEPARATOR_UNIT_TYPES}
                             min={0}
@@ -662,13 +793,16 @@ function Inspector(props) {
                         <ColorControl
                             label={__("Separator Color", "essential-blocks")}
                             color={separatorColor}
-                            attributeName={'separatorColor'}
+                            attributeName={"separatorColor"}
                             isGradient={true}
                         />
                         <ColorControl
-                            label={__("Separator Hover Color", "essential-blocks")}
+                            label={__(
+                                "Separator Hover Color",
+                                "essential-blocks",
+                            )}
                             color={separatorHoverColor}
-                            attributeName={'separatorHoverColor'}
+                            attributeName={"separatorHoverColor"}
                             isGradient={true}
                         />
 

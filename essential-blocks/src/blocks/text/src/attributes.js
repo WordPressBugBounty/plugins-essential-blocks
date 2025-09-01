@@ -58,6 +58,18 @@ const attributes = {
         type: "string",
         default: "custom"
     },
+    currentPostId: {
+        type: "number",
+        default: 0
+    },
+    currentPostType: {
+        type: "string",
+        default: "post"
+    },
+    excerptLength: {
+        type: "number",
+        default: 20
+    },
     columnRuleColor: {
         type: "string",
         default: "var(--eb-global-text-color)"
