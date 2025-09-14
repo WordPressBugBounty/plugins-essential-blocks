@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.6.3
+Stable tag: 5.6.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -260,6 +260,11 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 5.6.4 - 14/09/2025 =
+- Fixed: Accordion | Performance improvements
+- Few minor bug fixes & improvements
+
+
 = 5.6.3 - 01/09/2025 =
 - Fixed: Color Control | Color automatically reset to default color
 - Fixed: Accordion | Performance improvements

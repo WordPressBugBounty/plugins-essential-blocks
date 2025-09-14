@@ -33,7 +33,7 @@ use EssentialBlocks\Integrations\BlockUsage;
 final class Plugin
 {
     use HasSingletone;
-                                                        public $version = '5.6.3';
+                                                                public $version = '5.6.4';
 
     public $admin;
     /**
