@@ -341,7 +341,23 @@ class Form extends ThirdPartyIntegration
             } else {
                 $updated_fields[ $index ] = $this->sanitize_field( $type, $fields[ $index ] );
             }
+
+            // Handle phone field country data
+            if ( $type === 'phone' && isset( $fields[ $index . '_country' ] ) ) {
+                $updated_fields[ $index . '_country' ] = $this->sanitize_field( 'text', $fields[ $index . '_country' ] );
+            }
         }
+
+        // Handle any remaining fields that weren't in settings (like phone country fields)
+        foreach ( $fields as $field_name => $field_value ) {
+            if ( ! isset( $updated_fields[ $field_name ] ) ) {
+                // Check if this is a phone country field
+                if ( strpos( $field_name, '_country' ) !== false ) {
+                    $updated_fields[ $field_name ] = $this->sanitize_field( 'text', $field_value );
+                }
+            }
+        }
+
         return $updated_fields;
     }
 
@@ -466,7 +482,7 @@ class Form extends ThirdPartyIntegration
                         }
                     }
 
-                    apply_filters( 'eb_form_data_validation', $validation, $datarules, $data, $index );
+                    $validation = apply_filters( 'eb_form_data_validation', $validation, $datarules, $data, $index, $formdata );
                 }
             }
         }

@@ -31,6 +31,7 @@ abstract class Block
     protected $editor_styles    = [];
     protected $animation_script = 'essential-blocks-eb-animation';
     protected $animation_style  = 'essential-blocks-animation';
+    protected $liquid_glass_style  = 'essential-blocks-liquid-glass';
 
     protected $frontend_styles  = [];
     protected $frontend_scripts = [];
@@ -87,6 +88,7 @@ abstract class Block
     {
         // Enqueue Animation
         wp_enqueue_style($this->animation_style);
+        wp_enqueue_style($this->liquid_glass_style);
 
         $frontend_styles = $this->frontend_styles;
 

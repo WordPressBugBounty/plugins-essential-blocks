@@ -28,7 +28,7 @@ import { times } from "lodash";
 import Style from "./style";
 import defaultAttributes from "./attributes";
 import AccordionIcon from "./icon";
-import { Templates } from "./templates/templates";
+import Templates from '../../../../patterns/accordion.json'
 
 const Edit = (props) => {
     const { attributes, setAttributes, isSelected, clientId } = props;
@@ -307,7 +307,7 @@ const Edit = (props) => {
     };
 
     useEffect(() => {
-        
+
         if (innerBlocksRef.current.length === innerBlocks.length) {
             return;
         }
@@ -455,8 +455,8 @@ const Edit = (props) => {
         accordionType === "image"
             ? " eb-accordion-type-image"
             : accordionType === "horizontal"
-            ? " eb-accordion-type-horizontal"
-            : "";
+                ? " eb-accordion-type-horizontal"
+                : "";
     const orientationClass =
         accordionType === "horizontal"
             ? titleOrientation === "bottom-top"

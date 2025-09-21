@@ -21,6 +21,7 @@ import {
     listPadding,
     badgePadding,
     badgeBorder,
+    iconLiquidGlassShadowEffectBorder,
 } from "./constants";
 
 import {
@@ -38,6 +39,7 @@ import {
     generateResponsiveRangeStyles,
     StyleComponent,
 } from "@essential-blocks/controls";
+import { applyFilters } from "@wordpress/hooks";
 
 export default function Style(props) {
     const { attributes, setAttributes, name } = props;
@@ -64,6 +66,7 @@ export default function Style(props) {
         connectorColor,
         classHook,
         useInlineDesign,
+        iconLiquidGlass,
         designItemBox,
         badgeTextColor,
         badgeBackgroundColor,
@@ -305,6 +308,14 @@ export default function Style(props) {
         transitionStyle: wrapperBorderTransitionStyle,
     } = generateBorderShadowStyles({
         controlName: wrapperBorder,
+        attributes,
+    });
+    const {
+        styesDesktop: iconLiquidGlassShadowEffectBorderStylesDesktop,
+        styesTab: iconLiquidGlassShadowEffectBorderStylesTab,
+        styesMobile: iconLiquidGlassShadowEffectBorderStylesMobile,
+    } = generateBorderShadowStyles({
+        controlName: iconLiquidGlassShadowEffectBorder,
         attributes,
     });
 
@@ -835,9 +846,33 @@ export default function Style(props) {
         }
 	 `;
 
+    const liquidGlassBasicStyles = `
+        ${iconLiquidGlass.enable ? `
+         .${blockId}.eb-feature-list-wrapper .eb-feature-list-items .eb-feature-list-icon-box .eb-feature-list-icon-inner.eb_liquid_glass_shadow-${iconLiquidGlass.shadowEffect} {
+             ${iconLiquidGlassShadowEffectBorderStylesDesktop}
+         }
+        .${blockId}.eb-feature-list-wrapper .eb-feature-list-items .eb-feature-list-icon-box .eb-feature-list-icon-inner.eb_liquid_glass-${iconLiquidGlass.effect}{
+             background-color: ${iconLiquidGlass.backgroundColor};
+             ${iconLiquidGlass.effect === "effect1" ||
+                iconLiquidGlass.effect === "effect2"
+                ? `backdrop-filter: blur(${iconLiquidGlass.backdropFilter}px)${iconLiquidGlass.effect === "effect2"
+                    ? ` brightness(${iconLiquidGlass.brightness})`
+                    : ""
+                };`
+                : ""
+            }
+         }
+        ` : ""}
+    `;
+
+    // Apply filter for pro liquid glass styles
+    const liquidGlassProStyles = applyFilters("eb_liquid_glass_effect_pro_style", attributes, "iconLiquidGlass", `.${blockId}.eb-feature-list-wrapper .eb-feature-list-items .eb-feature-list-icon-box .eb-feature-list-icon-inner`);
+
     // all css styles for large screen width (desktop/laptop) in strings ⬇
     const desktopAllStyles = softMinifyCssStrings(`
 		   ${desktopStyles}
+		   ${liquidGlassBasicStyles}
+		   ${liquidGlassProStyles}
 	   `);
 
     // all css styles for Tab in strings ⬇

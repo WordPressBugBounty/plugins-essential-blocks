@@ -32,7 +32,7 @@ import {
 
 import { NotFoundImg, gridGapCal } from './helpers';
 import { UserPlaceholder } from "./icon";
-import { Templates } from './templates/templates';
+import Templates from '../../../../patterns/image-gallery.json'
 import { ReactComponent as Icon } from "./icon.svg";
 
 function Edit(props) {
@@ -476,16 +476,10 @@ function Edit(props) {
                                         <ToolbarItem>
                                             {() => (
                                                 <MediaUpload
-                                                    value={sources.map((img) => img.id)}
-                                                    onSelect={(...sources) => {
-                                                        const newImages = sources[0]
-                                                        const mergedArray = new Map(sources.map(item => [item.id, item]));
-                                                        newImages.forEach(item => {
-                                                            const correspondingItem = mergedArray.get(item.id);
-                                                            if (correspondingItem) {
-                                                                Object.assign(item, correspondingItem);
-                                                            }
-                                                        });
+                                                    key={blockId || props.clientId}
+                                                    value={(sources || []).filter((img) => img && img.url && img.url !== UserPlaceholder && typeof img.id === "number").map((img) => img.id)}
+                                                    onSelect={(selectedImages) => {
+                                                        const newImages = Array.isArray(selectedImages) ? selectedImages : [selectedImages];
                                                         onImageChange(newImages);
                                                     }}
                                                     allowedTypes={["image"]}

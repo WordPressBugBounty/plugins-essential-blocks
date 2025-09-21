@@ -27,6 +27,8 @@ import {
     COLUMNWIDTH,
     COLUMNRULEWIDTH,
     COLUMNRULESTYLE,
+    TEXT_MARGIN,
+    TEXT_PADDING,
 } from "./constants/constants";
 import { TEXT_TYPOGRAPHY } from "./constants/typographyPrefixConstants";
 import {
@@ -58,11 +60,11 @@ function Inspector(props) {
     // Check if block is inside Loop Builder context
     const isInLoopBuilder = Boolean(
         context &&
-            // Primary check: explicit isLoopBuilder flag
-            (context["essential-blocks/isLoopBuilder"] === true ||
-                // Secondary check: presence of loop context values (even if null initially)
-                (context.hasOwnProperty("essential-blocks/postId") &&
-                    context.hasOwnProperty("essential-blocks/postType"))),
+        // Primary check: explicit isLoopBuilder flag
+        (context["essential-blocks/isLoopBuilder"] === true ||
+            // Secondary check: presence of loop context values (even if null initially)
+            (context.hasOwnProperty("essential-blocks/postId") &&
+                context.hasOwnProperty("essential-blocks/postType"))),
     );
 
     return (
@@ -80,18 +82,20 @@ function Inspector(props) {
                     title={__("General", "essential-blocks")}
                     initialOpen={true}
                 >
-                    {!isInLoopBuilder && (
-                        <SelectControl
-                            label={__("Source", "essential-blocks")}
-                            value={source}
-                            options={SOURCE}
-                            onChange={(source) => setAttributes({ source })}
-                            help={
-                                source === "dynamic-content" &&
-                                "Dynamic content will be displayed only within the Single Template."
-                            }
-                        />
-                    )}
+                    {
+                        !isInLoopBuilder && (
+                            <SelectControl
+                                label={__("Source", "essential-blocks")}
+                                value={source}
+                                options={SOURCE}
+                                onChange={(source) => setAttributes({ source })}
+                                help={
+                                    source === "dynamic-content" &&
+                                    "Dynamic content will be displayed only within the Single Template."
+                                }
+                            />
+                        )
+                    }
 
                     <BaseControl
                         label={__("Alignment", "essential-blocks")}
@@ -115,78 +119,84 @@ function Inspector(props) {
                             ))}
                         </ButtonGroup>
                     </BaseControl>
-                    {source !== "dynamic-content" && (
-                        <BaseControl
-                            label={__("Tag", "essential-blocks")}
-                            id="eb-advance-heading-alignment"
-                        >
-                            <ButtonGroup className="eb-advance-heading-alignment eb-html-tag-buttongroup">
-                                {HEADING.map((item, key) => (
-                                    <Button
-                                        key={key}
-                                        // isLarge
-                                        isPrimary={tagName === item.value}
-                                        isSecondary={tagName !== item.value}
-                                        onClick={() =>
-                                            setAttributes({
-                                                tagName: item.value,
-                                            })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Button>
-                                ))}
-                            </ButtonGroup>
-                        </BaseControl>
-                    )}
+                    {
+                        source !== "dynamic-content" && (
+                            <BaseControl
+                                label={__("Tag", "essential-blocks")}
+                                id="eb-advance-heading-alignment"
+                            >
+                                <ButtonGroup className="eb-advance-heading-alignment eb-html-tag-buttongroup">
+                                    {HEADING.map((item, key) => (
+                                        <Button
+                                            key={key}
+                                            // isLarge
+                                            isPrimary={tagName === item.value}
+                                            isSecondary={tagName !== item.value}
+                                            onClick={() =>
+                                                setAttributes({
+                                                    tagName: item.value,
+                                                })
+                                            }
+                                        >
+                                            {item.label}
+                                        </Button>
+                                    ))}
+                                </ButtonGroup>
+                            </BaseControl>
+                        )
+                    }
 
-                    {source === "custom" && (
-                        <>
-                            <DynamicInputControl
-                                label="Title Text"
-                                attrName="text"
-                                inputValue={text}
-                                setAttributes={setAttributes}
-                                onChange={(text) =>
-                                    setAttributes({ text: text })
-                                }
-                            />
-                        </>
-                    )}
+                    {
+                        source === "custom" && (
+                            <>
+                                <DynamicInputControl
+                                    label="Title Text"
+                                    attrName="text"
+                                    inputValue={text}
+                                    setAttributes={setAttributes}
+                                    onChange={(text) =>
+                                        setAttributes({ text: text })
+                                    }
+                                />
+                            </>
+                        )
+                    }
 
-                    {source !== "dynamic-content" && (
-                        <>
-                            <ResponsiveRangeController
-                                baseLabel={__(
-                                    "Column Count",
-                                    "essential-blocks",
-                                )}
-                                controlName={COLUMNCOUNT}
-                                min={0}
-                                max={10}
-                                step={1}
-                                noUnits
-                            />
-                            {isInLoopBuilder &&
-                                source === "dynamic-excerpt" && (
-                                    <RangeControl
-                                        label={__(
-                                            "Excerpt Length (words)",
-                                            "essential-blocks",
-                                        )}
-                                        value={excerptLength}
-                                        onChange={(excerptLength) =>
-                                            setAttributes({ excerptLength })
-                                        }
-                                        min={1}
-                                        max={200}
-                                        step={1}
-                                    />
-                                )}
-                        </>
-                    )}
-                </InspectorPanel.PanelBody>
-            </InspectorPanel.General>
+                    {
+                        source !== "dynamic-content" && (
+                            <>
+                                <ResponsiveRangeController
+                                    baseLabel={__(
+                                        "Column Count",
+                                        "essential-blocks",
+                                    )}
+                                    controlName={COLUMNCOUNT}
+                                    min={0}
+                                    max={10}
+                                    step={1}
+                                    noUnits
+                                />
+                                {isInLoopBuilder &&
+                                    source === "dynamic-excerpt" && (
+                                        <RangeControl
+                                            label={__(
+                                                "Excerpt Length (words)",
+                                                "essential-blocks",
+                                            )}
+                                            value={excerptLength}
+                                            onChange={(excerptLength) =>
+                                                setAttributes({ excerptLength })
+                                            }
+                                            min={1}
+                                            max={200}
+                                            step={1}
+                                        />
+                                    )}
+                            </>
+                        )
+                    }
+                </InspectorPanel.PanelBody >
+            </InspectorPanel.General >
             <InspectorPanel.Style>
                 {source !== "dynamic-content" && (
                     <>
@@ -268,6 +278,19 @@ function Inspector(props) {
                                 </>
                             )}
                         </InspectorPanel.PanelBody>
+                        <InspectorPanel.PanelBody
+                            title={__("Margin & Padding", "essential-blocks")}
+                            initialOpen={false}
+                        >
+                            <ResponsiveDimensionsControl
+                                controlName={TEXT_MARGIN}
+                                baseLabel={__("Margin", "essential-blocks")}
+                            />
+                            <ResponsiveDimensionsControl
+                                controlName={TEXT_PADDING}
+                                baseLabel={__("Padding", "essential-blocks")}
+                            />
+                        </InspectorPanel.PanelBody>
                     </>
                 )}
                 {source === "dynamic-content" && (
@@ -277,7 +300,7 @@ function Inspector(props) {
                     </p>
                 )}
             </InspectorPanel.Style>
-        </InspectorPanel>
+        </InspectorPanel >
     );
 }
 

@@ -3,6 +3,7 @@
  */
 import { __ } from "@wordpress/i18n";
 import { useEffect, memo } from "@wordpress/element";
+import { applyFilters } from "@wordpress/hooks";
 /**
  * Internal dependencies
  */
@@ -31,6 +32,7 @@ const Edit = (props) => {
         connectorStyle,
         classHook,
         useInlineDesign,
+        iconLiquidGlass
     } = attributes;
 
     // const setAttributes = useBlockSetAttributes();
@@ -129,7 +131,8 @@ const Edit = (props) => {
                                         >
                                             {iconType !== "none" && (
                                                 <div className="eb-feature-list-icon-box">
-                                                    <div className="eb-feature-list-icon-inner">
+                                                    <div className={`eb-feature-list-icon-inner ${iconLiquidGlass.enable ? 'eb_liquid_glass-' + iconLiquidGlass.effect + ' ' + 'eb_liquid_glass_shadow-' + iconLiquidGlass.shadowEffect : ''}`}>
+                                                        {applyFilters("eb_liquid_glass_effect_pro_content", "", attributes, "iconLiquidGlass")}
                                                         <span
                                                             className="eb-feature-list-icon"
                                                             style={iconStyle}

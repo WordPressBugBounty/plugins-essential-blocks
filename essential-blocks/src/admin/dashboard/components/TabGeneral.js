@@ -277,12 +277,54 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.6.4", "essential-blocks")}
+                                    {__("Version: 5.7.0", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("14/09/2025", "essential-blocks")}
+                                        {__("21/09/2025", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
+                                    <li>
+                                        {__(
+                                            "Added: Liquid Glass Effect",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Added: Block Patterns | 70+ block patterns",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Added: Text | Spacing options",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Filterable Gallery | Showing pre-selected image on blank gallery",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Image Comparison | Compatibility issue in vertical mode",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Security enhancements",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
                                     <li>
                                         {__(
                                             "Few minor bug fixes & improvements",

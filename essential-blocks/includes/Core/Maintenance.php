@@ -2,7 +2,6 @@
 
 namespace EssentialBlocks\Core;
 
-use EssentialBlocks\Core\BlocksPatterns;
 use EssentialBlocks\Modules\StyleHandler;
 use EssentialBlocks\Traits\HasSingletone;
 
@@ -29,7 +28,6 @@ class Maintenance
         if ( $requires_update ) {
             // Version Updated in DB.
             $this->update_version();
-            BlocksPatterns::get_instance()->update_cache();
 
             if ( get_option( 'essential_blocks_user_type' ) !== 'new' ) {
                 update_option( 'essential_blocks_user_type', 'old' );

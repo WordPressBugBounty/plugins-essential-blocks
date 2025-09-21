@@ -582,7 +582,7 @@ class Admin
         if ( ! isset( $_POST[ 'admin_nonce' ] ) || ! wp_verify_nonce( sanitize_key( $_POST[ 'admin_nonce' ] ), 'admin-nonce' ) ) {
             wp_send_json_error( __( 'Nonce Error', 'essential-blocks' ) );
         }
-        if ( ! current_user_can( 'edit_posts' ) ) {
+        if ( ! current_user_can( 'activate_plugins' ) ) {
             wp_send_json_error( __( 'You are not authorized to save this!', 'essential-blocks' ) );
         }
 
@@ -1047,7 +1047,7 @@ class Admin
         $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
 
         $message_template = __(
-            "<p><i>📣</i> Introducing Loop Builder in Essential Blocks Pro <strong>v2.4.0</strong> - Effortlessly design dynamic post and content loops with the brand-new Loop Builder block for more flexible layouts.! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
+            "<p><i>📣</i> Introducing Liquid Glass Effect in Essential Blocks <strong>v5.7.0</strong> - Transform your designs with stunning liquid glass visual effects and advanced styling options! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
             "essential-blocks"
         );
 

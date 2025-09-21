@@ -29,11 +29,12 @@ use EssentialBlocks\Integrations\PluginInstaller;
 use EssentialBlocks\Utils\SvgSanitizer;
 use EssentialBlocks\Admin\QuickSetup;
 use EssentialBlocks\Integrations\BlockUsage;
+use EssentialBlocks\Utils\LiquidGlassRenderer;
 
 final class Plugin
 {
     use HasSingletone;
-                                                                public $version = '5.6.4';
+                                public $version = '5.7.0';
 
     public $admin;
     /**
@@ -82,6 +83,9 @@ final class Plugin
         Scripts::get_instance();
 
         FontLoader::get_instance( 'essential-blocks' );
+
+        // Liquid Glass Effect Global SVG Renderer
+        LiquidGlassRenderer::get_instance();
 
         // Templates
         PageTemplates::get_instance();

@@ -1,5 +1,6 @@
 
 import { EBDisplayIcon, sanitizeURL, BlockProps } from "@essential-blocks/controls";
+import { applyFilters } from "@wordpress/hooks";
 
 const Save = ({ attributes }) => {
     const {
@@ -13,6 +14,7 @@ const Save = ({ attributes }) => {
         connectorStyle,
         classHook,
         useInlineDesign,
+        iconLiquidGlass,
     } = attributes;
 
     const featureListAlignClass =
@@ -93,7 +95,8 @@ const Save = ({ attributes }) => {
                                     >
                                         {iconType !== "none" && (
                                             <div className="eb-feature-list-icon-box">
-                                                <div className="eb-feature-list-icon-inner">
+                                                <div className={`eb-feature-list-icon-inner ${iconLiquidGlass.enable ? 'eb_liquid_glass-' + iconLiquidGlass.effect + ' ' + 'eb_liquid_glass_shadow-' + iconLiquidGlass.shadowEffect : ''}`}>
+                                                    {applyFilters("eb_liquid_glass_effect_pro_content", "", attributes, "iconLiquidGlass")}
                                                     <span
                                                         className="eb-feature-list-icon"
                                                         style={iconStyle}

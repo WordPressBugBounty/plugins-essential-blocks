@@ -48,6 +48,7 @@ import {
     listPadding,
     badgePadding,
     badgeBorder,
+    iconLiquidGlassShadowEffectBorder,
 } from "./constants";
 
 import {
@@ -67,6 +68,7 @@ import {
     SortControl,
     ImageComponent,
     EBIconPicker,
+    LiquidGlassEffectControl,
     EBTextControl,
 } from "@essential-blocks/controls";
 import { RangeControl } from "@wordpress/components";
@@ -89,6 +91,7 @@ const Inspector = ({ attributes, setAttributes }) => {
         titleTextHoverColor,
         useInlineDesign,
         featureListAlign,
+        iconLiquidGlass,
         designItemBox,
         badgeTextColor,
         badgeBackgroundColor,
@@ -402,8 +405,21 @@ const Inspector = ({ attributes, setAttributes }) => {
                             }}
                         />
                     )}
-                </InspectorPanel.PanelBody>
-            </InspectorPanel.General>
+
+                    <ToggleControl
+                        label={__("Icon Liquid Glass Effect", "essentail-blocks")}
+                        checked={iconLiquidGlass.enable}
+                        onChange={() => {
+                            setAttributes({
+                                iconLiquidGlass: {
+                                    ...iconLiquidGlass,
+                                    enable: !iconLiquidGlass.enable
+                                }
+                            });
+                        }}
+                    />
+                </InspectorPanel.PanelBody >
+            </InspectorPanel.General >
             <InspectorPanel.Style>
                 <InspectorPanel.PanelBody
                     title={__("List", "essential-blocks")}
@@ -512,6 +528,14 @@ const Inspector = ({ attributes, setAttributes }) => {
                         />
                     )}
                 </InspectorPanel.PanelBody>
+                {iconLiquidGlass.enable && (
+                    <InspectorPanel.PanelBody
+                        title={__("Icon Liquid Glass", "essential-blocks")}
+                        initialOpen={false}
+                    >
+                        <LiquidGlassEffectControl attributeName="iconLiquidGlass" shadowAttributeName="iconLiquidGlassShadowEffectBorder" />
+                    </InspectorPanel.PanelBody>
+                )}
                 <InspectorPanel.PanelBody
                     title={__("Content", "essential-blocks")}
                     initialOpen={false}
@@ -676,7 +700,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     </>
                 )}
             </InspectorPanel.Style>
-        </InspectorPanel>
+        </InspectorPanel >
     );
 };
 

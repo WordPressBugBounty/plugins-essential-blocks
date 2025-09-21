@@ -10,7 +10,7 @@ import { Button } from "@wordpress/components";
  */
 import Inspector from "./inspector";
 import { ReactComponent as Icon } from "./icon.svg";
-import { Templates } from './templates/templates';
+import Templates from '../../../../patterns/testimonial.json'
 import defaultAttributes from './attributes';
 
 import {

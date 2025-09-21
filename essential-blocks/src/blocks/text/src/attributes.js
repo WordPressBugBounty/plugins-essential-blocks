@@ -6,7 +6,9 @@ import {
     COLUMNCOUNT,
     COLUMNGAP,
     COLUMNWIDTH,
-    COLUMNRULEWIDTH
+    COLUMNRULEWIDTH,
+    TEXT_MARGIN,
+    TEXT_PADDING,
 } from "./constants/constants";
 
 import {
@@ -116,7 +118,9 @@ const attributes = {
     // background attributes ⬇
     ...generateBackgroundAttributes(WRAPPER_BG, {
         defaultBgGradient: "linear-gradient(45deg,#ffffff,#ffffff)",
-    })
+    }),
+    ...generateDimensionsAttributes(TEXT_MARGIN),
+    ...generateDimensionsAttributes(TEXT_PADDING),
 };
 
 export default attributes;

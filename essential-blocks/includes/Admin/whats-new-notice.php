@@ -2,11 +2,11 @@
     if ( ! defined( 'ABSPATH' ) ) {
         exit;
     }
-    $title       = esc_html__( 'Meet the New Loop Builder Block', 'essential-blocks' );
-    $description = esc_html__( 'Easily create custom post grids, product layouts, and dynamic loops directly in Gutenberg with our new Loop Builder block.', 'essential-blocks' );
+    $title       = esc_html__( 'New Liquid Glass Effect Feature', 'essential-blocks' );
+    $description = esc_html__( 'Give your website a sleek, futuristic feel with stunning glass effects', 'essential-blocks' );
     $learn_more  = esc_html__( 'Learn More', 'essential-blocks' );
     $dismiss     = esc_html__( 'Dismiss', 'essential-blocks' );
-    $doc_url     = esc_url( 'https://essential-blocks.com/docs/eb-loop-builder/' );
+    $doc_url     = esc_url( 'https://essential-blocks.com/docs/eb-liquid-glass-effect/' );
 ?>
 
 <script type="text/javascript">

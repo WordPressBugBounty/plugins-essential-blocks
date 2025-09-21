@@ -1,7 +1,7 @@
 import {
     typoPrefix_title,
     typoPrefix_content,
-    typoPrefix_badge
+    typoPrefix_badge,
 } from "./constants/typographyPrefixConstants";
 import {
     generateTypographyAttributes,
@@ -33,6 +33,7 @@ import {
     listPadding,
     badgePadding,
     badgeBorder,
+    iconLiquidGlassShadowEffectBorder,
 } from "./constants";
 
 const attributes = {
@@ -246,6 +247,7 @@ const attributes = {
         type: "boolean",
         default: false,
     },
+
     designItemBox: {
         type: "boolean",
         default: false,
@@ -262,6 +264,18 @@ const attributes = {
     badgeGap: {
         type: "number",
         default: 5,
+    },
+
+    iconLiquidGlass: {
+        type: "object",
+        default: {
+            enable: false,
+            effect: "effect1",
+            shadowEffect: "effect1",
+            backgroundColor: "#FFFFFF1F",
+            backdropFilter: 24,
+            brightness: 1,
+        },
     },
 
     ...generateResponsiveRangeAttributes(connectorWidth, {
@@ -375,6 +389,22 @@ const attributes = {
         noShadow: true,
     }),
     ...generateDimensionsAttributes(listPadding),
+    ...generateBorderShadowAttributes(iconLiquidGlassShadowEffectBorder, {
+        defaultBdrColor: "#FFFFFF1F",
+        defaultBdrStyle: "solid",
+        bdrDefaults: {
+            top: 1,
+            bottom: 1,
+            right: 1,
+            left: 1,
+        },
+        rdsDefaults: {
+            top: 24,
+            bottom: 24,
+            right: 24,
+            left: 24,
+        },
+    }),
 };
 
 export default attributes;

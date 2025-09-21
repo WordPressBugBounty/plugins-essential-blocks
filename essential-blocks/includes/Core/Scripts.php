@@ -213,7 +213,8 @@ class Scripts
             'essential-blocks-hover-css',
             'essential-blocks-editor-style',
             'essential-blocks-block-common',
-            'essential-blocks-common-style'
+            'essential-blocks-common-style',
+            'essential-blocks-liquid-glass'
          ];
 
         if ( $this->isEnableFontAwesome == 'true' ) {
@@ -252,6 +253,8 @@ class Scripts
     {
         wpdev_essential_blocks()->assets->register( 'eb-animation', 'js/eb-animation-load.js' );
         wpdev_essential_blocks()->assets->register( 'animation', 'css/animate.min.css' );
+        // Liquid Glass
+        wpdev_essential_blocks()->assets->register( 'liquid-glass', 'css/liquid-glass.css' );
 
         wpdev_essential_blocks()->assets->register( 'babel-bundle', 'vendors/js/bundle.babel.js' );
         wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', [ 'essential-blocks-babel-bundle' ] );
@@ -287,6 +290,7 @@ class Scripts
         wpdev_essential_blocks()->assets->register( 'gsap', 'js/gsap/gsap.min.js' );
         wpdev_essential_blocks()->assets->register( 'gsap-scrolltrigger', 'js/gsap/ScrollTrigger.min.js', [ 'essential-blocks-gsap' ] );
         wpdev_essential_blocks()->assets->register( 'splittype', 'js/gsap/splittype.min.js', [ 'essential-blocks-gsap' ] );
+
     }
 
     public function global_styles()

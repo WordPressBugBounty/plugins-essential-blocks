@@ -4,15 +4,15 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.6.4
+Stable tag: 5.7.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
-Gutenberg block editor with AI. 60+ Gutenberg blocks, patterns, WooCommerce blocks, post grid, gallery, menu with Gutenberg block library.
+Gutenberg block editor with AI. 70+ Gutenberg blocks, patterns, WooCommerce blocks, post grid, gallery, menu with Gutenberg block library.
 
 == Description ==
 Bring your creative visions to life with **[Essential Blocks for Gutenberg](https://essential-blocks.com/)**, the ultimate Gutenberg blocks library for WordPress default editor!
-Enhance your Gutenberg experience with 60+ unique blocks (more coming soon) and the brand‑new AI feature for image generating & content writing. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
+Enhance your Gutenberg experience with 70+ unique blocks (more coming soon) and the brand‑new AI feature for image generating & content writing. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
 
 https://youtu.be/PnZx4ZOMyzI
 
@@ -65,6 +65,9 @@ Easily upload SVG and JSON files directly to your WordPress Media Library withou
 ##💻 RESPONSIVE ON ALL DEVICES
 Directly from your Gutenberg block editor, you can control each block’s responsiveness individually. With flexible, responsive customization options, make your website user-friendly for all devices.
 
+##💧LIQUID GLASS EFFECT ON WORDPRESS
+Add smooth, glossy liquid glassmorphism effects to your WordPress site; no coding is needed. Instantly bring modern and futuristic UI to Gutenberg designs.
+
 ##💫 ADVANCED ANIMATION WITH GSAP FOR PAGE BUILDER (PRO)
 With our latest exclusive feature, animation, you can design every block with a stunning animated appearance. Add smooth transitions, scroll effects and vibrant animations. Grab users’ attention instantly with eye-catching animations, transitions, and many more.
 
@@ -75,7 +78,7 @@ Enhance the flexibility and customization options of your Gutenberg-built websit
 Get stunningly designed, ready-to-use Gutenberg block patterns for your WordPress website. Instantly add a block layout to Gutenberg or your site editor to make your website-building experience faster and more effective.
 
 ##🎯 STUNNING GUTENBERG TEMPLATES FOR WORDPRESS
-Explore and get access to 2,000+ ready Gutenberg templates from [Templately](https://templately.com/) that were created using the default block editor and Essential Blocks. You can easily customize the fully responsive templates just the way you want, upload the designs to the Templately cloud solution to use again later, and collaborate with your team with ease.
+Explore and get access to 3,000+ ready Gutenberg templates from [Templately](https://templately.com/) that were created using the default block editor and Essential Blocks. You can easily customize the fully responsive templates just the way you want, upload the designs to the Templately cloud solution to use again later, and collaborate with your team with ease.
 
 You will find a wide variety of stunning Gutenberg website or web page templates in any niche:
 - Blog & Magazine
@@ -97,8 +100,8 @@ You will find a wide variety of stunning Gutenberg website or web page templates
 ##👨‍💻 EXPERT SUPPORT
 We have a very friendly support team ready to help you out. Ask your questions in the support forum, we will get back to you immediately.
 
-##60+ FREE GUTENBERG BLOCKS AND COUNTING
-Design without limits in WordPress block editor, using 60+ of the most useful Essential Blocks for Gutenberg.
+##70+ FREE GUTENBERG BLOCKS AND COUNTING
+Design without limits in WordPress block editor, using 70+ of the most useful Essential Blocks for Gutenberg.
 
 - **[Accordion](https://essential-blocks.com/demo/accordion/)** - Add beautiful accordions in your pages, posts, anywhere & reduce scrolling
 - **[Button](https://essential-blocks.com/demo/button/)** - Quickly add modern buttons with hover effect in your post or page
@@ -260,10 +263,17 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
-= 5.6.4 - 14/09/2025 =
-- Fixed: Accordion | Performance improvements
+= 5.7.0 - 21/09/2025 =
+- Added: Liquid Glass Effect
+- Added: Block Patterns | 70+ block patterns
+- Added: Text | Spacing options
+- Fixed: Filterable Gallery | Showing pre-selected image on blank gallery
+- Fixed: Image Comparison | Compatibility issue in vertical mode
+- Improved: Security enhancements
 - Few minor bug fixes & improvements
 
+= 5.6.4 - 14/09/2025 =
+- Few minor bug fixes & improvements
 
 = 5.6.3 - 01/09/2025 =
 - Fixed: Color Control | Color automatically reset to default color

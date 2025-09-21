@@ -81,6 +81,8 @@ export const badgeBackgroundType = "badgeBg";
 export const iconBorder = "iconBrdSdw";
 export const boxBorder = "boxBrdSdw";
 export const wrapperBorder = "wrapperBrdSdw";
+
+export const iconLiquidGlassShadowEffectBorder = "iconLiquidGlassShadowEffectBorder";
 export const badgeBorder = "badgeBrdSdw";
 
 // list
