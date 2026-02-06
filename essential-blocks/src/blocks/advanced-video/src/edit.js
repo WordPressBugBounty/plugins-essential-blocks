@@ -12,7 +12,7 @@ import ReactPlayer from "react-player";
 import Inspector from "./inspector";
 
 import {
-    EBDisplayIcon,
+    EBDisplayIconEdit,
     BlockProps,
     withBlockContext,
     getEditorRoot
@@ -97,7 +97,10 @@ const Edit = (props) => {
                                         }}
                                         className="eb-react-player"
                                         width="100%"
-                                        height="100%"
+                                        height="auto"
+                                        style={{
+                                            aspectRatio: '16/9',
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -114,7 +117,7 @@ const Edit = (props) => {
                                 >
                                     {lightboxPlayIcon && (
                                         <>
-                                            {lightboxPlayIconType === "icon" && <EBDisplayIcon icon={lightboxPlayIconlib} />}
+                                            {lightboxPlayIconType === "icon" && <EBDisplayIconEdit icon={lightboxPlayIconlib} />}
                                             {lightboxPlayIconType === "image" && placeholderPlayIconURL && (
                                                 <img src={placeholderPlayIconURL} alt="" />
                                             )}

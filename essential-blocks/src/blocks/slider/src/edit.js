@@ -31,7 +31,7 @@ import {
 } from "./helpers";
 
 import {
-    EBDisplayIcon,
+    EBDisplayIconEdit,
     sanitizeURL,
     BlockProps,
     withBlockContext,
@@ -133,7 +133,7 @@ const Edit = (props) => {
                 style={{ ...style, display: "block" }}
                 onClick={onClick}
             >
-                <EBDisplayIcon icon={sanitizeIconValue(arrowNextIcon)} />
+                <EBDisplayIconEdit icon={sanitizeIconValue(arrowNextIcon)} />
             </div>
         );
     }
@@ -146,7 +146,7 @@ const Edit = (props) => {
                 style={{ ...style, display: "block" }}
                 onClick={onClick}
             >
-                <EBDisplayIcon icon={sanitizeIconValue(arrowPrevIcon)} />
+                <EBDisplayIconEdit icon={sanitizeIconValue(arrowPrevIcon)} />
             </div>
         );
     }
@@ -237,6 +237,11 @@ const Edit = (props) => {
                     item.secondButtonUrl = thisImage[0].secondButtonUrl;
                     item.secondButtonOpenNewTab =
                         thisImage[0].secondButtonOpenNewTab ?? false;
+
+                    item.enableContentLink = thisImage[0].enableContentLink ?? false;
+                    item.contentLink = thisImage[0].contentLink;
+                    item.contentOpenNewTab = thisImage[0].contentOpenNewTab ?? false;
+                    item.isValidContentUrl = thisImage[0].isValidContentUrl;
                 } else {
                     item.title = selectedImage.caption
                         ? selectedImage.caption
@@ -252,6 +257,11 @@ const Edit = (props) => {
                     item.secondButtonText = "See More";
                     item.secondButtonUrl = "";
                     item.secondButtonOpenNewTab = false;
+
+                    item.enableContentLink = false;
+                    item.contentLink = "";
+                    item.contentOpenNewTab = false;
+                    item.isValidContentUrl = true;
                 }
             } else {
                 item.title = selectedImage.caption
@@ -268,6 +278,11 @@ const Edit = (props) => {
                 item.secondButtonText = "See More";
                 item.secondButtonUrl = "";
                 item.secondButtonOpenNewTab = false;
+
+                item.enableContentLink = false;
+                item.contentLink = "";
+                item.contentOpenNewTab = false;
+                item.isValidContentUrl = true;
             }
             updatedImages.push(item);
         });
@@ -309,6 +324,12 @@ const Edit = (props) => {
                 image.secondButtonText = "See More";
                 image.secondButtonUrl = "";
                 image.secondButtonOpenNewTab = false;
+            }
+            if (!image.hasOwnProperty("enableContentLink")) {
+                image.enableContentLink = false;
+                image.contentLink = "";
+                image.contentOpenNewTab = false;
+                image.isValidContentUrl = true;
             }
             return images;
         });
@@ -539,7 +560,7 @@ const Edit = (props) => {
                         </Slider>
                     </div>
                 </div>
-            </BlockProps.Edit>
+            </BlockProps.Edit >
         </>
     );
 };

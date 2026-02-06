@@ -90,11 +90,11 @@ const Edit = (props) => {
     // Check if block is inside Loop Builder context
     const isInLoopBuilder = Boolean(
         context &&
-            // Primary check: explicit isLoopBuilder flag
-            (context["essential-blocks/isLoopBuilder"] === true ||
-                // Secondary check: presence of loop context values (even if null initially)
-                (context.hasOwnProperty("essential-blocks/postId") &&
-                    context.hasOwnProperty("essential-blocks/postType"))),
+        // Primary check: explicit isLoopBuilder flag
+        (context["essential-blocks/isLoopBuilder"] === true ||
+            // Secondary check: presence of loop context values (even if null initially)
+            (context.hasOwnProperty("essential-blocks/postId") &&
+                context.hasOwnProperty("essential-blocks/postType"))),
     );
 
     // Effect to handle Loop Builder context initialization
@@ -363,16 +363,12 @@ const Edit = (props) => {
         );
     }
 
-    const classes = `
-    img-style-${stylePreset}
+    const classes = `img-style-${stylePreset}
     ${captionStyle}
     caption-horizontal-${horizontalAlign}
     caption-vertical-${verticalAlign}
     ${verticalAlignCap2}
-    ${hoverEffect}
-`
-        .replace(/\s+/g, " ")
-        .trim();
+    ${hoverEffect}`.replace(/\s+/g, " ").trim();
 
     return (
         <>
@@ -483,9 +479,13 @@ const Edit = (props) => {
 
                                 {!logoUrl && !isLoading && (
                                     <>
-                                        <ImageComponent.Upload
+                                        <EBMediaPlaceholder
+                                            icon={AdvancedImageIcon}
+                                            onSelect={onInitialSelectLogo}
+                                            accept="image/*"
+                                            allowedTypes={["image"]}
                                             labels={{
-                                                title: __("Advanced Image", "essential-blocks"),
+                                                title: __("Site Logo", "essential-blocks"),
                                                 instructions: __(
                                                     "Drag media file, upload or select image from your library.",
                                                     "essential-blocks"

@@ -73,8 +73,8 @@ function Inspector(props) {
     // Check if block is inside Loop Builder context
     const isInLoopBuilder = Boolean(
         context &&
-        context.hasOwnProperty("essential-blocks/postId") &&
-        context.hasOwnProperty("essential-blocks/postType"),
+            context.hasOwnProperty("essential-blocks/postId") &&
+            context.hasOwnProperty("essential-blocks/postType"),
     );
     const {
         resOption,
@@ -114,6 +114,7 @@ function Inspector(props) {
         enableLink,
         titleLink,
         openInNewTab,
+        titleLength,
     } = attributes;
 
     const [urlError, setUrlError] = useState("");
@@ -493,6 +494,23 @@ function Inspector(props) {
                                 })
                             }
                         />
+                    )}
+                    {isInLoopBuilder && (
+                        <>
+                            <RangeControl
+                                label={__(
+                                    "Title Length (words)",
+                                    "essential-blocks",
+                                )}
+                                value={titleLength}
+                                onChange={(titleLength) =>
+                                    setAttributes({ titleLength })
+                                }
+                                min={1}
+                                max={200}
+                                step={1}
+                            />
+                        </>
                     )}
                 </PanelBody>
             </InspectorPanel.General>

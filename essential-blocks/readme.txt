@@ -2,17 +2,17 @@
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Generate with AI
 Requires at least: 5.8
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.7.0
+Stable tag: 6.0.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
 Gutenberg block editor with AI. 70+ Gutenberg blocks, patterns, WooCommerce blocks, post grid, gallery, menu with Gutenberg block library.
 
 == Description ==
-Bring your creative visions to life with **[Essential Blocks for Gutenberg](https://essential-blocks.com/)**, the ultimate Gutenberg blocks library for WordPress default editor!
-Enhance your Gutenberg experience with 70+ unique blocks (more coming soon) and the brand‑new AI feature for image generating & content writing. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
+Bring your creative visions to life with **[Essential Blocks for Gutenberg](https://essential-blocks.com/)**, the ultimate Gutenberg blocks library for the WordPress default editor!
+Enhance your web-building experience with the essential Gutenberg extensions’ 70+ unique blocks and the brand‑new AI feature for image generating & content writing. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
 
 https://youtu.be/PnZx4ZOMyzI
 
@@ -41,7 +41,7 @@ Now, any block can be saved with customized styling. You can also personalize th
 
 ##⚡ LIGHT WEIGHT & INSTANT LOADING
 
-No extra resources or messy codes to slow down your website. Optimized for super fast loading and instant live editing.
+No extra resources or messy code to slow down your website. Optimized for super-fast loading and instant live editing.
 
 ##🈸 WPML CERTIFIED GUTENBERG PLUGIN
 
@@ -68,7 +68,7 @@ Directly from your Gutenberg block editor, you can control each block’s respon
 ##💧LIQUID GLASS EFFECT ON WORDPRESS
 Add smooth, glossy liquid glassmorphism effects to your WordPress site; no coding is needed. Instantly bring modern and futuristic UI to Gutenberg designs.
 
-##💫 ADVANCED ANIMATION WITH GSAP FOR PAGE BUILDER (PRO)
+##💫 ADVANCED ANIMATION FOR PAGE BUILDER (PRO)
 With our latest exclusive feature, animation, you can design every block with a stunning animated appearance. Add smooth transitions, scroll effects and vibrant animations. Grab users’ attention instantly with eye-catching animations, transitions, and many more.
 
 ##⚡ DYNAMIC TAGS & ACF SUPPORT (PRO)
@@ -78,7 +78,7 @@ Enhance the flexibility and customization options of your Gutenberg-built websit
 Get stunningly designed, ready-to-use Gutenberg block patterns for your WordPress website. Instantly add a block layout to Gutenberg or your site editor to make your website-building experience faster and more effective.
 
 ##🎯 STUNNING GUTENBERG TEMPLATES FOR WORDPRESS
-Explore and get access to 3,000+ ready Gutenberg templates from [Templately](https://templately.com/) that were created using the default block editor and Essential Blocks. You can easily customize the fully responsive templates just the way you want, upload the designs to the Templately cloud solution to use again later, and collaborate with your team with ease.
+Explore and access Templately's 3,000+ ready, AI-powered Gutenberg templates created with Essential Blocks. You can easily insert the entire site with a single click, customize the fully responsive templates to your liking, upload the designs to the Templately cloud solution for future use, and easily collaborate with your team.
 
 You will find a wide variety of stunning Gutenberg website or web page templates in any niche:
 - Blog & Magazine
@@ -98,7 +98,7 @@ You will find a wide variety of stunning Gutenberg website or web page templates
 - Travel… and many more.
 
 ##👨‍💻 EXPERT SUPPORT
-We have a very friendly support team ready to help you out. Ask your questions in the support forum, we will get back to you immediately.
+We have a very friendly support team ready to help you out. Ask your questions in the support forum; we will get back to you immediately.
 
 ##70+ FREE GUTENBERG BLOCKS AND COUNTING
 Design without limits in WordPress block editor, using 70+ of the most useful Essential Blocks for Gutenberg.
@@ -145,7 +145,7 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[Openverse](https://essential-blocks.com/demo/openverse)** -  Easily search & use royalty free images, stock photos, etc CC-licensed images from Openverse for your website
 - **[Google Maps](https://essential-blocks.com/demo/google-maps)** -  Present a fully responsive map on your website with your preferred configurations, styles, etc.
 - **[Shape Divider](https://essential-blocks.com/demo/shape-divider/)** - Make your website designs stand out by showcasing different sections with stunning shape dividers
-- **[Form](https://essential-blocks.com/demo/form-block/)** - Create responsive forms of any type - contact forms, RSVP forms, multi-step forms or subscription forms - in Gutenberg and manage easily them from your WordPress dashboard.
+- **[Form](https://essential-blocks.com/demo/form-block/)** - Create responsive forms of any type - contact forms, RSVP forms, multi-step forms or subscription forms - in Gutenberg and manage them easily from your WordPress dashboard.
 - **[Timeline Slider (PRO)](https://essential-blocks.com/demo/timeline-slider)** - Showcase your posts & pages in an attractive timeline slider and design with stunning presets & styling options
 - **[Advanced Search (PRO)](https://essential-blocks.com/demo/advanced-search)** - Let visitors find any content on your website easily with a customizable, dynamic search bar
 - **[Data Table (PRO)](https://essential-blocks.com/demo/data-table/)** - Insert an advanced data table on your website without any code and display information in an eye-catching way
@@ -166,9 +166,13 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[Post Meta](https://essential-blocks.com/demo/post-meta/)** - Attractively showcase your current post metadata like author, date, excerpt & more.
 - **[Text](https://essential-blocks.com/demo/text-block/)** - Add and customize text content on your website that catches the attention of the visitors.
 - **[Lottie Animation](https://essential-blocks.com/demo/lottie-animation/)** - Add LottiFiles Animations to your Gutenberg site seamlessly and customize how you want it to appear.
-- **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Create fully customized & mobile-friendly menu with grid, nested, dropdown,etc. dynamic layouts; add icons, badges, multimedia, etc.
+- **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Create fully customized & mobile-friendly menu with grid, nested, dropdown, etc. dynamic layouts; add icons, badges, multimedia, etc.
 - **[Query Loop Builder (PRO)](https://essential-blocks.com/demo/query-loop-builder/)** - Easily create advanced, filterable post layouts in Gutenberg with the Query Loop Builder block. Display dynamic content stunningly and hook visitors, no coding required.
-
+- **[Business Hours (PRO)](https://essential-blocks.com/demo/business-hours/)** - Showcase available opening times in a stylish and interactive table view. Highlight closing days, special days, multi-shift, etc.
+- **[Flex Container](https://essential-blocks.com/demo/flex-container/)** - Create outstanding, complex design layouts in Gutenberg editor and easily handle responsive layouts without coding.
+- **[Animated Wrapper (PRO)](https://essential-blocks.com/demo/animated-wrapper/)** - Design interactive layouts & containers in Gutenberg with dynamic animation effects.
+- **[Image Hotspots](https://essential-blocks.com/demo/image-hotspots/)** - This block enables you to pin items, products, etc into images with detailed pricing, URL, and description and make them interactive.
+- **[Timeline](https://essential-blocks.com/demo/timeline/)** - Create an interactive timeline in WordPress to showcase your story or company's history, achievements, events, and roadmaps.
 
 More Gutenberg blocks and demos coming soon for the block visual editor (weekly update)
 
@@ -190,15 +194,15 @@ The full source code is available on [GitHub Repository](https://github.com/WPDe
 ##🔥 WHAT’S NEXT?
 If you like Essential Blocks, then consider checking out our other WordPress Plugins:
 
-🎨**[ Templately](https://wordpress.org/plugins/templately/)** – Ultimate templates cloud for WordPress with hundreds of ready Gutenberg website layout designs and unique cloud collaboration features.
+🎨**[ Templately](https://wordpress.org/plugins/templately/)** – Ultimate AI-powered templates cloud for WordPress with thousands of ready Gutenberg website layout designs and unique cloud collaboration features.
 
-🔔**[ NotificationX](https://wordpress.org/plugins/notificationx/)**– Best social proof & FOMO marketing solution to boost conversions & designing stunning WordPress notification bars.
+🔔**[ NotificationX](https://wordpress.org/plugins/notificationx/)**– Best social proof and FOMO marketing solution to boost conversions & design stunning WordPress notification bars.
 
-🗒️ **[BetterDocs](https://wordpress.org/plugins/betterdocs/)** – Best documentation & knowledge base plugin for WordPress to help you reduce support tickets
+🗒️ **[BetterDocs](https://wordpress.org/plugins/betterdocs/)** – Best AI-powered documentation & knowledge base plugin for WordPress to help you reduce support tickets.
 
 ⏰ **[SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/)** – Complete solution for managing WordPress content scheduling through an editorial calendar & social share
 
-📌 **[EmbedPress](https://wordpress.org/plugins/embedpress/)** – Easiest WordPress solution for embedding videos, images, posts, audio, maps and PDF, DOC, PPT & all other types of content into your website using Gutenberg.
+📌 **[EmbedPress](https://wordpress.org/plugins/embedpress/)** – Easiest embedding solution for WordPress for embedding 250+ multimedia content sources.
 
 🔗 **[BetterLinks](https://wordpress.org/plugins/betterlinks/)** – Advanced WordPress link management plugin for link shortening, tracking & analyzing with Instant Redirect for Gutenberg.
 
@@ -222,6 +226,9 @@ For more detailed instructions, visit [Essential Blocks Installation Guideline](
 = How to insert blocks of Essential Blocks in your page or post? =
 Install and activate Essential Blocks for Gutenberg on your website. Create a new page and click the ‘+’ sign, and you will find all the creative Gutenberg blocks there. Now click on the block you want to insert in your page and create amazing pages.
 
+= Is there any limit creating AI-generated content and images with Essential Blocks? =
+Essential Blocks allows you to create as many AI images and text as you want. And the feature is entirely free. All you have to do is integrate ChatGPT Pro with the plugin to use all of the AI features.
+
 = How to save a block as a reusable block? =
 You can save any block from Essential Blocks for Gutenberg as a reusable block easily. Click on any block you want to save as reusable, then click on the ‘Add to reusable blocks,’ and instantly, that block will be converted into a reusable block.
 
@@ -229,10 +236,10 @@ You can save any block from Essential Blocks for Gutenberg as a reusable block e
 Essential Blocks for Gutenberg has no theme dependency. This Gutenberg blocks plugin is compatible with any updated WordPress theme.
 
 = Will Essential Blocks slow down my website speed? =
-No, Essential Blocks will not slow down your website. This Gutenberg blocks plugin brings you the outstanding facility of complete modular control over the activation of each individual block. We have also used optimized codes for this plugin which helps to load only the resources that are currently used.
+No, Essential Blocks will not slow down your website. This Gutenberg blocks plugin brings you the outstanding facility of complete modular control over the activation of each block. We have also used optimized codes for this plugin, which helps to load only the resources that are currently used.
 
 = I do not know how to code. Can I still use Essential Blocks? =
-Yes, you can still use Essential Blocks. These Gutenberg blocks are created in such a way that you can use them and customize them without code.
+Yes, you can still use Essential Blocks. These Gutenberg blocks are created in such a way that you can use and customize them without code.
 
 = What other page builders can I use with this plugin? =
 You can only use Essential Blocks with the Gutenberg editor. It does not support any other website builder or editor.
@@ -252,17 +259,103 @@ If you want to skip customizing each essential block on your own, you can use re
 = Can I get ready Gutenberg patterns from Essential Blocks? =
 Yes, Essential Blocks provides you with a ready, professionally designed Gutenberg pattern.
 
-= Does Essential Blocks has any plugin dependency? =
+= Does Essential Blocks have any plugin dependencies? =
 You only need the Gutenberg block editor to use Essential Blocks plugin on your WordPress website. Then you can use Essential Blocks and create stunning pages.
 
 = Does Essential Blocks provide any WooCommerce blocks for Gutenberg? =
-Yes, you can effortlessly display your WooCommerce products on your store website using Woo Product Grid Block from Essential Blocks. More blocks are coming soon.
+Yes, you can effortlessly create stunning WooCommerce stores and display your products using Woo blocks from Essential Blocks. More blocks are coming soon.
 
 = What should I do to use an earlier version of Essential Blocks? =
 If you found the recent version of Essential Blocks isn’t working or conflicting with other plugins, then you can use earlier versions of the plugin.
 
 
 == Changelog ==
+= 6.0.1 - 26/01/2026 =
+- Fixed: Accordion | Attempt recovery issue for non admin users
+- Fixed: Accordion | Preset with image not working properly
+- Fixed: Advanced Heading | Enabling link option gets unwanted font size
+- Fixed: Call To Action | Overlap issue with advanced navigation
+- Fixed: Using Broken HTML tags in rich text input crashes some blocks
+- Few minor bug fixes & improvements
+
+= 6.0.0 - 15/01/2026 =
+- Added: New Block | Timeline
+- Improved: Typing Text | Dynamic Tag Support
+- Fixed: Advanced Navigation | Submenu not displaying properly in frontend
+- Fixed: Advanced Tabs | Vertical mode conflict in Inner Blocks
+- Fixed: Flex Container | Height not working properly
+- Few minor bug fixes & improvements
+
+= 5.9.1 - 24/12/2025 =
+- Fixed: Quick Setup showing blank page
+- Fixed: Slider | Images getting cropped for Custom Height
+- Fixed: Interactive Animation | Animation fails to trigger in frontend
+- Few minor bug fixes & improvements
+
+= 5.9.0 - 17/12/2025 =
+- Added: New Block | Image Hotspots
+- Added: SVG icon support in All icon picker
+- Fixed: Flex Container | Content width and alignment not working
+- Fixed: Advanced Tabs | Title alignment not working
+- Fixed: Product Image | Zoom not working
+- Fixed: Advanced Video | Overlay image conflict in frontend
+- Fixed: Image Control multiple conflicts
+- Few minor bug fixes & improvements
+
+= 5.8.2 - 08/12/2025 =
+- Improved: Asset Generation optimization
+- Fixed: Advanced Video | Sticky video height width not working
+- Fixed: Instagram Feed | Disabling Square thumbnail not working
+- Fixed: Form | Alignment and Button inline issue
+- Fixed: Filterable Gallery | Images remained clickable when Lightbox is disabled
+- Few minor bug fixes & improvements
+
+= 5.8.1 - 27/11/2025 =
+- Few minor bug fixes & improvements
+
+= 5.8.0 - 17/11/2025 =
+- Added: New Block | Flex Container
+- Added: Block Defaults for all missing blocks
+- Fixed: Popup | Exit Intent not working in Firefox and Safari
+- Fixed: Advanced Heading | Line height issue
+- Fixed: Social Share | Changing icon hides the icon
+- Fixed: Default Typography not inherited from Theme
+- Fixed: Style not generating in Astra Theme Builder
+- Fixed: Compatibility issue with WPFunnel Pro
+- Few minor bug fixes & improvements
+
+= 5.7.4 - 30/10/2025 =
+- Added: AI Image Editing feature
+- Fixed: Post Grid | Custom Post Types not appearing in Taxonomy Filter
+- Fixed: Post Grid | PHP warning fix
+- Few minor bug fixes & improvements
+
+= 5.7.3 - 23/10/2025 =
+- Fixed: Advanced Video | Video ratio issue
+- Fixed: Post Grid | Pagination conflict with Filter
+- Fixed: Slider | JQuery dependency issue
+- Improved: Security enhancements
+- Few minor bug fixes & improvements
+
+
+= 5.7.2 - 12/10/2025 =
+- Fixed: Editor not working with the last update
+- Improved: Security enhancements
+- Few minor bug fixes & improvements
+
+= 5.7.1 - 07/10/2025 =
+- Improved: Loop Builder | Added support for more blocks
+- Improved: Slider | Added more image styling options and images clickable option
+- Improved: Post Grid | Added additional styling options for Title and Taxonomy
+- Fixed: Custom Fonts | Fonts were not loading properly
+- Fixed: Post Grid | Certain strings were not translatable
+- Fixed: Filterable Gallery | 'Add More Images' cleared URLs of existing items
+- Fixed: Advanced Navigation | Menu items geting extra spacing in dropdowns
+- Fixed: Advanced Image | Custom height resetting issue
+- Fixed: Advanced Image | Site logo not displaying properly
+- Fixed: Animation conflict with Twentig plugin
+- Few minor bug fixes and improvements
+
 = 5.7.0 - 21/09/2025 =
 - Added: Liquid Glass Effect
 - Added: Block Patterns | 70+ block patterns

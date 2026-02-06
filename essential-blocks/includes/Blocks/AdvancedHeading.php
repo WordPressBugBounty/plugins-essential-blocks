@@ -54,12 +54,12 @@ class AdvancedHeading extends Block
         } else {
             // Get post ID from context (Loop Builder) or attributes
             $post_id = null;
-            if ( $block && isset( $block->context['essential-blocks/postId'] ) ) {
+            if ( $block && isset( $block->context[ 'essential-blocks/postId' ] ) ) {
                 // Use Loop Builder context
-                $post_id = $block->context['essential-blocks/postId'];
-            } elseif ( isset( $attributes['currentPostId'] ) && $attributes['currentPostId'] ) {
+                $post_id = $block->context[ 'essential-blocks/postId' ];
+            } elseif ( isset( $attributes[ 'currentPostId' ] ) && $attributes[ 'currentPostId' ] ) {
                 // Use attribute value
-                $post_id = $attributes['currentPostId'];
+                $post_id = $attributes[ 'currentPostId' ];
             }
             if ( $post_id ) {
                 $title = get_the_title( $post_id );
@@ -71,6 +71,11 @@ class AdvancedHeading extends Block
                 return '';
             }
 
+            // Apply title length limit when provided (e.g., in Loop Builder)
+            if ( isset( $attributes[ 'titleLength' ] ) && intval( $attributes[ 'titleLength' ] ) > 0 ) {
+                $title = wp_trim_words( $title, intval( $attributes[ 'titleLength' ] ), '…' );
+            }
+
             if ( isset( $attributes[ "version" ] ) && $attributes[ "version" ] === '2' ) {
                 $title = sprintf( '<span class="first-title">%s</span>', $title );
             }
@@ -80,11 +85,11 @@ class AdvancedHeading extends Block
             $linkTarget = $attributes[ 'openInNewTab' ] ? '_blank' : '';
 
             if ( isset( $attributes[ 'enableLink' ] ) && $attributes[ 'enableLink' ] ) {
-                $rel   = $linkTarget === "_blank" ? 'rel="noopener"' : '';
+                $rel = $linkTarget === "_blank" ? 'rel="noopener"' : '';
                 // Use the same post ID that was used for the title
                 $permalink_post_id = $post_id ? $post_id : null;
-                $permalink = $permalink_post_id ? get_the_permalink( $permalink_post_id ) : get_the_permalink();
-                $title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', esc_url( $permalink ), esc_attr( $linkTarget ), $rel, $title );
+                $permalink         = $permalink_post_id ? get_the_permalink( $permalink_post_id ) : get_the_permalink();
+                $title             = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', esc_url( $permalink ), esc_attr( $linkTarget ), $rel, $title );
             }
 
             if ( $attributes[ 'seperatorType' ] === 'icon' ) {

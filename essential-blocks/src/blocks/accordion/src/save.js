@@ -20,15 +20,13 @@ const Save = ({ attributes }) => {
     const allNotClickable = accordionLists?.every(
         (item) => item.clickable === false,
     );
-    const defaultImageUrl =
-        EssentialBlocksLocalize?.image_url + "/image-placeholder.jpg";
 
     const accordionTypeClass =
         accordionType === "image"
             ? " eb-accordion-type-image"
             : accordionType === "horizontal"
-            ? " eb-accordion-type-horizontal"
-            : "";
+                ? " eb-accordion-type-horizontal"
+                : "";
     const orientationClass =
         accordionType === "horizontal"
             ? titleOrientation === "bottom-top"

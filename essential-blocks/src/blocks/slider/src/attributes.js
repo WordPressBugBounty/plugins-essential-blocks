@@ -19,6 +19,7 @@ import {
     ARROW_SIZE,
     DOTS_SIZE,
     SLIDES_GAP,
+    SLIDER_BORDER_SHADOW,
 } from "./constants/constants";
 import {
     TITLE_TYPOGRAPHY,
@@ -115,6 +116,10 @@ const attributes = {
     initialSlide: {
         type: "number",
         default: 0,
+    },
+    enableLazyLoad: {
+        type: "boolean",
+        default: true,
     },
     titleColor: {
         type: "string",
@@ -339,6 +344,7 @@ const attributes = {
     // range controller Slider Height
     ...generateResponsiveRangeAttributes(CUSTOM_HEIGHT, {
         defaultRange: 400,
+        defaultUnit: "px",
     }),
 
     // range controller Dots Gap
@@ -370,6 +376,8 @@ const attributes = {
     ...generateResponsiveRangeAttributes(SLIDES_GAP, {
         defaultRange: 5,
     }),
+
+    ...generateBorderShadowAttributes(SLIDER_BORDER_SHADOW),
 };
 
 export default attributes;

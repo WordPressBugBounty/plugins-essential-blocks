@@ -1,6 +1,10 @@
 .eb-post-grid-wrapper {
 	z-index: 1;
 
+	.eb-loadmore-no-post {
+		display: none;
+	}
+
 	a,
 	a.ebpg-grid-post-link,
 	.ebpg-posted-by a {

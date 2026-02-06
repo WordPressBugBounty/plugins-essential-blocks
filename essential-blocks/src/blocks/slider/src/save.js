@@ -20,7 +20,6 @@ const Save = ({ attributes }) => {
         vertical,
         pauseOnHover,
         speed,
-        initialSlide,
         textAlign,
         classHook,
         arrowNextIcon,
@@ -31,6 +30,7 @@ const Save = ({ attributes }) => {
         contentTag,
         version,
         showLightbox,
+        enableLazyLoad,
     } = attributes;
 
     //Slider Settings
@@ -107,7 +107,8 @@ const Save = ({ attributes }) => {
                                         >
                                             <img
                                                 className="eb-slider-image"
-                                                data-lazy={image.url}
+                                                {...(enableLazyLoad ? { 'data-lazy': image.url } : { src: image.url })}
+
                                             />
                                         </a>
                                     </div>
@@ -115,13 +116,15 @@ const Save = ({ attributes }) => {
                                     <div>
                                         <img
                                             className="eb-slider-image"
-                                            data-lazy={image.url}
+                                            {...(enableLazyLoad ? { 'data-lazy': image.url } : { src: image.url })}
                                         />
                                     </div>
                                 )}
                                 {sliderType === "content" && (
                                     <div
-                                        className={`eb-slider-content align-${textAlign}`}
+                                        className={`eb-slider-content align-${textAlign} ${sliderContentType === "content-1" && image.enableContentLink && image.contentLink && image.contentLink.length > 0 && image.isContentUrlValid ? 'has-content-link' : ''}`}
+                                        data-content-link={sliderContentType === "content-1" && image.enableContentLink && image.contentLink && image.contentLink.length > 0 && image.isContentUrlValid ? sanitizeURL(image.contentLink) : ''}
+                                        data-content-target={sliderContentType === "content-1" && image.contentOpenNewTab ? '_blank' : '_self'}
                                     >
                                         {image.title &&
                                             image.title.length > 0 && (
@@ -147,10 +150,10 @@ const Save = ({ attributes }) => {
                                                     <a
                                                         href={
                                                             image.buttonUrl &&
-                                                            image.isValidUrl
+                                                                image.isValidUrl
                                                                 ? sanitizeURL(
-                                                                      image.buttonUrl,
-                                                                  )
+                                                                    image.buttonUrl,
+                                                                )
                                                                 : ""
                                                         }
                                                         className="eb-slider-button"
@@ -172,14 +175,14 @@ const Save = ({ attributes }) => {
                                             {image.showSecondButton &&
                                                 image.secondButtonText &&
                                                 image.secondButtonText.length >
-                                                    0 && (
+                                                0 && (
                                                     <a
                                                         href={
                                                             image.secondButtonUrl &&
-                                                            image.isValidUrl
+                                                                image.isValidUrl
                                                                 ? sanitizeURL(
-                                                                      image.secondButtonUrl,
-                                                                  )
+                                                                    image.secondButtonUrl,
+                                                                )
                                                                 : ""
                                                         }
                                                         className="eb-slider-second-button"
@@ -205,7 +208,7 @@ const Save = ({ attributes }) => {
                     </div>
                 </div>
             </div>
-        </BlockProps.Save>
+        </BlockProps.Save >
     );
 };
 

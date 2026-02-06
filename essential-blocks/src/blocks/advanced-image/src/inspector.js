@@ -69,11 +69,11 @@ function Inspector(props) {
     // Check if block is inside Loop Builder context
     const isInLoopBuilder = Boolean(
         context &&
-            // Primary check: explicit isLoopBuilder flag
-            (context["essential-blocks/isLoopBuilder"] === true ||
-                // Secondary check: presence of loop context values (even if null initially)
-                (context.hasOwnProperty("essential-blocks/postId") &&
-                    context.hasOwnProperty("essential-blocks/postType"))),
+        // Primary check: explicit isLoopBuilder flag
+        (context["essential-blocks/isLoopBuilder"] === true ||
+            // Secondary check: presence of loop context values (even if null initially)
+            (context.hasOwnProperty("essential-blocks/postId") &&
+                context.hasOwnProperty("essential-blocks/postType"))),
     );
 
     const [urlError, setUrlError] = useState("");
@@ -195,6 +195,11 @@ function Inspector(props) {
 
     // image size change
     useEffect(() => {
+        // Only run this effect when imageSize actually changes, not on initial render
+        if (prevImageSize.current === imageSize) {
+            return;
+        }
+
         // custom
         if (imgSource === "custom") {
             if (image.sizes && imageSize && imageSize.length > 0) {
@@ -223,26 +228,21 @@ function Inspector(props) {
                     image,
                     widthRange:
                         prevImageSize.current === imageSize && widthRange
-                            ? widthRange
-                            : newWidth
-                                ? newWidth
-                                : "",
+                            ? widthRange : newWidth
+                                ? newWidth : "",
                     widthUnit:
                         prevImageSize.current === imageSize &&
                             attributes["widthUnit"]
                             ? attributes["widthUnit"]
                             : "px",
+
                     heightRange:
                         prevImageSize.current === imageSize && heightRange
-                            ? heightRange
-                            : newHeight
-                                ? newHeight
-                                : "",
+                            ? heightRange : newHeight
+                                ? newHeight : "",
                     heightUnit:
-                        prevImageSize.current === imageSize &&
-                            attributes["heightUnit"]
-                            ? attributes["heightUnit"]
-                            : "px",
+                        prevImageSize.current === imageSize && attributes["heightUnit"]
+                            ? attributes["heightUnit"] : "px",
                 });
             } else {
                 let newWidth = "";
@@ -281,25 +281,14 @@ function Inspector(props) {
                 setAttributes({
                     image,
                     widthRange: newWidth ? newWidth : "",
-                    // widthUnit: "px",
-                    widthUnit: attributes["widthUnit"]
-                        ? attributes["widthUnit"]
-                        : "px",
-                    heightRange:
-                        !autoHeight && heightRange > 0
-                            ? heightRange
-                            : newHeight
-                                ? newHeight
-                                : "",
-                    // heightUnit: "px",
-                    heightUnit: attributes["heightUnit"]
-                        ? attributes["heightUnit"]
-                        : "px",
+                    widthUnit: attributes["widthUnit"] ? attributes["widthUnit"] : "px",
+                    // Only update heightRange if autoHeight is false and we don't have a custom value
+                    heightRange: !autoHeight && !heightRange ? (newHeight ? newHeight : "") : heightRange,
+                    heightUnit: attributes["heightUnit"] ? attributes["heightUnit"] : "px",
                 });
             }
         }
-
-        if (imgSource === "featured-img" && media?.media_details?.sizes) {
+        else if (imgSource === "featured-img" && media?.media_details?.sizes) {
             let featuredImgWidth = media.media_details.sizes?.[imageSize]?.width
                 ? media.media_details.sizes?.[imageSize]?.width
                 : media.width;
@@ -310,18 +299,12 @@ function Inspector(props) {
 
             setAttributes({
                 widthRange: featuredImgWidth ? featuredImgWidth : "",
-                // widthUnit: "px",
-                widthUnit: attributes["widthUnit"]
-                    ? attributes["widthUnit"]
-                    : "px",
-                heightRange: featuredImgHeight ? featuredImgHeight : "",
-                // heightUnit: "px",
-                heightUnit: attributes["heightUnit"]
-                    ? attributes["heightUnit"]
-                    : "px",
+                widthUnit: attributes["widthUnit"] ? attributes["widthUnit"] : "px",
+                // Only update heightRange if autoHeight is false and we don't have a custom value
+                heightRange: !autoHeight && !heightRange ? (featuredImgHeight ? featuredImgHeight : "") : heightRange,
+                heightUnit: attributes["heightUnit"] ? attributes["heightUnit"] : "px",
             });
         }
-
         prevImageSize.current = imageSize;
     }, [imageSize]);
 

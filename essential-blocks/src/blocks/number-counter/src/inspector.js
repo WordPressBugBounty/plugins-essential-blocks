@@ -233,30 +233,44 @@ const Inspector = (props) => {
                                 attributeName={'selectedIcon'}
                             />
                         )}
-                        {media === "image" && !imageUrl && (
-                            <MediaUpload
-                                onSelect={({ id, url }) =>
-                                    setAttributes({
-                                        imageUrl: url,
-                                        imageId: id,
-                                    })
-                                }
-                                type="image"
-                                value={imageId}
-                                render={({ open }) => {
-                                    return (
-                                        <Button
-                                            className="eb-background-control-inspector-panel-img-btn components-button"
-                                            label={__(
-                                                "Upload Image",
-                                                "essential-blocks"
-                                            )}
-                                            icon="format-image"
-                                            onClick={open}
-                                        />
-                                    );
-                                }}
-                            />
+                        {media === "image" && (
+                            <>
+                                {!imageUrl && (
+                                    <MediaUpload
+                                        onSelect={({ id, url }) =>
+                                            setAttributes({
+                                                imageUrl: url,
+                                                imageId: id,
+                                            })
+                                        }
+                                        type="image"
+                                        value={imageId}
+                                        render={({ open }) => {
+                                            return (
+                                                <Button
+                                                    className="eb-background-control-inspector-panel-img-btn components-button"
+                                                    label={__(
+                                                        "Upload Image",
+                                                        "essential-blocks"
+                                                    )}
+                                                    icon="format-image"
+                                                    onClick={open}
+                                                />
+                                            );
+                                        }}
+                                    />
+                                )}
+                                {imageUrl && (
+                                    <ImageAvatar
+                                        imageUrl={imageUrl}
+                                        onDeleteImage={() =>
+                                            setAttributes({
+                                                imageUrl: null,
+                                            })
+                                        }
+                                    />
+                                )}
+                            </>
                         )}
                     </InspectorPanel.PanelBody>
 
@@ -639,14 +653,6 @@ const Inspector = (props) => {
 
                             {media === "image" && imageUrl && (
                                 <>
-                                    <ImageAvatar
-                                        imageUrl={imageUrl}
-                                        onDeleteImage={() =>
-                                            setAttributes({
-                                                imageUrl: null,
-                                            })
-                                        }
-                                    />
                                     <ResponsiveRangeController
                                         baseLabel={__(
                                             "Image Width",

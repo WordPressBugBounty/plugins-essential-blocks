@@ -27,8 +27,8 @@
 		}
 	}
 
-	z-index: 999;
-	flex: 1;
+	// z-index: 999;
+	// flex: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -45,11 +45,11 @@
 }
 
 .eb-cia-text-wrapper {
-	flex: 4 1 0%;
+	// flex: 4 1 0%;
 	width: 100%;
 	word-break: break-word;
 	padding: 5px;
-	z-index: 999;
+	// z-index: 999;
 
 	.eb-cia-title {
 		color: #fff;
@@ -65,10 +65,14 @@
 
 	.eb-cia-icon {
 		display: block;
-		flex: 1 1 0%;
+		// flex: 1 1 0%;
 		font-size: 70px;
 		color: #fff;
 		width: unset;
 		height: unset;
+	}
+
+	svg.eb-cia-icon {
+		display: inline-block;
 	}
 }

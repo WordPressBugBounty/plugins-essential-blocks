@@ -16,7 +16,7 @@ import Inspector from "./inspector";
  */
 import {
     DynamicInputValueHandler,
-    EBDisplayIcon,
+    EBDisplayIconEdit,
     BlockProps,
     withBlockContext,
 } from "@essential-blocks/controls";
@@ -47,6 +47,7 @@ function Edit(props) {
         currentPostId,
         currentPostType,
         version,
+        titleLength,
     } = attributes;
 
     // you must declare this variable
@@ -127,6 +128,18 @@ function Edit(props) {
     const editorType = eb_conditional_localize?.editor_type || false;
     let TagName = tagName;
 
+    // Helper to limit title by word count when inside Loop Builder
+    const limitWords = (text, maxWords) => {
+        if (!text || !maxWords || maxWords <= 0) return text || "";
+        const words = String(text).split(/\s+/).filter(Boolean);
+        if (words.length <= maxWords) return words.join(" ");
+        return words.slice(0, maxWords).join(" ") + "…";
+    };
+
+    const displayedRawTitle = isInLoopBuilder
+        ? limitWords(rawTitle, titleLength)
+        : rawTitle;
+
     return (
         <>
             {isSelected && (
@@ -184,7 +197,7 @@ function Edit(props) {
                                             }
                                         >
                                             {seperatorType === "icon" && (
-                                                <EBDisplayIcon
+                                                <EBDisplayIconEdit
                                                     icon={separatorIcon}
                                                 />
                                             )}
@@ -196,7 +209,7 @@ function Edit(props) {
                                         {currentPostId > 0 && (
                                             <TagName className={`eb-ah-title`}>
                                                 <DynamicInputValueHandler
-                                                    value={rawTitle}
+                                                    value={displayedRawTitle}
                                                     tagName={"span"}
                                                     className="first-title"
                                                     allowedFormats={[
@@ -220,8 +233,8 @@ function Edit(props) {
                                         {/* for FSE */}
                                         {typeof currentPostId == "string" && (
                                             <TagName>
-                                                {rawTitle
-                                                    ? rawTitle
+                                                {displayedRawTitle
+                                                    ? displayedRawTitle
                                                     : __("Title")}
                                             </TagName>
                                         )}
@@ -332,7 +345,7 @@ function Edit(props) {
                                                 //         : "fas fa-arrow-circle-down"
                                                 //         }`}
                                                 // ></i>
-                                                <EBDisplayIcon
+                                                <EBDisplayIconEdit
                                                     icon={separatorIcon}
                                                 />
                                             )}

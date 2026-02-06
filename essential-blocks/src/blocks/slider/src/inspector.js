@@ -10,7 +10,6 @@ import {
     ButtonGroup,
     RangeControl,
     TextControl,
-    TextareaControl,
     __experimentalDivider as Divider,
 } from "@wordpress/components";
 
@@ -48,15 +47,17 @@ import {
     TEXT_ALIGN,
     VERTICAL_ALIGN,
     TAGS_TYPE,
+    SLIDER_BORDER_SHADOW,
 } from "./constants/constants";
 
-
-import { TITLE_TYPOGRAPHY, SUBTITLE_TYPOGRAPHY, BUTTON_TYPOGRAPHY, BUTTON2_TYPOGRAPHY } from "./constants/typography-constant";
-
 import {
-    handleImageData,
-    handleImage,
-} from "./helpers";
+    TITLE_TYPOGRAPHY,
+    SUBTITLE_TYPOGRAPHY,
+    BUTTON_TYPOGRAPHY,
+    BUTTON2_TYPOGRAPHY,
+} from "./constants/typography-constant";
+
+import { handleImageData, handleImage } from "./helpers";
 
 import {
     ResponsiveDimensionsControl,
@@ -65,13 +66,14 @@ import {
     ResponsiveRangeController,
     ColorControl,
     faArrowIcons,
+    dashiconsArrows,
     EBIconPicker,
     InspectorPanel,
     isValidHtml,
     SortControl,
     sanitizeIconValue,
     ImageComponent,
-    EBTextControl
+    EBTextControl,
 } from "@essential-blocks/controls";
 
 function Inspector(props) {
@@ -117,19 +119,24 @@ function Inspector(props) {
         titleTag,
         contentTag,
         showLightbox,
-        version
+        enableLazyLoad,
+        version,
     } = attributes;
 
     // Add this function to get the settings components for each slide
     const getSliderItemsComponents = () => {
         return images.map((each, i) => (
             <div key={i}>
-                <PanelRow>
-                    {__("Image", "essential-blocks")}
-                </PanelRow>
+                <PanelRow>{__("Image", "essential-blocks")}</PanelRow>
                 <ImageComponent.GeneralTab
-                    onSelect={(value) => handleImage(value, i, images, setAttributes)}
-                    value={(!each.url || each.url.startsWith('data:image/')) ? each.id : each.url}
+                    onSelect={(value) =>
+                        handleImage(value, i, images, setAttributes)
+                    }
+                    value={
+                        !each.url || each.url.startsWith("data:image/")
+                            ? each.id
+                            : each.url
+                    }
                     hasTag={false}
                     hasCaption={false}
                     hasStyle={false}
@@ -144,11 +151,11 @@ function Inspector(props) {
                             value={each.title}
                             onChange={(value) =>
                                 handleImageData(
-                                    'title',
+                                    "title",
                                     value,
                                     each.id,
                                     images,
-                                    setAttributes
+                                    setAttributes,
                                 )
                             }
                             enableAi={true}
@@ -167,11 +174,11 @@ function Inspector(props) {
                             value={each.subtitle}
                             onChange={(value) =>
                                 handleImageData(
-                                    'subtitle',
+                                    "subtitle",
                                     value,
                                     each.id,
                                     images,
-                                    setAttributes
+                                    setAttributes,
                                 )
                             }
                             enableAi={true}
@@ -190,11 +197,11 @@ function Inspector(props) {
                             checked={each.showButton}
                             onChange={() =>
                                 handleImageData(
-                                    'showButton',
+                                    "showButton",
                                     !each.showButton,
                                     each.id,
                                     images,
-                                    setAttributes
+                                    setAttributes,
                                 )
                             }
                         />
@@ -202,15 +209,18 @@ function Inspector(props) {
                         {each.showButton && (
                             <>
                                 <EBTextControl
-                                    label={__("Button Text", "essential-blocks")}
+                                    label={__(
+                                        "Button Text",
+                                        "essential-blocks",
+                                    )}
                                     value={each.buttonText}
                                     onChange={(value) =>
                                         handleImageData(
-                                            'buttonText',
+                                            "buttonText",
                                             value,
                                             each.id,
                                             images,
-                                            setAttributes
+                                            setAttributes,
                                         )
                                     }
                                     enableAi={true}
@@ -219,7 +229,8 @@ function Inspector(props) {
                                 {!isValidHtml(each.buttonText) && (
                                     <PanelRow className="eb-instruction-row">
                                         <div className="eb-instruction">
-                                            <strong>Note:</strong> Invalid HTML Tag.
+                                            <strong>Note:</strong> Invalid HTML
+                                            Tag.
                                         </div>
                                     </PanelRow>
                                 )}
@@ -230,50 +241,63 @@ function Inspector(props) {
                                     value={each.buttonUrl}
                                     onChange={(value) =>
                                         handleImageData(
-                                            'buttonUrl',
+                                            "buttonUrl",
                                             value,
                                             each.id,
                                             images,
-                                            setAttributes
+                                            setAttributes,
                                         )
                                     }
                                     placeholder="https://example.com"
                                     help={__(
                                         "Enter a valid URL.",
-                                        "essential-blocks"
+                                        "essential-blocks",
                                     )}
                                     showValidation={true}
                                     enableSecurity={true}
                                 />
 
-                                {each.buttonUrl && each.buttonUrl.length > 0 && !each.isValidUrl && (
-                                    <span className="error">{__("URL is not valid", "essential-blocks")}</span>
-                                )}
+                                {each.buttonUrl &&
+                                    each.buttonUrl.length > 0 &&
+                                    !each.isValidUrl && (
+                                        <span className="error">
+                                            {__(
+                                                "URL is not valid",
+                                                "essential-blocks",
+                                            )}
+                                        </span>
+                                    )}
 
                                 <ToggleControl
-                                    label={__("Open in New Tab", "essential-blocks")}
+                                    label={__(
+                                        "Open in New Tab",
+                                        "essential-blocks",
+                                    )}
                                     checked={each.openNewTab}
                                     onChange={() =>
                                         handleImageData(
-                                            'openNewTab',
+                                            "openNewTab",
                                             !each.openNewTab,
                                             each.id,
                                             images,
-                                            setAttributes
+                                            setAttributes,
                                         )
                                     }
                                 />
 
                                 <ToggleControl
-                                    label={__("Add Second Button", "essential-blocks")}
+                                    label={__(
+                                        "Add Second Button",
+                                        "essential-blocks",
+                                    )}
                                     checked={each.showSecondButton}
                                     onChange={(value) =>
                                         handleImageData(
-                                            'showSecondButton',
+                                            "showSecondButton",
                                             value,
                                             each.id,
                                             images,
-                                            setAttributes
+                                            setAttributes,
                                         )
                                     }
                                 />
@@ -281,67 +305,165 @@ function Inspector(props) {
                                 {each.showSecondButton && (
                                     <>
                                         <TextControl
-                                            label={__("Second Button Text", "essential-blocks")}
+                                            label={__(
+                                                "Second Button Text",
+                                                "essential-blocks",
+                                            )}
                                             value={each.secondButtonText}
                                             onChange={(value) =>
                                                 handleImageData(
-                                                    'secondButtonText',
+                                                    "secondButtonText",
                                                     value,
                                                     each.id,
                                                     images,
-                                                    setAttributes
+                                                    setAttributes,
                                                 )
                                             }
                                         />
 
-                                        {!isValidHtml(each.secondButtonText) && (
+                                        {!isValidHtml(
+                                            each.secondButtonText,
+                                        ) && (
                                             <PanelRow className="eb-instruction-row">
                                                 <div className="eb-instruction">
-                                                    <strong>Note:</strong> Invalid HTML Tag.
+                                                    <strong>Note:</strong>{" "}
+                                                    Invalid HTML Tag.
                                                 </div>
                                             </PanelRow>
                                         )}
 
                                         <EBTextControl
-                                            label={__("Second Button URL", "essential-blocks")}
+                                            label={__(
+                                                "Second Button URL",
+                                                "essential-blocks",
+                                            )}
                                             fieldType="url"
                                             value={each.secondButtonUrl}
                                             onChange={(value) =>
                                                 handleImageData(
-                                                    'secondButtonUrl',
+                                                    "secondButtonUrl",
                                                     value,
                                                     each.id,
                                                     images,
-                                                    setAttributes
+                                                    setAttributes,
                                                 )
                                             }
                                             placeholder="https://example.com"
                                             help={__(
                                                 "Enter a valid URL.",
-                                                "essential-blocks"
+                                                "essential-blocks",
                                             )}
                                             showValidation={true}
                                             enableSecurity={true}
                                         />
 
-                                        {each.secondButtonUrl && each.secondButtonUrl.length > 0 && !each.isValidUrl && (
-                                            <span className="error">{__("URL is not valid", "essential-blocks")}</span>
-                                        )}
+                                        {each.secondButtonUrl &&
+                                            each.secondButtonUrl.length > 0 &&
+                                            !each.isValidUrl && (
+                                                <span className="error">
+                                                    {__(
+                                                        "URL is not valid",
+                                                        "essential-blocks",
+                                                    )}
+                                                </span>
+                                            )}
 
                                         <ToggleControl
-                                            label={__("Open in New Tab", "essential-blocks")}
-                                            checked={each.secondButtonOpenNewTab}
+                                            label={__(
+                                                "Open in New Tab",
+                                                "essential-blocks",
+                                            )}
+                                            checked={
+                                                each.secondButtonOpenNewTab
+                                            }
                                             onChange={() =>
                                                 handleImageData(
-                                                    'secondButtonOpenNewTab',
+                                                    "secondButtonOpenNewTab",
                                                     !each.secondButtonOpenNewTab,
                                                     each.id,
                                                     images,
-                                                    setAttributes
+                                                    setAttributes,
                                                 )
                                             }
                                         />
+                                    </>
+                                )}
+                            </>
+                        )}
 
+                        {sliderContentType === "content-1" && (
+                            <>
+                                <ToggleControl
+                                    label={__(
+                                        "Enable Content Link",
+                                        "essential-blocks",
+                                    )}
+                                    checked={each.enableContentLink}
+                                    onChange={() =>
+                                        handleImageData(
+                                            "enableContentLink",
+                                            !each.enableContentLink,
+                                            each.id,
+                                            images,
+                                            setAttributes,
+                                        )
+                                    }
+                                />
+
+                                {each.enableContentLink && (
+                                    <>
+                                        <EBTextControl
+                                            label={__(
+                                                "Content Link",
+                                                "essential-blocks",
+                                            )}
+                                            fieldType="url"
+                                            value={each.contentLink}
+                                            onChange={(value) =>
+                                                handleImageData(
+                                                    "contentLink",
+                                                    value,
+                                                    each.id,
+                                                    images,
+                                                    setAttributes,
+                                                )
+                                            }
+                                            placeholder="https://example.com"
+                                            help={__(
+                                                "Enter a valid URL.",
+                                                "essential-blocks",
+                                            )}
+                                            showValidation={true}
+                                            enableSecurity={true}
+                                        />
+
+                                        {each.contentLink &&
+                                            each.contentLink.length > 0 &&
+                                            !each.isContentUrlValid && (
+                                                <span className="error">
+                                                    {__(
+                                                        "URL is not valid",
+                                                        "essential-blocks",
+                                                    )}
+                                                </span>
+                                            )}
+
+                                        <ToggleControl
+                                            label={__(
+                                                "Open in New Tab",
+                                                "essential-blocks",
+                                            )}
+                                            checked={each.contentOpenNewTab}
+                                            onChange={() =>
+                                                handleImageData(
+                                                    "contentOpenNewTab",
+                                                    !each.contentOpenNewTab,
+                                                    each.id,
+                                                    images,
+                                                    setAttributes,
+                                                )
+                                            }
+                                        />
                                     </>
                                 )}
                             </>
@@ -357,43 +479,44 @@ function Inspector(props) {
                             value={each.buttonUrl}
                             onChange={(value) =>
                                 handleImageData(
-                                    'buttonUrl',
+                                    "buttonUrl",
                                     value,
                                     each.id,
                                     images,
-                                    setAttributes
+                                    setAttributes,
                                 )
                             }
                             placeholder="https://example.com"
-                            help={__(
-                                "Enter a valid URL.",
-                                "essential-blocks"
-                            )}
+                            help={__("Enter a valid URL.", "essential-blocks")}
                             showValidation={true}
                             enableSecurity={true}
                         />
 
-                        {each.buttonUrl && each.buttonUrl.length > 0 && !each.isValidUrl && (
-                            <span className="error">{__("URL is not valid", "essential-blocks")}</span>
-                        )}
+                        {each.buttonUrl &&
+                            each.buttonUrl.length > 0 &&
+                            !each.isValidUrl && (
+                                <span className="error">
+                                    {__("URL is not valid", "essential-blocks")}
+                                </span>
+                            )}
 
                         <ToggleControl
                             label={__("Open in New Tab", "essential-blocks")}
                             checked={each.openNewTab}
                             onChange={() =>
                                 handleImageData(
-                                    'openNewTab',
+                                    "openNewTab",
                                     !each.openNewTab,
                                     each.id,
                                     images,
-                                    setAttributes
+                                    setAttributes,
                                 )
                             }
                         />
                     </>
                 )}
             </div>
-        ))
+        ));
     };
 
     return (
@@ -404,9 +527,13 @@ function Inspector(props) {
                     paddingPrefix: WRAPPER_PADDING,
                     borderPrefix: WRAPPER_BORDER_SHADOW,
                     backgroundPrefix: WRAPPER_BG,
-                }}>
+                }}
+            >
                 <InspectorPanel.General>
-                    <InspectorPanel.PanelBody title={__("General", "essential-blocks")} initialOpen={true}>
+                    <InspectorPanel.PanelBody
+                        title={__("General", "essential-blocks")}
+                        initialOpen={true}
+                    >
                         <SelectControl
                             label={__("Slider Type", "essential-blocks")}
                             value={sliderType}
@@ -441,7 +568,9 @@ function Inspector(props) {
                             label={__("Autoplay", "essential-blocks")}
                             checked={autoplay}
                             onChange={() => {
-                                autoplay ? slider.current.slickPlay() : slider.current.slickPause();
+                                autoplay
+                                    ? slider.current.slickPlay()
+                                    : slider.current.slickPause();
                                 setAttributes({
                                     autoplay: !autoplay,
                                 });
@@ -484,7 +613,12 @@ function Inspector(props) {
 
                         {vertical && (
                             <PanelRow>
-                                <em>{__("Fade will disable if enable Vertical Slide", "essential-blocks")}</em>
+                                <em>
+                                    {__(
+                                        "Fade will disable if enable Vertical Slide",
+                                        "essential-blocks",
+                                    )}
+                                </em>
                             </PanelRow>
                         )}
 
@@ -499,6 +633,19 @@ function Inspector(props) {
                         />
 
                         <ToggleControl
+                            label={__(
+                                "Enable Lazy Loading",
+                                "essential-blocks",
+                            )}
+                            checked={enableLazyLoad}
+                            onChange={() => {
+                                setAttributes({
+                                    enableLazyLoad: !enableLazyLoad,
+                                });
+                            }}
+                        />
+
+                        <ToggleControl
                             label={__("Custom Height", "essential-blocks")}
                             checked={isCustomHeight}
                             onChange={() =>
@@ -510,7 +657,10 @@ function Inspector(props) {
 
                         {isCustomHeight && (
                             <ResponsiveRangeController
-                                baseLabel={__("Image Height", "essential-blocks")}
+                                baseLabel={__(
+                                    "Image Height",
+                                    "essential-blocks",
+                                )}
                                 controlName={CUSTOM_HEIGHT}
                                 units={HEIGHT_UNIT_TYPES}
                                 min={1}
@@ -521,7 +671,10 @@ function Inspector(props) {
 
                         {!fade && (
                             <ResponsiveRangeController
-                                baseLabel={__("Slides to Show", "essential-blocks")}
+                                baseLabel={__(
+                                    "Slides to Show",
+                                    "essential-blocks",
+                                )}
                                 controlName={SLIDE_TO_SHOW}
                                 units={[]}
                                 min={1}
@@ -558,33 +711,48 @@ function Inspector(props) {
                                     value={arrowPrevIcon}
                                     onChange={(iconValue) =>
                                         setAttributes({
-                                            arrowPrevIcon: sanitizeIconValue(iconValue),
+                                            arrowPrevIcon:
+                                                sanitizeIconValue(iconValue),
                                         })
                                     }
-                                    title={__("Arrow Prev Icon", "essential-blocks")}
-                                    icons={{ fontAwesome: faArrowIcons }}
-                                    disableDashicon={true}
+                                    title={__(
+                                        "Arrow Prev Icon",
+                                        "essential-blocks",
+                                    )}
+                                    icons={{
+                                        fontAwesome: faArrowIcons,
+                                        dashIcon: dashiconsArrows,
+                                    }}
                                 />
                                 <EBIconPicker
                                     value={arrowNextIcon}
                                     onChange={(iconValue) =>
                                         setAttributes({
-                                            arrowNextIcon: sanitizeIconValue(iconValue),
+                                            arrowNextIcon:
+                                                sanitizeIconValue(iconValue),
                                         })
                                     }
-                                    title={__("Arrow Next Icon", "essential-blocks")}
-                                    icons={{ fontAwesome: faArrowIcons }}
-                                    disableDashicon={true}
+                                    title={__(
+                                        "Arrow Next Icon",
+                                        "essential-blocks",
+                                    )}
+                                    icons={{
+                                        fontAwesome: faArrowIcons,
+                                        dashIcon: dashiconsArrows,
+                                    }}
                                 />
                             </>
                         )}
 
-                        {version === 'v2' && (
+                        {version === "v2" && (
                             <>
                                 <Divider />
 
                                 <ToggleControl
-                                    label={__("Show Lightbox", "essential-blocks")}
+                                    label={__(
+                                        "Show Lightbox",
+                                        "essential-blocks",
+                                    )}
                                     checked={showLightbox}
                                     onChange={() => {
                                         setAttributes({
@@ -594,14 +762,19 @@ function Inspector(props) {
                                 />
                             </>
                         )}
-
                     </InspectorPanel.PanelBody>
 
-                    <InspectorPanel.PanelBody title={__("Slides", "essential-blocks")} initialOpen={true}>
+                    <InspectorPanel.PanelBody
+                        title={__("Slides", "essential-blocks")}
+                        initialOpen={true}
+                    >
                         {sliderType === "content" && (
                             <>
                                 <SelectControl
-                                    label={__("Content Styles", "essential-blocks")}
+                                    label={__(
+                                        "Content Styles",
+                                        "essential-blocks",
+                                    )}
                                     value={sliderContentType}
                                     options={SLIDER_CONTENT_TYPE}
                                     onChange={(value) =>
@@ -617,12 +790,15 @@ function Inspector(props) {
                                     options={TAGS_TYPE}
                                     onChange={(titleTag) => {
                                         setAttributes({
-                                            titleTag
+                                            titleTag,
                                         });
                                     }}
                                 />
                                 <SelectControl
-                                    label={__("Content Tag", "essential-blocks")}
+                                    label={__(
+                                        "Content Tag",
+                                        "essential-blocks",
+                                    )}
                                     value={contentTag}
                                     options={TAGS_TYPE}
                                     onChange={(contentTag) => {
@@ -637,22 +813,29 @@ function Inspector(props) {
                         )}
                         <SortControl
                             items={attributes.images}
-                            onSortEnd={(newImages) => setAttributes({ images: newImages })}
+                            onSortEnd={(newImages) =>
+                                setAttributes({ images: newImages })
+                            }
                             onDeleteItem={(index) => {
                                 setAttributes({
-                                    images: images.filter((_, i) => i !== index),
+                                    images: images.filter(
+                                        (_, i) => i !== index,
+                                    ),
                                 });
                             }}
                             hasSettings={true}
                             settingsComponents={getSliderItemsComponents()}
-                            labelKey={'title'}
+                            labelKey={"title"}
                             preserveLabels={true}
                             hasAddButton={false}
                         />
                     </InspectorPanel.PanelBody>
                 </InspectorPanel.General>
                 <InspectorPanel.Style>
-                    <InspectorPanel.PanelBody title={__("Settings", "essential-blocks")} initialOpen={true}>
+                    <InspectorPanel.PanelBody
+                        title={__("Settings", "essential-blocks")}
+                        initialOpen={true}
+                    >
                         <ResponsiveRangeController
                             baseLabel={__("Slides Gap", "essential-blocks")}
                             controlName={SLIDES_GAP}
@@ -662,13 +845,17 @@ function Inspector(props) {
                             step={1}
                         />
 
-                        {sliderType === "content" && sliderContentType === "content-1" && (
-                            <ColorControl
-                                label={__("Overlay Color", "essential-blocks")}
-                                color={overlayColor}
-                                attributeName={'overlayColor'}
-                            />
-                        )}
+                        {sliderType === "content" &&
+                            sliderContentType === "content-1" && (
+                                <ColorControl
+                                    label={__(
+                                        "Overlay Color",
+                                        "essential-blocks",
+                                    )}
+                                    color={overlayColor}
+                                    attributeName={"overlayColor"}
+                                />
+                            )}
                         {sliderType === "content" && (
                             <>
                                 <PanelRow>Text Align</PanelRow>
@@ -677,7 +864,9 @@ function Inspector(props) {
                                         <Button
                                             key={index}
                                             isPrimary={textAlign === item.value}
-                                            isSecondary={textAlign !== item.value}
+                                            isSecondary={
+                                                textAlign !== item.value
+                                            }
                                             onClick={() =>
                                                 setAttributes({
                                                     textAlign: item.value,
@@ -693,38 +882,62 @@ function Inspector(props) {
                                     <>
                                         <PanelRow>Vertical Align</PanelRow>
                                         <ButtonGroup>
-                                            {VERTICAL_ALIGN.map((item, index) => (
-                                                <Button
-                                                    key={index}
-                                                    isPrimary={verticalAlign === item.value}
-                                                    isSecondary={verticalAlign !== item.value}
-                                                    onClick={() =>
-                                                        setAttributes({
-                                                            verticalAlign: item.value,
-                                                        })
-                                                    }
-                                                >
-                                                    {item.label}
-                                                </Button>
-                                            ))}
+                                            {VERTICAL_ALIGN.map(
+                                                (item, index) => (
+                                                    <Button
+                                                        key={index}
+                                                        isPrimary={
+                                                            verticalAlign ===
+                                                            item.value
+                                                        }
+                                                        isSecondary={
+                                                            verticalAlign !==
+                                                            item.value
+                                                        }
+                                                        onClick={() =>
+                                                            setAttributes({
+                                                                verticalAlign:
+                                                                    item.value,
+                                                            })
+                                                        }
+                                                    >
+                                                        {item.label}
+                                                    </Button>
+                                                ),
+                                            )}
                                         </ButtonGroup>
                                     </>
                                 )}
                             </>
                         )}
+
+                        <Divider />
+
+                        <PanelRow>Slider Border</PanelRow>
+                        <BorderShadowControl
+                            controlName={SLIDER_BORDER_SHADOW}
+                            noBdrHover
+                            noShadow
+                        />
                     </InspectorPanel.PanelBody>
 
                     {sliderType === "content" && (
                         <>
-                            <InspectorPanel.PanelBody title={__("Title", "essential-blocks")} initialOpen={false}>
+                            <InspectorPanel.PanelBody
+                                title={__("Title", "essential-blocks")}
+                                initialOpen={false}
+                            >
                                 <ColorControl
                                     label={__("Color", "essential-blocks")}
                                     color={titleColor}
-                                    attributeName={'titleColor'}
+                                    attributeName={"titleColor"}
                                 />
 
                                 <TypographyDropdown
-                                    baseLabel={__("Typography", "essential-blocks")}
+                                    baseLabel={__(
+                                        "Typography",
+                                        "essential-blocks",
+                                    )}
                                     typographyPrefixConstant={TITLE_TYPOGRAPHY}
                                 />
                                 <ResponsiveDimensionsControl
@@ -733,16 +946,24 @@ function Inspector(props) {
                                 />
                             </InspectorPanel.PanelBody>
 
-                            <InspectorPanel.PanelBody title={__("Subtitle", "essential-blocks")} initialOpen={false}>
+                            <InspectorPanel.PanelBody
+                                title={__("Subtitle", "essential-blocks")}
+                                initialOpen={false}
+                            >
                                 <ColorControl
                                     label={__("Color", "essential-blocks")}
                                     color={subtitleColor}
-                                    attributeName={'subtitleColor'}
+                                    attributeName={"subtitleColor"}
                                 />
 
                                 <TypographyDropdown
-                                    baseLabel={__("Typography", "essential-blocks")}
-                                    typographyPrefixConstant={SUBTITLE_TYPOGRAPHY}
+                                    baseLabel={__(
+                                        "Typography",
+                                        "essential-blocks",
+                                    )}
+                                    typographyPrefixConstant={
+                                        SUBTITLE_TYPOGRAPHY
+                                    }
                                 />
                                 <ResponsiveDimensionsControl
                                     controlName={SUBTITLE_MARGIN}
@@ -750,13 +971,20 @@ function Inspector(props) {
                                 />
                             </InspectorPanel.PanelBody>
 
-                            <InspectorPanel.PanelBody title={__("Button", "essential-blocks")} initialOpen={false}>
+                            <InspectorPanel.PanelBody
+                                title={__("Button", "essential-blocks")}
+                                initialOpen={false}
+                            >
                                 <ButtonGroup className="eb-inspector-btn-group">
                                     {NORMAL_HOVER.map((item, index) => (
                                         <Button
                                             key={index}
-                                            isPrimary={buttonColorType === item.value}
-                                            isSecondary={buttonColorType !== item.value}
+                                            isPrimary={
+                                                buttonColorType === item.value
+                                            }
+                                            isSecondary={
+                                                buttonColorType !== item.value
+                                            }
                                             onClick={() =>
                                                 setAttributes({
                                                     buttonColorType: item.value,
@@ -771,14 +999,20 @@ function Inspector(props) {
                                 {buttonColorType === "normal" && (
                                     <>
                                         <ColorControl
-                                            label={__("Color", "essential-blocks")}
+                                            label={__(
+                                                "Color",
+                                                "essential-blocks",
+                                            )}
                                             color={buttonColor}
-                                            attributeName={'buttonColor'}
+                                            attributeName={"buttonColor"}
                                         />
                                         <ColorControl
-                                            label={__("Background Color", "essential-blocks")}
+                                            label={__(
+                                                "Background Color",
+                                                "essential-blocks",
+                                            )}
                                             color={buttonBGColor}
-                                            attributeName={'buttonBGColor'}
+                                            attributeName={"buttonBGColor"}
                                         />
                                     </>
                                 )}
@@ -786,25 +1020,34 @@ function Inspector(props) {
                                 {buttonColorType === "hover" && (
                                     <>
                                         <ColorControl
-                                            label={__("Color", "essential-blocks")}
+                                            label={__(
+                                                "Color",
+                                                "essential-blocks",
+                                            )}
                                             color={buttonHoverColor}
-                                            attributeName={'buttonHoverColor'}
+                                            attributeName={"buttonHoverColor"}
                                         />
                                         <ColorControl
-                                            label={__("Background Color", "essential-blocks")}
+                                            label={__(
+                                                "Background Color",
+                                                "essential-blocks",
+                                            )}
                                             color={buttonHoverBGColor}
-                                            attributeName={'buttonHoverBGColor'}
+                                            attributeName={"buttonHoverBGColor"}
                                         />
                                     </>
                                 )}
                                 <PanelRow>Button Border & Shadow</PanelRow>
                                 <BorderShadowControl
                                     controlName={BUTTON_BORDER_SHADOW}
-                                // noShadow
-                                // noBorder
+                                    // noShadow
+                                    // noBorder
                                 />
                                 <TypographyDropdown
-                                    baseLabel={__("Typography", "essential-blocks")}
+                                    baseLabel={__(
+                                        "Typography",
+                                        "essential-blocks",
+                                    )}
                                     typographyPrefixConstant={BUTTON_TYPOGRAPHY}
                                 />
                                 <ResponsiveDimensionsControl
@@ -819,50 +1062,55 @@ function Inspector(props) {
                                 <InspectorPanel.PanelBody
                                     title={__(
                                         "Second Button",
-                                        "essential-blocks"
+                                        "essential-blocks",
                                     )}
                                     initialOpen={false}
                                 >
                                     <ButtonGroup className="eb-inspector-btn-group">
-                                        {NORMAL_HOVER.map(
-                                            (item, index) => (
-                                                <Button
-                                                    key={index}
-                                                    isPrimary={
-                                                        secondButtonColorType ===
-                                                        item.value
-                                                    }
-                                                    isSecondary={
-                                                        secondButtonColorType !==
-                                                        item.value
-                                                    }
-                                                    onClick={() =>
-                                                        setAttributes(
-                                                            {
-                                                                secondButtonColorType:
-                                                                    item.value,
-                                                            }
-                                                        )
-                                                    }
-                                                >
-                                                    {item.label}
-                                                </Button>
-                                            )
-                                        )}
+                                        {NORMAL_HOVER.map((item, index) => (
+                                            <Button
+                                                key={index}
+                                                isPrimary={
+                                                    secondButtonColorType ===
+                                                    item.value
+                                                }
+                                                isSecondary={
+                                                    secondButtonColorType !==
+                                                    item.value
+                                                }
+                                                onClick={() =>
+                                                    setAttributes({
+                                                        secondButtonColorType:
+                                                            item.value,
+                                                    })
+                                                }
+                                            >
+                                                {item.label}
+                                            </Button>
+                                        ))}
                                     </ButtonGroup>
-
 
                                     {secondButtonColorType === "normal" && (
                                         <>
                                             <ColorControl
-                                                label={__("Color", "essential-blocks")}
+                                                label={__(
+                                                    "Color",
+                                                    "essential-blocks",
+                                                )}
                                                 color={secondButtonColor}
-                                                attributeName={'secondButtonColor'}
+                                                attributeName={
+                                                    "secondButtonColor"
+                                                }
                                             />
                                             <ColorControl
-                                                label={__("Background Color", "essential-blocks")}
+                                                label={__(
+                                                    "Background Color",
+                                                    "essential-blocks",
+                                                )}
                                                 color={secondButtonBGColor}
-                                                attributeName={'secondButtonBGColor'}
+                                                attributeName={
+                                                    "secondButtonBGColor"
+                                                }
                                             />
                                         </>
                                     )}
@@ -870,46 +1118,48 @@ function Inspector(props) {
                                     {secondButtonColorType === "hover" && (
                                         <>
                                             <ColorControl
-                                                label={__("Color", "essential-blocks")}
+                                                label={__(
+                                                    "Color",
+                                                    "essential-blocks",
+                                                )}
                                                 color={secondButtonHoverColor}
-                                                attributeName={'secondButtonHoverColor'}
+                                                attributeName={
+                                                    "secondButtonHoverColor"
+                                                }
                                             />
                                             <ColorControl
-                                                label={__("Background Color", "essential-blocks")}
+                                                label={__(
+                                                    "Background Color",
+                                                    "essential-blocks",
+                                                )}
                                                 color={secondButtonHoverBGColor}
-                                                attributeName={'secondButtonHoverBGColor'}
+                                                attributeName={
+                                                    "secondButtonHoverBGColor"
+                                                }
                                             />
                                         </>
                                     )}
-                                    <PanelRow>
-                                        Button Border & Shadow
-                                    </PanelRow>
+                                    <PanelRow>Button Border & Shadow</PanelRow>
                                     <BorderShadowControl
-                                        controlName={
-                                            BUTTON2_BORDER_SHADOW
-                                        }
-                                    // noShadow
-                                    // noBorder
+                                        controlName={BUTTON2_BORDER_SHADOW}
+                                        // noShadow
+                                        // noBorder
                                     />
                                     <TypographyDropdown
                                         baseLabel={__(
                                             "Typography",
-                                            "essential-blocks"
+                                            "essential-blocks",
                                         )}
                                         typographyPrefixConstant={
                                             BUTTON2_TYPOGRAPHY
                                         }
                                     />
                                     <ResponsiveDimensionsControl
-                                        controlName={
-                                            BUTTON2_MARGIN
-                                        }
+                                        controlName={BUTTON2_MARGIN}
                                         baseLabel="Margin"
                                     />
                                     <ResponsiveDimensionsControl
-                                        controlName={
-                                            BUTTON2_PADDING
-                                        }
+                                        controlName={BUTTON2_PADDING}
                                         baseLabel="Padding"
                                     />
                                 </InspectorPanel.PanelBody>
@@ -918,13 +1168,20 @@ function Inspector(props) {
                     )}
 
                     {arrows && (
-                        <InspectorPanel.PanelBody title={__("Arrow", "essential-blocks")} initialOpen={false}>
+                        <InspectorPanel.PanelBody
+                            title={__("Arrow", "essential-blocks")}
+                            initialOpen={false}
+                        >
                             <ButtonGroup className="eb-inspector-btn-group">
                                 {NORMAL_HOVER.map((item, index) => (
                                     <Button
                                         key={index}
-                                        isPrimary={arrowColorType === item.value}
-                                        isSecondary={arrowColorType !== item.value}
+                                        isPrimary={
+                                            arrowColorType === item.value
+                                        }
+                                        isSecondary={
+                                            arrowColorType !== item.value
+                                        }
                                         onClick={() =>
                                             setAttributes({
                                                 arrowColorType: item.value,
@@ -940,15 +1197,18 @@ function Inspector(props) {
                                 <ColorControl
                                     label={__("Color", "essential-blocks")}
                                     color={arrowColor}
-                                    attributeName={'arrowColor'}
+                                    attributeName={"arrowColor"}
                                 />
                             )}
 
                             {arrowColorType === "hover" && (
                                 <ColorControl
-                                    label={__("Hover Color", "essential-blocks")}
+                                    label={__(
+                                        "Hover Color",
+                                        "essential-blocks",
+                                    )}
                                     color={arrowHoverColor}
-                                    attributeName={'arrowHoverColor'}
+                                    attributeName={"arrowHoverColor"}
                                 />
                             )}
 
@@ -962,7 +1222,10 @@ function Inspector(props) {
                             />
 
                             <ResponsiveRangeController
-                                baseLabel={__("Arrow Position", "essential-blocks")}
+                                baseLabel={__(
+                                    "Arrow Position",
+                                    "essential-blocks",
+                                )}
                                 controlName={ARROW_POSITION}
                                 units={UNIT_TYPES}
                                 min={-50}
@@ -973,23 +1236,23 @@ function Inspector(props) {
                     )}
 
                     {dots && (
-                        <InspectorPanel.PanelBody title={__("Dot", "essential-blocks")} initialOpen={false}>
+                        <InspectorPanel.PanelBody
+                            title={__("Dot", "essential-blocks")}
+                            initialOpen={false}
+                        >
                             <ColorControl
                                 label={__("Color", "essential-blocks")}
                                 color={dotsColor}
-                                attributeName={'dotsColor'}
+                                attributeName={"dotsColor"}
                             />
                             <ColorControl
                                 label={__("Active Color", "essential-blocks")}
                                 color={dotsActiveColor}
-                                attributeName={'dotsActiveColor'}
+                                attributeName={"dotsActiveColor"}
                             />
 
                             <ResponsiveRangeController
-                                baseLabel={__(
-                                    "Dots Size",
-                                    "essential-blocks"
-                                )}
+                                baseLabel={__("Dots Size", "essential-blocks")}
                                 controlName={DOTS_SIZE}
                                 units={FONT_UNIT_TYPES}
                                 min={1}
@@ -997,10 +1260,7 @@ function Inspector(props) {
                                 step={1}
                             />
                             <ResponsiveRangeController
-                                baseLabel={__(
-                                    "Dots Gap",
-                                    "essential-blocks"
-                                )}
+                                baseLabel={__("Dots Gap", "essential-blocks")}
                                 controlName={DOTS_GAP}
                                 units={UNIT_TYPES}
                                 min={0}
@@ -1008,7 +1268,10 @@ function Inspector(props) {
                                 step={1}
                             />
                             <ResponsiveRangeController
-                                baseLabel={__("Dots Position", "essential-blocks")}
+                                baseLabel={__(
+                                    "Dots Position",
+                                    "essential-blocks",
+                                )}
                                 controlName={DOTS_POSITION}
                                 units={UNIT_TYPES}
                                 min={-50}
@@ -1020,7 +1283,6 @@ function Inspector(props) {
                 </InspectorPanel.Style>
             </InspectorPanel>
         </>
-
     );
 }
 

@@ -19,7 +19,8 @@ import {
     TypographyDropdown,
     ColorControl,
     InspectorPanel,
-    EBTextControl
+    EBTextControl,
+    ButtonGroupControl
 } from "@essential-blocks/controls";
 
 import {
@@ -33,6 +34,7 @@ import {
 } from "./constants/typographyPrefixConstants";
 import { WrpBdShadow } from "./constants/borderShadowConstants";
 import { backgroundWrapper } from "./constants/backgroundsConstants";
+import { HEADING } from "./constants";
 
 const Inspector = ({ attributes, setAttributes }) => {
     const {
@@ -53,6 +55,7 @@ const Inspector = ({ attributes, setAttributes }) => {
         fadeOutDelay,
         loop,
         showCursor,
+        tagName
     } = attributes;
 
     return (
@@ -108,6 +111,17 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onChange={(suffix) => setAttributes({ suffix })}
                         enableAi={true}
                     />
+
+                    <BaseControl label={__("Tag", "essential-blocks")}
+                        className="eb-advanced-heading-tag-group eb-html-tag-buttongroup"
+                    >
+                        <ButtonGroupControl
+                            attrName={'tagName'}
+                            options={HEADING}
+                            currentValue={tagName}
+                            onChange={(value) => setAttributes({ tagName: value })}
+                        />
+                    </BaseControl>
 
                     <ToggleControl
                         label={__("Loop", "essential-blocks")}

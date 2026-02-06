@@ -35,7 +35,9 @@ class Slider extends Block
         $this->assets_manager->register(
             'slider-frontend',
             $this->path() . '/frontend.js',
-            [ 'jquery', 'essential-blocks-controls-frontend', 'essential-blocks-slick-lightbox-js' ]
+            [ 'essential-blocks-controls-frontend', 'essential-blocks-slick-lightbox-js' ]
         );
+
+        $this->assets_manager->register( 'slickjs', 'js/slick.min.js', [ 'jquery' ] );
     }
 }

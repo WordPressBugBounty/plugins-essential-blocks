@@ -277,50 +277,43 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 5.7.0", "essential-blocks")}
+                                    {__("Version: 6.0.1", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("21/09/2025", "essential-blocks")}
+                                        {__("26/01/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Liquid Glass Effect",
+                                            "Fixed: Accordion | Attempt recovery issue for non admin users",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: Block Patterns | 70+ block patterns",
+                                            "Fixed: Accordion | Preset with image not working properly",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: Text | Spacing options",
+                                            "Fixed: Advanced Heading | Enabling link option gets unwanted font size",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Filterable Gallery | Showing pre-selected image on blank gallery",
+                                            "Fixed: Call To Action | Overlap issue with advanced navigation",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Image Comparison | Compatibility issue in vertical mode",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Security enhancements",
+                                            "Fixed: Using Broken HTML tags in rich text input crashes some blocks",
                                             "essential-blocks"
                                         )}
 

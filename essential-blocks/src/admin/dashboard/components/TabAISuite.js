@@ -20,6 +20,7 @@ export default function TabAISuite() {
         postTypes: ['all'],
         apiKey: "",
         maxTokens: 1500,
+        contentModel: 'gpt-4.1-nano',
     });
 
     // Track if settings have been loaded from the server
@@ -174,6 +175,13 @@ export default function TabAISuite() {
         setAiSettings({
             ...aiSettings,
             maxTokens: parseInt(event.target.value) || 1200,
+        });
+    };
+
+    const handleContentModelChange = (event) => {
+        setAiSettings({
+            ...aiSettings,
+            contentModel: event.target.value,
         });
     };
 
@@ -372,6 +380,29 @@ export default function TabAISuite() {
                                             classNamePrefix="eb-select"
                                             isLoading={!settingsLoaded || !filterablePostTypes || filterablePostTypes.length === 0}
                                         />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Content Generation Model */}
+                            <div className="eb-admin-inner-grid eb-col-12">
+                                <div className="eb-col-6">
+                                    <h2>{__("Content Generation Model", "essential-blocks")}</h2>
+                                    <p>{__("Select the OpenAI model to use for AI content generation. Different models offer varying capabilities and performance.", "essential-blocks")}</p>
+                                </div>
+                                <div className="eb-col-6">
+                                    <div className="eb-admin-input-wrapper eb-block-box p0">
+                                        <select
+                                            value={aiSettings.contentModel}
+                                            onChange={handleContentModelChange}
+                                            className="eb-content-model-select"
+                                        >
+                                            <option value="gpt-4.1-nano">{__("GPT-4.1 Nano (Recommended)", "essential-blocks")}</option>
+                                            <option value="gpt-4o">{__("GPT-4o", "essential-blocks")}</option>
+                                            <option value="gpt-4-turbo">{__("GPT-4 Turbo", "essential-blocks")}</option>
+                                            <option value="gpt-4o-mini">{__("GPT-4o Mini", "essential-blocks")}</option>
+                                            <option value="gpt-3.5-turbo">{__("GPT-3.5 Turbo", "essential-blocks")}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
