@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 6.0.2
+Stable tag: 6.0.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -270,12 +270,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
-= 6.0.2 - 10/02/2026 =
-- Added: Pricing Table | Indivisual feature color and customization option
-- Fixed: Team Meber | Avater image can't be deleted
+
+= 6.0.3 - 10/02/2026 =
+- Added: Pricing Table | Individual feature color and customization options
+- Fixed: Team Member | Avatar image can't be deleted
 - Fixed: Pricing Table | Feature alignment issue
 - Few minor bug fixes & improvements
-
 
 = 6.0.1 - 26/01/2026 =
 - Fixed: Accordion | Attempt recovery issue for non admin users

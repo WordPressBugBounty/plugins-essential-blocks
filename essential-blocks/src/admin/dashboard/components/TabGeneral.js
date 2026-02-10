@@ -277,7 +277,7 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.2", "essential-blocks")}
+                                    {__("Version: 6.0.3", "essential-blocks")}
                                     <span className="changelog-date">
                                         {__("10/02/2026", "essential-blocks")}
                                     </span>
@@ -285,14 +285,14 @@ export default function TabGeneral() {
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Pricing Table | Indivisual feature color and customization option",
+                                            "Added: Pricing Table | Individual feature color and customization options",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Team Meber | Avater image can't be deleted",
+                                            "Fixed: Team Member | Avatar image can't be deleted",
                                             "essential-blocks"
                                         )}
 
