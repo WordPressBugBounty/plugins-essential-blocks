@@ -125,23 +125,26 @@ const Save = ({ attributes }) => {
                                                             }`}
                                                     >
                                                         {features.map(
-                                                            ({ icon, text, color, clickable, link }, index) => (
+                                                            ({ icon, text, color, textColor, clickable, link }, index) => (
                                                                 <li
                                                                     key={index}
                                                                     className="eb-pricebox-feature-item"
                                                                     data-icon={icon}
                                                                     data-color={color}
+                                                                    data-text-color={textColor}
                                                                     data-clickable={clickable}
                                                                     data-link={link}
                                                                 >
                                                                     {clickable && link ? (
                                                                         <a href={sanitizeURL(link)}>
-                                                                            <EBDisplayIconSave
-                                                                                className={`eb-pricebox-icon`}
-                                                                                icon={icon}
-                                                                                style={{ color: color }}
-                                                                            />
-                                                                            <span className="eb-pricebox-feature-text">
+                                                                            {showFeatureIcon && (
+                                                                                <EBDisplayIconSave
+                                                                                    className={`eb-pricebox-icon`}
+                                                                                    icon={icon}
+                                                                                    style={{ color: color }}
+                                                                                />
+                                                                            )}
+                                                                            <span className="eb-pricebox-feature-text" style={{ color: textColor }}>
                                                                                 {text}
                                                                             </span>
                                                                         </a>
@@ -154,7 +157,7 @@ const Save = ({ attributes }) => {
                                                                                     style={{ color: color }}
                                                                                 />
                                                                             )}
-                                                                            <span className="eb-pricebox-feature-text">
+                                                                            <span className="eb-pricebox-feature-text" style={{ color: textColor }}>
                                                                                 {text}
                                                                             </span>
                                                                         </>
@@ -248,23 +251,26 @@ const Save = ({ attributes }) => {
                                                     className={`eb-pricebox-features ${showFeatureLine ? "" : "no-border"
                                                         }`}
                                                 >
-                                                    {features.map(({ icon, text, color, clickable, link }, index) => (
+                                                    {features.map(({ icon, text, color, textColor, clickable, link }, index) => (
                                                         <li
                                                             key={index}
                                                             className="eb-pricebox-feature-item"
                                                             data-icon={icon}
                                                             data-color={color}
+                                                            data-text-color={textColor}
                                                             data-clickable={clickable}
                                                             data-link={link}
                                                         >
                                                             {clickable && link ? (
                                                                 <a href={sanitizeURL(link)}>
-                                                                    <EBDisplayIconSave
-                                                                        className={`eb-pricebox-icon`}
-                                                                        icon={icon}
-                                                                        style={{ color: color }}
-                                                                    />
-                                                                    <span className="eb-pricebox-feature-text">
+                                                                    {showFeatureIcon && (
+                                                                        <EBDisplayIconSave
+                                                                            className={`eb-pricebox-icon`}
+                                                                            icon={icon}
+                                                                            style={{ color: color }}
+                                                                        />
+                                                                    )}
+                                                                    <span className="eb-pricebox-feature-text" style={{ color: textColor }}>
                                                                         {text}
                                                                     </span>
                                                                 </a>
@@ -277,7 +283,7 @@ const Save = ({ attributes }) => {
                                                                             style={{ color: color }}
                                                                         />
                                                                     )}
-                                                                    <span className="eb-pricebox-feature-text">
+                                                                    <span className="eb-pricebox-feature-text" style={{ color: textColor }}>
                                                                         {text}
                                                                     </span>
                                                                 </>

@@ -362,6 +362,7 @@ function Inspector({ attributes, setAttributes }) {
                     >
                         <ImageComponent.GeneralTab
                             onSelect={({ id, url, alt }) => setAttributes({ imageNewUrl: url, imageId: id, imageAlt: alt })}
+                            onRemove={() => setAttributes({ imageNewUrl: '', imageId: null, imageAlt: '' })}
                             value={imageNewUrl}
                             hasTag={false}
                             hasCaption={false}
@@ -1011,17 +1012,6 @@ function Inspector({ attributes, setAttributes }) {
                         )}
                     </InspectorPanel.PanelBody>
                     <InspectorPanel.PanelBody title={__("Avatar", "essential-blocks")} initialOpen={false}>
-                        <ImageComponent.GeneralTab
-                            onSelect={({ id, url }) => setAttributes({
-                                imageNewUrl: url, imageId: id, imageAlt: alt
-                            })}
-                            value={imageNewUrl}
-                            hasTag={false}
-                            hasCaption={false}
-                            hasStyle={false}
-                            hasLink={false}
-                            showInPanel={false}
-                        />
                         {imageNewUrl && (
                             <>
                                 <ResponsiveRangeController

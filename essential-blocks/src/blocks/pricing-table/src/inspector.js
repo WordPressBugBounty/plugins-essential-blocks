@@ -162,6 +162,11 @@ const Inspector = ({ attributes, setAttributes }) => {
                     label={__("Text", "essential-blocks")}
                     value={each.text}
                 />
+                <ColorControl
+                    label={__("Text Color", "essential-blocks")}
+                    color={each.textColor}
+                    onChange={(value) => onFeatureChange("textColor", value, i)}
+                />
                 <ToggleControl
                     label={__("Link", "essential-blocks")}
                     checked={each.clickable === "true"}

@@ -277,43 +277,29 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.1", "essential-blocks")}
+                                    {__("Version: 6.0.2", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("26/01/2026", "essential-blocks")}
+                                        {__("10/02/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Fixed: Accordion | Attempt recovery issue for non admin users",
+                                            "Added: Pricing Table | Indivisual feature color and customization option",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Accordion | Preset with image not working properly",
+                                            "Fixed: Team Meber | Avater image can't be deleted",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Advanced Heading | Enabling link option gets unwanted font size",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Call To Action | Overlap issue with advanced navigation",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Using Broken HTML tags in rich text input crashes some blocks",
+                                            "Fixed: Pricing Table | Feature alignment issue",
                                             "essential-blocks"
                                         )}
 

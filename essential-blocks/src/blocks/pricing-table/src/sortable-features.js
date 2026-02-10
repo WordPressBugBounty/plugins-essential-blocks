@@ -20,7 +20,7 @@ import arrayMove from "array-move";
  * Internal dependencies
  */
 import {
-ColorControl, EBIconPicker
+    ColorControl, EBIconPicker
 } from "@essential-blocks/controls";
 
 // Style objects
@@ -117,6 +117,11 @@ const SortableItem = SortableElement(
                             label={__("Text", "essential-blocks")}
                             value={feature.text}
                             onChange={(value) => onFeatureChange("text", value, position)}
+                        />
+                        <ColorControl
+                            label={__("Text Color", "essential-blocks")}
+                            color={feature.textColor}
+                            onChange={(value) => onFeatureChange("textColor", value, position)}
                         />
 
                         <ToggleControl
