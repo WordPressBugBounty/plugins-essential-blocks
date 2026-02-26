@@ -77,6 +77,7 @@ import {
     MorePosts,
     InspectorPanel,
     SortControl,
+    EbImageSizeSelector,
 } from "@essential-blocks/controls";
 
 import { CdIcon, ProBadge, Crown } from "./icon";
@@ -167,6 +168,7 @@ const Inspector = ({ attributes, setAttributes, setQueryResults }) => {
         titleTag,
         catColor,
         catHoverColor,
+        imageSize
     } = attributes;
 
     const changeLayout = (preset) => {
@@ -437,6 +439,14 @@ const Inspector = ({ attributes, setAttributes, setQueryResults }) => {
                                 ))}
                             </ButtonGroup>
                         </BaseControl>
+
+                        <EbImageSizeSelector
+                            attrName={"imageSize"}
+                            label={__(
+                                "Image Size",
+                                "essential-blocks"
+                            )}
+                        />
                     </InspectorPanel.PanelBody>
                     <WoocommerceQuery
                         title={"Product Query"}

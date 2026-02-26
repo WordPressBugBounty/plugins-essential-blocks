@@ -457,10 +457,13 @@ function Inspector(props) {
                     )}
 
                     {imgSource === "custom" && (
-                        <ImageComponent.GeneralTab
-                            hasTag={false}
-                            useImageAlign={true}
-                        />
+                        <>
+                            <ImageComponent.GeneralTab
+                                hasTag={false}
+                                useImageAlign={true}
+                                hasAltText={true}
+                            />
+                        </>
                     )}
 
                     <SelectControl
@@ -529,7 +532,7 @@ function Inspector(props) {
                     </>
                 )}
             </InspectorPanel.Style>
-        </InspectorPanel>
+        </InspectorPanel >
     );
 }
 

@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 6.0.3
+Stable tag: 6.0.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -270,6 +270,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.0.4 - 26/02/2026 =
+- Added: Slider Block | Marquee Slider Layout
+- Added: Woo Product Grid | Product image size option
+- Added: Advanced Image | Image alt text settings for better SEO
+- Fixed: Table of Contents | Duplicate ID issue
+- Few minor bug fixes & improvements
 
 = 6.0.3 - 10/02/2026 =
 - Added: Pricing Table | Individual feature color and customization options

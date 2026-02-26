@@ -277,29 +277,36 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.3", "essential-blocks")}
+                                    {__("Version: 6.0.4", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("10/02/2026", "essential-blocks")}
+                                        {__("26/02/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Pricing Table | Individual feature color and customization options",
+                                            "Added: Slider Block | Marquee Slider Layout",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Team Member | Avatar image can't be deleted",
+                                            "Added: Woo Product Grid | Product image size option",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Pricing Table | Feature alignment issue",
+                                            "Added: Advanced Image | Image alt text settings for better SEO",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Table of Contents | Duplicate ID issue",
                                             "essential-blocks"
                                         )}
 

@@ -12,6 +12,7 @@ import {
     TextControl,
     __experimentalDivider as Divider,
 } from "@wordpress/components";
+import { applyFilters } from "@wordpress/hooks";
 
 /*
  * Internal depencencies
@@ -48,6 +49,8 @@ import {
     VERTICAL_ALIGN,
     TAGS_TYPE,
     SLIDER_BORDER_SHADOW,
+    IMAGE_WIDTH,
+    SLIDER_STYLE
 } from "./constants/constants";
 
 import {
@@ -74,6 +77,7 @@ import {
     sanitizeIconValue,
     ImageComponent,
     EBTextControl,
+    ProSelectControl
 } from "@essential-blocks/controls";
 
 function Inspector(props) {
@@ -121,6 +125,8 @@ function Inspector(props) {
         showLightbox,
         enableLazyLoad,
         version,
+        sliderStyle,
+        slidesGapRange
     } = attributes;
 
     // Add this function to get the settings components for each slide
@@ -324,13 +330,13 @@ function Inspector(props) {
                                         {!isValidHtml(
                                             each.secondButtonText,
                                         ) && (
-                                            <PanelRow className="eb-instruction-row">
-                                                <div className="eb-instruction">
-                                                    <strong>Note:</strong>{" "}
-                                                    Invalid HTML Tag.
-                                                </div>
-                                            </PanelRow>
-                                        )}
+                                                <PanelRow className="eb-instruction-row">
+                                                    <div className="eb-instruction">
+                                                        <strong>Note:</strong>{" "}
+                                                        Invalid HTML Tag.
+                                                    </div>
+                                                </PanelRow>
+                                            )}
 
                                         <EBTextControl
                                             label={__(
@@ -534,8 +540,22 @@ function Inspector(props) {
                         title={__("General", "essential-blocks")}
                         initialOpen={true}
                     >
-                        <SelectControl
+                        <ProSelectControl
                             label={__("Slider Type", "essential-blocks")}
+                            value={sliderStyle}
+                            options={SLIDER_STYLE}
+                            onChange={(value) =>
+                                setAttributes({
+                                    sliderStyle: value,
+                                    speed: value === 'default-slider' ? speed : .5,
+                                    enableLazyLoad: value === 'default-slider' ? enableLazyLoad : false,
+                                    slidesGapRange: value === 'default-slider' ? slidesGapRange : 20,
+                                })
+                            }
+                        />
+
+                        <SelectControl
+                            label={__("Slider Content Type", "essential-blocks")}
                             value={sliderType}
                             options={SLIDER_TYPE}
                             onChange={(value) =>
@@ -545,117 +565,125 @@ function Inspector(props) {
                             }
                         />
 
-                        <ToggleControl
-                            label={__("Show Arrows", "essential-blocks")}
-                            checked={arrows}
-                            onChange={() => {
-                                setAttributes({
-                                    arrows: !arrows,
-                                });
-                            }}
-                        />
-                        <ToggleControl
-                            label={__("Adaptive Height", "essential-blocks")}
-                            checked={adaptiveHeight}
-                            onChange={() => {
-                                setAttributes({
-                                    adaptiveHeight: !adaptiveHeight,
-                                });
-                            }}
-                        />
+                        {sliderStyle === 'default-slider' && (
+                            <>
+                                <ToggleControl
+                                    label={__("Show Arrows", "essential-blocks")}
+                                    checked={arrows}
+                                    onChange={() => {
+                                        setAttributes({
+                                            arrows: !arrows,
+                                        });
+                                    }}
+                                />
+                                <ToggleControl
+                                    label={__("Adaptive Height", "essential-blocks")}
+                                    checked={adaptiveHeight}
+                                    onChange={() => {
+                                        setAttributes({
+                                            adaptiveHeight: !adaptiveHeight,
+                                        });
+                                    }}
+                                />
 
-                        <ToggleControl
-                            label={__("Autoplay", "essential-blocks")}
-                            checked={autoplay}
-                            onChange={() => {
-                                autoplay
-                                    ? slider.current.slickPlay()
-                                    : slider.current.slickPause();
-                                setAttributes({
-                                    autoplay: !autoplay,
-                                });
-                            }}
-                        />
+                                <ToggleControl
+                                    label={__("Autoplay", "essential-blocks")}
+                                    checked={autoplay}
+                                    onChange={() => {
+                                        autoplay
+                                            ? slider.current.slickPlay()
+                                            : slider.current.slickPause();
+                                        setAttributes({
+                                            autoplay: !autoplay,
+                                        });
+                                    }}
+                                />
 
-                        <ToggleControl
-                            label={__("Dots", "essential-blocks")}
-                            checked={dots}
-                            onChange={() => setAttributes({ dots: !dots })}
-                        />
+                                <ToggleControl
+                                    label={__("Dots", "essential-blocks")}
+                                    checked={dots}
+                                    onChange={() => setAttributes({ dots: !dots })}
+                                />
 
-                        {!vertical && (
-                            <ToggleControl
-                                label={__("Fade", "essential-blocks")}
-                                checked={fade}
-                                onChange={() => setAttributes({ fade: !fade })}
-                            />
-                        )}
+                                {!vertical && (
+                                    <ToggleControl
+                                        label={__("Fade", "essential-blocks")}
+                                        checked={fade}
+                                        onChange={() => setAttributes({ fade: !fade })}
+                                    />
+                                )}
 
-                        <ToggleControl
-                            label={__("Infinite", "essential-blocks")}
-                            checked={infinite}
-                            onChange={() =>
-                                setAttributes({
-                                    infinite: !infinite,
-                                })
-                            }
-                        />
+                                <ToggleControl
+                                    label={__("Infinite", "essential-blocks")}
+                                    checked={infinite}
+                                    onChange={() =>
+                                        setAttributes({
+                                            infinite: !infinite,
+                                        })
+                                    }
+                                />
 
-                        <ToggleControl
-                            label={__("Vertical Slide", "essential-blocks")}
-                            checked={vertical}
-                            onChange={() =>
-                                setAttributes({
-                                    vertical: !vertical,
-                                })
-                            }
-                        />
+                                <ToggleControl
+                                    label={__("Vertical Slide", "essential-blocks")}
+                                    checked={vertical}
+                                    onChange={() =>
+                                        setAttributes({
+                                            vertical: !vertical,
+                                        })
+                                    }
+                                />
 
-                        {vertical && (
-                            <PanelRow>
-                                <em>
-                                    {__(
-                                        "Fade will disable if enable Vertical Slide",
+                                {vertical && (
+                                    <PanelRow>
+                                        <em>
+                                            {__(
+                                                "Fade will disable if enable Vertical Slide",
+                                                "essential-blocks",
+                                            )}
+                                        </em>
+                                    </PanelRow>
+                                )}
+
+                                <ToggleControl
+                                    label={__("Pause on Hover", "essential-blocks")}
+                                    checked={pauseOnHover}
+                                    onChange={() =>
+                                        setAttributes({
+                                            pauseOnHover: !pauseOnHover,
+                                        })
+                                    }
+                                />
+
+                                <ToggleControl
+                                    label={__(
+                                        "Enable Lazy Loading",
                                         "essential-blocks",
                                     )}
-                                </em>
-                            </PanelRow>
+                                    checked={enableLazyLoad}
+                                    onChange={() => {
+                                        setAttributes({
+                                            enableLazyLoad: !enableLazyLoad,
+                                        });
+                                    }}
+                                />
+
+                                <ToggleControl
+                                    label={__("Custom Height", "essential-blocks")}
+                                    checked={isCustomHeight}
+                                    onChange={() =>
+                                        setAttributes({
+                                            isCustomHeight: !isCustomHeight,
+                                        })
+                                    }
+                                />
+
+                            </>
                         )}
 
-                        <ToggleControl
-                            label={__("Pause on Hover", "essential-blocks")}
-                            checked={pauseOnHover}
-                            onChange={() =>
-                                setAttributes({
-                                    pauseOnHover: !pauseOnHover,
-                                })
-                            }
-                        />
 
-                        <ToggleControl
-                            label={__(
-                                "Enable Lazy Loading",
-                                "essential-blocks",
-                            )}
-                            checked={enableLazyLoad}
-                            onChange={() => {
-                                setAttributes({
-                                    enableLazyLoad: !enableLazyLoad,
-                                });
-                            }}
-                        />
+                        {applyFilters("eb_slider_pro_marquee_controls", "", attributes, setAttributes)}
 
-                        <ToggleControl
-                            label={__("Custom Height", "essential-blocks")}
-                            checked={isCustomHeight}
-                            onChange={() =>
-                                setAttributes({
-                                    isCustomHeight: !isCustomHeight,
-                                })
-                            }
-                        />
-
-                        {isCustomHeight && (
+                        {sliderStyle === 'default-slider' && isCustomHeight && (
                             <ResponsiveRangeController
                                 baseLabel={__(
                                     "Image Height",
@@ -669,7 +697,7 @@ function Inspector(props) {
                             />
                         )}
 
-                        {!fade && (
+                        {sliderStyle === 'default-slider' && !fade && (
                             <ResponsiveRangeController
                                 baseLabel={__(
                                     "Slides to Show",
@@ -683,7 +711,7 @@ function Inspector(props) {
                             />
                         )}
 
-                        {autoplay && (
+                        {sliderStyle === 'default-slider' && autoplay && (
                             <RangeControl
                                 label={__("Autoplay Speed", "essential-blocks")}
                                 value={autoplaySpeed}
@@ -702,10 +730,11 @@ function Inspector(props) {
                             value={speed}
                             onChange={(speed) => setAttributes({ speed })}
                             min={0}
-                            max={3000}
+                            step={sliderStyle === 'default-slider' ? 1 : .1}
+                            max={sliderStyle === 'default-slider' ? 3000 : 1}
                         />
 
-                        {arrows && (
+                        {sliderStyle === 'default-slider' && arrows && (
                             <>
                                 <EBIconPicker
                                     value={arrowPrevIcon}
@@ -744,7 +773,7 @@ function Inspector(props) {
                             </>
                         )}
 
-                        {version === "v2" && (
+                        {sliderStyle === 'default-slider' && (!version || version !== 'v2') && (
                             <>
                                 <Divider />
 
@@ -780,6 +809,7 @@ function Inspector(props) {
                                     onChange={(value) =>
                                         setAttributes({
                                             sliderContentType: value,
+                                            showLightbox: value === 'content-1' ? false : showLightbox,
                                         })
                                     }
                                 />
@@ -912,8 +942,6 @@ function Inspector(props) {
                         )}
 
                         <Divider />
-
-                        <PanelRow>Slider Border</PanelRow>
                         <BorderShadowControl
                             controlName={SLIDER_BORDER_SHADOW}
                             noBdrHover
@@ -1040,8 +1068,8 @@ function Inspector(props) {
                                 <PanelRow>Button Border & Shadow</PanelRow>
                                 <BorderShadowControl
                                     controlName={BUTTON_BORDER_SHADOW}
-                                    // noShadow
-                                    // noBorder
+                                // noShadow
+                                // noBorder
                                 />
                                 <TypographyDropdown
                                     baseLabel={__(
@@ -1142,8 +1170,8 @@ function Inspector(props) {
                                     <PanelRow>Button Border & Shadow</PanelRow>
                                     <BorderShadowControl
                                         controlName={BUTTON2_BORDER_SHADOW}
-                                        // noShadow
-                                        // noBorder
+                                    // noShadow
+                                    // noBorder
                                     />
                                     <TypographyDropdown
                                         baseLabel={__(
@@ -1167,7 +1195,7 @@ function Inspector(props) {
                         </>
                     )}
 
-                    {arrows && (
+                    {sliderStyle === 'default-slider' && arrows && (
                         <InspectorPanel.PanelBody
                             title={__("Arrow", "essential-blocks")}
                             initialOpen={false}
@@ -1235,7 +1263,7 @@ function Inspector(props) {
                         </InspectorPanel.PanelBody>
                     )}
 
-                    {dots && (
+                    {sliderStyle === 'default-slider' && dots && (
                         <InspectorPanel.PanelBody
                             title={__("Dot", "essential-blocks")}
                             initialOpen={false}
@@ -1281,7 +1309,7 @@ function Inspector(props) {
                         </InspectorPanel.PanelBody>
                     )}
                 </InspectorPanel.Style>
-            </InspectorPanel>
+            </InspectorPanel >
         </>
     );
 }

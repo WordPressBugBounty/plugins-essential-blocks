@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", function () {
         return (
             rect.top >= 0 &&
             rect.bottom <=
-                (window.innerHeight || document.documentElement.clientHeight)
+            (window.innerHeight || document.documentElement.clientHeight)
         );
     };
 
@@ -209,7 +209,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
                 function onScrollPage() {
                     document.body.scrollTop > 30 ||
-                    document.documentElement.scrollTop > 20
+                        document.documentElement.scrollTop > 20
                         ? showScroll()
                         : hideScroll();
                 }
@@ -396,19 +396,29 @@ window.addEventListener("DOMContentLoaded", function () {
 
                     let all_header =
                         undefined !== allowed_h_tags_str &&
-                        "" !== allowed_h_tags_str
+                            "" !== allowed_h_tags_str
                             ? document.body.querySelectorAll(allowed_h_tags_str)
                             : document.body.querySelectorAll(
-                                  "h1, h2, h3, h4, h5, h6",
-                              );
+                                "h1, h2, h3, h4, h5, h6",
+                            );
 
                     if (undefined !== headers && 0 !== all_header.length) {
+                        // Track which headings have been processed to handle duplicates
+                        const processedHeadings = new Map();
+
                         headers.forEach((element, headerIndex) => {
                             const element_text = parseTocSlug(element.text);
+
+                            // Track how many times we've seen this heading text
+                            if (!processedHeadings.has(element_text)) {
+                                processedHeadings.set(element_text, 0);
+                            }
+
                             if (
                                 deleteHeaderLists &&
                                 !deleteHeaderLists[headerIndex]?.isDelete
                             ) {
+                                let matchCount = 0;
                                 all_header.forEach((item, index) => {
                                     const header_text = parseTocSlug(
                                         item.textContent,
@@ -419,22 +429,26 @@ window.addEventListener("DOMContentLoaded", function () {
                                             header_text,
                                         ) === 0
                                     ) {
-                                        if (isValidHtmlId(element.link)) {
-                                            new ClipboardJS(`#${element.link}`);
+                                        // Check if this is the correct occurrence of this heading
+                                        if (matchCount === processedHeadings.get(element_text)) {
+                                            if (isValidHtmlId(element.link)) {
+                                                new ClipboardJS(`#${element.link}`);
+                                            }
+                                            item.innerHTML = `${item.innerHTML
+                                                }<span id="${element.link}"
+                                        class="eb-toc__heading-anchor" data-clipboard-text="${location.protocol +
+                                                "//" +
+                                                location.host +
+                                                location.pathname +
+                                                (location.search ? location.search : "")
+                                                }#${element.link}">${copyLinkHtml}</span>`;
                                         }
-                                        item.innerHTML = `${
-                                            item.innerHTML
-                                        }<span id="${element.link}"
-                                    class="eb-toc__heading-anchor" data-clipboard-text="${
-                                        location.protocol +
-                                        "//" +
-                                        location.host +
-                                        location.pathname +
-                                        (location.search ? location.search : "")
-                                    }#${element.link}">${copyLinkHtml}</span>`;
+                                        matchCount++;
                                     }
                                 });
+                                processedHeadings.set(element_text, processedHeadings.get(element_text) + 1);
                             } else {
+                                let matchCount = 0;
                                 all_header.forEach((item) => {
                                     const header_text = parseTocSlug(
                                         item.textContent,
@@ -445,9 +459,14 @@ window.addEventListener("DOMContentLoaded", function () {
                                             header_text,
                                         ) === 0
                                     ) {
-                                        item.innerHTML = `<span id="${element.link}" class="eb-toc__heading-anchor"></span>${item.innerHTML}`;
+                                        // Check if this is the correct occurrence of this heading
+                                        if (matchCount === processedHeadings.get(element_text)) {
+                                            item.innerHTML = `<span id="${element.link}" class="eb-toc__heading-anchor"></span>${item.innerHTML}`;
+                                        }
+                                        matchCount++;
                                     }
                                 });
+                                processedHeadings.set(element_text, processedHeadings.get(element_text) + 1);
                             }
                         });
                     }

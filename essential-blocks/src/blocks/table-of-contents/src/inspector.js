@@ -121,7 +121,9 @@ const Inspector = ({ attributes, setAttributes }) => {
         closeBtnSize,
         closeIconSize,
         enableHighlight,
-        alignment
+        alignment,
+        allowConfigurablePrefix,
+        configurablePrefix
     } = attributes;
 
     const [options, setOptions] = useState(HEADERS);
@@ -525,7 +527,27 @@ const Inspector = ({ attributes, setAttributes }) => {
                             />
                         )}
 
-
+                        <ToggleControl
+                            label={__("Allow Configurable Prefix", "essential-blocks")}
+                            checked={allowConfigurablePrefix}
+                            onChange={() =>
+                                setAttributes({
+                                    allowConfigurablePrefix: !allowConfigurablePrefix,
+                                })
+                            }
+                        />
+                        {allowConfigurablePrefix && (
+                            <TextControl
+                                label={__("Configurable Prefix", "essential-blocks")}
+                                value={configurablePrefix}
+                                onChange={(value) =>
+                                    setAttributes({
+                                        configurablePrefix: value,
+                                    })
+                                }
+                                placeholder="eb-toc-"
+                            />
+                        )}
                     </InspectorPanel.PanelBody>
                     <InspectorPanel.PanelBody
                         title={__("Scroll", "essential-blocks")}
