@@ -277,36 +277,22 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.4", "essential-blocks")}
+                                    {__("Version: 6.0.5", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("26/02/2026", "essential-blocks")}
+                                        {__("09/03/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Slider Block | Marquee Slider Layout",
+                                            "Improved: WPML compatibility",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Added: Woo Product Grid | Product image size option",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: Advanced Image | Image alt text settings for better SEO",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Table of Contents | Duplicate ID issue",
+                                            "Fixed: Advanced Image | Caption style issue",
                                             "essential-blocks"
                                         )}
 

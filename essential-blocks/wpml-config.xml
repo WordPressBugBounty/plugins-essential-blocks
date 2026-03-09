@@ -53,6 +53,7 @@
 			<key name="loadmoreBtnText" />
 			<xpath label="eb-img-gallery-loadmore">//button[@class="eb-img-gallery-loadmore"]</xpath>
 			<key name="filterAllTitle" />
+			<key name="notFoundText" />
 			<key name="filterItems">
 				<key name="*">
 					<key name="label" />
@@ -60,6 +61,17 @@
 			</key>
 			<xpath label="eb-img-gallery-filter-wrapper">//ul[contains(@class,
 				'eb-img-gallery-filter-wrapper')]//li</xpath>
+			<xpath>//span[contains(@class, "eb-gallery-img-caption")]</xpath>
+			<xpath>//span[contains(@class, "eb-gallery-img-description")]</xpath>
+			<xpath>//img[contains(@class, "eb-gallery-img")]/@alt</xpath>
+			<key name="sources">
+				<key name="*">
+					<key name="caption" />
+					<key name="alt" />
+					<key name="content" />
+					<key name="url" type="link" />
+				</key>
+			</key>
 		</gutenberg-block>
 		<gutenberg-block type="essential-blocks/woo-product-grid" translate="1">
 			<key name="simpleCartText" />
@@ -88,6 +100,41 @@
 		<gutenberg-block type="essential-blocks/popup" translate="1">
 			<key name="btnText" />
 			<xpath label="eb-popup-button-anchor">//a[@class="eb-popup-button-anchor"]//p</xpath>
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/parallax-slider" translate="1">
+			<xpath>//h2[contains(@class, "slide__headline")]</xpath>
+			<xpath>//button[contains(@class, "slide__action")]</xpath>
+			<xpath type="link">//button[contains(@class, 'slide__action')]/@data-link</xpath>
+			<key name="sliderData">
+				<key name="*">
+					<key name="title" />
+					<key name="btnText" />
+					<key name="link" type="link" />
+				</key>
+			</key>
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/google-map" translate="1">
+			<key name="marker">
+				<key name="*">
+					<key name="title" />
+					<key name="content" />
+				</key>
+			</key>
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/product-price" translate="1">
+			<key name="showPrefix" />
+			<key name="showSuffix" />
+			<key name="prefixText" />
+			<key name="suffixText" />
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/product-rating" translate="1">
+			<key name="singluarCaption" />
+			<key name="pluralCaption" />
+			<key name="beforeCaption" />
+			<key name="afterCaption" />
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/add-to-cart" translate="1">
+			<key name="cartBtnText" />
 		</gutenberg-block>
 		<gutenberg-block type="essential-blocks/row" translate="0" />
 		<gutenberg-block type="essential-blocks/column" translate="0" />

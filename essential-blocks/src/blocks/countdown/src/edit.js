@@ -72,6 +72,9 @@ function Edit(props) {
 
     // this useEffect is for the countdown animation effect
     useEffect(() => {
+        // Get locale for number formatting
+        const locale = document.documentElement.lang || 'en-US';
+
         const fakeElement = { current: { textContent: "3e" } };
 
         const daysRefUe = daysRef.current ? daysRef : fakeElement;
@@ -97,20 +100,20 @@ function Edit(props) {
 
             if (secondsLeft < 0) {
                 clearInterval(intervalId);
-                daysRefUe.current.textContent = "00";
-                hoursRefUe.current.textContent = "00";
-                minutesRefUe.current.textContent = "00";
-                secondsRefUe.current.textContent = "00";
+                daysRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
+                hoursRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
+                minutesRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
+                secondsRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
                 return;
             }
 
-            daysRefUe.current.textContent = days < 10 ? `0${days}` : `${days}`;
+            daysRefUe.current.textContent = days.toLocaleString(locale, {minimumIntegerDigits: 2});
             hoursRefUe.current.textContent =
-                hours < 10 ? `0${hours}` : `${hours}`;
+                hours.toLocaleString(locale, {minimumIntegerDigits: 2});
             minutesRefUe.current.textContent =
-                minutes < 10 ? `0${minutes}` : `${minutes}`;
+                minutes.toLocaleString(locale, {minimumIntegerDigits: 2});
             secondsRefUe.current.textContent =
-                seconds < 10 ? `0${seconds}` : `${seconds}`;
+                seconds.toLocaleString(locale, {minimumIntegerDigits: 2});
         };
 
         if (isEvergreenTimer) {
