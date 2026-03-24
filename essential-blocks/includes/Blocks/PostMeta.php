@@ -152,7 +152,7 @@ class PostMeta extends Block
 
         // Get published date with WordPress date format
         $date_format  = get_option( 'date_format' );
-        $publish_date = isset( $current_post->post_date ) ? date( $date_format, strtotime( $current_post->post_date ) ) : '';
+        $publish_date = isset( $current_post->post_date ) ? date_i18n( $date_format, strtotime( $current_post->post_date ) ) : '';
 
         // Get product SKU if applicable
         $product_sku = '';

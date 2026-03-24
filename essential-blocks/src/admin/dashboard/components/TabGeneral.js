@@ -277,22 +277,15 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.5", "essential-blocks")}
+                                    {__("Version: 6.0.6", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("09/03/2026", "essential-blocks")}
+                                        {__("25/03/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
                                             "Improved: WPML compatibility",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Image | Caption style issue",
                                             "essential-blocks"
                                         )}
 

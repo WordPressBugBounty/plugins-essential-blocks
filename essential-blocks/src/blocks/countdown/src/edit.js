@@ -72,9 +72,6 @@ function Edit(props) {
 
     // this useEffect is for the countdown animation effect
     useEffect(() => {
-        // Get locale for number formatting
-        const locale = document.documentElement.lang || 'en-US';
-
         const fakeElement = { current: { textContent: "3e" } };
 
         const daysRefUe = daysRef.current ? daysRef : fakeElement;
@@ -100,20 +97,17 @@ function Edit(props) {
 
             if (secondsLeft < 0) {
                 clearInterval(intervalId);
-                daysRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
-                hoursRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
-                minutesRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
-                secondsRefUe.current.textContent = (0).toLocaleString(locale, {minimumIntegerDigits: 2});
+                daysRefUe.current.textContent = String(0).padStart(2, '0');
+                hoursRefUe.current.textContent = String(0).padStart(2, '0');
+                minutesRefUe.current.textContent = String(0).padStart(2, '0');
+                secondsRefUe.current.textContent = String(0).padStart(2, '0');
                 return;
             }
 
-            daysRefUe.current.textContent = days.toLocaleString(locale, {minimumIntegerDigits: 2});
-            hoursRefUe.current.textContent =
-                hours.toLocaleString(locale, {minimumIntegerDigits: 2});
-            minutesRefUe.current.textContent =
-                minutes.toLocaleString(locale, {minimumIntegerDigits: 2});
-            secondsRefUe.current.textContent =
-                seconds.toLocaleString(locale, {minimumIntegerDigits: 2});
+            daysRefUe.current.textContent = String(days).padStart(2, '0');
+            hoursRefUe.current.textContent = String(hours).padStart(2, '0');
+            minutesRefUe.current.textContent = String(minutes).padStart(2, '0');
+            secondsRefUe.current.textContent = String(seconds).padStart(2, '0');
         };
 
         if (isEvergreenTimer) {

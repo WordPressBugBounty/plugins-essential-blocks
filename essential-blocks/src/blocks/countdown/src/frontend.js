@@ -13,9 +13,6 @@ function ebRunCountDown() {
     for (let i = 0; i < countdowns.length; i++) {
         const element = countdowns[i];
 
-        // Get locale for number formatting
-        const locale = document.documentElement.lang || 'en-US';
-
         const fakeElement = { textContent: "3e" };
 
         const daySpan =
@@ -65,17 +62,17 @@ function ebRunCountDown() {
 
             if (secondsLeft < 0) {
                 clearInterval(intervalId);
-                daySpan.textContent = (0).toLocaleString(locale, { minimumIntegerDigits: 2 });
-                hourSpan.textContent = (0).toLocaleString(locale, { minimumIntegerDigits: 2 });
-                minuteSpan.textContent = (0).toLocaleString(locale, { minimumIntegerDigits: 2 });
-                secondSpan.textContent = (0).toLocaleString(locale, { minimumIntegerDigits: 2 });
+                daySpan.textContent = String(0).padStart(2, '0');
+                hourSpan.textContent = String(0).padStart(2, '0');
+                minuteSpan.textContent = String(0).padStart(2, '0');
+                secondSpan.textContent = String(0).padStart(2, '0');
                 return;
             }
 
-            daySpan.textContent = days.toLocaleString(locale, { minimumIntegerDigits: 2 });
-            hourSpan.textContent = hours.toLocaleString(locale, { minimumIntegerDigits: 2 });
-            minuteSpan.textContent = minutes.toLocaleString(locale, { minimumIntegerDigits: 2 });
-            secondSpan.textContent = seconds.toLocaleString(locale, { minimumIntegerDigits: 2 });
+            daySpan.textContent = String(days).padStart(2, '0');
+            hourSpan.textContent = String(hours).padStart(2, '0');
+            minuteSpan.textContent = String(minutes).padStart(2, '0');
+            secondSpan.textContent = String(seconds).padStart(2, '0');
         };
 
         if ("true" === evergreenTimer) {
