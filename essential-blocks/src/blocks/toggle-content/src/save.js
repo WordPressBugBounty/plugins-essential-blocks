@@ -62,7 +62,7 @@ const Save = ({ attributes }) => {
 
     return (
         <BlockProps.Save attributes={attributes}>
-            <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}>
+            <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook || ''}`}>
                 <div
                     className={`${blockId} eb-toggle-wrapper ${effectStyle === "default" ? `switch-style-${switchStyle}` : ''} eb-toggle-effect-${effectStyle} eb-toggle-primary`}
                     data-init-content={initialContent}

@@ -277,15 +277,29 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.6", "essential-blocks")}
+                                    {__("Version: 6.0.7", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("25/03/2026", "essential-blocks")}
+                                        {__("02/04/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
                                             "Improved: WPML compatibility",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Compatibility with Loco Translate",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Resolved CSS asset loading issues for content rendered via Blocksy and Blocksy Pro custom hooks/templates.",
                                             "essential-blocks"
                                         )}
 

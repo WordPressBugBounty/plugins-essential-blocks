@@ -34,7 +34,7 @@ const Save = ({ attributes }) => {
     return (
         <>
             <BlockProps.Save attributes={attributes}>
-                <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}>
+                <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook || ''}`}>
                     <div
                         className={`eb-image-comparison-wrapper ${blockId}${alignmentClass}${labelPostionClass}`}
                         data-left-image={leftImageURL}

@@ -51,7 +51,7 @@ const Save = ({ attributes }) => {
 
     return (
         <BlockProps.Save attributes={attributes}>
-            <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook}`}>
+            <div className={`eb-parent-wrapper eb-parent-${blockId} ${classHook || ''}`}>
                 <div className={`${blockId} eb-pricing-wrapper eb-pricing-content-${contentAlign}`}>
                     <div className={`eb-pricing ${pricingStyle}`}>
                         <div

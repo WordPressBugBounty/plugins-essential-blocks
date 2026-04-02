@@ -229,8 +229,8 @@ export default function Style(props) {
         }
 
         .eb-form-wrapper.${parentBlockId} .eb-form-field .eb-radio-field-wrapper.${blockId} input[type=radio]::before {
-            width: calc(${radioSizeRange}px / 2);
-            height: calc(${radioSizeRange}px / 2);
+            width: calc(${radioSizeRange ?? 0}px / 2);
+            height: calc(${radioSizeRange ?? 0}px / 2);
             background-color: ${radioBrCheckedColor};
         }
 	`;
@@ -246,8 +246,8 @@ export default function Style(props) {
             ${radioSpacingStylesTab}
         }
         .eb-form-wrapper.${parentBlockId} .eb-form-field .eb-radio-field-wrapper.${blockId} input[type=radio]::before {
-            width: calc(${TABradioSizeRange}px / 2);
-            height: calc(${TABradioSizeRange}px / 2);
+            width: calc(${TABradioSizeRange ?? 0}px / 2);
+            height: calc(${TABradioSizeRange ?? 0}px / 2);
         }
 	`;
     const radioMobile = `
@@ -262,8 +262,8 @@ export default function Style(props) {
             ${radioSpacingStylesMobile}
         }
         .eb-form-wrapper.${parentBlockId} .eb-form-field .eb-radio-field-wrapper.${blockId} input[type=radio]::before {
-            width: calc(${MOBradioSizeRange}px / 2);
-            height: calc(${MOBradioSizeRange}px / 2);
+            width: calc(${MOBradioSizeRange ?? 0}px / 2);
+            height: calc(${MOBradioSizeRange ?? 0}px / 2);
         }
 	`;
 

@@ -51,7 +51,8 @@
 		</gutenberg-block>
 		<gutenberg-block type="essential-blocks/image-gallery" translate="1">
 			<key name="loadmoreBtnText" />
-			<xpath label="eb-img-gallery-loadmore">//button[contains(@class, "eb-img-gallery-loadmore")]</xpath>
+			<xpath label="eb-img-gallery-loadmore">//button[contains(@class,
+				"eb-img-gallery-loadmore")]</xpath>
 			<key name="filterAllTitle" />
 			<key name="notFoundText" />
 			<key name="filterItems">
@@ -167,10 +168,10 @@
 			<xpath>//p[contains(@class, "eb-cia-description")]</xpath>
 			<xpath>//div[contains(@class, "eb-cia-button")]</xpath>
 			<xpath type="link">//a/@href</xpath>
-			<key name="title"/>
-			<key name="description"/>
-			<key name="buttonText"/>
-    	</gutenberg-block>
+			<key name="title" />
+			<key name="description" />
+			<key name="buttonText" />
+		</gutenberg-block>
 		<gutenberg-block type="essential-blocks/post-meta" translate="1">
 			<key name="authorLabel" />
 			<key name="dateLabel" />
@@ -179,16 +180,35 @@
 			<xpath>//*[contains(@class, "eb-post-metadata-value")]</xpath>
 		</gutenberg-block>
 		<gutenberg-block type="essential-blocks/post-meta" translate="1">
-			<key name="authorLabel"/>
-			<key name="dateLabel"/>
+			<key name="authorLabel" />
+			<key name="dateLabel" />
 			<key name="enableContents">
-				<key name="0"/>
-				<key name="1"/>
+				<key name="0" />
+				<key name="1" />
 			</key>
-			<key name="type"/>
-   		</gutenberg-block>
-		<gutenberg-block type="essential-blocks/row" translate="0" />
-		<gutenberg-block type="essential-blocks/column" translate="0" />
-		<gutenberg-block type="essential-blocks/wrapper" translate="0" />
+			<key name="type" />
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/shape-divider" translate="1" />
+		<gutenberg-block type="essential-blocks/advanced-video" translate="1" />
+		<gutenberg-block type="essential-blocks/icon" translate="1" />
+		<gutenberg-block type="essential-blocks/social" translate="1" />
+		<gutenberg-block type="essential-blocks/social-share" translate="1">
+			<key name="socialDetails">
+				<key name="*">
+					<key name="iconText" />
+				</key>
+			</key>
+			<key name="profilesOnly">
+				<key name="*">
+					<key name="iconText" />
+				</key>
+			</key>
+		</gutenberg-block>
+		<gutenberg-block type="essential-blocks/product-images" translate="1" />
+		<gutenberg-block type="essential-blocks/product-details" translate="1" />
+		<gutenberg-block type="essential-blocks/row" translate="1" />
+		<gutenberg-block type="essential-blocks/column" translate="1" />
+		<gutenberg-block type="essential-blocks/wrapper" translate="1" />
+		<gutenberg-block type="essential-blocks/flex-container" translate="1" />
 	</gutenberg-blocks>
 </wpml-config>
