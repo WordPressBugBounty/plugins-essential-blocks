@@ -247,28 +247,28 @@ class Admin {
         );
 
         /**
-         * February Campaign 2026 Notice
+         * Spring Campaign 2026 Notice
          */
-        $feb_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">Get <strong>70+ AI-Powered blocks</strong> and features & unlock smarter design flexibility on Gutenberg – now <strong>up to $100 OFF!</strong> 🎁 </p>
-        <a class="button button-primary" href="https://essential-blocks.com/feb2026-admin-notice" target="_blank" style="background-color: #5626E7; border-color: #5626E7;" >Upgrade to PRO</a>
-        <a class="button button-secondary" href="https://essential-blocks.com/feb2026-admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1;">Give Me LIFETIME Access</a>
-        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">I\'ll Grab It Later</button>';
-        $feb_campaign2026_notice = array(
+        $spring_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">🌸 <strong>Spring Savings:</strong> Get 70+ AI-powered blocks and features to unlock smarter design flexibility on Gutenberg – now <strong>Flat 25% OFF!</strong> ⚡️ </p>
+        <a class="button button-primary" href="https://essential-blocks.com/spring2026-admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade to PRO Now</a>
+        <a class="button button-secondary" href="https://essential-blocks.com/spring2026-admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
+        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">Maybe Later</button>';
+        $spring_campaign2026_notice = array(
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
-            'html' => $feb_campaign2026_message
+            'html' => $spring_campaign2026_message
         );
 
-        //February Campaign 2026 Notice Add
+        //Spring Campaign 2026 Notice Add
         $notices->add(
-            'feb_campaign2026',
-            $feb_campaign2026_notice,
+            'spring_campaign2026',
+            $spring_campaign2026_notice,
             array(
-                'start' => $notices->time(),
-                'expire' => strtotime( '11:59:59pm 08th March, 2026' ),
+                'start' => strtotime( '12:00:00am 08th April, 2026' ),
+                'expire' => strtotime( '11:59:59pm 10th May, 2026' ),
                 'classes' => 'eb-notice put-dismiss-notice',
                 'dismissible' => true,
                 'refresh' => ESSENTIAL_BLOCKS_VERSION,
-                'do_action' => 'eb_feb2026_campaign',
+                'do_action' => 'eb_spring2026_campaign',
                 'display_if' => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
             )
         );

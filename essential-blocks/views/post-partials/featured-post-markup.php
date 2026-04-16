@@ -17,6 +17,8 @@ $footerMeta = array_map(
     $footerMeta
 );
 
+$thumbnailSize = ! empty( $thumbnailSize ) ? $thumbnailSize : 'full';
+
 $thumbnail_inside_content_wpr = false;
 if ( $enableThumbnailSort && in_array( $preset, [ 'style-1', 'style-2', 'style-3' ] ) ) {
     $thumbnail_inside_content_wpr = true;
@@ -38,6 +40,8 @@ $is_featured = isset( $_is_featured ) && $_is_featured === true;
 if ( $is_featured ) {
     $showTitle      = isset( $showFeaturedPostTitle ) ? $showFeaturedPostTitle : true;
     $showContent    = isset( $showFeaturedPostContent ) ? $showFeaturedPostContent : false;
+    $showMeta       = isset( $showFeaturedPostMeta ) ? $showFeaturedPostMeta : true;
+    $contentLength  = isset( $featuredExcerptLength ) ? $featuredExcerptLength : 10;
 }
 
 foreach ( $posts as $result ) {
@@ -59,7 +63,7 @@ foreach ( $posts as $result ) {
                 'date'       => $date,
                 'categories' => $categories,
                 'tags'       => $tags,
-                'readtime'   => $readtime
+                'readtime'   => $readtime,
              ]
         ),
         $result->ID,
@@ -72,15 +76,10 @@ foreach ( $posts as $result ) {
     $article_classes = 'ebpg-grid-post ebpg-post-grid-column';
     if ( $is_featured ) {
         $article_classes = 'ebpg-featured-post';
-        $thumbnail_inside_content_wpr = false;
     }
     $html .= sprintf( '<article class="%1$s" data-id="%2$s">', esc_attr( $article_classes ), $result->ID );
     $html .= '<div class="ebpg-grid-post-holder">';
-    $wrapper_link_html = $is_featured ? '' : sprintf( '<a class="ebpg-post-link-wrapper eb-sr-only" href="%1$s">%2$s</a>', get_permalink( $result->ID ), wp_kses( $result->post_title, 'post' ) );
-    if ( $preset === 'style-5' || $preset === 'style-6' ) {
-        $html .= $wrapper_link_html;
-        $wrapper_link_html = '';
-    }
+    $wrapper_link_html = sprintf( '<a class="ebpg-post-link-wrapper eb-sr-only" href="%1$s">%2$s</a>', get_permalink( $result->ID ), wp_kses( $result->post_title, 'post' ) );
     if ( ! $thumbnail_inside_content_wpr ) {
         $html .= require __DIR__ . '/post-thumbnail.php';
     }
@@ -88,10 +87,17 @@ foreach ( $posts as $result ) {
     if ( $thumbnail_inside_content_wpr ) {
         $html .= require __DIR__ . '/post-thumbnail.php';
     }
-    $html .= require __DIR__ . '/title.php';
+    $html .= '<div class="featured-post-content-wrapper">';
+    if ( $showMeta  ) {
     $html .= require __DIR__ . '/meta/header.php';
+    }
+    if ( $showTitle ) {
+    $html .= require __DIR__ . '/title.php';
+    }
+    if ( $showContent ) {
     $html .= require __DIR__ . '/post-content.php';
-    $html .= require __DIR__ . '/meta/footer.php';
+    }
+    $html .= '</div>'; // End of class "featured-post-content-wrapper"
     $html .= '</div>'; // End of class "ebpg-entry-wrapper"
     $html .= '</div>'; // End of class "ebpg-grid-post-holder"
     $html .= '</article>';

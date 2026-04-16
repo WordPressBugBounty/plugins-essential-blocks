@@ -594,10 +594,28 @@
 
     public static function load_google_font( $fonts, $handler ) {
         if ( is_array( $fonts ) && ! empty( $fonts ) ) {
+            $system_fonts = [
+                'Default',
+                'Arial',
+                'Helvetica',
+                'Times New Roman',
+                'Georgia',
+                'Verdana',
+                'Tahoma',
+                'Trebuchet MS',
+                'Courier New',
+                'Impact',
+                'Comic Sans MS',
+            ];
+
             $gfonts      = '';
             $gfonts_attr = ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
             foreach ( $fonts as $font ) {
-                $gfonts .= str_replace( ' ', '+', trim( $font ) ) . $gfonts_attr . '|';
+                $font = trim( $font );
+                if ( empty( $font ) || in_array( $font, $system_fonts, true ) ) {
+                    continue;
+                }
+                $gfonts .= str_replace( ' ', '+', $font ) . $gfonts_attr . '|';
             }
 
             if ( ! empty( $gfonts ) ) {

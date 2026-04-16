@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 6.0.7
+Stable tag: 6.0.8
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -270,6 +270,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.0.8 - 16/04/2026 =
+- Added: Post Grid block | Featured post options & layout
+- Improved: Image Hotspot block | Tooltip positioning & styling options
+- Few minor bug fixes & improvements
+
+
 = 6.0.7 - 02/04/2026 =
 - Improved: WPML compatibility
 - Improved: Compatibility with Loco Translate
