@@ -2,6 +2,7 @@
  * Timeline Helper Functions for Editor
  * Handles progress line animation and scroll-based progress calculation in the editor
  */
+import { getEditorDocument, getEditorDocumentElement } from "@essential-blocks/controls";
 
 /**
  * Convert CSS color value to usable format for SVG
@@ -16,7 +17,7 @@ function resolveColorForSVG(color) {
     if (color.startsWith('var(')) {
         const varName = color.match(/var\(([^)]+)\)/)?.[1];
         if (varName) {
-            const resolvedColor = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+            const resolvedColor = getComputedStyle(getEditorDocumentElement()).getPropertyValue(varName).trim();
             if (resolvedColor) {
                 return resolveColorForSVG(resolvedColor);
             }
@@ -137,7 +138,8 @@ export function setupScrollProgressEditor(wrapper, progressLine, timelineItems) 
     });
 
     // Also add to document for good measure
-    document.addEventListener('scroll', onScroll, { passive: true });
+    const editorDoc = getEditorDocument();
+    editorDoc.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
 
     // Return cleanup function
@@ -145,7 +147,7 @@ export function setupScrollProgressEditor(wrapper, progressLine, timelineItems) 
         scrollContainers.forEach(container => {
             container.removeEventListener('scroll', onScroll);
         });
-        document.removeEventListener('scroll', onScroll);
+        editorDoc.removeEventListener('scroll', onScroll);
         window.removeEventListener('resize', onScroll);
     };
 }
@@ -514,6 +516,8 @@ export function setupSVGScrollAnimationEditor(wrapper, svgContainer) {
     });
 
     document.addEventListener('scroll', onSVGScroll, { passive: true });
+    const svgEditorDoc = getEditorDocument();
+    svgEditorDoc.addEventListener('scroll', onSVGScroll, { passive: true });
     window.addEventListener('resize', onSVGScroll, { passive: true });
 
     // Return cleanup function
@@ -522,6 +526,7 @@ export function setupSVGScrollAnimationEditor(wrapper, svgContainer) {
             container.removeEventListener('scroll', onSVGScroll);
         });
         document.removeEventListener('scroll', onSVGScroll);
+        svgEditorDoc.removeEventListener('scroll', onSVGScroll);
         window.removeEventListener('resize', onSVGScroll);
     };
 }

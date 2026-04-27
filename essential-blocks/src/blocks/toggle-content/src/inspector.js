@@ -126,6 +126,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 value={switchStyle}
                                 onChange={(switchStyle) => setAttributes({ switchStyle })}
                                 options={SWITCH_STYLES}
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             />
 
                             {(switchStyle === "rounded" || switchStyle === "reactangle") && (
@@ -134,6 +136,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     value={switchSize}
                                     options={SWITCH_SIZE}
                                     onChange={(switchSize) => setAttributes({ switchSize })}
+                                    __next40pxDefaultSize
+                                    __nextHasNoMarginBottom
                                 />
                             )}
 
@@ -164,6 +168,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     value={seperatorType}
                                     options={SEPERATOR_TYPE}
                                     onChange={(seperatorType) => setAttributes({ seperatorType })}
+                                    __next40pxDefaultSize
+                                    __nextHasNoMarginBottom
                                 />
                             )}
 
@@ -179,6 +185,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             }
                                         });
                                     }}
+                                    __nextHasNoMarginBottom
                                 />
                             )}
                         </>
@@ -208,6 +215,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 label={__("Label Space", "essential-blocks")}
                                 value={labelSpace}
                                 onChange={(labelSpace) => setAttributes({ labelSpace })}
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
                             />
                         </>
                     )}
@@ -323,6 +332,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     value={borderStyle}
                                     options={BORDER_STYLES}
                                     onChange={(borderStyle) => setAttributes({ borderStyle })}
+                                    __next40pxDefaultSize
+                                    __nextHasNoMarginBottom
                                 />
 
                                 <ColorControl
@@ -337,6 +348,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     onChange={(borderWidth) => setAttributes({ borderWidth })}
                                     min={0}
                                     max={17}
+                                    __nextHasNoMarginBottom
+                                    __next40pxDefaultSize
                                 />
 
                                 {switchStyle === "text" && (
@@ -346,6 +359,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         onChange={(borderRadius) => setAttributes({ borderRadius })}
                                         min={0}
                                         max={100}
+                                        __nextHasNoMarginBottom
+                                        __next40pxDefaultSize
                                     />
                                 )}
                             </InspectorPanel.PanelBody>
@@ -365,6 +380,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             onChange={(hOffset) => setAttributes({ hOffset })}
                                             min={0}
                                             max={10}
+                                            __nextHasNoMarginBottom
+                                            __next40pxDefaultSize
                                         />
                                     </ResetControl>
 
@@ -375,6 +392,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             onChange={(vOffset) => setAttributes({ vOffset })}
                                             min={0}
                                             max={10}
+                                            __nextHasNoMarginBottom
+                                            __next40pxDefaultSize
                                         />
                                     </ResetControl>
 
@@ -385,6 +404,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             onChange={(blur) => setAttributes({ blur })}
                                             min={0}
                                             max={10}
+                                            __nextHasNoMarginBottom
+                                            __next40pxDefaultSize
                                         />
                                     </ResetControl>
 
@@ -395,6 +416,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             onChange={(spread) => setAttributes({ spread })}
                                             min={0}
                                             max={10}
+                                            __nextHasNoMarginBottom
+                                            __next40pxDefaultSize
                                         />
                                     </ResetControl>
 
@@ -402,6 +425,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         label={__("Inset", "essential-blocks")}
                                         checked={inset}
                                         onChange={() => setAttributes({ inset: !inset })}
+                                        __nextHasNoMarginBottom
                                     />
                                 </InspectorPanel.PanelBody>
                             )}

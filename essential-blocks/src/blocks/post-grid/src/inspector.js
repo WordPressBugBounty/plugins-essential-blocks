@@ -13,6 +13,8 @@ import {
     BaseControl,
     RangeControl,
     __experimentalDivider as Divider,
+    __experimentalToggleGroupControl as ToggleGroupControl,
+    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 import { withSelect } from "@wordpress/data";
 import { applyFilters } from "@wordpress/hooks";
@@ -481,6 +483,7 @@ function Inspector(props) {
 
                                     makeEnableContent(!showThumbnail, "thumbnail");
                                 }}
+                                __nextHasNoMarginBottom
                             />
                         )}
 
@@ -523,6 +526,7 @@ function Inspector(props) {
                                             showFallbackImg: !showFallbackImg,
                                         });
                                     }}
+                                    __nextHasNoMarginBottom
                                 />
 
                                 {showFallbackImg && !fallbackImgUrl && (
@@ -574,28 +578,18 @@ function Inspector(props) {
                         )}
 
                         {(preset === "style-4" || preset === "style-5" || preset === "pro-style-6") && (
-                            <BaseControl
+                            <ToggleGroupControl
                                 label={__("Content Vertical Alignment", "essential-blocks")}
-                                id="essential-blocks"
+                                value={styleVerticalAlignment}
+                                onChange={(value) => setAttributes({ styleVerticalAlignment: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             >
-                                <ButtonGroup id="essential-blocks">
-                                    {VERTICAL_POSITION.map((item, index) => (
-                                        <Button
-                                            key={index}
-                                            // isLarge
-                                            isPrimary={styleVerticalAlignment === item.value}
-                                            isSecondary={styleVerticalAlignment !== item.value}
-                                            onClick={() =>
-                                                setAttributes({
-                                                    styleVerticalAlignment: item.value,
-                                                })
-                                            }
-                                        >
-                                            {item.label}
-                                        </Button>
-                                    ))}
-                                </ButtonGroup>
-                            </BaseControl>
+                                {VERTICAL_POSITION.map((item, index) => (
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                                ))}
+                            </ToggleGroupControl>
                         )}
 
                         <ToggleControl
@@ -607,27 +601,23 @@ function Inspector(props) {
                                 });
                                 makeEnableContent(!showTitle, "title");
                             }}
+                            __nextHasNoMarginBottom
                         />
 
                         {showTitle && (
                             <>
-                                <BaseControl label={__("Title Tag", "essential-blocks")}>
-                                    <ButtonGroup className="eb-advance-heading-alignment eb-html-tag-buttongroup">
-                                        {TITLE_TAGS.map((item, key) => (
-                                            <Button
-                                                key={key}
-                                                // isLarge
-                                                isPrimary={titleTag === item.value}
-                                                isSecondary={titleTag !== item.value}
-                                                onClick={() =>
-                                                    setAttributes({ titleTag: item.value })
-                                                }
-                                            >
-                                                {item.label}
-                                            </Button>
-                                        ))}
-                                    </ButtonGroup>
-                                </BaseControl>
+                                <ToggleGroupControl
+                                    label={__("Title Tag", "essential-blocks")}
+                                    value={titleTag}
+                                    onChange={(value) => setAttributes({ titleTag: value })}
+                                    isBlock
+                                    __next40pxDefaultSize
+                                    __nextHasNoMarginBottom
+                                >
+                                    {TITLE_TAGS.map((item, key) => (
+                                        <ToggleGroupControlOption key={key} value={item.value} label={item.label} />
+                                    ))}
+                                </ToggleGroupControl>
 
                                 <RangeControl
                                     label="Title Words"
@@ -640,6 +630,8 @@ function Inspector(props) {
                                     min={-1}
                                     max={100}
                                     allowReset={true}
+                                    __nextHasNoMarginBottom
+                                    __next40pxDefaultSize
                                 />
                             </>
                         )}
@@ -653,6 +645,7 @@ function Inspector(props) {
                                 });
                                 makeEnableContent(!showContent, "excerpt");
                             }}
+                            __nextHasNoMarginBottom
                         />
 
                         {showContent && (
@@ -668,6 +661,8 @@ function Inspector(props) {
                                     min={-1}
                                     max={100}
                                     allowReset={true}
+                                    __nextHasNoMarginBottom
+                                    __next40pxDefaultSize
                                 />
 
                                 <TextControl
@@ -679,6 +674,8 @@ function Inspector(props) {
                                             expansionIndicator: text,
                                         })
                                     }
+                                    __next40pxDefaultSize
+                                    __nextHasNoMarginBottom
                                 />
                             </>
                         )}
@@ -691,6 +688,7 @@ function Inspector(props) {
                                     showReadMore: !showReadMore,
                                 });
                             }}
+                            __nextHasNoMarginBottom
                         />
 
                         {showReadMore && (
@@ -721,6 +719,7 @@ function Inspector(props) {
                                                 addIcon: !addIcon,
                                             })
                                         }
+                                        __nextHasNoMarginBottom
                                     />
                                     {addIcon && (
                                         <>
@@ -732,24 +731,18 @@ function Inspector(props) {
                                                     })
                                                 }
                                             />
-                                            <BaseControl label={__("Icon Postion", "essential-blocks")}>
-                                                <ButtonGroup id="eb-button-group-alignment">
-                                                    {ICON_POSITION.map((item, index) => (
-                                                        <Button
-                                                            key={index}
-                                                            isPrimary={iconPosition === item.value}
-                                                            isSecondary={iconPosition !== item.value}
-                                                            onClick={() =>
-                                                                setAttributes({
-                                                                    iconPosition: item.value,
-                                                                })
-                                                            }
-                                                        >
-                                                            {item.label}
-                                                        </Button>
-                                                    ))}
-                                                </ButtonGroup>
-                                            </BaseControl>
+                                            <ToggleGroupControl
+                                                label={__("Icon Postion", "essential-blocks")}
+                                                value={iconPosition}
+                                                onChange={(value) => setAttributes({ iconPosition: value })}
+                                                isBlock
+                                                __next40pxDefaultSize
+                                                __nextHasNoMarginBottom
+                                            >
+                                                {ICON_POSITION.map((item, index) => (
+                                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                                                ))}
+                                            </ToggleGroupControl>
                                             <ResponsiveRangeController
                                                 baseLabel={__("Size", "essential-blocks")}
                                                 controlName={ICON_SIZE}
@@ -775,6 +768,7 @@ function Inspector(props) {
                                 });
                                 makeEnableContent(!showMeta, "meta");
                             }}
+                            __nextHasNoMarginBottom
                         />
 
                         {showMeta && (
@@ -862,6 +856,7 @@ function Inspector(props) {
                                             enableThumbnailSort: !enableThumbnailSort,
                                         });
                                     }}
+                                    __nextHasNoMarginBottom
                                 />
                             )
                         }
@@ -1066,6 +1061,7 @@ function Inspector(props) {
                                     showTaxonomyFilter: !showTaxonomyFilter,
                                 });
                             }}
+                            __nextHasNoMarginBottom
                         />
                         {showTaxonomyFilter && (
                             <>
@@ -1412,47 +1408,32 @@ function Inspector(props) {
                                 baseLabel={__("Typography", "essential-blocks")}
                                 typographyPrefixConstant={EBPG_TITLE_TYPOGRAPHY}
                             />
-                            <BaseControl
+                            <ToggleGroupControl
                                 label={__("Alignment", "essential-blocks")}
-                                id="essential-blocks"
+                                value={titleTextAlign}
+                                onChange={(value) => setAttributes({ titleTextAlign: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             >
-                                <ButtonGroup id="essential-blocks">
-                                    {TEXT_ALIGN.map((item, index) => (
-                                        <Button
-                                            key={index}
-                                            // isLarge
-                                            isPrimary={titleTextAlign === item.value}
-                                            isSecondary={titleTextAlign !== item.value}
-                                            onClick={() =>
-                                                setAttributes({
-                                                    titleTextAlign: item.value,
-                                                })
-                                            }
-                                        >
-                                            {item.label}
-                                        </Button>
-                                    )
-                                    )}
-                                </ButtonGroup>
-                            </BaseControl>
-
-                            <ButtonGroup className="eb-inspector-btn-group">
-                                {NORMAL_HOVER.map((item, index) => (
-                                    <Button
-                                        key={index}
-                                        // isLarge
-                                        isPrimary={titleColorStyle === item.value}
-                                        isSecondary={titleColorStyle !== item.value}
-                                        onClick={() =>
-                                            setAttributes({
-                                                titleColorStyle: item.value,
-                                            })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Button>
+                                {TEXT_ALIGN.map((item, index) => (
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
                                 ))}
-                            </ButtonGroup>
+                            </ToggleGroupControl>
+
+                            <ToggleGroupControl
+                                label=""
+                                hideLabelFromVision
+                                value={titleColorStyle}
+                                onChange={(value) => setAttributes({ titleColorStyle: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
+                            >
+                                {NORMAL_HOVER.map((item, index) => (
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                                ))}
+                            </ToggleGroupControl>
 
                             {titleColorStyle === "normal" && (
                                 <ColorControl
@@ -1497,28 +1478,18 @@ function Inspector(props) {
                                 color={contentColor}
                                 attributeName={'contentColor'}
                             />
-                            <BaseControl
+                            <ToggleGroupControl
                                 label={__("Alignment", "essential-blocks")}
-                                id="essential-blocks"
+                                value={contentTextAlign}
+                                onChange={(value) => setAttributes({ contentTextAlign: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             >
-                                <ButtonGroup id="essential-blocks">
-                                    {TEXT_ALIGN.map((item, index) => (
-                                        <Button
-                                            key={index}
-                                            // isLarge
-                                            isPrimary={contentTextAlign === item.value}
-                                            isSecondary={contentTextAlign !== item.value}
-                                            onClick={() =>
-                                                setAttributes({
-                                                    contentTextAlign: item.value,
-                                                })
-                                            }
-                                        >
-                                            {item.label}
-                                        </Button>
-                                    ))}
-                                </ButtonGroup>
-                            </BaseControl>
+                                {TEXT_ALIGN.map((item, index) => (
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                                ))}
+                            </ToggleGroupControl>
                             <TypographyDropdown
                                 baseLabel={__("Typography", "essential-blocks")}
                                 typographyPrefixConstant={EBPG_CONTENT_TYPOGRAPHY}
@@ -1535,23 +1506,19 @@ function Inspector(props) {
                             title={__("Read More Button", "essential-blocks")}
                             initialOpen={false}
                         >
-                            <ButtonGroup className="eb-inspector-btn-group">
+                            <ToggleGroupControl
+                                label=""
+                                hideLabelFromVision
+                                value={readmoreColorType}
+                                onChange={(value) => setAttributes({ readmoreColorType: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
+                            >
                                 {NORMAL_HOVER.map((item, index) => (
-                                    <Button
-                                        key={index}
-                                        // isLarge
-                                        isPrimary={readmoreColorType === item.value}
-                                        isSecondary={readmoreColorType !== item.value}
-                                        onClick={() =>
-                                            setAttributes({
-                                                readmoreColorType: item.value,
-                                            })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Button>
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
                                 ))}
-                            </ButtonGroup>
+                            </ToggleGroupControl>
 
                             {readmoreColorType === "normal" && (
                                 <>
@@ -1583,42 +1550,18 @@ function Inspector(props) {
                                 </>
                             )}
 
-                            <BaseControl
-                                label={__(
-                                    "Alignment",
-                                    "essential-blocks"
-                                )}
-                                id="essential-blocks"
+                            <ToggleGroupControl
+                                label={__("Alignment", "essential-blocks")}
+                                value={readmoreTextAlign}
+                                onChange={(value) => setAttributes({ readmoreTextAlign: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             >
-                                <ButtonGroup id="essential-blocks">
-                                    {TEXT_ALIGN.map(
-                                        (item, index) => (
-                                            <Button
-                                                key={index}
-                                                // isLarge
-                                                isPrimary={
-                                                    readmoreTextAlign ===
-                                                    item.value
-                                                }
-                                                isSecondary={
-                                                    readmoreTextAlign !==
-                                                    item.value
-                                                }
-                                                onClick={() =>
-                                                    setAttributes(
-                                                        {
-                                                            readmoreTextAlign:
-                                                                item.value,
-                                                        }
-                                                    )
-                                                }
-                                            >
-                                                {item.label}
-                                            </Button>
-                                        )
-                                    )}
-                                </ButtonGroup>
-                            </BaseControl>
+                                {TEXT_ALIGN.map((item, index) => (
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                                ))}
+                            </ToggleGroupControl>
                             <TypographyDropdown
                                 baseLabel={__("Typography", "essential-blocks")}
                                 typographyPrefixConstant={EBPG_READMORE_TYPOGRAPHY}
@@ -1680,23 +1623,19 @@ function Inspector(props) {
                                 baseLabel="Footer Meta Margin"
                             />
 
-                            <ButtonGroup className="eb-inspector-btn-group">
+                            <ToggleGroupControl
+                                label=""
+                                hideLabelFromVision
+                                value={metaColorType}
+                                onChange={(value) => setAttributes({ metaColorType: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
+                            >
                                 {NORMAL_HOVER.map((item, index) => (
-                                    <Button
-                                        key={index}
-                                        // isLarge
-                                        isPrimary={metaColorType === item.value}
-                                        isSecondary={metaColorType !== item.value}
-                                        onClick={() =>
-                                            setAttributes({
-                                                metaColorType: item.value,
-                                            })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Button>
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
                                 ))}
-                            </ButtonGroup>
+                            </ToggleGroupControl>
 
                             {metaColorType === "normal" && (
                                 <>
@@ -1894,52 +1833,36 @@ function Inspector(props) {
                             <InspectorPanel.PanelBody title={__("Load More Styles", "essential-blocks")} initialOpen={false}>
                                 {/* If load More type "Load More Button" */}
                                 {loadMoreOptions.loadMoreType === "1" && (
-                                    <ButtonGroup
-                                        id="essential-blocks"
-                                        className="eb-inspector-btn-group"
+                                    <ToggleGroupControl
+                                        label=""
+                                        hideLabelFromVision
+                                        value={loadMoreColorType}
+                                        onChange={(value) => setAttributes({ loadMoreColorType: value })}
+                                        isBlock
+                                        __next40pxDefaultSize
+                                        __nextHasNoMarginBottom
                                     >
                                         {NORMAL_HOVER.map((item, index) => (
-                                            <Button
-                                                key={index}
-                                                isLarge
-                                                isPrimary={loadMoreColorType === item.value}
-                                                isSecondary={loadMoreColorType !== item.value}
-                                                onClick={() =>
-                                                    setAttributes({
-                                                        loadMoreColorType: item.value,
-                                                    })
-                                                }
-                                            >
-                                                {item.label}
-                                            </Button>
+                                            <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
                                         ))}
-                                    </ButtonGroup>
+                                    </ToggleGroupControl>
                                 )}
 
                                 {/* If load More type "Pagination" */}
                                 {loadMoreOptions.loadMoreType === "2" && (
-                                    <BaseControl
-                                        label={__("", "essential-blocks")}
-                                        id="eb-advance-heading-alignment"
+                                    <ToggleGroupControl
+                                        label=""
+                                        hideLabelFromVision
+                                        value={loadMoreColorType}
+                                        onChange={(value) => setAttributes({ loadMoreColorType: value })}
+                                        isBlock
+                                        __next40pxDefaultSize
+                                        __nextHasNoMarginBottom
                                     >
-                                        <ButtonGroup id="eb-advance-heading-alignment">
-                                            {NORMAL_HOVER_ACTIVE.map((item, index) => (
-                                                <Button
-                                                    key={index}
-                                                    isLarge
-                                                    isPrimary={loadMoreColorType === item.value}
-                                                    isSecondary={loadMoreColorType !== item.value}
-                                                    onClick={() =>
-                                                        setAttributes({
-                                                            loadMoreColorType: item.value,
-                                                        })
-                                                    }
-                                                >
-                                                    {item.label}
-                                                </Button>
-                                            ))}
-                                        </ButtonGroup>
-                                    </BaseControl>
+                                        {NORMAL_HOVER_ACTIVE.map((item, index) => (
+                                            <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                                        ))}
+                                    </ToggleGroupControl>
                                 )}
 
                                 {loadMoreColorType === "normal" && (
@@ -2040,23 +1963,19 @@ function Inspector(props) {
 
                     {showTaxonomyFilter && (
                         <InspectorPanel.PanelBody title={__("Taxonomy Filter Style")} initialOpen={false}>
-                            <ButtonGroup className="eb-inspector-btn-group">
+                            <ToggleGroupControl
+                                label=""
+                                hideLabelFromVision
+                                value={filterColorStyle}
+                                onChange={(value) => setAttributes({ filterColorStyle: value })}
+                                isBlock
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
+                            >
                                 {NORMAL_HOVER.map((item, index) => (
-                                    <Button
-                                        key={index}
-                                        // isLarge
-                                        isPrimary={filterColorStyle === item.value}
-                                        isSecondary={filterColorStyle !== item.value}
-                                        onClick={() =>
-                                            setAttributes({
-                                                filterColorStyle: item.value,
-                                            })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Button>
+                                    <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
                                 ))}
-                            </ButtonGroup>
+                            </ToggleGroupControl>
                             {filterColorStyle ===
                                 "normal" && (
                                     <>

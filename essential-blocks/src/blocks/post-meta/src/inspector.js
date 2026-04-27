@@ -5,10 +5,9 @@ import { __ } from "@wordpress/i18n";
 import {
     ToggleControl,
     TextControl,
-    Button,
-    ButtonGroup,
-    BaseControl,
     RangeControl,
+    __experimentalToggleGroupControl as ToggleGroupControl,
+    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 
 /**
@@ -105,25 +104,18 @@ export default function Inspector(props) {
                         resOption={resOption}
                     />
 
-                    <BaseControl label={__("Meta Display", "essential-blocks")}>
-                        <ButtonGroup>
-                            {META_DISPLAY.map((item, index) => (
-                                <Button
-                                    key={index}
-                                    // isLarge
-                                    isPrimary={metaDisplay === item.value}
-                                    isSecondary={metaDisplay !== item.value}
-                                    onClick={() =>
-                                        setAttributes({
-                                            metaDisplay: item.value,
-                                        })
-                                    }
-                                >
-                                    {item.label}
-                                </Button>
-                            ))}
-                        </ButtonGroup>
-                    </BaseControl>
+                    <ToggleGroupControl
+                        label={__("Meta Display", "essential-blocks")}
+                        value={metaDisplay}
+                        onChange={(value) => setAttributes({ metaDisplay: value })}
+                        isBlock
+                        __next40pxDefaultSize
+                        __nextHasNoMarginBottom
+                    >
+                        {META_DISPLAY.map((item, index) => (
+                            <ToggleGroupControlOption key={index} value={item.value} label={item.label} />
+                        ))}
+                    </ToggleGroupControl>
                     <ToggleControl
                         label={__("Author", "essential-blocks")}
                         checked={showAuthor}
@@ -133,6 +125,7 @@ export default function Inspector(props) {
                             });
                             toggleContent("author", !showAuthor);
                         }}
+                        __nextHasNoMarginBottom
                     />
                     <ToggleControl
                         label={__("Published Date", "essential-blocks")}
@@ -143,6 +136,7 @@ export default function Inspector(props) {
                             });
                             toggleContent("date", !showDate);
                         }}
+                        __nextHasNoMarginBottom
                     />
 
                     {"product" === type && (
@@ -155,6 +149,7 @@ export default function Inspector(props) {
                                 });
                                 toggleContent("product_sku", !showProductSku);
                             }}
+                            __nextHasNoMarginBottom
                         />
                     )}
                 </InspectorPanel.PanelBody>
@@ -170,6 +165,7 @@ export default function Inspector(props) {
                                 showMetaIcon: !showMetaIcon,
                             });
                         }}
+                        __nextHasNoMarginBottom
                     />
                     {showAuthor && (
                         <>
@@ -196,6 +192,7 @@ export default function Inspector(props) {
                                         showAuthorPicture: !showAuthorPicture,
                                     });
                                 }}
+                                __nextHasNoMarginBottom
                             />
 
                             {showAuthorPicture && (
@@ -207,6 +204,7 @@ export default function Inspector(props) {
                                             authorPictureLink: !authorPictureLink,
                                         });
                                     }}
+                                    __nextHasNoMarginBottom
                                 />
                             )}
                         </>
@@ -237,6 +235,8 @@ export default function Inspector(props) {
                                 onChange={(value) =>
                                     setAttributes({ productSkuLabel: value })
                                 }
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             />
                             {showMetaIcon == true && (
                                 <EBIconPicker
@@ -310,6 +310,8 @@ export default function Inspector(props) {
                                 max={300}
                                 step={1}
                                 allowReset={true}
+                                __nextHasNoMarginBottom
+                                __next40pxDefaultSize
                             />
                         </>
                     )}
@@ -353,6 +355,8 @@ export default function Inspector(props) {
                             max={100}
                             step={1}
                             allowReset={true}
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
                         />
                         <BorderShadowControl
                             controlName={AUTHOR_PICTURE_BORDER}

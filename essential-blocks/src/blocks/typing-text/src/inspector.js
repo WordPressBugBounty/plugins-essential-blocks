@@ -76,7 +76,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         enableAi={true}
                     />
 
-                    <BaseControl label={__("Typed Text", "essential-blocks")}>
+                    <BaseControl label={__("Typed Text", "essential-blocks")} __nextHasNoMarginBottom>
                         {typedText.length !== 0 && (
                             <SortableText
                                 typedText={typedText}
@@ -114,6 +114,7 @@ const Inspector = ({ attributes, setAttributes }) => {
 
                     <BaseControl label={__("Tag", "essential-blocks")}
                         className="eb-advanced-heading-tag-group eb-html-tag-buttongroup"
+                        __nextHasNoMarginBottom
                     >
                         <ButtonGroupControl
                             attrName={'tagName'}
@@ -127,6 +128,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         label={__("Loop", "essential-blocks")}
                         checked={loop}
                         onChange={() => setAttributes({ loop: !loop })}
+                        __nextHasNoMarginBottom
                     />
 
                     {!fadeOut && (
@@ -136,6 +138,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                             onChange={() =>
                                 setAttributes({ smartBackspace: !smartBackspace })
                             }
+                            __nextHasNoMarginBottom
                         />
                     )}
 
@@ -145,12 +148,14 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onChange={() =>
                             setAttributes({ showCursor: !showCursor })
                         }
+                        __nextHasNoMarginBottom
                     />
 
                     <ToggleControl
                         label={__("Fade Out", "essential-blocks")}
                         checked={fadeOut}
                         onChange={() => setAttributes({ fadeOut: !fadeOut })}
+                        __nextHasNoMarginBottom
                     />
 
                     <RangeControl
@@ -159,6 +164,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onChange={(typeSpeed) => setAttributes({ typeSpeed })}
                         min={0}
                         max={5000}
+                        __nextHasNoMarginBottom
+                        __next40pxDefaultSize
                     />
 
                     <RangeControl
@@ -167,6 +174,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onChange={(startDelay) => setAttributes({ startDelay })}
                         min={0}
                         max={1000}
+                        __nextHasNoMarginBottom
+                        __next40pxDefaultSize
                     />
 
                     {!fadeOut && (
@@ -176,6 +185,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                             onChange={(backSpeed) => setAttributes({ backSpeed })}
                             min={0}
                             max={5000}
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
                         />
                     )}
 
@@ -186,6 +197,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                             onChange={(backDelay) => setAttributes({ backDelay })}
                             min={0}
                             max={10000}
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
                         />
                     )}
 
@@ -198,6 +211,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                             }
                             min={0}
                             max={5000}
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
                         />
                     )}
                 </InspectorPanel.PanelBody>

@@ -74,6 +74,10 @@ class Scripts
         }
 
         // Enqueue Assets Only for FSE
+        // Note: In WP 6.3+, the site editor uses an iframe. Assets registered via
+        // register_block_type() with editor_script/editor_style are automatically
+        // injected into the iframe. This admin_init hook is a legacy workaround
+        // for older WP versions where site-editor.php didn't fire enqueue_block_editor_assets.
         global $pagenow;
         if ( $pagenow === 'site-editor.php' ) {
             add_action( 'admin_init', [ $this, 'block_editor_assets' ], 1 );

@@ -35,15 +35,16 @@ class TinyMCEEditor extends Component {
             window.tinymce.get(clientId).remove();
         }
 
-        // Clean up WordPress editor
-        if (window.wp && window.wp.oldEditor) {
-            window.wp.oldEditor.remove(clientId);
+        // Clean up WordPress editor (wp.oldEditor removed in WP 6.6)
+        const wpEditor = window.wp && (window.wp.editor || window.wp.oldEditor);
+        if (wpEditor) {
+            wpEditor.remove(clientId);
         }
     }
 
     initialize() {
         const { clientId } = this.props;
-        const correctEditor = () => window.wp.oldEditor || window.wp.editor;
+        const correctEditor = () => window.wp.editor || window.wp.oldEditor;
 
         // Check if editor already exists and remove it first
         if (correctEditor() && window.tinymce && window.tinymce.get(clientId)) {

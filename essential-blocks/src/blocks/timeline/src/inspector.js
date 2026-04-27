@@ -8,11 +8,11 @@ import {
     PanelRow,
     SelectControl,
     ToggleControl,
-    Button,
-    ButtonGroup,
     BaseControl,
     RangeControl,
     __experimentalDivider as Divider,
+    __experimentalToggleGroupControl as ToggleGroupControl,
+    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 
 /**
@@ -278,26 +278,25 @@ function Inspector(props) {
                 )}
 
                 {/* Individual Media Type Selection */}
-                <BaseControl label={__("Media Type", "essential-blocks")}>
-                    <ButtonGroup>
-                        {MEDIA_TYPES.map(({ label, value }) => (
-                            <Button
-                                key={value}
-                                isSecondary={
-                                    (each.itemMediaType || "none") !== value
-                                }
-                                isPrimary={
-                                    (each.itemMediaType || "none") === value
-                                }
-                                onClick={() =>
-                                    onTimelineChange("itemMediaType", value, i)
-                                }
-                            >
-                                {label}
-                            </Button>
-                        ))}
-                    </ButtonGroup>
-                </BaseControl>
+                <ToggleGroupControl
+                    label={__("Media Type", "essential-blocks")}
+
+                    value={each.itemMediaType || "none"}
+                    onChange={(value) =>
+                        onTimelineChange("itemMediaType", value, i)
+                    }
+                    isBlock
+                    __next40pxDefaultSize
+                    __nextHasNoMarginBottom
+                >
+                    {MEDIA_TYPES.map(({ label, value }) => (
+                        <ToggleGroupControlOption
+                            key={value}
+                            value={value}
+                            label={label}
+                        />
+                    ))}
+                </ToggleGroupControl>
 
                 {each.itemMediaType !== "none" && (
                     <>
@@ -354,6 +353,7 @@ function Inspector(props) {
                                 "essential-blocks",
                             )}
                             className="eb-timeline-tinymce-editor"
+                            __nextHasNoMarginBottom
                         >
                             <TinyMCEEditor
                                 clientId={`timeline-tinymce-${blockId}-${i}`}
@@ -376,6 +376,7 @@ function Inspector(props) {
                     onChange={() => {
                         onTimelineChange("showReadMore", !each.showReadMore, i);
                     }}
+                    __nextHasNoMarginBottom
                 />
 
                 {each.showReadMore && (
@@ -411,6 +412,7 @@ function Inspector(props) {
                                     i,
                                 )
                             }
+                            __nextHasNoMarginBottom
                         />
                     </>
                 )}
@@ -664,12 +666,16 @@ function Inspector(props) {
                             onChange={(contentSource) =>
                                 setAttributes({ contentSource })
                             }
+                            __next40pxDefaultSize
+                            __nextHasNoMarginBottom
                         /> */}
                         {/* <SelectControl
                             label={__("Layout", "essential-blocks")}
                             value={layout}
                             options={TIMELINE_LAYOUTS}
                             onChange={(layout) => setAttributes({ layout })}
+                            __next40pxDefaultSize
+                            __nextHasNoMarginBottom
                         /> */}
 
                         {/* {layout === "vertical" && (
@@ -680,6 +686,8 @@ function Inspector(props) {
                                 onChange={(timelineVerticalPreset) =>
                                     changeVerticalPreset(timelineVerticalPreset)
                                 }
+                                __next40pxDefaultSize
+                                __nextHasNoMarginBottom
                             />
 
                         )} */}
@@ -699,6 +707,8 @@ function Inspector(props) {
                             value={timelineLineStyle}
                             options={TIMELINE_LINE_STYLES}
                             onChange={(selected) => changeTimelineLineStyle(selected)}
+                            __next40pxDefaultSize
+                            __nextHasNoMarginBottom
                         />
 
                         <Divider />
@@ -711,12 +721,14 @@ function Inspector(props) {
                                     showTitle: !showTitle,
                                 });
                             }}
+                            __nextHasNoMarginBottom
                         />
 
                         {showTitle && (
                             <>
                                 <BaseControl label={__("Title Tag", "essential-blocks")}
                                     className="eb-advance-heading-alignment eb-html-tag-buttongroup"
+                                    __nextHasNoMarginBottom
                                 >
                                     <ButtonGroupControl
                                         options={TITLE_TAGS}
@@ -734,6 +746,7 @@ function Inspector(props) {
                                     showContent: !showContent,
                                 });
                             }}
+                            __nextHasNoMarginBottom
                         />
                         <PanelRow>{__("Meta", "essential-blocks")}</PanelRow>
                         <ToggleControl
@@ -744,6 +757,7 @@ function Inspector(props) {
                                     enableMeta: !enableMeta,
                                 });
                             }}
+                            __nextHasNoMarginBottom
                         />
                         {enableMeta && (
                             <>
@@ -755,6 +769,7 @@ function Inspector(props) {
                                             showDate: !showDate,
                                         });
                                     }}
+                                    __nextHasNoMarginBottom
                                 />
                                 <ToggleControl
                                     label={__(
@@ -767,6 +782,7 @@ function Inspector(props) {
                                             showSubheading: !showSubheading,
                                         });
                                     }}
+                                    __nextHasNoMarginBottom
                                 />
                                 <Divider />
                             </>
@@ -784,6 +800,7 @@ function Inspector(props) {
                                 "Add custom labels to timeline items",
                                 "essential-blocks",
                             )}
+                            __nextHasNoMarginBottom
                         />
 
                         <Divider />
@@ -950,6 +967,8 @@ function Inspector(props) {
                             step={1}
                             allowReset
                             resetFallbackValue={1}
+                            __nextHasNoMarginBottom
+                            __next40pxDefaultSize
                         />
 
                         <ColorControl
@@ -993,7 +1012,7 @@ function Inspector(props) {
                                     color={bulletColor}
                                     attributeName={"bulletColor"}
                                 />
-                                <BaseControl>
+                                <BaseControl __nextHasNoMarginBottom>
                                     <h3 className="eb-control-title">
                                         {__("Bullet Border", "essential-blocks")}
                                     </h3>
@@ -1004,7 +1023,7 @@ function Inspector(props) {
                                     noBdrHover
                                 />
                                 <Divider />
-                                <BaseControl>
+                                <BaseControl __nextHasNoMarginBottom>
                                     <h3 className="eb-control-title">
                                         {__("Icon", "essential-blocks")}
                                     </h3>
@@ -1065,7 +1084,7 @@ function Inspector(props) {
                         />
 
                         <Divider />
-                        <BaseControl>
+                        <BaseControl __nextHasNoMarginBottom>
                             <h3 className="eb-control-title">
                                 {__("Complete State", "essential-blocks")}
                             </h3>
@@ -1157,7 +1176,7 @@ function Inspector(props) {
 
                             {showSubheading && (
                                 <>
-                                    <BaseControl>
+                                    <BaseControl __nextHasNoMarginBottom>
                                         <h3 className="eb-control-title">
                                             {__("Subheading", "essential-blocks")}
                                         </h3>
@@ -1191,7 +1210,7 @@ function Inspector(props) {
                                     />
 
 
-                                    <BaseControl>
+                                    <BaseControl __nextHasNoMarginBottom>
                                         <h3 className="eb-control-title">
                                             {__("Border", "essential-blocks")}
                                         </h3>
@@ -1231,7 +1250,7 @@ function Inspector(props) {
                             step={1}
                             units={UNIT_TYPES}
                         />
-                        <BaseControl>
+                        <BaseControl __nextHasNoMarginBottom>
                             <h3 className="eb-control-title">
                                 {__("Border & Shadow", "essential-blocks")}
                             </h3>
@@ -1289,7 +1308,7 @@ function Inspector(props) {
                         {showTitle && (
                             <>
                                 <Divider />
-                                <BaseControl>
+                                <BaseControl __nextHasNoMarginBottom>
                                     <h3 className="eb-control-title">
                                         {__("Title", "essential-blocks")}
                                     </h3>
@@ -1315,7 +1334,7 @@ function Inspector(props) {
                         {showContent && (
                             <>
                                 <Divider />
-                                <BaseControl>
+                                <BaseControl __nextHasNoMarginBottom>
                                     <h3 className="eb-control-title">
                                         {__("Excerpt", "essential-blocks")}
                                     </h3>
@@ -1371,7 +1390,7 @@ function Inspector(props) {
                             />
 
                             <Divider />
-                            <BaseControl>
+                            <BaseControl __nextHasNoMarginBottom>
                                 <h3 className="eb-control-title">
                                     {__("Thumbnail", "essential-blocks")}
                                 </h3>

@@ -649,7 +649,7 @@ export default function Style(props) {
 
     const fieldsDesktop = `
         .eb-form-wrapper.${blockId} .eb-multistep-form .eb-form-multistep-wrapper,
-        .wp-admin .eb-form-wrapper.${blockId} .block-editor-block-list__layout,
+        .editor-styles-wrapper .eb-form-wrapper.${blockId} .block-editor-block-list__layout,
         .eb-form-wrapper.${blockId} .eb-form-fields {
             ${rowGapStylesDesktop}
         }
@@ -698,7 +698,7 @@ export default function Style(props) {
 
 	`;
     const fieldsTab = `
-        .wp-admin .eb-form-wrapper.${blockId} .block-editor-block-list__layout,
+        .editor-styles-wrapper .eb-form-wrapper.${blockId} .block-editor-block-list__layout,
         .eb-form-wrapper.${blockId} .eb-form-fields {
             ${rowGapStylesTab ? rowGapStylesTab : rowGapStylesDesktop}
         }
@@ -714,7 +714,7 @@ export default function Style(props) {
 	`;
 
     const fieldsMobile = `
-        .wp-admin .eb-form-wrapper.${blockId} .block-editor-block-list__layout,
+        .editor-styles-wrapper .eb-form-wrapper.${blockId} .block-editor-block-list__layout,
         .eb-form-wrapper.${blockId} .eb-form-fields {
             ${rowGapStylesMobile ? rowGapStylesMobile : rowGapStylesDesktop}
         }

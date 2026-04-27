@@ -277,22 +277,29 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.0.8", "essential-blocks")}
+                                    {__("Version: 6.1.0", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("16/04/2026", "essential-blocks")}
+                                        {__("27/04/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Post Grid block | Featured post options & layout",
+                                            "Added: Compatibility with WordPress 7.0",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Image Hotspot block | Tooltip positioning & styling options",
+                                            "Improved: Security Enhancement",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Modernize Gutenberg blocks to block.json (API v3)",
                                             "essential-blocks"
                                         )}
 

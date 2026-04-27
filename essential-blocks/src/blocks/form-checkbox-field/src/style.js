@@ -21,7 +21,7 @@ import {
     generateResponsiveRangeStyles,
     generateBackgroundControlStyles,
     StyleComponent
- } from "@essential-blocks/controls";
+} from "@essential-blocks/controls";
 
 export default function Style(props) {
     const { attributes, setAttributes, name } = props;
@@ -231,7 +231,7 @@ export default function Style(props) {
 
         .eb-form-wrapper.${parentBlockId} .eb-checkbox-field-wrapper.${blockId} input[type=checkbox]::before {
             color: ${checkboxBrCheckedColor};
-            font-size: calc(${checkboxSizeRange ?? 0}px /2);
+            font-size: calc(${checkboxSizeRange}px /2);
         }
 	`;
     const checkboxTab = `
@@ -246,7 +246,7 @@ export default function Style(props) {
             ${checkboxSpacingStylesTab}
         }
         .eb-form-wrapper.${parentBlockId} .eb-checkbox-field-wrapper.${blockId} input[type=checkbox]::before {
-            font-size: calc(${TABcheckboxSizeRange ?? 0}px /2);
+            font-size: calc(${TABcheckboxSizeRange}px /2);
         }
 	`;
     const checkboxMobile = `
@@ -261,7 +261,7 @@ export default function Style(props) {
             ${checkboxSpacingStylesMobile}
         }
         .eb-form-wrapper.${parentBlockId} .eb-checkbox-field-wrapper.${blockId} input[type=checkbox]::before {
-            font-size: calc(${MOBcheckboxSizeRange ?? 0}px /2);
+            font-size: calc(${MOBcheckboxSizeRange}px /2);
         }
 	`;
 
