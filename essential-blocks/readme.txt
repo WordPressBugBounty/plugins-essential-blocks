@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 6.1.0
+Stable tag: 6.1.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -65,14 +65,20 @@ Easily upload SVG and JSON files directly to your WordPress Media Library withou
 ##💻 RESPONSIVE ON ALL DEVICES
 Directly from your Gutenberg block editor, you can control each block’s responsiveness individually. With flexible, responsive customization options, make your website user-friendly for all devices.
 
-##💧LIQUID GLASS EFFECT ON WORDPRESS
+##💧 LIQUID GLASS EFFECT ON WORDPRESS
 Add smooth, glossy liquid glassmorphism effects to your WordPress site; no coding is needed. Instantly bring modern and futuristic UI to Gutenberg designs.
 
-##💫 ADVANCED ANIMATION FOR PAGE BUILDER (PRO)
+##💫 INTERACTIVE ANIMATION WITH GSAP FOR PAGE BUILDER (PRO)
 With our latest exclusive feature, animation, you can design every block with a stunning animated appearance. Add smooth transitions, scroll effects and vibrant animations. Grab users’ attention instantly with eye-catching animations, transitions, and many more.
 
 ##⚡ DYNAMIC TAGS & ACF SUPPORT (PRO)
 Enhance the flexibility and customization options of your Gutenberg-built website and easily add custom fields to posts, pages, or custom post types with dynamic placeholders or variables generated from various parameters or data sources.
+
+##🔄 TRANSFORM BLOCKS WITH INTERACTIVE EFFECTS
+Instantly add engaging transform effects to your Gutenberg blocks and create interactive experiences without any coding. Apply hover animations, dynamic transitions, and smooth visual transformations to make your website feel modern, responsive, and visually captivating.
+
+##🔒 PASSWORD PROTECT CONTENT & BLOCKS (PRO)
+Secure any Gutenberg block, section, or content with password protection and control who gets access. Easily restrict premium resources, exclusive content, private pages, or client-only sections directly from the block editor without writing a single line of code.
 
 ##🖼️ READY GUTENBERG PATTERNS BUILT WITH BLOCKS
 Get stunningly designed, ready-to-use Gutenberg block patterns for your WordPress website. Instantly add a block layout to Gutenberg or your site editor to make your website-building experience faster and more effective.
@@ -270,6 +276,17 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.1.1 - 11/05/2026 =
+- Added: Post Meta | ACF Field support
+- Added: Flex Container option to inherit theme content width
+- Fixed: Advanced Navigation interactivity issue
+- Fixed: Advanced Image block alignment issue
+- Fixed: Post Grid sticky post editor 'post per page' count off-by-one
+- Fixed: Row block column not rendering
+- Fixed: Advanced Accordion | Focus state issue
+- Few minor bug fixes & improvements
+
+
 = 6.1.0 - 27/04/2026 =
 - Added: Compatibility with WordPress 7.0
 - Improved: Security Enhancement

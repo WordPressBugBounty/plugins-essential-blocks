@@ -235,8 +235,6 @@ domReady(function () {
             let arrowNextIcon = wrapper.getAttribute("data-arrowNextIcon");
             let arrowPrevIcon = wrapper.getAttribute("data-arrowPrevIcon");
             let showLightbox = wrapper.getAttribute("data-lightbox");
-            console.log('EBRenderIconWithSVG', EBRenderIconWithSVG(arrowNextIcon));
-
 
             settings.prevArrow = generateArrowHTML(arrowPrevIcon, 'prev');
             settings.nextArrow = generateArrowHTML(arrowNextIcon, 'next');
@@ -282,9 +280,6 @@ domReady(function () {
             let arrowNextIcon = wrapper.getAttribute("data-arrowNextIcon");
             let arrowPrevIcon = wrapper.getAttribute("data-arrowPrevIcon");
             let showLightbox = wrapper.getAttribute("data-lightbox");
-
-            console.log('isMarquee', isMarquee);
-
 
             if (!isMarquee) {
                 let slickType = wrapper.querySelector(".eb-slider-init");

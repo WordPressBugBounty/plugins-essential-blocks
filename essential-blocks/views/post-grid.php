@@ -100,6 +100,13 @@
             // Update $_params with filtered posts
             $_params['posts'] = $filtered_posts;
 
+            // When featured post is shown separately in v2, limit regular posts so
+            // total displayed stays equal to per_page (not per_page + 1).
+            if ( $version === 'v2' && $featured_post && ! is_wp_error( $featured_post ) ) {
+                $per_page = isset( $queryData['per_page'] ) ? max( 0, (int) $queryData['per_page'] - 1 ) : count( $filtered_posts );
+                $_params['posts'] = array_slice( array_values( $filtered_posts ), 0, $per_page );
+            }
+
             if ( $version === 'v2' ) {
                 // Display featured post before the regular posts wrapper
                 if ( $featured_post && ! is_wp_error( $featured_post ) ) {

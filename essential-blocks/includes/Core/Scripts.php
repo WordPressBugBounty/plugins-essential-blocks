@@ -364,8 +364,8 @@ class Scripts
             {$global_typography_css}
         ";
 
-        //Load Google fonts
-        if ( is_array( $google_fonts ) && ! empty( $google_fonts ) ) {
+        //Load Google fonts (honor site-wide googleFont toggle)
+        if ( is_array( $google_fonts ) && ! empty( $google_fonts ) && 'false' !== $this->isEnableGoogleFont ) {
             Helper::load_google_font( $google_fonts, 'eb-global-fonts' );
         }
         return $custom_css;

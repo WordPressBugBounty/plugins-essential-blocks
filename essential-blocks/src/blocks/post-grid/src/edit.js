@@ -671,12 +671,7 @@ const Edit = (props) => {
                                                             <div className="ebpg-grid-post-holder">
                                                                 <div className="ebpg-entry-media">
                                                                     <div className="ebpg-entry-thumbnail">
-                                                                        {post._embedded &&
-                                                                            post._embedded[
-                                                                            "wp:featuredmedia"
-                                                                            ] &&
-                                                                            post._embedded["wp:featuredmedia"]
-                                                                                .length > 0 && (
+                                                                        {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                 <img
                                                                                     src={thumbnailImageUrl(
                                                                                         post._embedded[
@@ -687,9 +682,7 @@ const Edit = (props) => {
                                                                                 />
                                                                             )}
                                                                         {post._embedded &&
-                                                                            !post._embedded[
-                                                                            "wp:featuredmedia"
-                                                                            ] && (
+                                                                            !post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                 <>
                                                                                     {showFallbackImg &&
                                                                                         fallbackImgUrl && (
@@ -1087,10 +1080,7 @@ const Edit = (props) => {
                                                                                             href="#"
                                                                                         ></a>
                                                                                     )}
-                                                                                    {post._embedded &&
-                                                                                        post._embedded["wp:featuredmedia"] &&
-                                                                                        post._embedded["wp:featuredmedia"]
-                                                                                            .length > 0 && (
+                                                                                    {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                             <img
                                                                                                 src={thumbnailImageUrl(
                                                                                                     post._embedded[
@@ -1101,9 +1091,7 @@ const Edit = (props) => {
                                                                                             />
                                                                                         )}
                                                                                     {post._embedded &&
-                                                                                        !post._embedded[
-                                                                                        "wp:featuredmedia"
-                                                                                        ] && (
+                                                                                        !post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                             <>
                                                                                                 {showFallbackImg &&
                                                                                                     fallbackImgUrl && (
@@ -1148,12 +1136,7 @@ const Edit = (props) => {
                                                                                             className="ebpg-post-link-wrapper"
                                                                                             href="#"
                                                                                         ></a>
-                                                                                        {post._embedded &&
-                                                                                            post._embedded[
-                                                                                            "wp:featuredmedia"
-                                                                                            ] &&
-                                                                                            post._embedded["wp:featuredmedia"]
-                                                                                                .length > 0 && (
+                                                                                        {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                                 <img
                                                                                                     src={thumbnailImageUrl(
                                                                                                         post._embedded[
@@ -1164,9 +1147,7 @@ const Edit = (props) => {
                                                                                                 />
                                                                                             )}
                                                                                         {post._embedded &&
-                                                                                            !post._embedded[
-                                                                                            "wp:featuredmedia"
-                                                                                            ] && (
+                                                                                            !post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                                 <>
                                                                                                     {showFallbackImg &&
                                                                                                         fallbackImgUrl && (
@@ -1565,10 +1546,7 @@ const Edit = (props) => {
                                                                                 href="#"
                                                                             ></a>
                                                                         )}
-                                                                        {post._embedded &&
-                                                                            post._embedded["wp:featuredmedia"] &&
-                                                                            post._embedded["wp:featuredmedia"]
-                                                                                .length > 0 && (
+                                                                        {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                 <img
                                                                                     src={thumbnailImageUrl(
                                                                                         post._embedded[
@@ -1579,7 +1557,7 @@ const Edit = (props) => {
                                                                                 />
                                                                             )}
                                                                         {post._embedded &&
-                                                                            !post._embedded["wp:featuredmedia"] && (
+                                                                            !post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                 <>
                                                                                     {showFallbackImg &&
                                                                                         fallbackImgUrl && (
@@ -1624,10 +1602,7 @@ const Edit = (props) => {
                                                                                 className="ebpg-post-link-wrapper"
                                                                                 href="#"
                                                                             ></a>
-                                                                            {post._embedded &&
-                                                                                post._embedded["wp:featuredmedia"] &&
-                                                                                post._embedded["wp:featuredmedia"]
-                                                                                    .length > 0 && (
+                                                                            {post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                     <img
                                                                                         src={thumbnailImageUrl(
                                                                                             post._embedded[
@@ -1638,7 +1613,7 @@ const Edit = (props) => {
                                                                                     />
                                                                                 )}
                                                                             {post._embedded &&
-                                                                                !post._embedded["wp:featuredmedia"] && (
+                                                                                !post._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
                                                                                     <>
                                                                                         {showFallbackImg &&
                                                                                             fallbackImgUrl && (

@@ -9,6 +9,7 @@ import {
     SelectControl,
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
+    TextControl
 } from "@wordpress/components";
 
 
@@ -36,6 +37,7 @@ import {
     CONTAINER_WIDTH,
     CONTENT_WIDTH,
     CONTENT_HEIGHT,
+    INHERIT_THEME_OPTIONS,
     getJustifyContentsOptions,
     getAlignItemsOptions,
 } from "./constants";
@@ -53,6 +55,10 @@ const Inspector = ({ attributes, setAttributes }) => {
         containerWidth,
         isContainerCustomWidth,
         contentWidth,
+        inheritTheme,
+        adminWidthVar,
+        frontMaxWidthVar,
+        frontWidthVar,
         htmlTag,
         overflow,
         flexDirection,
@@ -200,6 +206,72 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 max={1500}
                                 step={1}
                             />
+                        </>
+                    )}
+
+                    {contentWidth === "variable" && (
+                        <>
+                            <SelectControl
+                                label={__(
+                                    "Inherit from",
+                                    "essential-blocks"
+                                )}
+                                value={inheritTheme}
+                                options={INHERIT_THEME_OPTIONS}
+                                onChange={(value) =>
+                                    setAttributes({
+                                        inheritTheme: value,
+                                    })
+                                }
+                            />
+                            {inheritTheme === "" && (
+                                <>
+                                    <TextControl
+                                        label={__(
+                                            "Admin Container width",
+                                            "essential-blocks"
+                                        )}
+                                        value={adminWidthVar}
+                                        help={__(
+                                            "If your theme uses css variables for container width, you can place here css names of these variables",
+                                            "essential-blocks"
+                                        )}
+                                        onChange={(value) =>
+                                            setAttributes({
+                                                adminWidthVar: value,
+                                            })
+                                        }
+                                    />
+                                    <TextControl
+                                        label={__(
+                                            "Frontend Container Max width",
+                                            "essential-blocks"
+                                        )}
+                                        value={frontMaxWidthVar}
+                                        onChange={(value) =>
+                                            setAttributes({
+                                                frontMaxWidthVar: value,
+                                            })
+                                        }
+                                    />
+                                    <TextControl
+                                        label={__(
+                                            "Frontend Container width",
+                                            "essential-blocks"
+                                        )}
+                                        value={frontWidthVar}
+                                        help={__(
+                                            "Optional",
+                                            "essential-blocks"
+                                        )}
+                                        onChange={(value) =>
+                                            setAttributes({
+                                                frontWidthVar: value,
+                                            })
+                                        }
+                                    />
+                                </>
+                            )}
                         </>
                     )}
 

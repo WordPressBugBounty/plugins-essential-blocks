@@ -8,6 +8,11 @@
 .eb-advanced-image-wrapper {
 	margin: 0;
 
+	.eb-image-wrapper .eb-image-wrapper-inner,
+	.image-wrapper a {
+		width: 100%;
+	}
+
 	&.img-style-triangle .eb-image-wrapper,
 	&.img-style-triangle .image-wrapper {
 		clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
@@ -120,7 +125,9 @@
 		max-width: 100%;
 		display: flex;
 		align-items: center;
-		justify-content: center;
+	}
+
+	.image-wrapper {
 		flex-direction: column;
 	}
 

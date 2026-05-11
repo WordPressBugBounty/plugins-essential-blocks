@@ -1,11 +1,17 @@
 /**
- * Get icon functions from global eb_frontend
+ * Icon helpers come from the shared controls bundle (`window.eb_frontend`,
+ * registered as a hard dep in PHP — see TableOfContents.php). Guard the
+ * destructure anyway: an asset-optimizer plugin or FSE script-reorder can
+ * leave the global undefined, and a top-level destructure throws before
+ * DOMContentLoaded — killing the entire TOC frontend, not just icon
+ * rendering.
  */
+const ebFrontend = window.eb_frontend || {};
 const {
     sanitizeIconValue,
     EBRenderIconWithSVG,
     loadSvgIcons
-} = window.eb_frontend;
+} = ebFrontend;
 window.addEventListener("DOMContentLoaded", function () {
     const parseTocSlug = function (slug) {
         // If not have the element then return false!
@@ -149,15 +155,20 @@ window.addEventListener("DOMContentLoaded", function () {
 
         _scrollToTop: function () {
             let container = document.querySelector(".eb-toc-container");
-            let hasScrollTop =
-                container &&
-                container.getAttribute("data-scroll-top") == "true";
-            let hasSticky =
-                container && container.getAttribute("data-sticky") == "true";
-            let scrollTarget = container.getAttribute("data-scroll-target");
             let wrapper = document.querySelector(".eb-toc-wrapper");
-            let offsetTop = wrapper.getAttribute("data-top-offset");
-            let scrollIcon = container.getAttribute("data-scroll-top-icon");
+            // Both selectors return null when the TOC block is inside a
+            // Protected Content wrapper (PC has swapped the block output for
+            // the password card). Skip the whole init in that case — there's
+            // no scroll-to-top to wire up.
+            if (!container || !wrapper) {
+                return;
+            }
+
+            let hasScrollTop = container.getAttribute("data-scroll-top") == "true";
+            let hasSticky    = container.getAttribute("data-sticky") == "true";
+            let scrollTarget = container.getAttribute("data-scroll-target");
+            let offsetTop    = wrapper.getAttribute("data-top-offset");
+            let scrollIcon   = container.getAttribute("data-scroll-top-icon");
 
             if (hasScrollTop) {
                 // Create go to top element
