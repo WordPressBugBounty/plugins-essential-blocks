@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 6.1.1
+Stable tag: 6.1.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -276,6 +276,11 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.1.2 - 13/05/2026 =
+- Added: Icon Library update
+- Few minor bug fixes & improvements
+
+
 = 6.1.1 - 11/05/2026 =
 - Added: Post Meta | ACF Field support
 - Added: Flex Container option to inherit theme content width

@@ -35,7 +35,7 @@ use EssentialBlocks\Utils\Helper;
 
 final class Plugin {
     use HasSingletone;
-                        public $version = '6.1.1';
+                                public $version = '6.1.2';
 
     public $admin;
     /**

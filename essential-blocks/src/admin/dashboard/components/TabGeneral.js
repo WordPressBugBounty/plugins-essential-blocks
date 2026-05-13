@@ -277,57 +277,15 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.1.1", "essential-blocks")}
+                                    {__("Version: 6.1.2", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("11/05/2026", "essential-blocks")}
+                                        {__("13/05/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Post Meta | ACF Field support",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Added: Flex Container option to inherit theme content width",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Navigation interactivity issue",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Image block alignment issue",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Post Grid sticky post editor 'post per page' count off-by-one",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Row block column not rendering",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Accordion | Focus state issue",
+                                            "Added: Icon Library update",
                                             "essential-blocks"
                                         )}
 

@@ -2,11 +2,11 @@
     if ( ! defined( 'ABSPATH' ) ) {
         exit;
     }
-    $title       = esc_html__( 'New Block - Timeline', 'essential-blocks' );
-    $description = esc_html__( 'Create visually engaging and fully customizable content timelines in WordPress to showcase your stories.', 'essential-blocks' );
+    $title       = esc_html__( 'Protected Content Feature', 'essential-blocks' );
+    $description = esc_html__( 'You can now password-protect any block or section directly in WordPress to show it to the right audience.', 'essential-blocks' );
     $learn_more  = esc_html__( 'Learn More', 'essential-blocks' );
     $dismiss     = esc_html__( 'Dismiss', 'essential-blocks' );
-    $doc_url     = esc_url( 'https://essential-blocks.com/demo/timeline' );
+    $doc_url     = esc_url( 'https://essential-blocks.com/demo/protected-content/' );
 ?>
 
 <script type="text/javascript">
