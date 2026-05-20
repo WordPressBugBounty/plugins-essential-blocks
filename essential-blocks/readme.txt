@@ -2,9 +2,9 @@
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Generate with AI
 Requires at least: 5.8
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.1.2
+Stable tag: 6.1.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -276,6 +276,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.1.3 - 20/05/2026 =
+- Added: WordPress 7.0 Compatibility
+- Fixed: Advanced Image | Caption Styles and Alignment Issues
+- Few minor bug fixes & improvements
+
+
 = 6.1.2 - 13/05/2026 =
 - Added: Icon Library update
 - Few minor bug fixes & improvements

@@ -277,15 +277,22 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.1.2", "essential-blocks")}
+                                    {__("Version: 6.1.3", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("13/05/2026", "essential-blocks")}
+                                        {__("20/05/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: Icon Library update",
+                                            "Added: WordPress 7.0 Compatibility",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Image | Caption Styles and Alignment Issues",
                                             "essential-blocks"
                                         )}
 

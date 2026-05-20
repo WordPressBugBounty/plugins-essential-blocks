@@ -247,28 +247,28 @@ class Admin {
         );
 
         /**
-         * Spring Campaign 2026 Notice
+         * Summer Campaign 2026 Notice
          */
-        $spring_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">🌸 <strong>Spring Savings:</strong> Get 70+ AI-powered blocks and features to unlock smarter design flexibility on Gutenberg – now <strong>Flat 25% OFF!</strong> ⚡️ </p>
-        <a class="button button-primary" href="https://essential-blocks.com/spring2026-admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade to PRO Now</a>
-        <a class="button button-secondary" href="https://essential-blocks.com/spring2026-admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
-        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">Maybe Later</button>';
-        $spring_campaign2026_notice = array(
+        $summer_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">🏖️ <strong>Summer Savings:</strong> Get 70+ AI-powered blocks and features to unlock design flexibility on Gutenberg – now <strong>up to $150 OFF!</strong></p>
+        <a class="button button-primary" href="https://essential-blocks.com/summer2026-admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade To Pro Now</a>
+        <a class="button button-secondary" href="https://essential-blocks.com/summer2026-admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
+        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">I Don’t Want Any Discount</button>';
+        $summer_campaign2026_notice = array(
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
-            'html' => $spring_campaign2026_message
+            'html' => $summer_campaign2026_message
         );
 
-        //Spring Campaign 2026 Notice Add
+        //Summer Campaign 2026 Notice Add
         $notices->add(
-            'spring_campaign2026',
-            $spring_campaign2026_notice,
+            'summer_campaign2026',
+            $summer_campaign2026_notice,
             array(
-                'start' => strtotime( '12:00:00am 08th April, 2026' ),
-                'expire' => strtotime( '11:59:59pm 10th May, 2026' ),
+                'start' => $notices->time(),
+                'expire' => strtotime( '11:59:59pm 25th June, 2026' ),
                 'classes' => 'eb-notice put-dismiss-notice',
                 'dismissible' => true,
                 'refresh' => ESSENTIAL_BLOCKS_VERSION,
-                'do_action' => 'eb_spring2026_campaign',
+                'do_action' => 'eb_summer2026_campaign',
                 'display_if' => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
             )
         );
