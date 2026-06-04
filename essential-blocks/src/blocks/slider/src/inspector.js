@@ -138,6 +138,17 @@ function Inspector(props) {
                     onSelect={(value) =>
                         handleImage(value, i, images, setAttributes)
                     }
+                    onRemove={() => {
+                        const newImages = [...images];
+                        newImages[i] = {
+                            ...newImages[i],
+                            id: null,
+                            url: "",
+                            alt: "",
+                            caption: "",
+                        };
+                        setAttributes({ images: newImages });
+                    }}
                     value={
                         !each.url || each.url.startsWith("data:image/")
                             ? each.id

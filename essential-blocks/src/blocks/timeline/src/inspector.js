@@ -324,6 +324,18 @@ function Inspector(props) {
                                         i,
                                     );
                                 }}
+                                onRemove={() => {
+                                    onTimelineChange(
+                                        [
+                                            "timelineImageId",
+                                            "timelineImage",
+                                            "timelineImageAlt",
+                                            "timelineImageTitle",
+                                        ],
+                                        [null, "", "", ""],
+                                        i,
+                                    );
+                                }}
                                 value={each.timelineImage}
                                 hasTag={false}
                                 hasCaption={false}

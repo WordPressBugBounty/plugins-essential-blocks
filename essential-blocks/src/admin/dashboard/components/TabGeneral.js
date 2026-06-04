@@ -277,22 +277,43 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.1.3", "essential-blocks")}
+                                    {__("Version: 6.1.4", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("20/05/2026", "essential-blocks")}
+                                        {__("04/06/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: WordPress 7.0 Compatibility",
+                                            "Improved: Enhanced compatibility with WordPress 7.0.",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Advanced Image | Caption Styles and Alignment Issues",
+                                            "Improved: Security enhancements.",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Video editor UI issues.",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Image Site Logo issue.",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Remove Image button issue.",
                                             "essential-blocks"
                                         )}
 

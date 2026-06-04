@@ -867,6 +867,18 @@ function Inspector(props) {
                 </PanelRow>
                 <ImageComponent.GeneralTab
                     onSelect={(value) => handleImage(value, i, sources, setAttributes)}
+                    onRemove={() => {
+                        const newSources = [...sources];
+                        newSources[i] = {
+                            ...newSources[i],
+                            id: null,
+                            url: "",
+                            alt: "",
+                            caption: "",
+                            content: "",
+                        };
+                        setAttributes({ sources: newSources });
+                    }}
                     value={(!each.url || each.url.startsWith('data:image/')) ? each.id : each.url}
                     hasTag={false}
                     hasCaption={false}

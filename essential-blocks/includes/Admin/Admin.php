@@ -4,6 +4,7 @@ namespace EssentialBlocks\Admin;
 
 use PriyoMukul\WPNotice\Notices;
 use EssentialBlocks\Utils\Helper;
+use EssentialBlocks\Utils\ImageValidator;
 use EssentialBlocks\Utils\Settings;
 use PriyoMukul\WPNotice\Utils\CacheBank;
 use EssentialBlocks\Traits\HasSingletone;
@@ -906,7 +907,7 @@ class Admin {
             }
 
             // Security: Validate image content and size
-            if ( ! $this->is_valid_image_content( $image_body ) ) {
+            if ( ! ImageValidator::is_valid( $image_body ) ) {
                 wp_send_json_error( array(
                     'message' => __( 'Invalid image content provided.', 'essential-blocks' )
                 ) );
@@ -1009,57 +1010,6 @@ class Admin {
         } else {
             wp_send_json_error( __( 'Image data (URL or base64) and prompt are required', 'essential-blocks' ) );
         }
-    }
-
-    /**
-     * Validate image content for security
-     *
-     * @param string $image_data The image data to validate
-     * @return bool True if valid, false otherwise
-     */
-    private function is_valid_image_content( $image_data ) {
-        if ( empty( $image_data ) ) {
-            return false;
-        }
-
-        // Check file size (max 10MB)
-        $max_size = 10 * 1024 * 1024; // 10MB
-        if ( strlen( $image_data ) > $max_size ) {
-            return false;
-        }
-
-        // Validate image using getimagesizefromstring
-        $image_info = getimagesizefromstring( $image_data );
-        if ( ! $image_info ) {
-            return false;
-        }
-
-        // Check image dimensions (reasonable limits)
-        $max_width  = 4096;
-        $max_height = 4096;
-        if ( $image_info[ 0 ] > $max_width || $image_info[ 1 ] > $max_height ) {
-            return false;
-        }
-
-        // Additional security: Check for suspicious content patterns
-        // Look for common file signatures that shouldn't be in images
-        $suspicious_patterns = array(
-            '<?php', // PHP code
-            '<script', // JavaScript
-            'javascript:', // JavaScript protocol
-            'data:text/', // Text data URLs
-            '<html', // HTML content
-            '#!/bin/' // Shell scripts
-        );
-
-        $data_start = substr( $image_data, 0, 1024 ); // Check first 1KB
-        foreach ( $suspicious_patterns as $pattern ) {
-            if ( stripos( $data_start, $pattern ) !== false ) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

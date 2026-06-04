@@ -204,6 +204,18 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         i,
                                     );
                                 }}
+                                onRemove={() => {
+                                    onFeatureChange(
+                                        [
+                                            "featureImageId",
+                                            "featureImage",
+                                            "featureImageAlt",
+                                            "featureImageTitle",
+                                        ],
+                                        [null, "", "", ""],
+                                        i,
+                                    );
+                                }}
                                 value={each.featureImage}
                                 hasTag={false}
                                 hasCaption={false}

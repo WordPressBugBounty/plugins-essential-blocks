@@ -232,6 +232,7 @@ __nextHasNoMarginBottom
                 {each.media === "image" && (
                     <ImageComponent.GeneralTab
                         onSelect={({ id, url }) => { onTabChange(["imgId", "imgUrl"], [id, url], i) }}
+                        onRemove={() => { onTabChange(["imgId", "imgUrl"], [null, ""], i) }}
                         value={each.imgUrl}
                         hasTag={false}
                         hasCaption={false}
