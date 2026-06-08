@@ -82,7 +82,8 @@ import {
     InspectorPanel,
     EBTextControl,
     ButtonGroupControl,
-    ImageComponent
+    ImageComponent,
+    MaskingPanel
 } from "@essential-blocks/controls";
 
 import Select2 from "react-select";
@@ -955,6 +956,7 @@ function Inspector(props) {
                         </InspectorPanel.PanelBody>
                     )}
                 </>
+                <MaskingPanel />
             </InspectorPanel.General>
 
             <InspectorPanel.Style>

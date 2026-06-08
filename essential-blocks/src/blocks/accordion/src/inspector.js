@@ -42,7 +42,8 @@ import {
     SortControl,
     DynamicInputControl,
     ImageAvatar,
-    ImageComponent
+    ImageComponent,
+    MaskingPanel
 } from "@essential-blocks/controls";
 import { deleteAccordion } from "./helpers";
 
@@ -727,6 +728,7 @@ const Inspector = ({ attributes, setAttributes, clientId, addAccordion }) => {
                         ></SortControl>
                     </InspectorPanel.PanelBody>
                 </>
+                <MaskingPanel />
             </InspectorPanel.General>
             <InspectorPanel.Style>
                 <>

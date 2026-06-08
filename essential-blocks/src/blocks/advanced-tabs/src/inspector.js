@@ -30,6 +30,7 @@ import {
     InspectorPanel,
     SortControl,
     ImageComponent,
+    MaskingPanel,
     EBIconPicker,
     EBTextControl,
     ProSelectControl
@@ -533,6 +534,9 @@ __nextHasNoMarginBottom
                             </>
                         )}
                     </InspectorPanel.PanelBody>
+
+                    {/* Block-level masking — applies to every tab nav image. */}
+                    <MaskingPanel />
                 </InspectorPanel.General>
                 <InspectorPanel.Style>
                     {applyFilters(

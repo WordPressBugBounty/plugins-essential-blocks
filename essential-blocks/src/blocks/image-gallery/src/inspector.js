@@ -83,7 +83,8 @@ import {
     EBButton,
     EBIconPicker,
     ProSelectControl,
-    ImageComponent
+    ImageComponent,
+    MaskingPanel
 } from "@essential-blocks/controls";
 
 function Inspector(props) {
@@ -1466,6 +1467,9 @@ function Inspector(props) {
 
 
                     </InspectorPanel.PanelBody>
+
+                    {/* Block-level masking — applies to every gallery image. */}
+                    <MaskingPanel />
                 </>
             </InspectorPanel.General>
             <InspectorPanel.Style>

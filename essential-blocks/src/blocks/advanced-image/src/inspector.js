@@ -40,6 +40,7 @@ import {
     ResponsiveAlignControl,
     InspectorPanel,
     ImageComponent,
+    MaskingPanel,
     sanitizeURL,
 } from "@essential-blocks/controls";
 
@@ -93,6 +94,7 @@ function Inspector(props) {
                     imgBorderShadowRds_Right: "0",
                     imgBorderShadowRds_Top: "0",
                     hoverEffect: "no-effect",
+                    imageMaskEnable: false,
                 });
                 break;
             case "featured-img":
@@ -107,6 +109,7 @@ function Inspector(props) {
                     imgBorderShadowRds_Right: "15",
                     imgBorderShadowRds_Top: "15",
                     hoverEffect: "no-effect",
+                    imageMaskEnable: false,
                 });
                 break;
             case "custom":
@@ -492,6 +495,7 @@ function Inspector(props) {
                         __nextHasNoMarginBottom
                     />
                 </PanelBody>
+                {imgSource === "custom" && <MaskingPanel />}
             </InspectorPanel.General>
             <InspectorPanel.Style>
                 {imgSource !== "custom" && (

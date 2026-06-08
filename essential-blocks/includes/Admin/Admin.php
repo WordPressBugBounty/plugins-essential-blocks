@@ -1060,7 +1060,7 @@ class Admin {
         $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
 
         $message_template = __(
-            "<p><i>📣</i> Introducing Protected Content in <strong>Essential Blocks Pro 2.9.0</strong> - You can now password-protect any block or section directly in WordPress to show it to the right audience! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
+            "<p><i>📣</i> Introducing Image Masking & Morphing in <strong>Essential Blocks 6.2.0</strong> - Create stunning visual effects with creative image masks and seamless morphing animations in WordPress! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
             "essential-blocks"
         );
 
@@ -1084,7 +1084,7 @@ class Admin {
         if ( get_transient( 'essential_block_whats_new_notice' ) === true ) {
             delete_transient( 'essential_block_whats_new_notice' );
 
-            $view_path = ESSENTIAL_BLOCKS_DIR_PATH . 'includes/admin/whats-new-notice.php';
+            $view_path = ESSENTIAL_BLOCKS_DIR_PATH . 'includes/Admin/whats-new-notice.php';
 
             if ( file_exists( $view_path ) ) {
                 include $view_path;

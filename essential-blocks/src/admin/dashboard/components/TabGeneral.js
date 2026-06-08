@@ -277,43 +277,22 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.1.4", "essential-blocks")}
+                                    {__("Version: 6.2.0", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("04/06/2026", "essential-blocks")}
+                                        {__("08/06/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Improved: Enhanced compatibility with WordPress 7.0.",
+                                            "Added: New Feature | Image Masking and Morphing",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Security enhancements.",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Video editor UI issues.",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Image Site Logo issue.",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Remove Image button issue.",
+                                            "Improved: Security enhancements",
                                             "essential-blocks"
                                         )}
 
