@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.2.0
+Stable tag: 6.2.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -279,6 +279,15 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.2.1 - 18/06/2026 =
+- Improved: Liquid Glass in Individual Blocks
+- Improved: Improved Free block rendering and frontend stability (infobox)
+- Improved : Image Masking Hover Clip-Path & Clip Morphing
+- Fixed: AI popup not showing Edit with AI option in Image component
+- Fixed: Advanced Menu interactivity module issue in Gutenberg
+- Few minor bug fixes & improvements
+
+
 = 6.2.0 - 08/06/2026 =
 - Added: New Feature | Image Masking and Morphing
 - Improved: Security enhancements
