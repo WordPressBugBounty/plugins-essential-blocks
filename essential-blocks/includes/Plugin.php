@@ -20,6 +20,7 @@ use EssentialBlocks\Core\BlocksPatterns;
 use EssentialBlocks\Modules\StyleHandler;
 use EssentialBlocks\Traits\HasSingletone;
 use EssentialBlocks\Integrations\GoogleMap;
+use EssentialBlocks\Integrations\Facebook;
 use EssentialBlocks\Integrations\Instagram;
 use EssentialBlocks\Integrations\OpenVerse;
 use EssentialBlocks\Integrations\Pagination;
@@ -35,7 +36,7 @@ use EssentialBlocks\Utils\Helper;
 
 final class Plugin {
     use HasSingletone;
-                                                    public $version = '6.2.1';
+                                                            public $version = '6.3.0';
 
     public $admin;
     /**
@@ -119,6 +120,9 @@ final class Plugin {
 
         // Instagram Access Token AJAX
         Instagram::get_instance();
+
+        // Facebook Page Access Token AJAX
+        Facebook::get_instance();
 
         //Global Style Ajax for Store
         GlobalStyles::get_instance();
@@ -234,7 +238,7 @@ final class Plugin {
         //Those flags needs to update if notice
         $this->define( 'EB_PROMOTION_FLAG', 13 );
         $this->define( 'EB_ADMIN_MENU_FLAG', 13 );
-        $this->define('EB_SHOW_WHATS_NEW_NOTICE', 0);
+        $this->define('EB_SHOW_WHATS_NEW_NOTICE', 1);
 
         //Table Name constants
         global $wpdb;

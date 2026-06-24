@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.2.1
+Stable tag: 6.3.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -279,6 +279,12 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.3.0 - 24/06/2026 =
+- New Block | Facebook Feed
+- Fixed: Table of Contents block issue with the latest WordPress version
+- Few minor bug fixes & improvements
+
+
 = 6.2.1 - 18/06/2026 =
 - Improved: Liquid Glass in Individual Blocks
 - Improved: Improved Free block rendering and frontend stability (infobox)

@@ -8,6 +8,9 @@ use EssentialBlocks\Utils\HttpRequest;
 
 class InstagramFeed extends Block
 {
+    protected $frontend_styles = [
+        'essential-blocks-fontawesome'
+    ];
     protected $attributes = [
         'blockId'         => [
             'type' => 'string'

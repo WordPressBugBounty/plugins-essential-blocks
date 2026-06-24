@@ -1060,7 +1060,7 @@ class Admin {
         $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
 
         $message_template = __(
-            "<p><i>📣</i> Introducing Image Masking & Morphing in <strong>Essential Blocks 6.2.0</strong> - Create stunning visual effects with creative image masks and seamless morphing animations in WordPress! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
+            "<p><i>📣</i> Introducing Facebook Feed in <strong>Essential Blocks 6.3.0 and Essential Blocks PRO 2.10.0</strong> - Showcase your latest Facebook posts on any WordPress page with a sleek, customizable feed block! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
             "essential-blocks"
         );
 
