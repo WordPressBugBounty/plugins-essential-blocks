@@ -1057,14 +1057,15 @@ class Admin {
      * @return void
      */
     public function promotion_message_on_admin_screen() {
-        $changelog_url = esc_url( 'https://essential-blocks.com/changelog/' );
+        $one_page_navigation_url = esc_url( 'https://essential-blocks.com/demo/one-page-navigation/' );
+        $copy_paste_design_url   = esc_url( 'https://essential-blocks.com/docs/eb-copy-paste-design' );
 
         $message_template = __(
-            "<p><i>📣</i> Introducing Facebook Feed in <strong>Essential Blocks 6.3.0 and Essential Blocks PRO 2.10.0</strong> - Showcase your latest Facebook posts on any WordPress page with a sleek, customizable feed block! For more details, check out this <strong><a target='_blank' href='%s'>changelog</a></strong>.</p>",
+            "<p><i>📣</i> Introducing <strong><a target='_blank' href='%1\$s'>One Page Navigation</a></strong> in <strong>Essential Blocks PRO 3.1.0</strong> and <strong><a target='_blank' href='%2\$s'>Copy/Paste Style</a></strong> in <strong>Essential Blocks 6.4.0</strong> - Create smooth one page navigation for long Gutenberg pages and instantly reuse block styles with a single click.</p>",
             "essential-blocks"
         );
 
-        $message = sprintf( $message_template, $changelog_url );
+        $message = sprintf( $message_template, $one_page_navigation_url, $copy_paste_design_url );
 
         // Output HTML using heredoc for better formatting
         echo <<<HTML

@@ -170,9 +170,15 @@ class Scripts
          ];
 
         if ( $pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
-            //global-styles
+            //global-styles (EBGlobalControls sidebar, classic post editor only)
             wpdev_essential_blocks()->assets->register( 'global-styles', 'admin/global-styles/global-styles.js' );
             $editor_scripts_deps[  ] = 'essential-blocks-global-styles';
+        }
+
+        if ( $pagenow === 'post.php' || $pagenow === 'post-new.php' || $pagenow === 'site-editor.php' ) {
+            //copy-paste-styles
+            wpdev_essential_blocks()->assets->register( 'copy-paste-styles', 'admin/global-styles/copy-paste-styles.js' );
+            $editor_scripts_deps[  ] = 'essential-blocks-copy-paste-styles';
 
             //templately-installer
 
@@ -182,8 +188,10 @@ class Scripts
             //     wpdev_essential_blocks()->assets->register( 'templately-installer', 'modules/templately-installer/index.js' );
             //     $editor_scripts_deps[  ] = 'essential-blocks-templately-installer';
             // }
+        }
 
-            //Write with AI
+        //Write with AI (post content writing — classic post editor only, not the Site Editor)
+        if ( $pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
             if ( $this->writeAIPageContent === true && $this->is_allowed_post_type_for_ai() ) {
                 wpdev_essential_blocks()->assets->register( 'write-with-ai', 'modules/write-with-ai/index.js' );
                 $editor_scripts_deps[  ] = 'essential-blocks-write-with-ai';

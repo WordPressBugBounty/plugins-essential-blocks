@@ -277,29 +277,43 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.3.0", "essential-blocks")}
+                                    {__("Version: 6.4.0", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("24/06/2026", "essential-blocks")}
+                                        {__("28/07/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "New Block | Facebook Feed",
+                                            "Added: New Feature | Copy/Paste EB Styles",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Table of Contents block issue with the latest WordPress version",
+                                            "Fixed: Filterable Gallery initial height issue",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Few minor bug fixes & improvements",
+                                            "Fixed: Facebook Feed overflow inside Wrapper",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Security enhancements",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Minor bug fixes & enhancements",
                                             "essential-blocks"
                                         )}
 

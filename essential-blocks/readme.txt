@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.3.0
+Stable tag: 6.4.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -82,6 +82,12 @@ Secure any Gutenberg block, section, or content with password protection and con
 
 ##🎨 IMAGE MASKING & MORPHING (FREEMIUM)
 Transform ordinary images into captivating visual experiences with advanced masking and morphing effects. Easily apply creative shapes, seamless transitions, and dynamic image transformations to highlight products, showcase portfolios, or create engaging website sections—all directly within the Gutenberg editor without writing a single line of code.
+
+##🧭 ONE PAGE NAVIGATION (PRO)
+Guide visitors through long pages with smooth, customizable one page navigation. Create sticky section menus that let users jump between content effortlessly, improve the browsing experience and keep readers engaged, all within the Gutenberg editor without writing a line of code.
+
+##📋 COPY/PASTE STYLE (FREE)
+Build faster while keeping every page visually consistent. Copy the complete style of any Essential Blocks block and paste it onto another with a single click. Reuse your favorite designs, save time and eliminate repetitive customization, built directly into the Gutenberg editor with no coding required.
 
 ##🖼️ READY GUTENBERG PATTERNS BUILT WITH BLOCKS
 Get stunningly designed, ready-to-use Gutenberg block patterns for your WordPress website. Instantly add a block layout to Gutenberg or your site editor to make your website-building experience faster and more effective.
@@ -182,6 +188,7 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[Animated Wrapper (PRO)](https://essential-blocks.com/demo/animated-wrapper/)** - Design interactive layouts & containers in Gutenberg with dynamic animation effects.
 - **[Image Hotspots](https://essential-blocks.com/demo/image-hotspots/)** - This block enables you to pin items, products, etc into images with detailed pricing, URL, and description and make them interactive.
 - **[Timeline](https://essential-blocks.com/demo/timeline/)** - Create an interactive timeline in WordPress to showcase your story or company's history, achievements, events, and roadmaps.
+- **[One Page Navigation (PRO)](https://essential-blocks.com/demo/one-page-navigation/)** - Create smooth scrolling navigation menus for single page Gutenberg websites.
 
 More Gutenberg blocks and demos coming soon for the block visual editor (weekly update)
 
@@ -279,6 +286,14 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.4.0 - 28/07/2026 =
+- Added: New Feature | Copy/Paste EB Styles
+- Fixed: Filterable Gallery initial height issue
+- Fixed: Facebook Feed overflow inside Wrapper
+- Improved: Security enhancements
+- Improved: Minor bug fixes & enhancements
+
+
 = 6.3.0 - 24/06/2026 =
 - New Block | Facebook Feed
 - Fixed: Table of Contents block issue with the latest WordPress version

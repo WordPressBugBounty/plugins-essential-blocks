@@ -211,11 +211,11 @@
 		// Server may emit `hidden` on data-page > 1 cards in numbered mode
 		// as a no-JS fallback. Isotope can't size hidden items, so clear
 		// the attribute before init — Isotope's filter will then own visibility.
-		inner.querySelectorAll(
-			'.eb-fb-feed__col[hidden]'
-		).forEach( function ( el ) {
-			el.removeAttribute( 'hidden' );
-		} );
+		inner
+			.querySelectorAll( '.eb-fb-feed__col[hidden]' )
+			.forEach( function ( el ) {
+				el.removeAttribute( 'hidden' );
+			} );
 
 		window.imagesLoaded( inner, function () {
 			const opts = isoOptionsFor( layout );
@@ -247,6 +247,63 @@
 				// synchronously from `new Isotope()`, so call once explicitly.
 				equalizeGridRows( inner, iso );
 			}
+
+			// Native `loading="lazy"` images below the fold are NOT loaded
+			// when imagesLoaded resolved above — imagesLoaded only waits for
+			// images the browser has actually started fetching. On scroll
+			// each deferred <img> fires its own `load` and grows the card, so
+			// Isotope's already-locked positions (and grid's equalized
+			// heights) must be recomputed or the image overflows / overlaps
+			// its neighbour. `load` doesn't bubble, so listen in the capture
+			// phase on the container to catch every descendant image — initial
+			// AND AJAX-appended — with a single handler. rAF-debounce so a
+			// scroll burst that reveals several images coalesces into one
+			// re-layout instead of thrashing. Images that were already loaded
+			// before this listener was attached (above-fold / cached) fired
+			// their `load` earlier, so they never trigger an unnecessary pass.
+			let relayoutScheduled = false;
+			function scheduleRelayout() {
+				if ( relayoutScheduled ) {
+					return;
+				}
+				relayoutScheduled = true;
+				window.requestAnimationFrame( function () {
+					relayoutScheduled = false;
+					if ( ! iso.layout ) {
+						return;
+					}
+					// Reset the equalize guard (not set it) so the grid
+					// layoutComplete handler re-equalizes with the now-correct
+					// heights — same handshake initAjaxLoadMore's finalizeAppend
+					// uses. The `changed`/flag guards inside equalizeGridRows
+					// still prevent the layout→layoutComplete→layout recursion.
+					iso._ebSuppressEqualize = false;
+					iso.layout();
+				} );
+			}
+			inner.addEventListener(
+				'load',
+				function ( e ) {
+					if ( e.target && e.target.tagName === 'IMG' ) {
+						scheduleRelayout();
+					}
+				},
+				true
+			);
+			inner.addEventListener(
+				'error',
+				function ( e ) {
+					if ( e.target && e.target.tagName === 'IMG' ) {
+						scheduleRelayout();
+					}
+				},
+				true
+			);
+			// Parity with image-gallery: lazysizes-style optimization plugins
+			// swap native lazy for their own loader and fire a document-level
+			// `lazyloaded` event instead of a per-<img> `load`. Route it
+			// through the same debounced re-layout.
+			document.addEventListener( 'lazyloaded', scheduleRelayout );
 
 			if ( onReady ) {
 				onReady( iso );
@@ -291,8 +348,7 @@
 		// `.eb-fb-feed__page-link.is-hidden` rule wouldn't survive into
 		// the emitted page CSS. Inline style sidesteps the cache entirely.
 		links.forEach( function ( link ) {
-			const page =
-				parseInt( link.getAttribute( 'data-page' ), 10 ) || 1;
+			const page = parseInt( link.getAttribute( 'data-page' ), 10 ) || 1;
 			const isEdge = page === 1 || page === total;
 			const isNeighbour = Math.abs( page - activePage ) <= 1;
 			if ( isEdge || isNeighbour ) {
@@ -353,7 +409,8 @@
 			isoRef.value.arrange( {
 				filter: function () {
 					return (
-						this.getAttribute( 'data-page' ) === String( targetPage )
+						this.getAttribute( 'data-page' ) ===
+						String( targetPage )
 					);
 				},
 			} );
@@ -480,9 +537,8 @@
 					if ( ! json || ! json.success || ! json.data ) {
 						return;
 					}
-					const beforeCount = inner.querySelectorAll(
-						'.eb-fb-feed__col'
-					).length;
+					const beforeCount =
+						inner.querySelectorAll( '.eb-fb-feed__col' ).length;
 					if ( json.data.html ) {
 						inner.insertAdjacentHTML( 'beforeend', json.data.html );
 					}

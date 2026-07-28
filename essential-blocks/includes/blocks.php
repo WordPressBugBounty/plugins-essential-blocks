@@ -949,6 +949,18 @@ $pro_blocks = array(
         'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-phone-field/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/form-phone-field.svg'
     ),
+    'one_page_navigation' => array(
+        'label' => __( 'One Page Navigation', 'essential-blocks' ),
+        'value' => 'one_page_navigation',
+        'visibility' => 'true',
+        'is_pro' => true,
+        'status' => 'new',
+        'name' => 'pro-one-page-navigation',
+        'category' => 'creative',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/one-page-navigation',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-one-page-navigation',
+        'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/one-page-navigation.svg'
+    ),
     'animated_wrapper' => array(
         'label' => __( 'Animated Wrapper', 'essential-blocks' ),
         'value' => 'animated_wrapper',
