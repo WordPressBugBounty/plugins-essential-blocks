@@ -1,10 +1,10 @@
 === Gutenberg Essential Blocks – Page Builder for Gutenberg Blocks & Patterns ===
-Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika
+Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, jamilbd07, fencermonir, sumaiyasiddika, RahatSheikhLeon
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Generate with AI
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.4.0
+Stable tag: 6.4.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -286,6 +286,13 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.4.1 - 06/08/2026 =
+- Fixed: Facebook Feed editor and multi-feed display issues
+- Fixed: Instagram Feed content, caching, and API request issues
+- Fixed: PHP 8 undefined variable warnings in WooCommerce single product view
+- Few minor bug fixes & improvements
+
+
 = 6.4.0 - 28/07/2026 =
 - Added: New Feature | Copy/Paste EB Styles
 - Fixed: Filterable Gallery initial height issue

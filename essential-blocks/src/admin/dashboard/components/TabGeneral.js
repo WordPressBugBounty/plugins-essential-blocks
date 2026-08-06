@@ -277,43 +277,36 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.4.0", "essential-blocks")}
+                                    {__("Version: 6.4.1", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("28/07/2026", "essential-blocks")}
+                                        {__("06/08/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Added: New Feature | Copy/Paste EB Styles",
+                                            "Fixed: Facebook Feed editor and multi-feed display issues",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Filterable Gallery initial height issue",
+                                            "Fixed: Instagram Feed content, caching, and API request issues",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Fixed: Facebook Feed overflow inside Wrapper",
+                                            "Fixed: PHP 8 undefined variable warnings in WooCommerce single product view",
                                             "essential-blocks"
                                         )}
 
                                     </li>
                                     <li>
                                         {__(
-                                            "Improved: Security enhancements",
-                                            "essential-blocks"
-                                        )}
-
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Minor bug fixes & enhancements",
+                                            "Few minor bug fixes & improvements",
                                             "essential-blocks"
                                         )}
 

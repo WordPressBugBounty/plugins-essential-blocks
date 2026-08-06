@@ -34,6 +34,42 @@ class FacebookFeed extends Block
     const AJAX_ACTION = 'eb_facebook_feed_load_more';
     const AJAX_NONCE  = 'eb_facebook_feed_load_more';
 
+    /**
+     * Graph request timeout, in seconds.
+     *
+     * HttpRequest defaults to 45s. That default is fine for an admin-triggered
+     * AJAX call but not for a front-of-site render: a slow or unreachable
+     * Graph endpoint would hold the page hostage for 45 seconds on every
+     * uncached view. Graph normally answers in well under a second, so 10s is
+     * generous while capping the worst case.
+     */
+    const REQUEST_TIMEOUT = 10;
+
+    /**
+     * Negative-cache TTL, in seconds.
+     *
+     * Failures used to be cached inconsistently: a body that failed to decode
+     * (`json_decode` → null) was never stored, so once a token expired or
+     * Facebook throttled us, EVERY page view fired a fresh blocking Graph
+     * request. Caching the failure for a short window bounds that to a handful
+     * of retries per hour while still recovering quickly once the cause is
+     * fixed.
+     */
+    const FAILURE_CACHE_TTL = 5 * MINUTE_IN_SECONDS;
+
+    /**
+     * Sentinel stored in the transient when the Graph body was empty or failed
+     * to decode. Needed because `get_transient()` returns `false` for "not
+     * cached", which is otherwise indistinguishable from a cached falsy
+     * response.
+     *
+     * Failures that carry a real payload — HttpRequest's WP_Error array or
+     * Graph's own error envelope — are cached as-is rather than collapsed into
+     * this marker, so `essential_blocks/facebook_feed/raw_response` listeners
+     * keep receiving the same shapes they received before negative caching.
+     */
+    const FAILURE_SENTINEL = '__eb_fb_feed_failed__';
+
     protected $attributes = [
         'blockId'          => [ 'type' => 'string' ],
         'layout'           => [ 'type' => 'string', 'default' => 'grid' ],
@@ -45,7 +81,6 @@ class FacebookFeed extends Block
         // essential_blocks/facebook_feed/cache_ttl filter; external listeners
         // can still override (returned value is multiplied to seconds below).
         'cacheTtl'         => [ 'type' => 'number', 'default' => 15 ],
-        'thumbs'           => [ 'type' => 'array',  'default' => [] ],
         'showProfileImage' => [ 'type' => 'boolean', 'default' => true ],
         'showPageName'     => [ 'type' => 'boolean', 'default' => true ],
         'showTimestamp'    => [ 'type' => 'boolean', 'default' => true ],
@@ -157,7 +192,7 @@ class FacebookFeed extends Block
         $posts = [];
 
         if ( ! empty( $token ) && ! empty( $pageId ) ) {
-            $posts = $this->fetch_posts( $token, $pageId, $numberOfPosts, $sortBy, $attributes );
+            $posts = $this->fetch_posts( $token, $pageId, $numberOfPosts, $attributes );
             $posts = $this->sort_posts( $posts, $sortBy );
             $posts = array_slice( $posts, 0, $numberOfPosts );
             $posts = apply_filters( 'essential_blocks/facebook_feed/posts', $posts, $attributes );
@@ -192,7 +227,7 @@ class FacebookFeed extends Block
      * server-side render and the AJAX Load More endpoint so a warm cache
      * costs zero Graph calls.
      */
-    private function fetch_posts( $token, $pageId, $numberOfPosts, $sortBy, $attributes )
+    private function fetch_posts( $token, $pageId, $numberOfPosts, $attributes )
     {
         $fields = implode( ',', [
             'id',
@@ -221,6 +256,20 @@ class FacebookFeed extends Block
             'limit'        => $fetch_limit,
             'access_token' => $token,
         ];
+        /**
+         * Filters the Graph API query args before the request is built.
+         *
+         * @param array $query_args
+         * @param array $attributes
+         *
+         * WARNING: The transient cache key (see $cache_key below) is built from
+         * token|pageId|fetch_limit only — it deliberately excludes sortBy since
+         * sorting happens post-cache. If a listener on this filter makes the
+         * actual Graph request depend on $attributes['sortBy'] (or any other
+         * attribute not already in the cache key), two blocks differing only
+         * in that attribute will silently share one cached response. Add the
+         * relevant attribute to $cache_key above if you do this.
+         */
         $query_args = apply_filters( 'essential_blocks/facebook_feed/query_args', $query_args, $attributes );
 
         $url = sprintf(
@@ -232,9 +281,11 @@ class FacebookFeed extends Block
 
         // Key on the actual fetch limit (not numberOfPosts) so a buffer
         // bump invalidates stale transients that were stored under the
-        // old key shape.
+        // old key shape. sortBy is deliberately absent: sort_posts() runs
+        // on the cached payload, so two feeds differing only by sort order
+        // share one Graph response instead of caching it twice.
         $cache_key = 'eb-main-facebook-api_' . md5(
-            $token . '|' . $pageId . '|' . $fetch_limit . '|' . $sortBy
+            $token . '|' . $pageId . '|' . $fetch_limit
         );
 
         // Base TTL derived from the per-block `cacheTtl` (minutes) attribute,
@@ -251,16 +302,74 @@ class FacebookFeed extends Block
         );
 
         $results = $this->settings->get_transient( $cache_key );
-        if ( ! $results ) {
-            $results = HttpRequest::get_instance()->get( $url );
-            if ( $results ) {
-                $this->settings->set_transient( $cache_key, $results, $cache_ttl );
+
+        if ( false === $results ) {
+            $response = HttpRequest::get_instance()->get(
+                $url,
+                [ 'timeout' => self::REQUEST_TIMEOUT ]
+            );
+
+            if ( self::is_successful_response( $response ) ) {
+                $results = $response;
+                $ttl     = $cache_ttl;
+            } else {
+                // Cache the failure too, on a much shorter clock — otherwise
+                // an expired token or a throttled endpoint means a blocking
+                // Graph request on every single page view.
+                //
+                // Store the ACTUAL failure payload so listeners on
+                // raw_response below still receive what they received before
+                // negative caching existed: HttpRequest's error array on a
+                // WP_Error, Graph's error envelope on an API error. Only a
+                // genuinely empty body needs the sentinel, because a falsy
+                // transient is indistinguishable from a cache miss.
+                $results = empty( $response ) ? self::FAILURE_SENTINEL : $response;
+                $ttl     = self::FAILURE_CACHE_TTL;
             }
+
+            $this->settings->set_transient( $cache_key, $results, $ttl );
+        }
+
+        // Normalise the empty-body sentinel back to null so listeners on the
+        // filter below never see the internal marker. Real error payloads
+        // (WP_Error array / Graph error envelope) pass through untouched.
+        if ( self::FAILURE_SENTINEL === $results ) {
+            $results = null;
         }
 
         $results = apply_filters( 'essential_blocks/facebook_feed/raw_response', $results, $attributes );
 
         return isset( $results->data ) && is_array( $results->data ) ? $results->data : [];
+    }
+
+    /**
+     * Is a Graph response worth caching for the full TTL?
+     *
+     * Recognises the three shapes a failure arrives in:
+     *   - `null` / empty — body was missing or failed to decode;
+     *   - `['status' => 'error', ...]` — HttpRequest's WP_Error wrapper
+     *     (DNS failure, connection refused, timeout);
+     *   - an object carrying `->error` — Graph's own error envelope
+     *     (expired token, rate limit, permissions).
+     *
+     * @param  mixed $response Decoded response from HttpRequest.
+     * @return bool
+     */
+    private static function is_successful_response( $response )
+    {
+        if ( empty( $response ) ) {
+            return false;
+        }
+
+        if ( is_array( $response ) && isset( $response['status'] ) && 'error' === $response['status'] ) {
+            return false;
+        }
+
+        if ( is_object( $response ) && isset( $response->error ) ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -334,7 +443,7 @@ class FacebookFeed extends Block
         $per_page        = max( 1, isset( $attrs['postsPerPage'] ) ? (int) $attrs['postsPerPage'] : 6 );
         $sort_by         = isset( $attrs['sortBy'] ) ? (string) $attrs['sortBy'] : 'most_recent';
 
-        $posts = $this->fetch_posts( $token, $page_id, $number_of_posts, $sort_by, $attrs );
+        $posts = $this->fetch_posts( $token, $page_id, $number_of_posts, $attrs );
         $posts = apply_filters( 'essential_blocks/facebook_feed/posts', $posts, $attrs );
 
         if ( ! is_array( $posts ) || empty( $posts ) ) {

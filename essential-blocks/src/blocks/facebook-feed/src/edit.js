@@ -13,13 +13,14 @@ import Style from './style';
 import Inspector from './inspector';
 import defaultAttributes from './attributes';
 import {
-    GRAPH_VERSION,
     DUMMY_TOKEN,
     DUMMY_POSTS,
     equalizeGridRows,
     sortPosts,
     trimWords,
     formatDate,
+    fetchFacebookToken,
+    fetchFacebookPosts,
 } from './helper';
 
 /**
@@ -41,7 +42,6 @@ function Edit(props) {
         sortBy,
         numberOfPosts,
         layout,
-        thumbs,
         showProfileImage,
         showPageName,
         showTimestamp,
@@ -70,6 +70,17 @@ function Edit(props) {
     const [error, setError] = useState('');
     const [isDummy, setIsDummy] = useState(false);
 
+    // Fetched feed — editor-preview state ONLY, deliberately not a block
+    // attribute. It used to be persisted via `setAttributes({ thumbs })`,
+    // which serialized the entire Graph response (~13 KB per block) into
+    // post_content on every editor load. The server render never reads it —
+    // FacebookFeed::render_callback() re-fetches from the Graph API — so it
+    // was pure weight: it dirtied the post on mount (prompting phantom
+    // "unsaved changes"), re-serialized on every keystroke, and multiplied
+    // by the number of feeds on the page. Keeping it in component state
+    // gives the same preview with zero bytes saved.
+    const [thumbs, setThumbs] = useState([]);
+
     // Pro registers its layout filters (eb_facebook_feed_supported_layouts /
     // eb_facebook_feed_editor_feed) when the Pro editor bundle executes, which
     // can land AFTER this block's first render — so a block saved with a Pro
@@ -87,117 +98,28 @@ function Edit(props) {
         style: <Style {...props} />,
     };
 
-    // Step 1 — fetch the token via the shared AJAX endpoint.
+    // Step 1 — resolve the token via the shared AJAX bridge.
     //
-    // Hardened against the intermittent "To get started shows even with valid
-    // settings" bug. Two failure modes were collapsing a valid token response
-    // into the no-token placeholder:
-    //   1. With WP_DEBUG on, a PHP notice/deprecation can be prepended to the
-    //      AJAX body, so a perfectly good `{"success":true,...}` payload no
-    //      longer parses as JSON. We salvage the embedded JSON object before
-    //      giving up, and only treat a *parsed* response as authoritative.
-    //   2. A transient network blip / momentary server error used to fall
-    //      straight through to the placeholder. We retry a few times first,
-    //      keeping the loading state (spinner) rather than flashing the
-    //      placeholder.
-    // A well-formed response that genuinely has no token (settings not
-    // configured, unauthorised, or a failed nonce) is definitive — surface
-    // the placeholder immediately without retrying.
+    // The request itself (including its retry policy for corrupted bodies and
+    // network blips) lives in helper.js behind a module-level promise, so N
+    // feed blocks on one page share ONE token call instead of N × up to 3
+    // attempts. See `fetchFacebookToken`.
     useEffect(() => {
         let cancelled = false;
-        const MAX_ATTEMPTS = 3;
-        const RETRY_DELAY = 700;
 
-        const finalizeNoToken = () => {
+        fetchFacebookToken().then(({ token: t, pageId: p }) => {
             if (cancelled) {
                 return;
             }
-            setToken('');
-            setLoading(false);
-        };
-
-        // Parse the response body even when it's polluted by leading/trailing
-        // PHP notices: fall back to the substring between the first `{` and the
-        // last `}`. Returns null when nothing JSON-shaped is present.
-        const parseLoose = (raw) => {
-            try {
-                return JSON.parse(raw);
-            } catch (e) {
-                const start = raw.indexOf('{');
-                const end = raw.lastIndexOf('}');
-                if (start !== -1 && end > start) {
-                    try {
-                        return JSON.parse(raw.slice(start, end + 1));
-                    } catch (err) {
-                        return null;
-                    }
-                }
-                return null;
-            }
-        };
-
-        const attemptFetch = (attempt) => {
-            if (cancelled) {
+            if (!t) {
+                setToken('');
+                setLoading(false);
                 return;
             }
-            const data = new FormData();
-            data.append('action', 'get_facebook_access_token');
-            data.append('admin_nonce', EssentialBlocksLocalize.admin_nonce);
+            setToken(t);
+            setPageId(p);
+        });
 
-            fetch(EssentialBlocksLocalize.ajax_url, {
-                method: 'POST',
-                body: data,
-            })
-                .then((res) => res.text())
-                .then((raw) => {
-                    if (cancelled) {
-                        return;
-                    }
-                    const response = parseLoose(raw);
-
-                    if (
-                        response &&
-                        response.success &&
-                        response.data &&
-                        response.data.token
-                    ) {
-                        setToken(response.data.token);
-                        setPageId(response.data.pageId || '');
-                        return;
-                    }
-
-                    // Parsed but no usable token → definitive, no retry.
-                    if (response) {
-                        finalizeNoToken();
-                        return;
-                    }
-
-                    // Unparseable body → transient (corrupted output) → retry.
-                    if (attempt < MAX_ATTEMPTS) {
-                        setTimeout(
-                            () => attemptFetch(attempt + 1),
-                            RETRY_DELAY
-                        );
-                    } else {
-                        finalizeNoToken();
-                    }
-                })
-                .catch(() => {
-                    if (cancelled) {
-                        return;
-                    }
-                    if (attempt < MAX_ATTEMPTS) {
-                        setTimeout(
-                            () => attemptFetch(attempt + 1),
-                            RETRY_DELAY
-                        );
-                    } else {
-                        finalizeNoToken();
-                    }
-                });
-        };
-
-        attemptFetch(1);
         return () => {
             cancelled = true;
         };
@@ -206,16 +128,16 @@ function Edit(props) {
     // Step 2 — once token + pageId are known, fetch (or stub) posts.
     useEffect(() => {
         if (!token) {
-            return;
+            return undefined;
         }
 
         // Editors without manage_options get dummy data.
         if (token === DUMMY_TOKEN) {
-            setAttributes({ thumbs: DUMMY_POSTS });
+            setThumbs(DUMMY_POSTS);
             setIsDummy(true);
             setError('');
             setLoading(false);
-            return;
+            return undefined;
         }
 
         setIsDummy(false);
@@ -223,22 +145,8 @@ function Edit(props) {
         if (!pageId) {
             setError('');
             setLoading(false);
-            return;
+            return undefined;
         }
-
-        const fields = [
-            'id',
-            'from{name,id}',
-            'message',
-            'created_time',
-            'permalink_url',
-            'full_picture',
-            'status_type',
-            'attachments{type,media_type,media,subattachments}',
-            'reactions.summary(total_count)',
-            'comments.summary(total_count)',
-            'shares',
-        ].join(',');
 
         // Graph treats `limit` as a ceiling, so small values commonly
         // come back short (e.g. limit=3 → 2 posts). Request a buffer
@@ -246,35 +154,25 @@ function Edit(props) {
         // render path so editor + frontend stay in agreement.
         const fetchLimit = Math.min(100, numberOfPosts + 5);
 
-        const url = `https://graph.facebook.com/${GRAPH_VERSION}/${encodeURIComponent(
-            pageId
-        )}/posts?fields=${encodeURIComponent(
-            fields
-        )}&limit=${fetchLimit}&access_token=${encodeURIComponent(
-            token
-        )}`;
-
+        let cancelled = false;
         setLoading(true);
-        fetch(url)
-            .then((res) => res.json())
-            .then((json) => {
-                if (json.error) {
-                    setError(json.error.message || 'Graph API error');
-                    setAttributes({ thumbs: [] });
-                } else if (json.data) {
-                    setError('');
-                    setAttributes({ thumbs: json.data });
-                } else {
-                    setError('');
-                    setAttributes({ thumbs: [] });
+
+        // Deduped across blocks by `token|pageId|limit` — identically
+        // configured feeds resolve from one shared Graph request.
+        fetchFacebookPosts(token, pageId, fetchLimit).then(
+            ({ posts: fetched, error: fetchError }) => {
+                if (cancelled) {
+                    return;
                 }
+                setError(fetchError);
+                setThumbs(fetchError ? [] : fetched);
                 setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message || 'Network error');
-                setLoading(false);
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+            }
+        );
+
+        return () => {
+            cancelled = true;
+        };
     }, [token, pageId, numberOfPosts]);
 
     // Editor preview Isotope — mirrors what frontend.js does on the live

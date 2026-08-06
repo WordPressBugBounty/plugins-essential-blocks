@@ -83,10 +83,10 @@ const attributes = {
         type: 'number',
         default: 15,
     },
-    thumbs: {
-        type: 'array',
-        default: [],
-    },
+    // NOTE: the fetched feed is deliberately NOT an attribute. It used to be
+    // persisted as `thumbs`, which baked the whole Graph response (~13 KB per
+    // block) into post_content even though the server render re-fetches it
+    // and never reads the saved copy. It now lives in edit.js component state.
 
     // --- Layout (Free: grid | list. Pro adds: masonry | carousel) ---
     layout: {

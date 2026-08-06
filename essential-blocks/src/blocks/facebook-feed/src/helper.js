@@ -14,6 +14,216 @@ export const GRAPH_VERSION = 'v19.0';
 export const DUMMY_TOKEN = 'dummy_token_for_editor_preview';
 
 /**
+ * Graph fields requested by the editor preview. Kept in lock-step with the
+ * `$fields` list in FacebookFeed::fetch_posts() so editor and frontend agree.
+ */
+export const GRAPH_FIELDS = [
+    'id',
+    'from{name,id}',
+    'message',
+    'created_time',
+    'permalink_url',
+    'full_picture',
+    'status_type',
+    'attachments{type,media_type,media,subattachments}',
+    'reactions.summary(total_count)',
+    'comments.summary(total_count)',
+    'shares',
+].join(',');
+
+/**
+ * ---------------------------------------------------------------------------
+ * Shared editor fetches (module-level, so every Facebook Feed block on the
+ * page shares one request instead of firing its own).
+ * ---------------------------------------------------------------------------
+ *
+ * A page with N feed blocks previously issued N token AJAX calls (each with up
+ * to 3 retries) plus N identical graph.facebook.com calls on editor load. With
+ * ten blocks that is ten Graph hits for the same data — enough to trip
+ * Facebook's rate limiter, and every response then drove another state update.
+ * These caches collapse that to one request per unique payload for the
+ * lifetime of the editor session.
+ */
+
+/** In-flight/resolved token request, shared by every block instance. */
+let tokenRequest = null;
+
+/** Resolved Graph responses keyed by `token|pageId|limit`. */
+const postsCache = new Map();
+
+/**
+ * Parse a response body even when polluted by leading/trailing PHP notices:
+ * fall back to the substring between the first `{` and the last `}`. With
+ * WP_DEBUG on, a notice prepended to the AJAX body would otherwise turn a
+ * perfectly good `{"success":true,...}` payload into a parse error and
+ * collapse it into the "no token" placeholder.
+ *
+ * @param {string} raw Raw response body.
+ * @return {Object|null} Parsed object, or null when nothing JSON-shaped.
+ */
+function parseLoose(raw) {
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        const start = raw.indexOf('{');
+        const end = raw.lastIndexOf('}');
+        if (start !== -1 && end > start) {
+            try {
+                return JSON.parse(raw.slice(start, end + 1));
+            } catch (err) {
+                return null;
+            }
+        }
+        return null;
+    }
+}
+
+/**
+ * Resolve the Page Access Token + Page ID via the shared AJAX bridge.
+ *
+ * Retries only the genuinely transient failures — an unparseable body
+ * (corrupted output) or a network error. A well-formed response that simply
+ * has no token (settings not configured, unauthorised, failed nonce) is
+ * definitive and resolves immediately without retrying, so the placeholder
+ * appears at once instead of after three round trips.
+ *
+ * Only that *deterministic* no-token answer stays cached for the session. A
+ * retry-exhausted failure clears the shared promise on its way out, so the
+ * next block to mount starts a clean attempt — otherwise one network blip
+ * would pin every present and future block on the placeholder until reload.
+ *
+ * @return {Promise<{token: string, pageId: string}>} Always resolves; an
+ *                                                    empty token means "not
+ *                                                    configured".
+ */
+export function fetchFacebookToken() {
+    if (tokenRequest) {
+        return tokenRequest;
+    }
+
+    const MAX_ATTEMPTS = 3;
+    const RETRY_DELAY = 700;
+
+    tokenRequest = new Promise((resolve) => {
+        const attempt = (n) => {
+            const data = new FormData();
+            data.append('action', 'get_facebook_access_token');
+            data.append('admin_nonce', EssentialBlocksLocalize.admin_nonce);
+
+            fetch(EssentialBlocksLocalize.ajax_url, {
+                method: 'POST',
+                body: data,
+            })
+                .then((res) => res.text())
+                .then((raw) => {
+                    const response = parseLoose(raw);
+
+                    if (response?.success && response?.data?.token) {
+                        resolve({
+                            token: response.data.token,
+                            pageId: response.data.pageId || '',
+                        });
+                        return;
+                    }
+
+                    // Parsed but no usable token → definitive, no retry.
+                    if (response) {
+                        resolve({ token: '', pageId: '' });
+                        return;
+                    }
+
+                    if (n < MAX_ATTEMPTS) {
+                        setTimeout(() => attempt(n + 1), RETRY_DELAY);
+                    } else {
+                        // Transient failure — drop the shared promise BEFORE
+                        // resolving so a later-mounted block starts a fresh
+                        // retry cycle instead of inheriting this empty result
+                        // for the rest of the session. Nulling after resolve
+                        // would let a synchronous consumer re-grab the stale
+                        // promise. Mirrors postsCache.delete() below.
+                        tokenRequest = null;
+                        resolve({ token: '', pageId: '' });
+                    }
+                })
+                .catch(() => {
+                    if (n < MAX_ATTEMPTS) {
+                        setTimeout(() => attempt(n + 1), RETRY_DELAY);
+                    } else {
+                        // Transient failure — see the note above.
+                        tokenRequest = null;
+                        resolve({ token: '', pageId: '' });
+                    }
+                });
+        };
+
+        attempt(1);
+    }).catch(() => {
+        // Defensive: if the executor itself throws (e.g.
+        // EssentialBlocksLocalize is unexpectedly missing), don't leave a
+        // rejected promise cached for the session — null it out and resolve
+        // empty so the caller's .then() still fires and setLoading(false)
+        // runs instead of hanging forever. Attached to the OUTER promise so
+        // it also catches a synchronous throw inside the executor, which a
+        // handler placed inside attempt() could never see.
+        tokenRequest = null;
+        return { token: '', pageId: '' };
+    });
+
+    return tokenRequest;
+}
+
+/**
+ * Fetch posts from the Graph API, deduped across blocks by `token|pageId|limit`.
+ *
+ * Resolves to `{ posts, error }` rather than rejecting so callers have a
+ * single success path. The cached promise is dropped on failure, letting a
+ * later block (or an attribute change) retry instead of pinning the error
+ * for the whole session.
+ *
+ * @param {string} token  Page Access Token.
+ * @param {string} pageId Facebook Page ID.
+ * @param {number} limit  Graph `limit` parameter.
+ * @return {Promise<{posts: Array, error: string}>} Resolved feed payload.
+ */
+export function fetchFacebookPosts(token, pageId, limit) {
+    // Token is part of the key (as it is in PHP's cache_key) so a rotated
+    // token in Settings starts a fresh request instead of resolving the
+    // stale promise for the rest of the editor session.
+    const key = `${token}|${pageId}|${limit}`;
+    if (postsCache.has(key)) {
+        return postsCache.get(key);
+    }
+
+    const url =
+        `https://graph.facebook.com/${GRAPH_VERSION}/${encodeURIComponent(
+            pageId
+        )}/posts` +
+        `?fields=${encodeURIComponent(GRAPH_FIELDS)}` +
+        `&limit=${limit}` +
+        `&access_token=${encodeURIComponent(token)}`;
+
+    const request = fetch(url)
+        .then((res) => res.json())
+        .then((json) => {
+            if (json?.error) {
+                postsCache.delete(key);
+                return {
+                    posts: [],
+                    error: json.error.message || 'Graph API error',
+                };
+            }
+            return { posts: json?.data || [], error: '' };
+        })
+        .catch((err) => {
+            postsCache.delete(key);
+            return { posts: [], error: err.message || 'Network error' };
+        });
+
+    postsCache.set(key, request);
+    return request;
+}
+
+/**
  * Six placeholder posts shown to non-admin editors and during first paint.
  * Shape mirrors what /v19.0/{pageId}/posts returns so the same render
  * path works for real and preview data.
