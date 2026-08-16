@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.4.1
+Stable tag: 6.4.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -286,6 +286,11 @@ If you found the recent version of Essential Blocks isn’t working or conflicti
 
 
 == Changelog ==
+= 6.4.2 - 16/08/2026 =
+- Fixed: Compatibility issue with Astra theme Customizer UI
+- Few minor bug fixes & improvements
+
+
 = 6.4.1 - 06/08/2026 =
 - Fixed: Facebook Feed editor and multi-feed display issues
 - Fixed: Instagram Feed content, caching, and API request issues
