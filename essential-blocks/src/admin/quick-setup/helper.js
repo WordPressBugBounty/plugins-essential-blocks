@@ -76,6 +76,25 @@ export const extensions = {
     },
 };
 
+// Third-party plugins installed + activated from the Optimization step when enabled.
+// `offerGate` names a key under EBQuickSetup: the card only renders when that gate
+// says this site has not already answered. See includes/Utils/XSpeedOffer.php.
+export const recommendedPlugins = {
+    xspeedCache: {
+        slug: "xspeed",
+        basename: "xspeed/xspeed.php",
+        offerGate: "xspeed_offer",
+        logo: `${EssentialBlocksLocalize.image_url}/admin/logo-xspeed.svg`,
+        title: "xSpeed Cache",
+        description: __(
+            "Boost your site speed and Core Web Vitals with powerful caching, asset optimization, and performance improvements.",
+            "essential-blocks"
+        ),
+        label: __("Enable xSpeed Cache", "essential-blocks"),
+        default: true,
+    },
+};
+
 export const sortObject = (unordered) => {
     if (Object.keys(unordered).length === 0) {
         return unordered

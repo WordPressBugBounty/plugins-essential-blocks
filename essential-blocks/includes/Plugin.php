@@ -16,6 +16,7 @@ use EssentialBlocks\Core\ModifyWPCore;
 use EssentialBlocks\Integrations\Data;
 use EssentialBlocks\Integrations\Form;
 use EssentialBlocks\Core\PageTemplates;
+use EssentialBlocks\Core\InteractivityScriptGuard;
 use EssentialBlocks\Core\BlocksPatterns;
 use EssentialBlocks\Modules\StyleHandler;
 use EssentialBlocks\Traits\HasSingletone;
@@ -36,7 +37,7 @@ use EssentialBlocks\Utils\Helper;
 
 final class Plugin {
     use HasSingletone;
-    public $version = '6.4.3';
+    public $version = '6.4.4';
 
     public $admin;
     /**
@@ -87,6 +88,9 @@ final class Plugin {
 
         // Liquid Glass Effect Global SVG Renderer
         LiquidGlassRenderer::get_instance();
+
+        // Shield core Interactivity import map/modules from JS optimization plugins (Advanced Navigation hamburger)
+        InteractivityScriptGuard::get_instance();
 
         // Templates
         PageTemplates::get_instance();
