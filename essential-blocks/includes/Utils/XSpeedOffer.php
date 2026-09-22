@@ -185,29 +185,7 @@ class XSpeedOffer {
 			return array();
 		}
 
-		$nginx_block = self::nginx_server_block();
-		if ( '' !== $nginx_block ) {
-			$status['nginx_server_block'] = $nginx_block;
-		}
-
 		return $status;
-	}
-
-	/**
-	 * The nginx server-block config, for the user to paste. Empty off nginx, or when no
-	 * module contributes directives. Never written for them: the file lives outside the
-	 * WordPress root and a bad write fails `nginx -t`.
-	 *
-	 * @return string
-	 */
-	private static function nginx_server_block() {
-		if ( ! class_exists( '\XSpeed\Cache' ) || ! method_exists( '\XSpeed\Cache', 'full_nginx_server_block' ) ) {
-			return '';
-		}
-
-		$block = \XSpeed\Cache::full_nginx_server_block();
-
-		return is_string( $block ) ? $block : '';
 	}
 
 	/**

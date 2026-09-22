@@ -61,10 +61,9 @@ const buildNotice = (status) => {
         owner: status.page_cache_owner || "",
         reason: status.page_cache_blocked_reason || "",
         snippet: status.page_cache_manual_snippet || "",
-        nginx: status.nginx_server_block || "",
     };
 
-    return notice.reason || notice.snippet || notice.nginx ? notice : null;
+    return notice.reason || notice.snippet ? notice : null;
 };
 
 /**
@@ -285,14 +284,6 @@ export default function OptimaizationContent({ settingsData, setSettingsData, ha
                                                         </p>
                                                         <code>{pluginStatus[item].notice.snippet}</code>
                                                     </>
-                                                )}
-                                                {pluginStatus[item].notice.nginx && (
-                                                    <details>
-                                                        <summary>
-                                                            {__("Optional nginx server block", "essential-blocks")}
-                                                        </summary>
-                                                        <code>{pluginStatus[item].notice.nginx}</code>
-                                                    </details>
                                                 )}
                                             </div>
                                         )}

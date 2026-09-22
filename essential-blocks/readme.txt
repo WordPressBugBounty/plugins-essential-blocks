@@ -2,9 +2,9 @@
 Contributors: wpdevteam, re_enter_rupok, asif2bd, rahat89, priyomukul, RahatSheikhLeon
 Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Generate with AI
 Requires at least: 5.8
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.4.4
+Stable tag: 6.4.5
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -289,6 +289,10 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.4.5 - 22/09/2026 =
+- Minor bug fixes & enhancements
+
+
 = 6.4.4 - 20/09/2026 =
 - Fixed: Advanced Navigation block's hamburger responsive issue
 - Fixed: Post Grid block Metadata issue

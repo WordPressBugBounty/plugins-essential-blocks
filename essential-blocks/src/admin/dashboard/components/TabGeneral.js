@@ -277,30 +277,12 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.4.4", "essential-blocks")}
+                                    {__("Version: 6.4.5", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("20/09/2026", "essential-blocks")}
+                                        {__("22/09/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
-                                    <li>
-                                        {__(
-                                            "Fixed: Advanced Navigation block's hamburger responsive issue",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Post Grid block Metadata issue",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Popup element's Exit Intent feature not working correctly",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
                                     <li>
                                         {__(
                                             "Minor bug fixes & enhancements",
