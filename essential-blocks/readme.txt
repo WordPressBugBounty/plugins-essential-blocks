@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.4.5
+Stable tag: 6.4.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -289,6 +289,14 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.4.6 - 27/09/2026 =
+- Fixed: Flex Container responsive issue fix.
+- Improved: Security enhancements
+- Added: Background Extension responsive improvement.
+- Fixed: Advanced Heading Design issue fix.
+- Few minor bug fixes & improvements
+
+
 = 6.4.5 - 22/09/2026 =
 - Minor bug fixes & enhancements
 
