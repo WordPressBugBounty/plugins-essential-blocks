@@ -33,6 +33,30 @@
 
 			.eb-form-submit {
 				margin-top: 0;
+				// Keep the column at its (100 - fields)% basis even when the
+				// button is wider. Otherwise, with fields at 100% (common on
+				// mobile) and the button pulled back over the input by a
+				// negative offset, the column's box still sits past the form
+				// and widens the page. The button renders in the same place.
+				min-width: 0;
+
+				.eb-form-submit-button {
+					flex-shrink: 0;
+				}
+
+				// With min-width: 0 a button wider than its column overflows it,
+				// and a center/right alignment (from the block's generated CSS)
+				// would push it left, over the fields. `safe` keeps it at the
+				// start when it overflows, which is where it rendered before.
+				// Browsers without `safe` drop the declaration and keep the
+				// block's own alignment.
+				&.eb-form-submit-align-center {
+					justify-content: safe center;
+				}
+
+				&.eb-form-submit-align-right {
+					justify-content: safe right;
+				}
 			}
 		}
 

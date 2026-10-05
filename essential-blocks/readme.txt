@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.4.6
+Stable tag: 6.4.7
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -289,6 +289,23 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.4.7 - 05/10/2026 =
+- Improved: Advanced Video | Lightweight privacy-enhanced YouTube player, native self-hosted player & lazy loading
+- Improved: Performance | Deferred frontend scripts & first section background image preload
+- Improved: Performance | Load Dashicons & Liquid Glass CSS only when needed
+- Improved: Performance | Better caching for generated CSS
+- Improved: Instagram Feed | Show reason for empty feed to editors
+- Fixed: Animated blocks staying hidden on frontend
+- Fixed: Form block inline layout & button alignment on mobile
+- Fixed: Image Gallery search errors
+- Fixed: Slider dots accessibility labels
+- Fixed: Fullwidth template header styles issue
+- Fixed: Pattern styles inside Builder Containers
+- Fixed: Relative URLs in combined frontend CSS
+- Fixed: Assets not regenerating after plugin update
+- Few minor bug fixes & improvements
+
+
 = 6.4.6 - 27/09/2026 =
 - Fixed: Flex Container responsive issue fix.
 - Improved: Security enhancements
