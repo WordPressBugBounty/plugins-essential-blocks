@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.4.7
+Stable tag: 6.4.8
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -205,7 +205,7 @@ Join our **[Facebook Group](https://www.facebook.com/groups/432798227512253/)**.
 Or rate us on **[WordPress](https://wordpress.org/support/plugin/essential-blocks/reviews/?rate=5#new-post)**. 😊
 
 ##CONTRIBUTE
-The full source code is available on [GitHub Repository](https://github.com/WPDevelopers/essential-blocks-for-gutenberg). Feel free to contribute or report an issue.
+The human-readable source code ships with the plugin in the `src/` folder (including the shared controls library in `src/controls/`). Run `npm install` and `npm run build` to build the files in `assets/`. Please report issues on the **[Plugin’s Forum](https://wordpress.org/support/plugin/essential-blocks/)**.
 
 ##🔥 WHAT’S NEXT?
 If you like Essential Blocks, then consider checking out our other WordPress Plugins:
@@ -221,6 +221,56 @@ If you like Essential Blocks, then consider checking out our other WordPress Plu
 📌 **[EmbedPress](https://wordpress.org/plugins/embedpress/)** – Easiest embedding solution for WordPress for embedding 250+ multimedia content sources.
 
 🔗 **[BetterLinks](https://wordpress.org/plugins/betterlinks/)** – Advanced WordPress link management plugin for link shortening, tracking & analyzing with Instant Redirect for Gutenberg.
+
+== External services ==
+
+Essential Blocks connects to the third-party services below. Nothing is sent to a service until the related block, feature or option is used, unless stated otherwise.
+
+**Templately (app.templately.com)** – by WPDeveloper, the makers of Essential Blocks.
+Used to list ready-made templates in the Templates tab of the Essential Blocks dashboard. A request is sent when you open that tab. Only the template query and your site's standard WordPress request headers (including the site URL) are sent.
+[Terms](https://wpdeveloper.com/terms-and-conditions) · [Privacy Policy](https://templately.com/privacy-policy)
+
+**WPInsight usage tracking (send.wpinsight.com)** – by WPDeveloper.
+Only if you opt in (admin notice or Quick Setup checkbox). Sends your site URL and name, WordPress/PHP versions, language, server software, active and inactive plugins and theme, Essential Blocks block usage counts and the admin email address. Sent once on opt-in, and again on plugin deactivation if you opted in.
+[Terms](https://wpdeveloper.com/terms-and-conditions) · [Privacy Policy](https://wpdeveloper.com/privacy-policy)
+
+**OpenAI (api.openai.com)**
+Used by the AI writing and image features only after you add your own OpenAI API key. Your prompt, any selected text or image, and your API key are sent when you run an AI action.
+[Terms of Use](https://openai.com/policies/terms-of-use) · [Privacy Policy](https://openai.com/policies/privacy-policy)
+
+**Openverse (api.openverse.org)** – run by WordPress.org.
+Used by the Openverse block. Registering for an API key sends the name and email address you enter; searching sends your search terms; inserting an image downloads it from its source.
+[Terms of Service](https://docs.openverse.org/terms_of_service.html) · [Privacy Policy](https://wordpress.org/about/privacy/)
+
+**OpenSea (api.opensea.io)**
+Used by the NFT Gallery block when you add an OpenSea API key. The collection slug or wallet address and your API key are sent when the block is edited or displayed.
+[Terms of Service](https://opensea.io/tos) · [Privacy Policy](https://opensea.io/privacy)
+
+**Instagram Graph API (graph.instagram.com)** – by Meta.
+Used by the Instagram Feed block to load posts with the access token you provide, in the editor and on the front end (cached).
+[Terms of Use](https://help.instagram.com/581066165581870) · [Privacy Policy](https://privacycenter.instagram.com/policy)
+
+**Facebook Graph API (graph.facebook.com)** – by Meta.
+Used by the Facebook Feed block to load page posts with the page ID and access token you provide. Once a token is saved, its validity is checked periodically in the admin.
+[Platform Terms](https://developers.facebook.com/terms) · [Privacy Policy](https://www.facebook.com/privacy/policy/)
+
+**Google Maps (maps.googleapis.com, maps.google.com)** – by Google.
+Used by the Google Map block with the API key you provide. The Maps script and marker icons are loaded in the editor and on pages with a map, which sends the visitor's IP address to Google. Saving a key sends it to Google once to validate it.
+[Terms](https://cloud.google.com/maps-platform/terms) · [Privacy Policy](https://policies.google.com/privacy)
+
+**Google Fonts (fonts.googleapis.com, fonts.gstatic.com)** – by Google.
+When the Google Fonts option is on (it can be turned off in Essential Blocks > Settings or Quick Setup) and a block uses a Google font, the font is loaded from Google in the editor and on the front end, which sends the visitor's IP address to Google.
+[Terms](https://policies.google.com/terms) · [Privacy FAQ](https://developers.google.com/fonts/faq/privacy)
+
+**YouTube (i.ytimg.com, youtube.com)** – by Google.
+The Advanced Video block loads the thumbnail and player of a YouTube video you add, on the front end.
+[Terms](https://www.youtube.com/t/terms) · [Privacy Policy](https://policies.google.com/privacy)
+
+**Video providers (Vimeo, Dailymotion, SoundCloud, Wistia, Twitch, Facebook and others)**
+When you add a video or audio URL from one of these providers to the Advanced Video block, that provider's player script and media are loaded from the provider in the editor and on the front end. The visitor's browser connects directly to the provider; see the provider's own terms and privacy policy (e.g. [Vimeo Terms](https://vimeo.com/terms) · [Vimeo Privacy](https://vimeo.com/privacy)).
+
+**Remote SVG icons**
+If an icon in a block is set to an SVG file URL on another site, the server downloads that file when rendering the page and caches it for 6 hours. Only a standard request to the URL you entered is made.
 
 == Installation ==
 
@@ -289,6 +339,10 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.4.8 - 13/10/2026 =
+- Few minor bug fixes & improvements
+
+
 = 6.4.7 - 05/10/2026 =
 - Improved: Advanced Video | Lightweight privacy-enhanced YouTube player, native self-hosted player & lazy loading
 - Improved: Performance | Deferred frontend scripts & first section background image preload

@@ -277,95 +277,18 @@ export default function TabGeneral() {
                         >
                             <div className="changelog-wrapper">
                                 <div className="changelog-title">
-                                    {__("Version: 6.4.7", "essential-blocks")}
+                                    {__("Version: 6.4.8", "essential-blocks")}
                                     <span className="changelog-date">
-                                        {__("05/10/2026", "essential-blocks")}
+                                        {__("12/10/2026", "essential-blocks")}
                                     </span>
                                 </div>
                                 <ul className="changelog-content">
                                     <li>
                                         {__(
-                                            "Improved: Advanced Video | Lightweight privacy-enhanced YouTube player, native self-hosted player & lazy loading",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Performance | Deferred frontend scripts & first section background image preload",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Performance | Load Dashicons & Liquid Glass CSS only when needed",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Performance | Better caching for generated CSS",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Improved: Instagram Feed | Show reason for empty feed to editors",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Animated blocks staying hidden on frontend",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Form block inline layout & button alignment on mobile",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Image Gallery search errors",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Slider dots accessibility labels",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Fullwidth template header styles issue",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Pattern styles inside Builder Containers",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Relative URLs in combined frontend CSS",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
-                                            "Fixed: Assets not regenerating after plugin update",
-                                            "essential-blocks"
-                                        )}
-                                    </li>
-                                    <li>
-                                        {__(
                                             "Few minor bug fixes & improvements",
                                             "essential-blocks"
                                         )}
+
                                     </li>
                                 </ul>
 

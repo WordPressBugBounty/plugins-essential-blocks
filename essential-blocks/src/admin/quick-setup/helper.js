@@ -91,7 +91,8 @@ export const recommendedPlugins = {
             "essential-blocks"
         ),
         label: __("Enable xSpeed Cache", "essential-blocks"),
-        default: true,
+        // Third-party installs must be an explicit choice (WP.org Guideline 11).
+        default: false,
     },
 };
 

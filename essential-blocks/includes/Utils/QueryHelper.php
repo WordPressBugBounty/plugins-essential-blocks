@@ -9,11 +9,6 @@ class QueryHelper
      */
     const ALLOWED_ORDERBY = [ 'none', 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'rand', 'comment_count', 'relevance', 'menu_order', 'post__in' ];
 
-    /**
-     * orderby values that need Essential Blocks Pro.
-     */
-    const PRO_ORDERBY = [ 'rand', 'menu_order', 'comment_count' ];
-
     const DEFAULT_PER_PAGE = 10;
 
     /**
@@ -112,10 +107,6 @@ class QueryHelper
             $orderby = 'ID';
         }
         if ( ! in_array( $orderby, self::ALLOWED_ORDERBY, true ) ) {
-            $orderby = 'date';
-        }
-        // Set Orderby to Default if Pro Orderby is selected and Pro isn't active
-        if ( ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE && in_array( $orderby, self::PRO_ORDERBY, true ) ) {
             $orderby = 'date';
         }
 
