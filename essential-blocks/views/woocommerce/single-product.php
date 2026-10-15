@@ -124,12 +124,12 @@ $_list_sequence = apply_filters('eb_woo_product_grid_list_sequence', $list_seque
 <div class="eb-woo-products-col">
     <div class="eb-woo-product">
         <?php if ('grid' === $layout && 'grid-preset-3' === $gridPreset): ?>
-            <a class="grid-preset-anchor" href="<?php echo esc_attr(esc_url(get_permalink())); ?>"></a>
+            <a class="grid-preset-anchor" href="<?php echo esc_attr(esc_url(get_permalink())); ?>" aria-label="<?php echo esc_attr(wp_strip_all_tags(get_the_title())); ?>"></a>
         <?php endif; ?>
 
         <div class="eb-woo-product-image-wrapper">
             <?php if ('grid' === $layout && 'grid-preset-3' !== $gridPreset): ?>
-                <a class="grid-preset-anchor" href="<?php echo esc_attr(esc_url(get_permalink())); ?>"></a>
+                <a class="grid-preset-anchor" href="<?php echo esc_attr(esc_url(get_permalink())); ?>" aria-label="<?php echo esc_attr(wp_strip_all_tags(get_the_title())); ?>"></a>
             <?php endif; ?>
             <div class="eb-woo-product-image">
                 <?php if ('list' === $layout): ?>

@@ -114,8 +114,9 @@ class BlocksPatterns
      */
     private function get_block_name( $name )
     {
+        // Strip only the trailing "-pro" slug token, so words like "product" stay intact.
+        $name = preg_replace( '/-pro$/', '', $name );
         $name = str_replace( '-', ' ', $name );
-        $name = str_replace( 'pro', '', $name );
         $name = trim( ucwords( $name ) );
         return $name;
     }
@@ -128,7 +129,7 @@ class BlocksPatterns
      */
     private function get_block_category( $name )
     {
-        $name = str_replace( '-pro', '', $name );
+        $name = preg_replace( '/-pro$/', '', $name );
         return $this->category . '-' . $name;
     }
 

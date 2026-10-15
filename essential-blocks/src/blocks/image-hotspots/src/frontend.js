@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         hotspotMarkers.forEach(function (marker) {
             const tooltip = marker.querySelector('.eb-hotspot-tooltip');
             const trigger = marker.getAttribute('data-tooltip-trigger') || 'hover';
-            const animtion = marker.getAttribute('data-tooltip-animation') || 'none';
+            const animation = marker.getAttribute('data-tooltip-animation') || 'none';
 
             if (!tooltip) return;
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const showTooltipHandler = function () {
                     clearTimeout(hideTimeout);
                     // Use pro animation function if available, otherwise use basic function
-                    if (animtion !== 'none' && tooltip._showTooltipWithAnimation) {
+                    if (animation !== 'none' && tooltip._showTooltipWithAnimation) {
                         // console.log('with animation');
 
                         tooltip._showTooltipWithAnimation(tooltip);
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const hideTooltipHandler = function (delay = 500) {
                     // hideTimeout = setTimeout(function () {
                     // Use pro animation function if available, otherwise use basic function
-                    if (animtion !== 'none' && tooltip._hideTooltipWithAnimation) {
+                    if (animation !== 'none' && tooltip._hideTooltipWithAnimation) {
                         tooltip._hideTooltipWithAnimation(tooltip);
                     } else {
                         hideTooltip(tooltip);
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 tooltip.addEventListener('mouseenter', function () {
                     clearTimeout(hideTimeout);
                     // Only show if not already visible to prevent animation conflicts
-                    if (animtion !== 'none' && tooltip._showTooltipWithAnimation) {
+                    if (animation !== 'none' && tooltip._showTooltipWithAnimation) {
                         // Pro function handles state checking internally
                         tooltip._showTooltipWithAnimation(tooltip);
                     } else if (tooltip.style.opacity !== '1') {
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 tooltip.addEventListener('mouseleave', function () {
                     // Use pro animation function if available, otherwise use basic function
-                    if (animtion !== 'none' && tooltip._hideTooltipWithAnimation) {
+                    if (animation !== 'none' && tooltip._hideTooltipWithAnimation) {
                         tooltip._hideTooltipWithAnimation(tooltip);
                     } else {
                         hideTooltip(tooltip);
@@ -185,20 +185,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     const allTooltips = block.querySelectorAll('.eb-hotspot-tooltip');
                     allTooltips.forEach(function (otherTooltip) {
                         if (otherTooltip !== tooltip) {
+                            const otherMarker = otherTooltip.closest('.eb-hotspot-marker');
+                            const otherAnimation = otherMarker.getAttribute('data-tooltip-animation') || 'none';
                             // Use pro animation function if available, otherwise use basic function
-                            if (animtion !== 'none' && otherTooltip._hideTooltipWithAnimation) {
+                            if (otherAnimation !== 'none' && otherTooltip._hideTooltipWithAnimation) {
                                 otherTooltip._hideTooltipWithAnimation(otherTooltip);
                             } else {
                                 hideTooltip(otherTooltip);
                             }
-                            otherTooltip.closest('.eb-hotspot-marker').classList.remove('active');
+                            otherMarker.classList.remove('active');
                         }
                     });
 
                     // Toggle current tooltip
                     if (marker.classList.contains('active')) {
                         // Use pro animation function if available, otherwise use basic function
-                        if (animtion !== 'none' && tooltip._hideTooltipWithAnimation) {
+                        if (animation !== 'none' && tooltip._hideTooltipWithAnimation) {
                             tooltip._hideTooltipWithAnimation(tooltip);
                         } else {
                             hideTooltip(tooltip);
@@ -206,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         marker.classList.remove('active');
                     } else {
                         // Use pro animation function if available, otherwise use basic function
-                        if (animtion !== 'none' && tooltip._showTooltipWithAnimation) {
+                        if (animation !== 'none' && tooltip._showTooltipWithAnimation) {
                             tooltip._showTooltipWithAnimation(tooltip);
                         } else {
                             showTooltip(tooltip);
@@ -224,9 +226,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const activeMarkers = block.querySelectorAll('.eb-hotspot-marker.active');
                 activeMarkers.forEach(function (marker) {
                     const tooltip = marker.querySelector('.eb-hotspot-tooltip');
+                    const animation = marker.getAttribute('data-tooltip-animation') || 'none';
                     if (tooltip) {
                         // Use pro animation function if available, otherwise use basic function
-                        if (animtion !== 'none' && tooltip._hideTooltipWithAnimation) {
+                        if (animation !== 'none' && tooltip._hideTooltipWithAnimation) {
                             tooltip._hideTooltipWithAnimation(tooltip);
                         } else {
                             hideTooltip(tooltip);
@@ -243,9 +246,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     const activeMarkers = block.querySelectorAll('.eb-hotspot-marker.active');
                     activeMarkers.forEach(function (marker) {
                         const tooltip = marker.querySelector('.eb-hotspot-tooltip');
+                        const animation = marker.getAttribute('data-tooltip-animation') || 'none';
                         if (tooltip) {
                             // Use pro animation function if available, otherwise use basic function
-                            if (animtion !== 'none' && tooltip._hideTooltipWithAnimation) {
+                            if (animation !== 'none' && tooltip._hideTooltipWithAnimation) {
                                 tooltip._hideTooltipWithAnimation(tooltip);
                             } else {
                                 hideTooltip(tooltip);

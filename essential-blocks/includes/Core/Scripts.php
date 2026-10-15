@@ -674,6 +674,7 @@ class Scripts
 
         if ( class_exists( 'WooCommerce' ) ) {
             $localize_array[ "wc_currency_symbol" ] = get_woocommerce_currency_symbol();
+            $localize_array[ "wc_brands_enabled" ]  = taxonomy_exists( 'product_brand' ) ? 'true' : 'false';
         }
 
         wpdev_essential_blocks()->assets->localize( 'blocks-localize', 'EssentialBlocksLocalize', $localize_array );

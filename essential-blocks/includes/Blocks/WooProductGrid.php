@@ -114,7 +114,9 @@ class WooProductGrid extends Block {
             'include' => array(  ),
             'exclude' => array(  ),
             'excludeCategory' => array(  ),
-            'excludeTag' => array(  )
+            'excludeTag' => array(  ),
+            'brand' => array(  ),
+            'excludeBrand' => array(  )
          );
 
         // var_dump($args);

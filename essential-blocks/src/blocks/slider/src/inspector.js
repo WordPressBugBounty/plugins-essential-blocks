@@ -582,6 +582,7 @@ function Inspector(props) {
                             onChange={(value) =>
                                 setAttributes({
                                     sliderType: value,
+                                    showLightbox: value === 'content' && sliderContentType === 'content-1' ? false : showLightbox,
                                 })
                             }
                             __next40pxDefaultSize
@@ -810,7 +811,8 @@ function Inspector(props) {
                             </>
                         )}
 
-                        {sliderStyle === 'default-slider' && (!version || version !== 'v2') && (
+                        {/* Content Overlay has no lightbox; keep the toggle while it is still on so older blocks can turn it off. */}
+                        {sliderStyle === 'default-slider' && (!version || version !== 'v2') && !(sliderType === 'content' && sliderContentType === 'content-1' && !showLightbox) && (
                             <>
                                 <Divider />
 

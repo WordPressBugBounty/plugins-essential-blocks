@@ -15,6 +15,23 @@ const EBRenderIconWithSVG = ebFrontend.EBRenderIconWithSVG || (() => "");
 const loadSvgIcons = ebFrontend.loadSvgIcons || (() => {});
 const generateArrowHTML = ebFrontend.generateArrowHTML || (() => "");
 
+/**
+ * Let slide buttons and content links navigate instead of opening the lightbox.
+ * A button without a URL still opens the lightbox, as before.
+ *
+ * @param {Object} lightbox Slick Lightbox instance.
+ * @param {Object} $item    Clicked slide (jQuery).
+ * @param {Object} event    Click event.
+ * @return {boolean} Whether the lightbox should open.
+ */
+const shouldOpenLightbox = (lightbox, $item, event) => {
+    const button = event.target.closest(".eb-slider-button, .eb-slider-second-button");
+    if (button && button.getAttribute("href")) {
+        return false;
+    }
+    return !event.target.closest(".has-content-link");
+};
+
 domReady(function () {
     //Execute after DOM loads.
     const wrappers = document.getElementsByClassName("eb-slider-wrapper");
@@ -255,6 +272,7 @@ domReady(function () {
                     itemSelector: ".eb-slider-item",
                     navigateByKeyboard: true,
                     imageMaxHeight: 0.7,
+                    shouldOpen: shouldOpenLightbox,
                 });
             }
         }
@@ -350,6 +368,7 @@ domReady(function () {
                         itemSelector: ".eb-slider-item",
                         navigateByKeyboard: true,
                         imageMaxHeight: 0.7,
+                        shouldOpen: shouldOpenLightbox,
                     });
                 }
             }

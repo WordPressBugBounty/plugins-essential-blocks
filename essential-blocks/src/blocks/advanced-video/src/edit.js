@@ -75,6 +75,12 @@ const Edit = (props) => {
     const [overlayClicked, setOverlayClicked] = useState(false);
     const [selfHostedPlaying, setSelfHostedPlaying] = useState(false);
     const playerBoxRef = useRef(null);
+    // Pro's Custom Cursor preview needs pointer events, which the embed iframe
+    // swallows. See the shield below; it is lowered on click and raised again
+    // once the pointer leaves the player.
+    const [cursorShieldDown, setCursorShieldDown] = useState(false);
+    const cursorConfig = attributes.ebCustomCursor;
+    const hasCursorPreview = !!(cursorConfig && (cursorConfig.effect?.enable || cursorConfig.image?.enable));
     const selfHostedRef = useRef(null);
 
     // Direct media file — playable in a native <video>. HLS/DASH/FLV manifests
@@ -299,6 +305,7 @@ const Edit = (props) => {
                                     <div
                                         ref={playerBoxRef}
                                         className="eb-react-player eb-sandbox-video"
+                                        onPointerLeave={() => setCursorShieldDown(false)}
                                         style={{
                                             width: '100%',
                                             aspectRatio: '16/9',
@@ -333,6 +340,26 @@ const Edit = (props) => {
                                                 title={__('Video Preview', 'essential-blocks')}
                                                 type={`embed eb-sandbox-video ${blockId} wp-embed-aspect-16-9 wp-has-aspect-ratio`}
                                                 allowSameOrigin
+                                            />
+                                        )}
+                                        {/*
+                                          * Same idea as the frontend shield (frontend.js): keeps the
+                                          * pointer in the canvas so the Custom Cursor preview runs over
+                                          * an embed. The editor has no player API into the sandboxed
+                                          * embed, so a click only lowers the shield (and selects the
+                                          * block); the next click reaches the video.
+                                          */}
+                                        {embedHtml && !preview && hasCursorPreview && !cursorShieldDown && (
+                                            <div
+                                                className="eb-av-cursor-shield"
+                                                style={{
+                                                    position: 'absolute',
+                                                    inset: 0,
+                                                    zIndex: 1,
+                                                    background: 'transparent',
+                                                }}
+                                                onClick={() => setCursorShieldDown(true)}
+                                                aria-hidden="true"
                                             />
                                         )}
                                         {/* Direct media file (mp4/webm/ogg) — native player so it previews + autoplays. */}

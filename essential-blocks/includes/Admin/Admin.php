@@ -82,10 +82,27 @@ class Admin {
         // called plugin insights
         // $this->plugin_usage_insights();
 
+        $this->clear_stuck_notice_pause();
+
         try {
             $this->notices();
         } catch ( \Exception $e ) {
             unset( $e );
+        }
+    }
+
+    /**
+     * Older wp-notice copies passed time() + TTL as the transient expiration,
+     * so dismissing any notice paused every notice for ~56 years instead of
+     * 10 hours. Drop a pause that outlives the intended window.
+     *
+     * @return void
+     */
+    private function clear_stuck_notice_pause() {
+        $timeout = (int) get_option( '_transient_timeout_wpnotice_priority_time_expired' );
+
+        if ( $timeout > time() + 10 * HOUR_IN_SECONDS ) {
+            delete_transient( 'wpnotice_priority_time_expired' );
         }
     }
 
@@ -259,30 +276,30 @@ class Admin {
         $upsell_screens = array( 'dashboard', 'plugins', 'toplevel_page_essential-blocks' );
 
         /**
-         * Summer Campaign 2026 Notice
+         * Halloween Campaign 2026 Notice
          */
-        $summer_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">🏖️ <strong>Summer Savings:</strong> Get 70+ AI-powered blocks and features to unlock design flexibility on Gutenberg – now <strong>up to $150 OFF!</strong></p>
-        <a class="button button-primary" href="https://essential-blocks.com/summer2026-admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade To Pro Now</a>
-        <a class="button button-secondary" href="https://essential-blocks.com/summer2026-admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
-        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">' . esc_html__( 'Dismiss', 'essential-blocks' ) . '</button>';
-        $summer_campaign2026_notice = array(
+        $halloween_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">👻 <strong>Halloween Sale:</strong> Get 70+ AI-powered blocks and features to unlock design flexibility on Gutenberg – now <strong>up to 35% OFF!</strong></p>
+        <a class="button button-primary" href="https://essential-blocks.com/halloween2026/admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade To Pro Now</a>
+        <a class="button button-secondary" href="https://essential-blocks.com/halloween2026/admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
+        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">' . esc_html__( 'I Don’t Want Any Discount', 'essential-blocks' ) . '</button>';
+        $halloween_campaign2026_notice = array(
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
-            'html' => $summer_campaign2026_message
+            'html' => $halloween_campaign2026_message
         );
 
-        //Summer Campaign 2026 Notice Add
+        //Halloween Campaign 2026 Notice Add
         $notices->add(
-            'summer_campaign2026',
-            $summer_campaign2026_notice,
+            'halloween_campaign2026',
+            $halloween_campaign2026_notice,
             array(
-                'start' => $notices->time(),
-                'expire' => strtotime( '11:59:59pm 25th June, 2026' ),
+                'start' => strtotime( '12:00:00am 14th October, 2026' ),
+                'expire' => strtotime( '11:59:59pm 5th November, 2026' ),
                 'classes' => 'eb-notice put-dismiss-notice',
                 'dismissible' => true,
                 'refresh' => self::UPSELL_NOTICE_REFRESH,
                 'screens' => $upsell_screens,
                 'capability' => 'manage_options',
-                'do_action' => 'eb_summer2026_campaign',
+                'do_action' => 'eb_halloween2026_campaign',
                 'display_if' => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
             )
         );
@@ -1076,15 +1093,14 @@ class Admin {
      * @return void
      */
     public function promotion_message_on_admin_screen() {
-        $one_page_navigation_url = esc_url( 'https://essential-blocks.com/demo/one-page-navigation/' );
-        $copy_paste_design_url   = esc_url( 'https://essential-blocks.com/docs/eb-copy-paste-design' );
+        $custom_cursor_url = esc_url( 'https://essential-blocks.com/demo/custom-cursor/' );
 
         $message_template = __(
-            "<p><i>📣</i> Introducing <strong><a target='_blank' href='%1\$s'>One Page Navigation</a></strong> in <strong>Essential Blocks PRO 3.1.0</strong> and <strong><a target='_blank' href='%2\$s'>Copy/Paste Style</a></strong> in <strong>Essential Blocks 6.4.0</strong> - Create smooth one page navigation for long Gutenberg pages and instantly reuse block styles with a single click.</p>",
+            "<p><i>📣</i> <strong>Essential Blocks 6.5.0</strong> and <strong>Essential Blocks PRO 3.3.0</strong> have been released. The latest update introduces the new PRO feature, <strong><a target='_blank' href='%1\$s'>Custom Cursor</a></strong>, to help you design eye-catching, interactive effects on your website.</p>",
             "essential-blocks"
         );
 
-        $message = sprintf( $message_template, $one_page_navigation_url, $copy_paste_design_url );
+        $message = sprintf( $message_template, $custom_cursor_url );
 
         // Output HTML using heredoc for better formatting
         echo <<<HTML
@@ -1101,7 +1117,8 @@ class Admin {
             return;
         }
 
-        if ( get_transient( 'essential_block_whats_new_notice' ) === true ) {
+        // Without a persistent object cache the stored `true` comes back as "1".
+        if ( get_transient( 'essential_block_whats_new_notice' ) ) {
             delete_transient( 'essential_block_whats_new_notice' );
 
             $view_path = ESSENTIAL_BLOCKS_DIR_PATH . 'includes/Admin/whats-new-notice.php';

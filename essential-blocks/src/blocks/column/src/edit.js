@@ -252,10 +252,13 @@ function Edit(props) {
                     }
                 }
 
-                setShowWidthTooltip(true);
-
                 if (select("core/block-editor").getSelectedBlockCount() > 1)
                     return false;
+
+                // Stop native text selection / drag from swallowing the mouseup.
+                e.preventDefault();
+
+                setShowWidthTooltip(true);
 
                 setNextColWDhByUseState(nextColumnDesktopWidth);
 
@@ -263,16 +266,11 @@ function Edit(props) {
                 colWidthInPx = allDimensions.width;
                 pcent_px_ratio = desktopRange / colWidthInPx;
 
-                if (eb_conditional_localize && eb_conditional_localize.editor_type === "edit-site") {
-                    let iframe = document.querySelector('iframe.edit-site-visual-editor__editor-canvas');
-                    let iframeDocument = iframe.contentWindow.document.body;
-                    iframeDocument.addEventListener("mousemove", handleMouseMove);
-                    iframeDocument.addEventListener("mouseup", handleMouseUp);
-                }
-                else {
-                    window.addEventListener("mousemove", handleMouseMove);
-                    window.addEventListener("mouseup", handleMouseUp);
-                }
+                // The editor canvas is an iframe (post + site editor), so mouse events
+                // never reach the parent window. Listen on the dragger's own document.
+                const dragDoc = elDragger.ownerDocument;
+                dragDoc.addEventListener("mousemove", handleMouseMove);
+                dragDoc.addEventListener("mouseup", handleMouseUp);
 
                 let prevX = e.clientX;
                 let newX = 0;
@@ -282,16 +280,8 @@ function Edit(props) {
                 function handleMouseUp(e) {
                     setShowWidthTooltip(false);
 
-                    if (eb_conditional_localize && eb_conditional_localize.editor_type === "edit-site") {
-                        let iframe = document.querySelector('iframe.edit-site-visual-editor__editor-canvas');
-                        let iframeDocument = iframe.contentWindow.document.body;
-                        iframeDocument.removeEventListener("mousemove", handleMouseMove);
-                        iframeDocument.removeEventListener("mouseup", handleMouseUp);
-                    }
-                    else {
-                        window.removeEventListener("mousemove", handleMouseMove);
-                        window.removeEventListener("mouseup", handleMouseUp);
-                    }
+                    dragDoc.removeEventListener("mousemove", handleMouseMove);
+                    dragDoc.removeEventListener("mouseup", handleMouseUp);
                 }
 
                 function handleMouseMove(e) {

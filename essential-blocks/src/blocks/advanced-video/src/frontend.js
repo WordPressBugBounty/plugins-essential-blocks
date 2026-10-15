@@ -1,16 +1,12 @@
-import { createRoot } from "@wordpress/element";
+import { createRoot, useRef, useState } from "@wordpress/element";
 import ReactPlayer from "react-player";
 import { initStickyPlayer } from "./sticky";
 
 /*
- * Not branched on here — react-player classifies the URL itself at mount, so
- * the frontend needs no test of its own. Imported so that any future branch on
- * this file takes the same definition the editor and the Inspector use; the
- * bug this module exists to fix was three surfaces each deciding for
- * themselves. The patterns in ./media-source mirror react-player's, so a check
- * added here will agree with what the player actually does.
+ * react-player classifies the URL itself at mount; these mirror its patterns,
+ * so a branch here (the cursor shield below) agrees with what the player
+ * actually renders — a <video> element for these, an iframe for the rest.
  */
-// eslint-disable-next-line no-unused-vars
 import { isDirectMediaUrl, isStreamingUrl } from "./media-source";
 
 /**
@@ -109,6 +105,39 @@ const createMediaControls = (playerOption, onCommand) => {
 };
 
 /**
+ * Does this player need a shield for Pro's Custom Cursor?
+ *
+ * A cross-origin embed (YouTube, Vimeo, …) swallows every pointer event over
+ * it, so a cursor effect on the block goes dead the moment the pointer is over
+ * the video. A transparent layer above the iframe keeps the events in the page
+ * while the video is idle; clicking it starts playback and gets out of the way
+ * so the provider's own controls work. Pro marks the block root with
+ * `data-eb-cursor` server-side, so it is already there when this mounts.
+ *
+ * Not needed for a <video> element (events reach the page), in a lightbox (the
+ * effect is clipped to the block, not the modal), or when Pro's overlay already
+ * sets the iframe to `pointer-events: none`.
+ */
+const needsCursorShieldFor = (playerOption, url, isLightbox, cropsYouTubeChrome) =>
+    !!playerOption.closest("[data-eb-cursor]") &&
+    !!url &&
+    !isDirectMediaUrl(url) &&
+    !isStreamingUrl(url) &&
+    !isLightbox &&
+    !cropsYouTubeChrome;
+
+const CURSOR_SHIELD_STYLE = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+    cursor: "pointer",
+    background: "transparent",
+};
+
+/**
  * Get SVG functions from global eb_frontend
  */
 const {
@@ -125,6 +154,18 @@ const AdvancedVideo = (props) => {
         _ctlPlaying,
         _ctlMuted,
     } = props;
+
+    const playerRef = useRef(null);
+    // Driven by react-player's own callbacks, so a pause from the provider's
+    // controls brings the cursor shield back. `ready` stays false while an
+    // Image Overlay poster is up — that poster is page DOM, no shield needed.
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isReady, setIsReady] = useState(false);
+    // Set when a shield click did not lead to playback (autoplay blocked, a
+    // provider that ignores the API call). The shield then stays down for good,
+    // or every click on it would be swallowed and the video never start.
+    const [shieldRetired, setShieldRetired] = useState(false);
+    const awaitingShieldPlay = useRef(false);
 
     let url = wrapper.getAttribute("data-url");
     let controls = wrapper.getAttribute("data-controls") === "true" ? true : false;
@@ -210,9 +251,38 @@ const AdvancedVideo = (props) => {
         },
     };
 
+    const showCursorShield =
+        isReady &&
+        !isPlaying &&
+        !shieldRetired &&
+        needsCursorShieldFor(wrapper, url, isLightbox, cropsYouTubeChrome);
+
+    const playFromShield = () => {
+        // Hide first: if the browser refuses to start playback, the visitor
+        // can still click the provider's own play button.
+        setIsPlaying(true);
+        const player = playerRef.current && playerRef.current.getInternalPlayer();
+        if (!player) {
+            setShieldRetired(true);
+            return;
+        }
+        awaitingShieldPlay.current = true;
+        if (typeof player.playVideo === "function") {
+            player.playVideo(); // YouTube
+        } else if (typeof player.play === "function") {
+            const started = player.play(); // Vimeo and most other providers
+            if (started && typeof started.catch === "function") {
+                started.catch(() => setShieldRetired(true));
+            }
+        } else {
+            setShieldRetired(true);
+        }
+    };
+
     return (
         <>
             <ReactPlayer
+                ref={playerRef}
                 // react-player only reads `controls` on the initial mount — its
                 // componentDidUpdate has no live-update branch for it (unlike
                 // muted/loop). Tie the element key to `controls` so React mounts
@@ -242,22 +312,44 @@ const AdvancedVideo = (props) => {
                 // Icons only — never a re-render. A re-render here would feed
                 // the same value back through `playing` and could bounce against
                 // react-player's own isPlaying guard.
+                onReady={() => setIsReady(true)}
                 onPlay={() => {
+                    awaitingShieldPlay.current = false;
+                    setIsPlaying(true);
                     if (mediaControls) {
                         mediaControls.report({ playing: true });
                     }
                 }}
-                onPause={() =>
-                    mediaControls && mediaControls.report({ playing: false })
-                }
-                onEnded={() =>
-                    mediaControls &&
-                    mediaControls.report({ playing: loop ? true : false })
-                }
+                onPause={() => {
+                    if (awaitingShieldPlay.current) {
+                        awaitingShieldPlay.current = false;
+                        setShieldRetired(true);
+                    }
+                    setIsPlaying(false);
+                    if (mediaControls) {
+                        mediaControls.report({ playing: false });
+                    }
+                }}
+                onEnded={() => {
+                    if (!loop) {
+                        setIsPlaying(false);
+                    }
+                    if (mediaControls) {
+                        mediaControls.report({ playing: loop ? true : false });
+                    }
+                }}
                 style={{
                     aspectRatio: isLightbox ? 'unset' : '16/9',
                 }}
             />
+            {showCursorShield && (
+                <div
+                    className="eb-av-cursor-shield"
+                    style={CURSOR_SHIELD_STYLE}
+                    onClick={playFromShield}
+                    aria-hidden="true"
+                />
+            )}
         </>
     );
 };

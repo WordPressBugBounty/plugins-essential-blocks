@@ -11,7 +11,9 @@
 		}
 		.eb-post-metadata-item a {
 			text-decoration: none;
-			line-height: 0;
+			// Not 0: a value that wraps (a long author name on a phone) would
+			// print its lines on top of each other.
+			line-height: inherit;
 		}
 	}
 	

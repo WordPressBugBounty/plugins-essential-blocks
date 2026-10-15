@@ -38,7 +38,7 @@ use EssentialBlocks\Utils\Helper;
 
 final class Plugin {
     use HasSingletone;
-    public $version = '6.4.8';
+    public $version = '6.5.0';
 
     public $admin;
     /**
@@ -244,8 +244,8 @@ final class Plugin {
         $this->define( 'EB_PATTERN', true );
 
         //Those flags needs to update if notice
-        $this->define( 'EB_PROMOTION_FLAG', 13 );
-        $this->define( 'EB_ADMIN_MENU_FLAG', 13 );
+        $this->define( 'EB_PROMOTION_FLAG', 14 );
+        $this->define( 'EB_ADMIN_MENU_FLAG', 14 );
         $this->define('EB_SHOW_WHATS_NEW_NOTICE', 1);
 
         //Table Name constants

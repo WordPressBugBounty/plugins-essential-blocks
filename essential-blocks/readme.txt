@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.4.8
+Stable tag: 6.5.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -339,6 +339,17 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.5.0 - 15/10/2026 =
+- Added: Product Grid | WooCommerce Brands filter
+- Added: Slider | Lightbox option in Block Defaults
+- Improved: Slider | Image alt text support
+- Fixed: Column resize issue in editor
+- Fixed: Image Hotspots tooltip & mobile overflow issues
+- Fixed: Post Meta text overlap issue
+- Fixed: Template part styles inside patterns
+- Few minor bug fixes & improvements
+
+
 = 6.4.8 - 13/10/2026 =
 - Few minor bug fixes & improvements
 

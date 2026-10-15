@@ -99,6 +99,7 @@ function Slider(props) {
         dotsActiveColor,
         textAlign,
         verticalAlign,
+        showLightbox,
     } = blockDefaults;
     const isDefaultSet = useBlockDefaults(name, blockDefaults, setBlockDefaults, objAttributes)
 
@@ -111,7 +112,13 @@ function Slider(props) {
                             label={__("Slider Type", "essential-blocks")}
                             value={sliderType}
                             options={SLIDER_TYPE}
-                            onChange={(value) => handleBlockDefault({ sliderType: value })}
+                            onChange={(value) =>
+                                handleBlockDefault({
+                                    sliderType: value,
+                                    // Defaults always use content-1, which doesn't support lightbox
+                                    ...(value === "content" && { showLightbox: false }),
+                                })
+                            }
                             __next40pxDefaultSize
                             __nextHasNoMarginBottom
                         />
@@ -139,7 +146,6 @@ function Slider(props) {
                             label={__("Autoplay", "essential-blocks")}
                             checked={autoplay}
                             onChange={() => {
-                                autoplay ? slider.current.slickPlay() : slider.current.slickPause();
                                 handleBlockDefault({ autoplay: !autoplay });
                             }}
                             __nextHasNoMarginBottom
@@ -183,6 +189,19 @@ function Slider(props) {
                             }
                             __nextHasNoMarginBottom
                         />
+
+                        {sliderType !== "content" && (
+                            <ToggleControl
+                                label={__("Show Lightbox", "essential-blocks")}
+                                checked={showLightbox}
+                                onChange={() =>
+                                    handleBlockDefault({
+                                        showLightbox: !showLightbox,
+                                    })
+                                }
+                                __nextHasNoMarginBottom
+                            />
+                        )}
 
                         <ToggleControl
                             label={__("Custom Height", "essential-blocks")}

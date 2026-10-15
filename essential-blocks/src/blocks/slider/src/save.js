@@ -118,7 +118,7 @@ const Save = ({ attributes }) => {
                                             <img
                                                 className="eb-slider-image"
                                                 {...(enableLazyLoad ? { 'data-lazy': image.url } : { src: image.url })}
-
+                                                alt={image.alt || ""}
                                             />
                                         </a>
                                     </div>
@@ -127,6 +127,7 @@ const Save = ({ attributes }) => {
                                         <img
                                             className="eb-slider-image"
                                             {...(enableLazyLoad ? { 'data-lazy': image.url } : { src: image.url })}
+                                            alt={image.alt || ""}
                                         />
                                     </div>
                                 )}

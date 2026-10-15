@@ -425,7 +425,7 @@ final class StyleHandler {
         $block_template = resolve_block_template($type, $templates, $template);
         if (! empty($block_template)) {
             if (isset($block_template->content)) {
-                $parsed_content = parse_blocks($block_template->content);
+                $parsed_content = self::resolve_patterns(parse_blocks($block_template->content));
 
                 if (is_array($parsed_content) && ! empty($parsed_content)) {
                     if (isset($block_template->wp_id) && isset($block_template->type)) {
@@ -445,8 +445,11 @@ final class StyleHandler {
     }
 
     public function fse_template_parts_recursive($content) {
-        if (isset($content['blockName']) && isset($content['attrs']['theme']) && isset($content['attrs']['slug'])) {
-            $id       = $content['attrs']['theme'] . '//' . $content['attrs']['slug'];
+        $is_template_block = isset($content['blockName']) && in_array($content['blockName'], array('core/template-part', 'core/template'), true);
+        if ($is_template_block && isset($content['attrs']['slug'])) {
+            // Core renders a part without a theme attribute from the active theme.
+            $theme    = ! empty($content['attrs']['theme']) ? $content['attrs']['theme'] : get_stylesheet();
+            $id       = $theme . '//' . $content['attrs']['slug'];
             $template = '';
             if (('core/template-part' === $content['blockName'])) {
                 $template = get_block_template($id, 'wp_template_part');
@@ -455,7 +458,7 @@ final class StyleHandler {
             }
 
             if (isset($template->content) && isset($template->wp_id) && isset($template->type)) {
-                $this->write_css_from_content(parse_blocks($template->content), $template->wp_id, $template->type);
+                $this->write_css_from_content(self::resolve_patterns(parse_blocks($template->content)), $template->wp_id, $template->type);
 
                 if (empty($this->fse_page_template_id)) {
                     $this->fse_page_template_id = $template->wp_id;
@@ -468,6 +471,23 @@ final class StyleHandler {
                 }
             }
         }
+    }
+
+    /**
+     * Expand core/pattern blocks into the blocks they render.
+     *
+     * A template can wrap its whole layout in a pattern (Flexia's WooCommerce
+     * templates wrap the header and footer template parts in one), and the
+     * template parts and EB blocks inside it would otherwise be skipped.
+     *
+     * @param array $blocks Parsed blocks.
+     * @return array
+     */
+    private static function resolve_patterns($blocks) {
+        if (! is_array($blocks) || ! function_exists('resolve_pattern_blocks')) {
+            return $blocks;
+        }
+        return resolve_pattern_blocks($blocks);
     }
 
     /**

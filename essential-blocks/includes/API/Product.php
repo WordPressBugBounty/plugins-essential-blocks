@@ -448,6 +448,18 @@ class Product extends Base
             }
         }
 
+        // Brand clauses are ANDed with whatever taxonomy query was built above,
+        // which is kept as-is as a nested group so existing Category/Tag behavior
+        // doesn't change.
+        $brand_clauses = self::brand_tax_clauses( $attr );
+        if ( ! empty( $brand_clauses ) ) {
+            $tax_query = [ 'relation' => 'AND' ];
+            if ( ! empty( $query_args[ 'tax_query' ] ) ) {
+                $tax_query[] = $query_args[ 'tax_query' ];
+            }
+            $query_args[ 'tax_query' ] = array_merge( $tax_query, $brand_clauses );
+        }
+
         $hide_outofstock_products = get_option( 'woocommerce_hide_out_of_stock_items' );
         if ( "yes" === $hide_outofstock_products ) {
             $meta_query[] = [
@@ -471,6 +483,48 @@ class Product extends Base
         }
 
         return $query_args;
+    }
+
+    /**
+     * Build tax_query clauses for the native WooCommerce Brands taxonomy.
+     *
+     * Returns no clauses when `product_brand` isn't registered, so a saved
+     * brand selection never turns into an invalid (zero result) taxonomy query.
+     *
+     * @param array $attr
+     * @return array
+     */
+    private static function brand_tax_clauses( $attr )
+    {
+        if ( ! taxonomy_exists( 'product_brand' ) ) {
+            return [];
+        }
+
+        $clauses = [];
+        $keys    = [
+            'brand'        => 'IN',
+            'excludeBrand' => 'NOT IN'
+        ];
+
+        foreach ( $keys as $key => $operator ) {
+            if ( empty( $attr[ $key ] ) ) {
+                continue;
+            }
+
+            $ids = is_array( $attr[ $key ] ) ? $attr[ $key ] : explode( ',', (string) $attr[ $key ] );
+            $ids = array_values( array_filter( array_map( 'absint', $ids ) ) );
+
+            if ( ! empty( $ids ) ) {
+                $clauses[] = [
+                    'taxonomy' => 'product_brand',
+                    'field'    => 'term_id',
+                    'terms'    => $ids,
+                    'operator' => $operator
+                ];
+            }
+        }
+
+        return $clauses;
     }
 
     public function eb_change_cart_button_text( $text )

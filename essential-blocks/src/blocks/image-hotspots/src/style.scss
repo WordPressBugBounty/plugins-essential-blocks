@@ -372,6 +372,11 @@
  // Responsive styles
  @media (max-width: 768px) {
  	.eb-image-hotspots-wrapper {
+ 		// Hidden tooltips of hotspots near the image edge still take up layout
+ 		// space, which widened the page on phones. clip (not hidden) keeps
+ 		// tooltips above and below the image visible.
+ 		overflow-x: clip;
+
  		.eb-hotspot-tooltip {
  			max-width: 150px;
  			font-size: 12px;
