@@ -129,6 +129,7 @@ import {
     EB_SELECT_MENU_Z,
     ProBadge,
     Crown,
+    EB_LINKS,
 } from "@essential-blocks/controls";
 import { use } from "react";
 import { SearchIcon } from "./icon";
@@ -140,7 +141,7 @@ const SearchUpgradeProContent = () => {
             <h3>
                 <a
                     target="_blank"
-                    href="https://essential-blocks.com/demo/post-grid/"
+                    href={EB_LINKS.demos.postGrid}
                 >
                     {__("Post Grid Search", "essential-blocks")}
                     <span className="dashicons dashicons-external"></span>

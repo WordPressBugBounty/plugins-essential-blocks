@@ -1,13 +1,5 @@
-import React from "react";
-
-import { __ } from "@wordpress/i18n";
-
-import Checkbox from "./Checkbox";
+import BlocksManager from "./blocks/BlocksManager";
 
 export default function Blocks() {
-	return (
-		<div>
-			<Checkbox />
-		</div>
-	);
+    return <BlocksManager />;
 }

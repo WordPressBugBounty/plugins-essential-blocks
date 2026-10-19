@@ -23,6 +23,15 @@ class AI extends ThirdPartyIntegration
     const ALLOWED_CONTENT_CONTEXTS = [ 'writePageContent', 'writeRichtext', 'writeInputFields' ];
 
     /**
+     * Seconds a job may stay pending before the status poll runs it itself.
+     *
+     * Jobs are handed to WP-Cron first. When WP-Cron is disabled or its
+     * loopback request is blocked, nothing would ever pick the job up, so
+     * the polling request processes it instead.
+     */
+    const INLINE_FALLBACK_AFTER = 5;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -144,15 +153,31 @@ class AI extends ThirdPartyIntegration
             wp_send_json_error( __( 'Job ID is required', 'essential-blocks' ) );
         }
 
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            wp_send_json_error( __( 'You are not authorized to check this job!', 'essential-blocks' ) );
+        }
+
         $job_id = sanitize_text_field( $_POST[ 'job_id' ] );
 
         $status_response = JobManager::get_job_status( $job_id );
 
+        if ( $status_response[ 'success' ]
+            && $status_response[ 'status' ] === JobManager::STATUS_PENDING
+            && current_time( 'timestamp' ) - (int) $status_response[ 'created_at' ] >= self::INLINE_FALLBACK_AFTER
+        ) {
+            ignore_user_abort( true );
+            if ( function_exists( 'set_time_limit' ) ) {
+                @set_time_limit( 200 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+            }
+
+            JobManager::process_job( $job_id );
+            $status_response = JobManager::get_job_status( $job_id );
+        }
+
         if ( $status_response[ 'success' ] ) {
-            // If job is completed, clean up the job data after returning the result
-            if ( $status_response[ 'status' ] === JobManager::STATUS_COMPLETED ) {
-                // Schedule cleanup after response is sent
-                wp_schedule_single_event( time() + 5, 'eb_cleanup_completed_job', [ $job_id ] );
+            // The result is already in the response, so the job row is no longer needed.
+            if ( in_array( $status_response[ 'status' ], [ JobManager::STATUS_COMPLETED, JobManager::STATUS_FAILED ], true ) ) {
+                JobManager::delete_job( $job_id );
             }
 
             wp_send_json_success( $status_response );
@@ -348,20 +373,32 @@ class AI extends ThirdPartyIntegration
      */
     public static function validate_and_save_ai_settings( $value )
     {
-        // Validate API key if provided
+        // Validate the API key only when the key or the model it must reach
+        // changed. Saving a toggle should not wait on a request to OpenAI.
+        // Never store a model that AI Suite no longer offers
+        if ( is_object( $value ) ) {
+            $value->contentModel = OpenAI::normalize_content_model( $value->contentModel ?? '' );
+        }
+
         if ( isset( $value->apiKey ) && ! empty( $value->apiKey ) ) {
-            // Initialize the OpenAI class
-            $openai = new OpenAI();
+            $saved     = (array) get_option( 'eb_write_with_ai', [  ] );
+            $new_model = isset( $value->contentModel ) ? (string) $value->contentModel : '';
+            $changed   = ( $saved[ 'apiKey' ] ?? '' ) !== $value->apiKey
+                || ( $saved[ 'contentModel' ] ?? '' ) !== $new_model;
 
-            // Validate the API key
-            $validation = $openai->validate_api_key( $value->apiKey );
+            if ( $changed ) {
+                $openai     = new OpenAI();
+                $validation = $openai->validate_api_key( $value->apiKey, $new_model );
 
-            if ( ! $validation[ 'success' ] ) {
-                return [
-                    'success' => false,
-                    'message' => $validation[ 'message' ],
-                    'type'    => 'api_key_error'
-                 ];
+                if ( ! $validation[ 'success' ] ) {
+                    return [
+                        'success'    => false,
+                        'message'    => $validation[ 'message' ],
+                        'type'       => 'api_key_error',
+                        'error_type' => $validation[ 'error_type' ] ?? 'api_error',
+                        'model'      => $validation[ 'model' ] ?? $new_model
+                     ];
+                }
             }
         }
 

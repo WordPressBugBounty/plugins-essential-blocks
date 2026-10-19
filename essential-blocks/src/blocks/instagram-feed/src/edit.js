@@ -54,7 +54,6 @@ function Edit(props) {
         showProfileName,
         profileName,
         sortBy,
-        preview,
         showMeta,
         classHook,
         cover
@@ -82,14 +81,6 @@ function Edit(props) {
         style: <Style {...props} />
     };
 
-    if (preview) {
-        return (
-            <img
-                style={{ width: "100%" }}
-                src={`${EssentialBlocksLocalize?.image_url}/block-preview/instagram-preview.jpeg`}
-            />
-        );
-    }
     const [instagramToken, setInstagramToken] = useState(token ?? "");
     // Resolve the token through the shared module-level promise in helper.js,
     // so N feed blocks on one page share ONE AJAX call instead of N.

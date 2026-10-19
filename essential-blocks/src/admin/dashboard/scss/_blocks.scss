@@ -1,72 +1,8 @@
-.eb-templates-intro-block {
-	.temlately-logo {
-		width: 145px;
-		margin-bottom: 15px;
-	}
-
-	h2 {
-		margin: 0;
-		padding: 0;
-		font-weight: 700;
-		font-size: 30px;
-		line-height: 45px;
-		color: #211c70;
-
-		span {
-			background: linear-gradient(269deg, #ffb45a 45.3%, #f34f8c 95.28%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-			text-fill-color: transparent;
-		}
-	}
-
-	ul {
-		margin: 15px 0 0 0;
-
-		li {
-			margin-bottom: 6px;
-			display: flex;
-			gap: 10px;
-			align-items: center;
-			margin: 0 0 15px 0;
-
-			font-weight: 500;
-			font-size: 14px;
-			line-height: 24px;
-			/* or 171% */
-
-			color: #211c70;
-
-			svg,
-			img {
-				width: 20px;
-			}
-		}
-	}
-
-	a {
-		margin: 15px 0 0 30px;
-	}
-}
-
-.templates-heading-wrapper {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	h3 {
-		font-weight: 700;
-		font-size: 24px;
-		line-height: 31px;
-		color: #211c70;
-		margin: 0 0 20px 0;
-	}
-}
+// Templates intro styles live in _templates.scss.
 
 .eb-block-box {
-	background: #ffffff;
-	box-shadow: 0px 1px 2px rgb(23 57 97 / 10%);
+	background: var(--eb-surface);
+	box-shadow: var(--eb-shadow-sm);
 	border-radius: 5px;
 	padding: 18px 15px;
 	display: flex;
@@ -93,7 +29,7 @@
 		font-weight: 500;
 		font-size: 14px;
 		line-height: 18px;
-		color: #211c70;
+		color: var(--eb-text);
 		padding: 0;
 		margin: 0;
 	}
@@ -105,7 +41,7 @@
 		gap: 5px;
 
 		a {
-			background: #f0f2f5;
+			background: var(--eb-surface-subtle);
 			border-radius: 5px;
 			width: 22px;
 			height: 22px;
@@ -132,12 +68,12 @@
 				left: 50%;
 				-webkit-transform: translateX(-50%);
 				transform: translateX(-50%);
-				background: #5e2eff;
+				background: var(--eb-badge-new-bg);
 				border-radius: 5px;
 				font-weight: 500;
 				font-size: 12px;
 				line-height: 16px;
-				color: #ffffff;
+				color: var(--eb-on-accent);
 				padding: 3px 8px;
 				-webkit-transition: opacity 0.3s ease;
 				transition: opacity 0.3s ease;
@@ -151,85 +87,12 @@
 					left: 50%;
 					-webkit-transform: translateX(-50%);
 					transform: translateX(-50%);
-					border-top: 5px solid #5e2eff;
+					border-top: 5px solid var(--eb-badge-new-bg);
 					border-right: 5px solid transparent;
 					border-left: 5px solid transparent;
 					content: "";
 				}
 			}
-		}
-	}
-
-	&.eb-block-label {
-		position: relative;
-		border: 0;
-		margin: 0;
-		box-shadow: unset;
-		padding: 18px 15px;
-
-		&.popular {
-			&::after {
-				content: "Popular";
-				background: #0064ff;
-			}
-		}
-
-		&.new {
-			&::after {
-				content: "New";
-				background: #5e2eff;
-			}
-		}
-
-		&.updated {
-			&::after {
-				content: "Updated";
-				background: #828196;
-			}
-		}
-
-		&::after {
-			position: absolute;
-			top: -12px;
-			font-size: 12px;
-			color: white;
-			left: 15px;
-			font-weight: 600;
-			border-radius: 4px;
-			width: 65px;
-			text-align: center;
-			height: 22px;
-			line-height: 22px;
-		}
-	}
-
-	&.pro {
-		// opacity: .7;
-
-		// &:before {
-		// 	content: "";
-		// 	position: absolute;
-		// 	left: 0;
-		// 	top: 0;
-		// 	height: 100%;
-		// 	width: 100%;
-		// 	z-index: 99999;
-		// }
-
-		.eb-pro {
-			position: absolute;
-			top: -12px;
-			font-size: 12px;
-			color: white;
-			right: 15px;
-			font-weight: 600;
-			border-radius: 4px;
-			width: 41px;
-			text-align: center;
-			height: 22px;
-			line-height: 22px;
-			background-color: #f2a80b;
-			color: #ffffff;
 		}
 	}
 }
@@ -238,180 +101,267 @@
 	padding: 0;
 	margin-left: 5px;
 
-	.rc-switch {
-		width: 45px;
-		height: 22px;
-		line-height: 22px;
-		border-radius: 50px;
-		background-color: #cfdcf1;
-		border-color: #cfdcf1;
-
-		&.rc-switch-checked {
-			background-color: #2673ff;
-			border-color: #2673ff;
-
-			&::after {
-				left: 25px;
-			}
-		}
-
-		&::after {
-			width: 16px;
-			height: 16px;
-			top: 2px;
-			left: 2px;
-			box-shadow: 0px 7px 7px rgba(15, 16, 45, 0.15);
-		}
-
-		&:focus {
-			box-shadow: none;
-		}
-
-		.rc-switch-inner {
-			display: none;
-		}
-	}
+	// Switch styles live in _ui.scss (shared by every toggle).
 }
 
-.eb-global-controls-block {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	@media all and (max-width: 767px) {
-		text-align: center;
-	}
-
-	h4 {
-		font-style: normal;
-		font-weight: 500;
-		font-size: 22px;
-		line-height: 29px;
-		margin: 0;
-		/* identical to box height */
-
-		color: #211c70;
-	}
-
-	p {
-		font-style: normal;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 18px;
-		margin: 0;
-
-		color: #6a72a5;
-	}
-
-	.controls {
-		display: flex;
-		align-items: center;
-		// justify-content: space-between;
-		gap: 10px;
-
-		.switch-status {
-			font-weight: 500;
-			font-size: 14px;
-			line-height: 18px;
-
-			color: #a3a9ca;
-		}
-	}
-}
-
-.eb-admin-checkboxes-wrapper,
 .eb-admin-checkbox {
 	margin: 0;
 }
 
-#eb-save-admin-options {
-	margin-top: 30px;
-	padding-top: 30px;
-	border-top: 1px dashed #c0cbdc;
-	text-align: right;
-}
-
-.eb-global-btn-wrapper {
-	@media all and (max-width: 767px) {
-		margin-top: 20px;
-	}
-
-	button {
-		margin-left: 10px;
-
-		&.eb-btn-primary:hover {
-			border: 1px solid $eb-admin-theme-color;
-			border-radius: 5px;
-			color: $eb-admin-theme-color !important;
-			background-color: transparent;
-		}
-	}
-}
-
-.eb_pro_modal {
-	position: fixed;
-	width: 100%;
-	height: 100vh;
-	left: 0;
-	top: 0;
-	z-index: 9999;
-	background-color: rgba(0, 0, 0, 0.5);
+// "Unlock the PRO features" dialog (components/ProUpgradeModal.js).
+.eb-pro-upgrade-modal .eb-dash-modal__content {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	gap: var(--eb-space-4);
+	padding-bottom: var(--eb-space-2);
+	text-align: center;
 
-	.eb_pro_modal_content {
-		padding: 40px;
-		background-color: #fff;
-		// box-shadow: 0px 0px 10px 5px #ededed;
-		text-align: center;
-		border-radius: 8px;
-		width: 570px;
-		position: relative;
+	.eb-pro-upgrade-modal__icon {
+		display: inline-flex;
+		padding: var(--eb-space-4);
+		border-radius: 50%;
+		background: var(--eb-pro-soft);
+	}
 
-		@media all and (max-width: 767px) {
-			width: 60%;
+	p {
+		margin: 0;
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-md);
+	}
+}
+
+// Blocks / Extensions tab ----------------------------------------------
+
+// Search + filters. Sticks under the WP admin bar and the page header.
+.eb-dash-toolbar {
+	position: sticky;
+	top: calc(32px + var(--eb-header-offset, 0px));
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-3);
+	margin: 0 0 var(--eb-space-6);
+	padding: var(--eb-space-3) 0;
+	background: var(--eb-bg);
+	box-shadow: 0 1px 0 var(--eb-border);
+
+	&__row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--eb-space-3);
+
+		.eb-search {
+			flex: 0 1 360px;
 		}
+	}
 
-		.eb_pro_modal_close {
-			position: absolute;
-			top: 14px;
-			right: 14px;
+	// Category chips: one row that scrolls inside itself, so the pinned
+	// toolbar stays short. Padding keeps the focus ring from being clipped.
+	.eb-chips {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		margin: -3px;
+		padding: 3px;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+		mask-image: linear-gradient(to right, #000 92%, transparent);
 
-			&:hover {
-				cursor: pointer;
+		> * {
+			flex: none;
+			scroll-snap-align: start;
+		}
+	}
+
+	// ≤782px: scrolls with the page, like the page header. Pinned under the
+	// admin bar and the shell top bar it took about a third of the screen.
+	@media all and (max-width: 782px) {
+		position: static;
+
+		.eb-chips {
+			scrollbar-width: none;
+			mask-image: linear-gradient(to right, #000 85%, transparent);
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+	}
+
+	@include eb-mobile {
+		&__row {
+			align-items: stretch;
+			flex-direction: column;
+
+			.eb-search {
+				flex-basis: auto;
 			}
 		}
 
-		.eb_pro_modal_icon {
-			width: 100px;
-			height: 100px;
-			background: #fffaeb;
-			border-radius: 50%;
+		.eb-segmented {
 			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin: 0 auto 20px;
-			// flex: 0 0 71px;
-		}
 
-		h4 {
-			color: #211c70;
-			font-weight: 700;
-			font-size: 24px;
-			line-height: 1.5rem;
-			margin: 0 0 10px 0;
-		}
-
-		p {
-			color: #6a72a5;
-			font-weight: 400;
-			font-size: 16px;
-			line-height: 1.5rem;
-		}
-
-		.eb-btn {
-			margin-top: 20px;
+			.eb-segmented__option {
+				flex: 1;
+			}
 		}
 	}
+}
+
+// Cards fill the main column (now beside the sidebar): as many ≥280px
+// columns as fit, so titles have room instead of a fixed column count.
+.eb-card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: var(--eb-space-4);
+
+	@include eb-mobile {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+// Block cards keep name + actions on one line, so they need ≥320px.
+.eb-card-grid.eb-card-grid--blocks {
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+
+	@include eb-mobile {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.eb-block-card {
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--eb-space-3);
+	padding: var(--eb-space-3);
+	box-shadow: none;
+
+	&:hover {
+		border-color: var(--eb-border-strong);
+	}
+
+	// One line: the name takes the remaining width (up to two lines,
+	// see __title) and the actions never wrap below it.
+	&__main {
+		display: flex;
+		flex: 1 1 0;
+		align-items: center;
+		gap: var(--eb-space-3);
+		min-width: 0;
+	}
+
+	&__icon {
+		display: inline-flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-new-soft);
+
+		img {
+			width: 22px;
+			height: 22px;
+		}
+	}
+
+	&__text {
+		min-width: 0;
+	}
+
+	// Up to two lines, so names aren't cut to a few letters in narrow cards.
+	&__title {
+		display: -webkit-box;
+		overflow: hidden;
+		color: var(--eb-text);
+		font-size: var(--eb-fs-md);
+		font-weight: var(--eb-fw-medium);
+		line-height: 1.3;
+		overflow-wrap: break-word;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	&__meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--eb-space-1) 6px;
+		margin-top: 2px;
+	}
+
+	&__status {
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-xs);
+	}
+
+	&.is-enabled &__status {
+		color: var(--eb-success-text);
+	}
+
+	&__actions {
+		display: flex;
+		flex-shrink: 0;
+		margin-left: auto;
+		align-items: center;
+		gap: 2px;
+
+		.rc-switch,
+		.eb-block-card__unlock {
+			margin-left: var(--eb-space-2);
+		}
+	}
+
+	&.is-locked {
+		background: var(--eb-surface-subtle);
+
+		.eb-block-card__icon {
+			opacity: 0.6;
+		}
+	}
+}
+
+// Square icon-only link/button (demo, docs).
+.eb-icon-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--eb-radius-sm);
+	color: var(--eb-text-muted);
+	text-decoration: none;
+	transition: background-color var(--eb-transition), color var(--eb-transition);
+
+	&:hover {
+		background: var(--eb-surface-hover);
+		color: var(--eb-primary-strong);
+	}
+
+	&:focus-visible {
+		@include eb-focus-ring;
+	}
+
+	@include eb-tablet {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+.eb-bulk-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--eb-space-2);
+}
+
+// Fallback when a block icon is missing or fails to load.
+.eb-block-card__icon-fallback {
+	color: var(--eb-new);
+	font-size: var(--eb-fs-md);
+	font-weight: var(--eb-fw-bold);
 }

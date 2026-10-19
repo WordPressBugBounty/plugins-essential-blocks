@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { __ } from "@wordpress/i18n";
+/**
+ * WordPress dependencies
+ */
+import { __, sprintf } from "@wordpress/i18n";
+import { useEffect } from "@wordpress/element";
 
+/**
+ * Internal dependencies
+ */
 import betterDocs from "../icons/intregrations/bd.svg";
 import betterlinks from "../icons/intregrations/btl.svg";
 import easyjobs from "../icons/intregrations/ej.svg";
@@ -9,12 +15,39 @@ import notificationx from "../icons/intregrations/nx.svg";
 import betterPayment from "../icons/intregrations/bp.svg";
 import scheduledPress from "../icons/intregrations/wscp.svg";
 import essentialAddons from "../icons/intregrations/ea.svg";
+import thinkrank from "../icons/intregrations/thinkrank.svg";
+import xspeed from "../../../assets/images/admin/logo-xspeed.svg";
 
-import {
-    installPlugin
-} from "@essential-blocks/controls";
+import PageHeader from "./ui/PageHeader";
+import Button from "./ui/Button";
+import Badge from "./ui/Badge";
+import { useToast } from "../context/ToastContext";
+import usePluginInstaller from "../hooks/usePluginInstaller";
+import { Section } from "./ui/Page";
+import ConnectedServices from "./integrations/ConnectedServices";
+import { getRouteParams } from "../routing";
 
 const integrations = [
+    {
+        slug: "xspeed",
+        basename: "xspeed/xspeed.php",
+        logo: xspeed,
+        title: "xSpeed Cache",
+        desc: __(
+            "Improve website performance with caching, optimization, and built-in performance tools.",
+            "essential-blocks"
+        ),
+    },
+    {
+        slug: "thinkrank",
+        basename: "thinkrank/thinkrank.php",
+        logo: thinkrank,
+        title: "ThinkRank AI SEO",
+        desc: __(
+            "Improve WordPress SEO with metadata optimization, schema markup, sitemaps, and AI-assisted SEO tools.",
+            "essential-blocks"
+        ),
+    },
     {
         slug: "betterdocs",
         basename: "betterdocs/betterdocs.php",
@@ -98,129 +131,122 @@ const integrations = [
     },
 ];
 
-export default function TabIntegrations() {
-    const [status, setStatus] = useState({});
+// Module scope, so the array is stable across renders.
+const BASENAMES = integrations.map((item) => item.basename);
 
+export default function TabIntegrations() {
+    const { show } = useToast();
+    const { entries, install, isBusy } = usePluginInstaller(BASENAMES);
+
+    // Deep link: &section=connected|recommended scrolls to and focuses it.
     useEffect(() => {
-        const data = { ...status };
-        integrations.map((item, index) => {
-            const pluginData =
-                EssentialBlocksLocalize.get_plugins[item.basename];
-            let text = "Install";
-            if (pluginData) {
-                if (pluginData.active) {
-                    text = "Activated";
-                } else {
-                    text = "Active";
-                }
-            }
-            data[item.basename] = {
-                btnText: text,
-                isLoading: false,
-            };
-        });
-        setStatus({ ...data });
+        const section = getRouteParams().section;
+        if (section === "connected" || section === "recommended") {
+            window.requestAnimationFrame(() => {
+                document.getElementById(section)?.scrollIntoView({ block: "start" });
+                document.getElementById(`${section}-title`)?.focus({ preventScroll: true });
+            });
+        }
     }, []);
 
-    const installIntegration = (index, integrationName, plugin_file) => {
-        const pluginData = EssentialBlocksLocalize.get_plugins[plugin_file];
+    const installIntegration = (item) => {
+        const { status } = entries[item.basename];
+        if (status === "active" || isBusy(item.basename)) {
+            return;
+        }
 
-        if (pluginData === "object") {
-            if (pluginData.active || status[plugin_file].btnText !== "Active")
-                return;
-        } else {
-            if (status[plugin_file].btnText == "Active") {
-                setStatus({
-                    ...status,
-                    [plugin_file]: {
-                        btnText: "Activating...",
-                        isLoading: true,
-                    },
+        // The shared store reports ok only when the installer really
+        // succeeded (a wrapped {success:true,data:{success:false}} is a failure).
+        install(item.slug, item.basename).then((result) => {
+            if (result.ok) {
+                show({
+                    message: sprintf(
+                        /* translators: %s: plugin name. */
+                        __("%s is installed and activated.", "essential-blocks"),
+                        item.title
+                    ),
                 });
             } else {
-                setStatus({
-                    ...status,
-                    [plugin_file]: {
-                        btnText: "Installing...",
-                        isLoading: true,
-                    },
-                });
-            }
-        }
-        installPlugin(integrationName, plugin_file).then((data) => {
-            const res = JSON.parse(data);
-
-            if (res.success) {
-                setStatus({
-                    ...status,
-                    [plugin_file]: {
-                        btnText: "Activated",
-                        isLoading: false,
-                    },
-                });
-            }
-            else {
-                setStatus({
-                    ...status,
-                    [plugin_file]: {
-                        btnText: "Couldn\'t Activated the plugin!",
-                        isLoading: false,
-                    },
+                show({
+                    type: "error",
+                    message: sprintf(
+                        /* translators: %s: plugin name. */
+                        __("Couldn't activate %s. Please try again.", "essential-blocks"),
+                        item.title
+                    ),
                 });
             }
         });
     };
 
+    const buttonProps = (state) => {
+        switch (state) {
+            case "active":
+                return { label: __("Activated", "essential-blocks"), variant: "secondary", disabled: true };
+            case "inactive":
+                return { label: __("Activate", "essential-blocks"), variant: "primary" };
+            case "installing":
+                return { label: __("Installing…", "essential-blocks"), variant: "primary", loading: true };
+            case "activating":
+                return { label: __("Activating…", "essential-blocks"), variant: "primary", loading: true };
+            default:
+                return { label: __("Install", "essential-blocks"), variant: "primary" };
+        }
+    };
+
     return (
         <>
-            <div className="eb-admin-grid">
-                {integrations.map((item, index) => (
-                    <div
-                        key={index}
-                        className="eb-col-3 eb-col-4-md eb-integration-block"
-                    >
-                        {/* <div className="eb-integration-block-wrapper"> */}
-                        {/* <div className="eb-integration-block"> */}
-                        <div className="icon">
-                            <img src={item.logo} alt="" />
+            <PageHeader
+                title={__("Integrations", "essential-blocks")}
+                description={__(
+                    "Add more power to your site with other plugins from the WPDeveloper family.",
+                    "essential-blocks"
+                )}
+            />
+            <Section
+                id="connected"
+                title={__("Connected services", "essential-blocks")}
+                description={__(
+                    "Add API keys for services that Essential Blocks blocks use.",
+                    "essential-blocks"
+                )}
+            >
+                <ConnectedServices />
+            </Section>
+            <Section
+                id="recommended"
+                title={__("Recommended plugins", "essential-blocks")}
+            >
+            <div className="eb-card-grid eb-integrations">
+                {integrations.map((item) => {
+                    const state = entries[item.basename].status;
+                    const { label, variant, disabled, loading } = buttonProps(state);
+                    return (
+                        <div key={item.basename} className="eb-card eb-integration-card">
+                            <div className="eb-integration-card__header">
+                                <span className="eb-integration-card__icon">
+                                    <img src={item.logo} alt="" width="32" height="32" />
+                                </span>
+                                {state === "active" && (
+                                    <Badge tone="active">{__("Active", "essential-blocks")}</Badge>
+                                )}
+                            </div>
+                            <h3 className="eb-integration-card__title">{item.title}</h3>
+                            <p className="eb-integration-card__text">{item.desc}</p>
+                            <Button
+                                variant={variant}
+                                disabled={disabled}
+                                loading={loading}
+                                onClick={() => installIntegration(item)}
+                                aria-label={`${label} ${item.title}`}
+                            >
+                                {label}
+                            </Button>
                         </div>
-                        <h3 className="eb-integration-block__title">
-                            {item.title}
-                        </h3>
-                        <p className="eb-integration-block__text">
-                            {item.desc}
-                        </p>
-
-                        <button
-                            className={`eb-integration-block__link eb-btn eb-btn-md ${status[item.basename]?.btnText == "Activated"
-                                ? "eb-btn-border"
-                                : "eb-btn-primary"
-                                }`}
-                            onClick={() =>
-                                installIntegration(
-                                    index,
-                                    item.slug,
-                                    item.basename
-                                )
-                            }
-                            disabled={
-                                status[item.basename]?.btnText == "Activated"
-                            }
-                        >
-                            {status[item.basename]?.isLoading && (
-                                <img
-                                    className="eb-install-loader"
-                                    src={`${EssentialBlocksLocalize.eb_plugins_url}/assets/images/loading.svg`}
-                                />
-                            )}
-
-                            {status[item.basename]?.btnText}
-                        </button>
-                        {/* </div> */}
-                        {/* </div> */}
-                    </div>
-                ))}
+                    );
+                })}
             </div>
+            </Section>
         </>
     );
 }

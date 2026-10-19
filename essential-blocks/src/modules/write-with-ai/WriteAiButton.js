@@ -103,7 +103,20 @@ const WriteAIButton = () => {
      * @param {string} content - The content to parse
      * @return {Array} - Array of blocks
      */
-    const parseContentIntoBlocks = (content) => {
+    const parseContentIntoBlocks = (rawContent) => {
+
+        // The prompt asks OpenAI for HTML, but each paragraph becomes an
+        // essential-blocks/text block that already renders its own <p>.
+        // Turn block-level tags into line breaks so no <p> ends up nested
+        // inside another <p>; inline tags (strong, em, span, a) are kept.
+        const content = rawContent
+            .replace(/```(?:html)?/gi, '')
+            .replace(/<\/?(?:html|head|body)(?:\s[^>]*)?>/gi, '')
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/<(h[1-6])(?:\s[^>]*)?>/gi, '\n\n<$1>')
+            .replace(/<\/(h[1-6])>/gi, '</$1>\n\n')
+            .replace(/<li(?:\s[^>]*)?>/gi, '\n- ')
+            .replace(/<\/?(?:p|div|section|article|ul|ol|li|blockquote)(?:\s[^>]*)?>/gi, '\n\n');
 
         // Split content by line breaks
         const lines = content.split(/\r?\n/);
@@ -399,14 +412,14 @@ const WriteAIButton = () => {
                                 setError(true);
                                 const errorMessage = response.data.result?.message || __("Unknown error occurred", "essential-blocks");
                                 console.error("Error in AI generation result:", errorMessage);
-                                alert(__("Error generating content. Please try again.", "essential-blocks"));
+                                alert(errorMessage);
                             }
                         } else if (status === 'failed' || status === 'expired') {
                             setLoading(false);
                             setError(true);
                             const errorMessage = response.data.error || __("Content generation failed", "essential-blocks");
                             console.error("AI job failed:", errorMessage);
-                            alert(__("Error generating content. Please try again.", "essential-blocks"));
+                            alert(errorMessage);
                         } else if (status === 'pending' || status === 'processing') {
                             // Continue polling
                             setTimeout(poll, pollingInterval);

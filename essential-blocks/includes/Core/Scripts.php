@@ -7,6 +7,7 @@ use EssentialBlocks\Blocks\WPForms;
 use EssentialBlocks\Blocks\FluentForms;
 use EssentialBlocks\Traits\HasSingletone;
 use EssentialBlocks\Dependencies\Insights;
+use EssentialBlocks\Integrations\AI\OpenAI;
 class Scripts
 {
     use HasSingletone;
@@ -22,6 +23,12 @@ class Scripts
     private $hasOpenAiApiKey         = false;
     private $writeAiPostTypes        = [ 'all' ];
     private $isEnableUnfilteredFiles = false;
+
+    /**
+     * Extension toggles stored in `eb_settings` (all default to on).
+     * Exposed to JS as 'true' / 'false' strings.
+     */
+    const EXTENSION_SETTINGS = [ 'copyPasteStyles', 'liquidGlass', 'faqSchema', 'heroPreload', 'pageTemplates' ];
 
     public $plugin = null;
 
@@ -179,9 +186,11 @@ class Scripts
         }
 
         if ( $pagenow === 'post.php' || $pagenow === 'post-new.php' || $pagenow === 'site-editor.php' ) {
-            //copy-paste-styles
-            wpdev_essential_blocks()->assets->register( 'copy-paste-styles', 'admin/global-styles/copy-paste-styles.js' );
-            $editor_scripts_deps[  ] = 'essential-blocks-copy-paste-styles';
+            //copy-paste-styles (Extensions > Copy/Paste Styles)
+            if ( Helper::is_eb_setting_enabled( 'copyPasteStyles' ) ) {
+                wpdev_essential_blocks()->assets->register( 'copy-paste-styles', 'admin/global-styles/copy-paste-styles.js' );
+                $editor_scripts_deps[  ] = 'essential-blocks-copy-paste-styles';
+            }
 
             //templately-installer
 
@@ -239,6 +248,10 @@ class Scripts
                 $editor_styles_deps[  ] = 'essential-blocks-write-with-ai';
             }
         }
+
+        // Keeps block icons visible on selected inserter/List View rows and the drag chip.
+        wpdev_essential_blocks()->assets->register( 'block-icon-selected', 'admin/controls/block-icon-selected.css' );
+        $editor_styles_deps[  ] = 'essential-blocks-block-icon-selected';
 
         // register styles
         wpdev_essential_blocks()->assets->register( 'editor-css', 'admin/controls/controls.css', $editor_styles_deps );
@@ -660,6 +673,9 @@ class Scripts
                 'enableGenerateImage'      => $this->generateImage,
                 'hasOpenAiApiKey'          => $this->hasOpenAiApiKey,
                 'writeAiPostTypes'         => $this->writeAiPostTypes,
+                'aiContentModels'          => OpenAI::get_content_model_options(),
+                'aiDefaultContentModel'    => OpenAI::DEFAULT_CONTENT_MODEL,
+                'aiLegacyContentModels'    => OpenAI::LEGACY_CONTENT_MODELS,
                 'globalColors'             => Helper::global_colors(),
                 'gradientColors'           => Helper::gradient_colors(),
                 'unfilter_capability'      => current_user_can( 'unfiltered_html' ) ? 'true' : 'false',
@@ -668,6 +684,10 @@ class Scripts
                 'eb_user_type'             => get_option( 'essential_blocks_user_type' ),
                 'unfilteredFile'           => $this->isEnableUnfilteredFiles
              ];
+
+            foreach ( self::EXTENSION_SETTINGS as $extension_setting ) {
+                $admin_localize_array[ $extension_setting ] = Helper::is_eb_setting_enabled( $extension_setting ) ? 'true' : 'false';
+            }
 
             $localize_array = array_merge( $localize_array, $admin_localize_array );
         }
@@ -745,6 +765,12 @@ class Scripts
             if ( strpos( $handle, 'essential-blocks-' ) === 0 ) {
                 wp_dequeue_style( $handle );
             }
+        }
+
+        // Only targets core block-editor classes, so it cannot restyle the theme's
+        // Customizer controls; keeps block icons visible in Customizer > Widgets.
+        if ( wp_style_is( 'essential-blocks-block-icon-selected', 'registered' ) ) {
+            wp_enqueue_style( 'essential-blocks-block-icon-selected' );
         }
     }
 }

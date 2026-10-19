@@ -1,0 +1,205 @@
+// Dashboard design tokens.
+// Scoped to the dashboard wrapper (views/admin.php) and to portaled
+// dashboard surfaces (modals, toasts), so nothing leaks into wp-admin.
+// Theme is selected via data-eb-theme="light|dark" (see ../theme.js).
+
+$eb-token-scopes: ".eb-settings-wrap, .eb-dash-portal";
+
+// Literal page backgrounds for rules outside the token scope (#wpcontent).
+$eb-page-bg-light: #f6f7fe;
+$eb-page-bg-dark: #0f1222;
+$eb-page-muted-dark: #9aa0c6;
+
+@mixin eb-tokens-light {
+	color-scheme: light;
+
+	// Surfaces
+	--eb-bg: #{$eb-page-bg-light};
+	--eb-surface: #ffffff;
+	--eb-surface-subtle: #f1f3fb;
+	--eb-surface-hover: #f7f9ff;
+	--eb-overlay: rgba(15, 18, 34, 0.5);
+	--eb-scrim: rgba(255, 255, 255, 0.7);
+
+	// Borders
+	--eb-border: #e3e6f3;
+	--eb-border-strong: #cfd5ea;
+
+	// Text
+	--eb-text: #211c70; // contrast: 14.34 surface / 13.42 bg (AAA)
+	--eb-text-secondary: #4b5280; // contrast: 7.45 surface / 6.97 bg (AA)
+	--eb-text-muted: #5f6799; // contrast: 5.40 surface / 5.06 bg (AA; 4.73 on primary-soft)
+	--eb-text-disabled: #9aa0c4; // decorative/disabled only, < 4.5:1 (2.56 surface)
+
+	// Brand
+	// --eb-primary is the brand accent (fills, borders, toggles: >= 3:1).
+	// --eb-primary-strong carries text (links, button fills with white text: >= 4.5:1).
+	--eb-primary: #2673ff; // contrast: 4.22 surface: non-text only
+	--eb-primary-strong: #1b60df; // contrast: 5.55 surface / 5.19 bg (AA); white on it 5.55
+	--eb-primary-hover: #1857cc;
+	--eb-primary-soft: #e9f0ff;
+	--eb-on-primary: #ffffff;
+
+	// Status
+	--eb-pro: #f2a80b;
+	--eb-pro-text: #8a5a00; // contrast: 5.93 surface (AA)
+	--eb-pro-soft: #fff4dc;
+	--eb-new: #5e2eff; // contrast: 6.34 surface (AA)
+	--eb-new-soft: #efe9ff;
+	--eb-success: #12a150; // contrast: 3.37 surface: non-text only
+	--eb-success-text: #0b7a3b; // contrast: 5.44 surface (AA)
+	--eb-success-soft: #e6f6ed;
+	--eb-warning: #995c00; // contrast: 5.40 surface (AA)
+	--eb-warning-soft: #fff4e0;
+	--eb-danger: #c42b2d; // contrast: 5.63 surface (AA)
+	--eb-danger-soft: #fdecec;
+	--eb-info: #1166b3; // contrast: 5.87 surface / 5.50 bg / 5.14 info-soft (AA)
+	--eb-info-soft: #e8f1fa;
+
+	// Sidebar (follows the theme)
+	--eb-sidebar-bg: var(--eb-surface);
+	--eb-sidebar-hover: var(--eb-surface-hover);
+	--eb-sidebar-active: var(--eb-primary-soft); // active text: --eb-primary-strong 4.85
+	--eb-sidebar-text: var(--eb-text-secondary); // contrast: 7.45 on sidebar-bg
+	--eb-sidebar-muted: var(--eb-text-muted); // contrast: 5.40 on sidebar-bg
+
+	// Controls
+	--eb-toggle-off: #858db5;
+	--eb-input-bg: #ffffff;
+	--eb-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235f6799' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	// Tile behind third-party brand logos (some are black artwork).
+	--eb-logo-tile: var(--eb-surface-subtle);
+	// "Essential" lettering of the EB wordmark (brand colour).
+	--eb-logo-wordmark: #222249;
+
+	// Elevation
+	--eb-shadow-sm: 0 1px 2px rgba(23, 57, 97, 0.08);
+	--eb-shadow-md: 0 6px 16px -4px rgba(23, 57, 97, 0.12);
+	--eb-shadow-lg: 0 24px 48px -12px rgba(7, 8, 41, 0.18);
+}
+
+@mixin eb-tokens-static {
+	// Focus
+	--eb-focus-ring: 0 0 0 2px var(--eb-bg), 0 0 0 4px var(--eb-primary);
+
+	// Radius
+	--eb-radius-sm: 6px;
+	--eb-radius-md: 10px;
+	--eb-radius-lg: 14px;
+	--eb-radius-pill: 999px;
+
+	// Spacing (4px grid)
+	--eb-space-1: 4px;
+	--eb-space-2: 8px;
+	--eb-space-3: 12px;
+	--eb-space-4: 16px;
+	--eb-space-5: 20px;
+	--eb-space-6: 24px;
+	--eb-space-8: 32px;
+	--eb-space-10: 40px;
+	--eb-space-12: 48px;
+
+	// Typography
+	--eb-font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--eb-fs-xs: 12px;
+	--eb-fs-sm: 13px;
+	--eb-fs-md: 14px;
+	--eb-fs-lg: 16px;
+	--eb-fs-xl: 20px;
+	--eb-fs-2xl: 24px;
+	--eb-fs-3xl: 28px;
+	--eb-fw-regular: 400;
+	--eb-fw-medium: 500;
+	--eb-fw-bold: 700;
+	--eb-lh-body: 1.5;
+	--eb-lh-heading: 1.3;
+
+	// Motion
+	--eb-transition: 150ms ease;
+
+	// Layering. Relative to WordPress: modal overlay 100000 and popover
+	// 1000000 (@wordpress/base-styles/_z-index.scss), admin bar 99999.
+	// #adminmenuwrap 9990 (_common.scss) stays as is.
+	--eb-z-sticky: 10;
+	--eb-z-sidebar: 20;
+	--eb-z-drawer: 100000;
+	--eb-z-modal: 160000;
+	--eb-z-toast: 160001;
+
+	// Theme-independent accents (always paired with --eb-on-accent text)
+	--eb-on-accent: #ffffff;
+	--eb-toggle-thumb: #ffffff;
+	--eb-toggle-thumb-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+	--eb-accent-gradient: linear-gradient(269deg, #ffb45a 45.3%, #f34f8c 95.28%);
+	--eb-badge-popular-bg: #0064ff;
+	--eb-badge-new-bg: #5e2eff;
+	--eb-badge-updated-bg: #6b6a80;
+	--eb-template-starter-bg: #5453f4;
+	--eb-template-pro-bg: #c4405a;
+}
+
+@mixin eb-tokens-dark {
+	color-scheme: dark;
+
+	--eb-bg: #{$eb-page-bg-dark};
+	--eb-surface: #171b2e;
+	--eb-surface-subtle: #1e2338;
+	--eb-surface-hover: #232945;
+	--eb-overlay: rgba(0, 0, 0, 0.65);
+	--eb-scrim: rgba(15, 18, 34, 0.7);
+
+	--eb-border: #2a3050;
+	--eb-border-strong: #3a4168;
+
+	--eb-text: #eef0fb; // contrast: 15.00 surface / 16.37 bg (AAA)
+	--eb-text-secondary: #b8bddb; // contrast: 9.20 surface / 10.04 bg (AAA)
+	--eb-text-muted: #9aa0c6; // contrast: 6.67 surface / 7.27 bg (AA)
+	--eb-text-disabled: #5d6488; // decorative/disabled only, < 4.5:1 (2.96 surface)
+
+	--eb-primary: #5b93ff; // contrast: 5.73 surface / 6.25 bg (AA)
+	--eb-primary-strong: #5b93ff; // contrast: 5.73 surface (AA; 4.63 on primary-soft)
+	--eb-primary-hover: #7aa8ff;
+	--eb-primary-soft: rgba(91, 147, 255, 0.14);
+	--eb-on-primary: #0b0e1a;
+
+	--eb-pro: #f5b638;
+	--eb-pro-text: #f5b638; // contrast: 9.44 surface (AAA)
+	--eb-pro-soft: rgba(245, 182, 56, 0.14);
+	--eb-new: #a68bff; // contrast: 6.29 surface (AA)
+	--eb-new-soft: rgba(155, 125, 255, 0.16);
+	--eb-success: #3ccf7a;
+	--eb-success-text: #3ccf7a; // contrast: 8.44 surface (AAA)
+	--eb-success-soft: rgba(60, 207, 122, 0.14);
+	--eb-warning: #f0b44c; // contrast: 9.20 surface (AAA)
+	--eb-warning-soft: rgba(240, 180, 76, 0.14);
+	--eb-danger: #f2777a; // contrast: 6.24 surface (AA)
+	--eb-danger-soft: rgba(242, 119, 122, 0.14);
+	--eb-info: #61b6ef; // contrast: 7.66 surface / 8.36 bg / 5.90 info-soft (AA)
+	--eb-info-soft: rgba(97, 182, 239, 0.14);
+
+	--eb-sidebar-bg: #12162a;
+	--eb-sidebar-hover: var(--eb-surface-hover);
+	--eb-sidebar-active: rgba(91, 147, 255, 0.14); // active text: --eb-primary-strong 4.88
+	--eb-sidebar-text: var(--eb-text-secondary); // contrast: 9.66 on sidebar-bg
+	--eb-sidebar-muted: var(--eb-text-muted); // contrast: 7.00 on sidebar-bg
+
+	--eb-toggle-off: #727bb0;
+	--eb-input-bg: #12162a;
+	--eb-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239aa0c6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	--eb-logo-tile: #e9ebf5;
+	--eb-logo-wordmark: var(--eb-text);
+
+	--eb-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--eb-shadow-md: 0 6px 16px -4px rgba(0, 0, 0, 0.5);
+	--eb-shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, 0.6);
+}
+
+#{$eb-token-scopes} {
+	@include eb-tokens-static;
+	@include eb-tokens-light;
+}
+
+.eb-settings-wrap[data-eb-theme="dark"],
+.eb-dash-portal[data-eb-theme="dark"] {
+	@include eb-tokens-dark;
+}

@@ -33,6 +33,11 @@ const attributes = {
         type: "string",
         default: "Desktop",
     },
+    // Inserter preview image (example only).
+    cover: {
+        type: "string",
+        default: "",
+    },
 
     // blockId attribute for making unique className and other uniqueness
     blockId: {

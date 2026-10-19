@@ -38,6 +38,7 @@ import {
     InspectorPanel,
     ButtonGroupControl,
     LiquidGlassEffectControl,
+    isLiquidGlassEnabled,
     ProSelectControl
 } from "@essential-blocks/controls";
 
@@ -110,7 +111,10 @@ const Inspector = ({ attributes, setAttributes }) => {
                         label={__("Effect Style", "essential-blocks")}
                         value={effectStyle}
                         onChange={(effectStyle) => { handleEffectStyleChange(effectStyle) }}
-                        options={EFFECT_STYLE}
+                        options={EFFECT_STYLE.filter(
+                            // Extensions > Liquid Glass off: no new usage, keep a saved choice visible.
+                            (option) => option.value !== "liquid-glass" || isLiquidGlassEnabled() || effectStyle === "liquid-glass"
+                        )}
                     />
                     <RadioControl
                         label={__("Initial Content", "essential-blocks")}
@@ -173,7 +177,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 />
                             )}
 
-                            {switchStyle === "rounded" && (
+                            {switchStyle === "rounded" && isLiquidGlassEnabled() && (
                                 <ToggleControl
                                     label={__("Switch Liquid Glass Effect", "essential-blocks")}
                                     checked={switchLiquidGlass.enable}
@@ -432,7 +436,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         </>
                     )}
                 </>
-                {effectStyle === 'default' && switchLiquidGlass.enable && switchStyle !== "text" && (
+                {effectStyle === 'default' && isLiquidGlassEnabled() && switchLiquidGlass.enable && switchStyle !== "text" && (
                     <InspectorPanel.PanelBody
                         title={__("Switch Liquid Glass", "essential-blocks")}
                         initialOpen={false}

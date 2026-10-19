@@ -1,0 +1,134 @@
+// Breakpoints.
+//
+// WP-aligned scale (use these in new code), matching the plan's layout rows:
+//   eb-down-782   ≤782px    WP $break-medium: mobile, drawer replaces sidebar
+//   eb-only-rail  783–1023  icon rail sidebar
+//   eb-only-compact 1024–1279  expanded sidebar, tighter gutters
+//   eb-up-1280    ≥1280     full layout
+//   eb-down-600   ≤600px    WP admin bar is no longer fixed
+//
+// Legacy breakpoints (same values the dashboard has always used).
+$eb-bp-tablet: 1024px;
+// Header only: below this the nav moves to its own row so 7 tabs never wrap.
+$eb-bp-header-stack: 1400px;
+$eb-bp-mobile: 767px;
+
+// Legacy (kept): prefer eb-down-1023.
+@mixin eb-tablet {
+	@media all and (max-width: $eb-bp-tablet) {
+		@content;
+	}
+}
+
+// Legacy (kept).
+@mixin eb-header-stack {
+	@media all and (max-width: $eb-bp-header-stack) {
+		@content;
+	}
+}
+
+// Legacy (kept): prefer eb-down-782.
+@mixin eb-mobile {
+	@media all and (max-width: $eb-bp-mobile) {
+		@content;
+	}
+}
+
+// WP-aligned breakpoints.
+$eb-bp-wp-mobile: 782px;
+$eb-bp-rail: 1023px;
+$eb-bp-compact: 1279px;
+$eb-bp-wp-small: 600px;
+$eb-adminbar-h: 32px;
+$eb-adminbar-h-mobile: 46px;
+
+@mixin eb-down-782 {
+	@media all and (max-width: $eb-bp-wp-mobile) {
+		@content;
+	}
+}
+
+@mixin eb-down-1023 {
+	@media all and (max-width: $eb-bp-rail) {
+		@content;
+	}
+}
+
+@mixin eb-down-1279 {
+	@media all and (max-width: $eb-bp-compact) {
+		@content;
+	}
+}
+
+@mixin eb-down-600 {
+	@media all and (max-width: $eb-bp-wp-small) {
+		@content;
+	}
+}
+
+@mixin eb-up-783 {
+	@media all and (min-width: $eb-bp-wp-mobile + 1) {
+		@content;
+	}
+}
+
+@mixin eb-up-1024 {
+	@media all and (min-width: $eb-bp-rail + 1) {
+		@content;
+	}
+}
+
+@mixin eb-up-1280 {
+	@media all and (min-width: $eb-bp-compact + 1) {
+		@content;
+	}
+}
+
+@mixin eb-only-rail {
+	@media all and (min-width: $eb-bp-wp-mobile + 1) and (max-width: $eb-bp-rail) {
+		@content;
+	}
+}
+
+@mixin eb-only-compact {
+	@media all and (min-width: $eb-bp-rail + 1) and (max-width: $eb-bp-compact) {
+		@content;
+	}
+}
+
+// Sticky offset under the WP admin bar (46px on mobile, not fixed ≤600px).
+// calc() so $extra can be a CSS var (Sass `+` would just concatenate it).
+@mixin eb-sticky-top($extra: 0px) {
+	top: calc(#{$eb-adminbar-h} + var(--eb-header-offset, 0px) + #{$extra});
+
+	@include eb-down-782 {
+		top: calc(#{$eb-adminbar-h-mobile} + var(--eb-header-offset, 0px) + #{$extra});
+	}
+
+	@include eb-down-600 {
+		position: static;
+	}
+}
+
+@mixin eb-focus-ring {
+	outline: none;
+	box-shadow: var(--eb-focus-ring);
+}
+
+@mixin eb-reduced-motion {
+	@media (prefers-reduced-motion: reduce) {
+		@content;
+	}
+}
+
+@mixin eb-visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}

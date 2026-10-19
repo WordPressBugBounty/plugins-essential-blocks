@@ -5,6 +5,7 @@ import save from "./save";
 import attributes from "./attributes";
 import deprecated from "./deprecated";
 import metadata from "../block.json";
+import example from "./example";
 import { ebConditionalRegisterBlockType } from "@essential-blocks/controls";
 import { ReactComponent as Icon } from "./icon.svg";
 
@@ -19,5 +20,5 @@ ebConditionalRegisterBlockType(metadata, {
     edit: Edit,
     save,
     deprecated,
-    example: {}
+    example,
 });

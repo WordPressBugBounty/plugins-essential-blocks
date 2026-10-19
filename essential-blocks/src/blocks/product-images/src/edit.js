@@ -28,8 +28,12 @@ function Edit(props) {
         classHook,
         galleryPosition,
         type,
-        disableNavArrow
+        disableNavArrow,
+        cover
     } = attributes;
+
+    // Until the preview image ships, a missing file falls back to the live render.
+    const [coverFailed, setCoverFailed] = useState(false);
 
     const postType = select("core/editor").getCurrentPostType();
     const isContentEnabled = (contentName) => enableContents.includes(contentName);
@@ -80,6 +84,19 @@ function Edit(props) {
         blockPrefix: 'eb-product-images',
         style: <Style {...props} isContentEnabled={isContentEnabled} />
     };
+
+    if (cover?.length && !coverFailed) {
+        return (
+            <div>
+                <img
+                    src={cover}
+                    alt={__("Product Images", "essential-blocks")}
+                    style={{ maxWidth: "100%" }}
+                    onError={() => setCoverFailed(true)}
+                />
+            </div>
+        );
+    }
 
     return type !== 'product' ? <NoticeComponent
         Icon={Icon}

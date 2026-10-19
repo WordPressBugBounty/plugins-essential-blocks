@@ -20,6 +20,12 @@ class JobManager
     const JOB_OPTION_PREFIX = 'eb_ai_job_';
 
     /**
+     * Option prefix for per-job processing locks.
+     * Kept outside JOB_OPTION_PREFIX so job scans never pick up lock rows.
+     */
+    const LOCK_OPTION_PREFIX = 'eb_ai_lock_';
+
+    /**
      * Maximum job lifetime in seconds (5 minutes)
      */
     const MAX_JOB_LIFETIME = 300;
@@ -65,7 +71,8 @@ class JobManager
             'error'      => null
          ];
 
-        update_option( self::JOB_OPTION_PREFIX . $job_id, $job_data );
+        // Job rows are read only by the polling request, never on every page load.
+        add_option( self::JOB_OPTION_PREFIX . $job_id, $job_data, '', 'no' );
 
         return $job_id;
     }
@@ -151,7 +158,23 @@ class JobManager
      */
     public static function delete_job( $job_id )
     {
+        delete_option( self::LOCK_OPTION_PREFIX . $job_id );
         return delete_option( self::JOB_OPTION_PREFIX . $job_id );
+    }
+
+    /**
+     * Claim a job for processing.
+     *
+     * add_option() is an INSERT on a unique option_name, so only the first
+     * caller wins. This stops WP-Cron and the polling fallback from both
+     * running the same job (and spending OpenAI credit twice).
+     *
+     * @param string $job_id Job identifier
+     * @return bool True if this request owns the job
+     */
+    public static function claim_job( $job_id )
+    {
+        return add_option( self::LOCK_OPTION_PREFIX . $job_id, time(), '', 'no' );
     }
 
     /**
@@ -196,6 +219,7 @@ class JobManager
 
             if ( $job_data && isset( $job_data[ 'created_at' ] ) && $job_data[ 'created_at' ] < $expiry_time ) {
                 delete_option( $option->option_name );
+                delete_option( self::LOCK_OPTION_PREFIX . substr( $option->option_name, strlen( self::JOB_OPTION_PREFIX ) ) );
                 $cleaned_count++;
             }
         }
@@ -248,6 +272,10 @@ class JobManager
         $job_data = self::get_job( $job_id );
 
         if ( ! $job_data || $job_data[ 'status' ] !== self::STATUS_PENDING ) {
+            return;
+        }
+
+        if ( ! self::claim_job( $job_id ) ) {
             return;
         }
 
@@ -334,6 +362,10 @@ class JobManager
 
         add_action( 'eb_cleanup_ai_jobs', [ self::class, 'cleanup_expired_jobs' ] );
         add_action( 'eb_cleanup_stuck_ai_jobs', [ self::class, 'cleanup_stuck_jobs' ] );
+
+        // Drain cleanup events queued by older versions, which scheduled this
+        // hook without registering a handler.
+        add_action( 'eb_cleanup_completed_job', [ self::class, 'delete_job' ] );
     }
 
     /**

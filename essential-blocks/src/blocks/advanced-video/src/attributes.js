@@ -48,7 +48,7 @@ const attributes = {
     },
     videoURL: {
         type: "string",
-        default: "https://www.youtube.com/watch?v=PnZx4ZOMyzI",
+        default: "https://www.youtube.com/watch?v=EzPqSzadAkc",
     },
     videoLinkYoutube: {
         type: "string",

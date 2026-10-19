@@ -14,6 +14,7 @@ import metadata from "../block.json";
 import "./style.scss";
 import { ebConditionalRegisterBlockType } from "@essential-blocks/controls";
 import { ReactComponent as Icon } from "./icon.svg";
+import example from "./example";
 
 ebConditionalRegisterBlockType(metadata, {
     keywords: [
@@ -28,6 +29,6 @@ ebConditionalRegisterBlockType(metadata, {
     attributes,
     edit: Edit,
     save: Save,
-    example: {},
+    example,
     deprecated
 });

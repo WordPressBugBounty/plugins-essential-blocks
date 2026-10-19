@@ -1,41 +1,28 @@
-import React from "react";
+/**
+ * @deprecated Since the dashboard shell (T28) the header's navigation,
+ * logo, versions and theme switcher live in the sidebar (shell/Sidebar.js).
+ * Kept as a thin adapter so any stray import keeps working.
+ */
+/**
+ * Internal dependencies
+ */
+import Sidebar from "../shell/Sidebar";
+import { buildNavigation } from "../navigation/registry";
 
-import { __ } from "@wordpress/i18n";
-import eblogo from "../../../assets/images/eb-logo.svg";
-
-// ESSENTIAL_BLOCKS_VERSION
-
-export default function Header(props) {
-    const { handleNavClick, tabState, menuList } = props;
-
+/**
+ * @param {Object}   props
+ * @param {Array}    props.menuList       Tab list.
+ * @param {string}   props.tabState       Active tab id.
+ * @param {Function} props.handleNavClick Tab switch handler.
+ * @return {JSX.Element} Sidebar.
+ */
+export default function Header({ menuList, tabState, handleNavClick }) {
     return (
-        <div className="eb-admin-block eb-header-block mb30">
-            <div className=" eb-admin-logo-inline">
-                <img src={eblogo} />
-            </div>
-            <ul className="eb-header-nav">
-                {
-                    menuList.map((menu) => {
-                        return (
-                            <li key={menu.id}>
-                                <a
-                                    className={`${tabState === menu.id ? 'eb-nav-active' : ''}`}
-                                    onClick={() => handleNavClick(menu.id)}>
-                                    {menu.icon}
-                                    {menu.label}
-                                </a>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-
-            <div className="eb-version">
-                <div>{__("Free Version: ", "essential-blocks")}<span>{EssentialBlocksLocalize.eb_version}</span></div>
-                {EssentialBlocksLocalize?.is_pro_active === "true" && EssentialBlocksProLocalize.eb_pro_version && (
-                    <div>{__("Pro Version: ", "essential-blocks")}<span>{EssentialBlocksProLocalize.eb_pro_version}</span></div>
-                )}
-            </div>
-        </div>
+        <Sidebar
+            navigation={buildNavigation(menuList)}
+            badges={{}}
+            activeId={tabState}
+            onNavigate={handleNavClick}
+        />
     );
 }

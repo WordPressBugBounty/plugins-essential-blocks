@@ -4,7 +4,7 @@ export const OptionsIcon = () => {
             width="16"
             height="16"
             viewBox="0 0 497 512"
-            fill="rgb(167, 174, 215)"
+            fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
         >
             <path

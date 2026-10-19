@@ -3,7 +3,7 @@
  */
 import { __, sprintf } from "@wordpress/i18n";
 import { ebConditionalRegisterBlockType } from "../controls/src/helpers";
-import { createElement } from "@wordpress/element";
+import { createElement, useState } from "@wordpress/element";
 import { select, dispatch, subscribe } from "@wordpress/data";
 import { createBlock } from "@wordpress/blocks";
 
@@ -291,12 +291,15 @@ export const registerProBlocks = () => {
             // Create a placeholder edit component that shows a pro notice
             const Edit = (props) => {
                 const { attributes } = props;
-                return attributes.cover.length ? (
+                // A missing preview file falls back to the notice instead of a broken image.
+                const [coverFailed, setCoverFailed] = useState(false);
+                return attributes.cover.length && !coverFailed ? (
                     <div>
                         <img
                             src={attributes?.cover}
-                            alt="Previes Image"
+                            alt="Preview Image"
                             style={{ maxWidth: "100%" }}
+                            onError={() => setCoverFailed(true)}
                         />
                     </div>
                 ) : (

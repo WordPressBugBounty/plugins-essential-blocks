@@ -2,6 +2,7 @@
 namespace EssentialBlocks\Core;
 
 use EssentialBlocks\Traits\HasSingletone;
+use EssentialBlocks\Utils\Helper;
 use EssentialBlocks\Utils\CSSParser;
 
 /**
@@ -45,6 +46,11 @@ class HeroPreload
 
     public function print_preload()
     {
+        // Extensions > Hero Preload.
+        if ( ! Helper::is_eb_setting_enabled( 'heroPreload' ) ) {
+            return;
+        }
+
         if ( is_admin() || ! is_singular() ) {
             return;
         }

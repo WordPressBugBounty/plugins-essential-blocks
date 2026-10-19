@@ -30,7 +30,7 @@ export const getTemplates = () => {
 export const getTemplateCount = () => {
     let data = new FormData();
     data.append("action", "get_eb_admin_template_count");
-    data.append("admin_nonc", EssentialBlocksLocalize.admin_nonc);
+    data.append("admin_nonce", EssentialBlocksLocalize.admin_nonce);
 
     return fetch(EssentialBlocksLocalize.ajax_url, {
         method: "POST",

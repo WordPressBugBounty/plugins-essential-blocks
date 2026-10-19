@@ -184,7 +184,15 @@ const getKeyFrequency = () => {
     return keyFrequency;
 };
 
+// Extensions > Liquid Glass off: never copy or paste glass settings, so
+// pasting can't switch the effect on (and leaves the target's own value).
+const isLiquidGlassOff = () => window.EssentialBlocksLocalize?.liquidGlass === "false";
+const isLiquidGlassKey = (key) => /liquidglass/i.test(key);
+
 const isStyleAttribute = (key, schema) => {
+    if (isLiquidGlassOff() && isLiquidGlassKey(key)) {
+        return false;
+    }
     if (KEEP_EXACT.includes(key)) {
         return true;
     }

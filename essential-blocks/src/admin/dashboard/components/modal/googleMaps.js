@@ -1,128 +1,202 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from "@wordpress/i18n";
 import { ExternalLink } from "@wordpress/components";
 import { useState } from "@wordpress/element";
-import {
-    saveEBSettingsData
-} from "@essential-blocks/controls";
+
+/**
+ * Internal dependencies
+ */
+import { validateGoogleMapsKey } from "../../api/actions";
+import useSettingMutation from "../../hooks/useSettingMutation";
+import { SecretField } from "../ui/Field";
+import Button from "../ui/Button";
+import Alert from "../ui/Alert";
+
+/**
+ * Turn the key-validation result into { valid, message }.
+ *
+ * @param {Object} result EbAjaxResult from validateGoogleMapsKey().
+ * @return {{valid: boolean, message: (string|undefined)}} Verdict.
+ */
+const classifyValidation = (result) => {
+    if (result.ok) {
+        return { valid: true };
+    }
+    switch (result.code) {
+        case "nonce":
+            return {
+                valid: false,
+                message: __(
+                    "Your session has expired. Reload the page and try again.",
+                    "essential-blocks"
+                ),
+            };
+        case "network":
+            return {
+                valid: false,
+                message: __(
+                    "Couldn't reach the server to validate the key. Please try again.",
+                    "essential-blocks"
+                ),
+            };
+        case "invalid_response":
+            return {
+                valid: false,
+                message: __(
+                    "Couldn't validate the API key. Please try again.",
+                    "essential-blocks"
+                ),
+            };
+        default:
+            break;
+    }
+
+    const data = result.data;
+    if (data && typeof data === "object" && data.status === "error") {
+        return {
+            valid: false,
+            message: __(
+                "Couldn't reach Google to validate the key. Please try again.",
+                "essential-blocks"
+            ),
+        };
+    }
+    if (data && typeof data === "object" && data.error_message !== undefined) {
+        return {
+            valid: false,
+            message:
+                typeof data.error_message === "string"
+                    ? data.error_message
+                    : __("Invalid API Key.", "essential-blocks"),
+        };
+    }
+    return {
+        valid: false,
+        message:
+            result.error ||
+            __(
+                "Couldn't validate the API key. Please try again.",
+                "essential-blocks"
+            ),
+    };
+};
 
 const GoogleMaps = (props) => {
     const { setTrigger, settingsKey, settingsData, setSettingsData } = props;
+    const { saveSetting } = useSettingMutation();
     const [apikey, setApiKey] = useState(settingsData[settingsKey]);
     const [saveBtnText, setSaveBtnText] = useState(
         __("Save Changes", "essential-blocks")
     );
     const [error, setError] = useState("");
+    const [busy, setBusy] = useState(false);
 
-    const handleSaveData = () => {
-        setSaveBtnText(__("Saved!", "essential-blocks"));
-
-        saveEBSettingsData(settingsKey, apikey).then((data) => {
-            const res = JSON.parse(data);
-            if (res.success) {
-                setSaveBtnText(__("Saved", "essential-blocks"));
-                setSettingsData({
-                    ...settingsData,
-                    [settingsKey]: apikey,
-                });
-
-                setTimeout(() => {
-                    setTrigger(false);
-                }, 300);
-            } else {
-                setSaveBtnText(__("Save Changes", "essential-blocks"));
-                setError(
-                    typeof res.data === "string"
-                        ? res.data
-                        : __(
-                            "Something went wrong! Please try again.",
-                            "essential-blocks"
-                        )
-                );
-            }
-        });
-    }
-
-    const handleClick = () => {
-        if (apikey === undefined) {
-            handleSaveData();
-            return;
-        }
-
+    // "Saved" only after the server confirmed the save.
+    const handleSaveData = async () => {
         setSaveBtnText(__("Saving...", "essential-blocks"));
 
-        const ebGoogleMapUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=New+York&key=${apikey}`;
+        const res = await saveSetting(settingsKey, apikey ?? "");
+        if (res.ok) {
+            setSaveBtnText(__("Saved", "essential-blocks"));
+            setSettingsData({
+                ...settingsData,
+                [settingsKey]: apikey,
+            });
 
-        let data = new FormData();
-        data.append("action", "google_map_api_key_validation"); // Required action parameter for WordPress
-        data.append("admin_nonce", EssentialBlocksLocalize.admin_nonce); // Security nonce
-        data.append("ebGoogleMapUrl", ebGoogleMapUrl); // The test URL to validate the API key
+            setTimeout(() => {
+                setTrigger(false);
+            }, 300);
+        } else {
+            setSaveBtnText(__("Save Changes", "essential-blocks"));
+            setError(
+                typeof res.error === "string" && res.error
+                    ? res.error
+                    : __(
+                        "Something went wrong! Please try again.",
+                        "essential-blocks"
+                    )
+            );
+        }
+    };
 
-        fetch(EssentialBlocksLocalize.ajax_url, {
-            method: "POST",
-            body: data,
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data?.error_message) {
-                    setSaveBtnText(__("Save Changes", "essential-blocks"));
-                    setError(
-                        typeof data?.error_message === "string"
-                            ? data?.error_message
-                            : __(
-                                "Invalid API Key.",
-                                "essential-blocks"
-                            )
-                    );
-                } else {
-                    handleSaveData();
-                }
-            })
-            .catch((err) => console.log(err));
+    const handleClick = async () => {
+        if (busy) {
+            return;
+        }
+        setError("");
+        setBusy(true);
+
+        try {
+            // An empty key clears the setting: the server unsets empty values.
+            if (apikey === undefined || String(apikey).trim() === "") {
+                await handleSaveData();
+                return;
+            }
+
+            setSaveBtnText(__("Saving...", "essential-blocks"));
+
+            const verdict = classifyValidation(
+                await validateGoogleMapsKey(apikey)
+            );
+            if (!verdict.valid) {
+                setSaveBtnText(__("Save Changes", "essential-blocks"));
+                setError(verdict.message);
+                return;
+            }
+
+            await handleSaveData();
+        } catch (e) {
+            setSaveBtnText(__("Save Changes", "essential-blocks"));
+            setError(
+                __("Something went wrong! Please try again.", "essential-blocks")
+            );
+        } finally {
+            setBusy(false);
+        }
     };
 
     return (
         <>
             <div className="option-modal-content">
-                <h3 className="option-modal__title">
+                <h2 className="option-modal__title">
                     {__("Google Map API", "essential-blocks")}
-                </h3>
+                </h2>
                 <p className="option-modal__content">
                     {__(
                         "To enable location search, please ensure Places API is activated in the Google Developers Console ",
-                        "essential-blocks" + " "
+                        "essential-blocks"
                     )}
                     <ExternalLink href="https://developers.google.com/places/web-service/intro">
                         {__("More info", "essential-blocks")}
                     </ExternalLink>
                 </p>
 
-                <div className="eb-form-control">
-                    <label htmlFor="input-text">
-                        {__("API Key", "essential-blocks")}
-                    </label>
-                    <input
-                        type="text"
-                        id="input-text"
-                        className="eb-input-control"
-                        placeholder={__(
-                            "Place your Google Map API key here",
-                            "essential-blocks"
-                        )}
-                        value={apikey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                    />
-                </div>
+                <SecretField
+                    id="eb-gmaps-key"
+                    className="eb-modal-field"
+                    label={__("API Key", "essential-blocks")}
+                    placeholder={__(
+                        "Place your Google Map API key here",
+                        "essential-blocks"
+                    )}
+                    value={apikey ?? ""}
+                    onChange={setApiKey}
+                />
 
-                <button
-                    className="eb-btn eb-btn-border eb-btn-sm"
+                <Button
+                    variant="primary"
                     onClick={() => handleClick()}
+                    disabled={busy}
+                    loading={busy}
                 >
                     {saveBtnText}
-                </button>
+                </Button>
                 {error && (
-                    <div className="mt10">
-                        <span className="error eb-alert-error">{error}</span>
-                    </div>
+                    <Alert tone="error" role="alert" className="eb-modal-alert">
+                        {error}
+                    </Alert>
                 )}
             </div>
         </>

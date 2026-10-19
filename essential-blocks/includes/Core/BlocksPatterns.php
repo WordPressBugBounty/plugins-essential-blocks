@@ -96,7 +96,7 @@ class BlocksPatterns
                                 'title'       => $name . ' - ' . $pattern[ 'title' ],
                                 'categories'  => [ $this->category, $this->get_block_category( $block_name ) ],
                                 'description' => sprintf( __( '%s template for %s block', 'essential-blocks' ), $pattern[ 'title' ], $block_name ),
-                                'content'     => $pattern[ 'content' ],
+                                'content'     => $this->replace_image_tokens( $pattern[ 'content' ] ),
                                 'keywords'    => [ $name, $pattern[ 'title' ], 'essential-blocks', 'template', 'pattern' ]
                              ]
                         );
@@ -104,6 +104,26 @@ class BlocksPatterns
                 }
             }
         }
+    }
+
+    /**
+     * Point pattern image tokens at the plugins' own image folders, so patterns
+     * never load images from a remote host. Mirrors replacePatternImageTokens()
+     * in the controls helpers, used by the block template picker.
+     *
+     * @param string $content Pattern content.
+     * @return string
+     */
+    private function replace_image_tokens( $content )
+    {
+        $tokens = [
+            '{{EB_IMAGES_URL}}' => ESSENTIAL_BLOCKS_URL . 'assets/images'
+         ];
+        if ( defined( 'ESSENTIAL_BLOCKS_PRO_URL' ) ) {
+            $tokens[ '{{EB_PRO_IMAGES_URL}}' ] = ESSENTIAL_BLOCKS_PRO_URL . 'assets/images';
+        }
+
+        return strtr( $content, $tokens );
     }
 
     /**

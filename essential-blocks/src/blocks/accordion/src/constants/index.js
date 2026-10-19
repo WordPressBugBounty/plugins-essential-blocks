@@ -162,6 +162,19 @@ export const HEADING = [
     { label: __("P", "essential-blocks"), value: "p" },
 ];
 
+export const TITLE_HOVER_FONT_WEIGHTS = [
+    { label: __("Default", "essential-blocks"), value: "" },
+    { label: __("100", "essential-blocks"), value: "100" },
+    { label: __("200", "essential-blocks"), value: "200" },
+    { label: __("300", "essential-blocks"), value: "300" },
+    { label: __("400", "essential-blocks"), value: "400" },
+    { label: __("500", "essential-blocks"), value: "500" },
+    { label: __("600", "essential-blocks"), value: "600" },
+    { label: __("700", "essential-blocks"), value: "700" },
+    { label: __("800", "essential-blocks"), value: "800" },
+    { label: __("900", "essential-blocks"), value: "900" },
+];
+
 export const sizeUnitTypes = [
     { label: "px", value: "px" },
     { label: "%", value: "%" },

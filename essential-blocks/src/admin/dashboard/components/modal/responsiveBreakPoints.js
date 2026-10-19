@@ -1,38 +1,64 @@
-import { useEffect, useState } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import {
-saveEBSettingsData, resetEBSettingsData
-} from "@essential-blocks/controls";
+/**
+ * WordPress dependencies
+ */
+import { useState } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+
+/**
+ * Internal dependencies
+ */
+import { resetSetting } from "../../api/actions";
+import useSettingMutation from "../../hooks/useSettingMutation";
+import { NumberField } from "../ui/Field";
+import Button from "../ui/Button";
+import Alert from "../ui/Alert";
+
+const DEFAULT_BREAKPOINTS = { tablet: 1024, mobile: 767 };
 
 const ResponsiveBreakPoints = (props) => {
     const { setTrigger, settingsData, setSettingsData } = props;
+    const { saveSetting, enqueue } = useSettingMutation();
 
-    const settingsKey = 'responsiveBreakpoints';
+    const settingsKey = "responsiveBreakpoints";
 
-    const [loadingApi, setLoadingApi] = useState(false);
+    // null | 'save' | 'reset'
+    const [busy, setBusy] = useState(null);
     const [saveBtnText, setSaveBtnText] = useState(
         __("Save Changes", "essential-blocks")
     );
     const [error, setError] = useState("");
-    const [responsiveSettingsData, setResponsiveSettingsData] = useState({});
 
     // api Info
-    const [tableSize, setTableSize] = useState(EssentialBlocksLocalize.responsiveBreakpoints?.tablet ? EssentialBlocksLocalize.responsiveBreakpoints.tablet : 1024);
-    const [mobileSize, setMobileSize] = useState(EssentialBlocksLocalize.responsiveBreakpoints?.mobile ? EssentialBlocksLocalize.responsiveBreakpoints.mobile : 767);
+    const [tableSize, setTableSize] = useState(
+        EssentialBlocksLocalize.responsiveBreakpoints?.tablet
+            ? EssentialBlocksLocalize.responsiveBreakpoints.tablet
+            : DEFAULT_BREAKPOINTS.tablet
+    );
+    const [mobileSize, setMobileSize] = useState(
+        EssentialBlocksLocalize.responsiveBreakpoints?.mobile
+            ? EssentialBlocksLocalize.responsiveBreakpoints.mobile
+            : DEFAULT_BREAKPOINTS.mobile
+    );
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        if (busy) {
+            return;
+        }
+        setError("");
+        setBusy("save");
         setSaveBtnText(__("Saving...", "essential-blocks"));
-        const saveData = { mobile: mobileSize, tablet: tableSize }
-        saveEBSettingsData(settingsKey, JSON.stringify(saveData)).then((data) => {
-            const res = JSON.parse(data);
-            if (res.success) {
+        const saveData = { mobile: mobileSize, tablet: tableSize };
+
+        try {
+            const res = await saveSetting(settingsKey, JSON.stringify(saveData));
+            if (res.ok) {
                 setSaveBtnText(__("Saved", "essential-blocks"));
 
                 setSettingsData({
                     ...settingsData,
                     [settingsKey]: saveData,
                 });
-                EssentialBlocksLocalize.responsiveBreakpoints = { ...saveData }
+                EssentialBlocksLocalize.responsiveBreakpoints = { ...saveData };
 
                 setTimeout(() => {
                     setTrigger(false);
@@ -40,92 +66,131 @@ const ResponsiveBreakPoints = (props) => {
             } else {
                 setSaveBtnText(__("Save Changes", "essential-blocks"));
                 setError(
-                    typeof res.data === "string"
-                        ? res.data
+                    res.code === "server" && res.error
+                        ? res.error
                         : __(
                             "Something went wrong! Please try again.",
                             "essential-blocks"
                         )
                 );
             }
-        });
+        } catch (e) {
+            setSaveBtnText(__("Save Changes", "essential-blocks"));
+            setError(
+                __("Something went wrong! Please try again.", "essential-blocks")
+            );
+        } finally {
+            setBusy(null);
+        }
     };
 
-    const handleReset = () => {
-        resetEBSettingsData(settingsKey).then((data) => {
-            const res = JSON.parse(data);
-            if (res.success) {
-                const updatedSettingsData = { ...settingsData }
-                delete updatedSettingsData[settingsKey]
+    const handleReset = async () => {
+        if (busy) {
+            return;
+        }
+        setError("");
+        setBusy("reset");
+
+        try {
+            // Reset is also a read-modify-write of eb_settings: queue it.
+            const res = await enqueue(() => resetSetting(settingsKey));
+            // {success:true,data:false} (key already absent) is a success.
+            if (res.ok) {
+                const updatedSettingsData = { ...settingsData };
+                delete updatedSettingsData[settingsKey];
                 EssentialBlocksLocalize.responsiveBreakpoints = {
-                    mobile: 767,
-                    tablet: 1024
-                }
+                    mobile: DEFAULT_BREAKPOINTS.mobile,
+                    tablet: DEFAULT_BREAKPOINTS.tablet,
+                };
                 setSettingsData({ ...updatedSettingsData });
                 setTimeout(() => {
                     setTrigger(false);
                 }, 300);
+            } else if (res.code === "nonce") {
+                setError(
+                    __(
+                        "Couldn't reset the breakpoints: your session has expired. Reload the page and try again.",
+                        "essential-blocks"
+                    )
+                );
             } else {
-                //Code for reset failed
+                setError(
+                    sprintf(
+                        /* translators: %s: error message. */
+                        __("Couldn't reset the breakpoints. %s", "essential-blocks"),
+                        res.code === "server" && res.error
+                            ? res.error
+                            : __("Please try again.", "essential-blocks")
+                    )
+                );
             }
-        });
-    }
-
+        } catch (e) {
+            setError(
+                __("Something went wrong! Please try again.", "essential-blocks")
+            );
+        } finally {
+            setBusy(null);
+        }
+    };
 
     return (
         <>
             <div className="option-modal-content">
-                <h3 className="option-modal__title mb20">Responsive Breakpoints</h3>
+                <h2 className="option-modal__title mb20">
+                    {__("Responsive Breakpoints", "essential-blocks")}
+                </h2>
 
                 <div
-                    className={`eb-responsive-form-wrapper ${loadingApi ? "loading-circle" : ""
+                    className={`eb-responsive-form-wrapper ${busy ? "loading-circle" : ""
                         }`}
                 >
-                    <div className="eb-form-control">
-                        <label htmlFor="tablet-breakpoints">{__(
-                            "Tablet Breakpoints",
-                            "essential-blocks"
-                        )}</label>
-                        <input
-                            type="number"
-                            id="tablet-breakpoints"
-                            className="eb-input-control"
-                            placeholder={tableSize}
-                            defaultValue={!tableSize ? "" : tableSize}
-                            onChange={(e) => setTableSize(Number(e.target.value))}
-                        />
-                        <span>px</span>
+                    <NumberField
+                        id="tablet-breakpoints"
+                        className="eb-modal-field"
+                        label={__("Tablet Breakpoints", "essential-blocks")}
+                        unit="px"
+                        placeholder={String(DEFAULT_BREAKPOINTS.tablet)}
+                        value={!tableSize ? "" : tableSize}
+                        onChange={(value) => setTableSize(Number(value))}
+                    />
+
+                    <NumberField
+                        id="mobile-breakpoints"
+                        className="eb-modal-field"
+                        label={__("Mobile Breakpoints", "essential-blocks")}
+                        unit="px"
+                        placeholder={String(DEFAULT_BREAKPOINTS.mobile)}
+                        value={!mobileSize ? "" : mobileSize}
+                        onChange={(value) => setMobileSize(Number(value))}
+                    />
+
+                    <div className="eb-modal-actions">
+                        <Button
+                            variant="primary"
+                            onClick={() => handleClick()}
+                            disabled={!!busy}
+                            loading={busy === "save"}
+                        >
+                            {saveBtnText}
+                        </Button>
+
+                        <Button
+                            variant="secondary"
+                            onClick={() => handleReset()}
+                            disabled={!!busy}
+                            loading={busy === "reset"}
+                        >
+                            {busy === "reset"
+                                ? __("Resetting…", "essential-blocks")
+                                : __("Reset", "essential-blocks")}
+                        </Button>
                     </div>
 
-                    <div className="eb-form-control">
-                        <label htmlFor="mobile-breakpoints">{__(
-                            "Mobile Breakpoints",
-                            "essential-blocks"
-                        )}</label>
-                        <input
-                            type="number"
-                            id="mobile-breakpoints"
-                            className="eb-input-control"
-                            placeholder={tableSize}
-                            defaultValue={!mobileSize ? "" : mobileSize}
-                            onChange={(e) => setMobileSize(Number(e.target.value))}
-                        />
-                        <span>px</span>
-
-                    </div>
-
-                    <button
-                        className="eb-btn eb-btn-border eb-btn-sm"
-                        onClick={() => handleClick()}
-                    >
-                        {saveBtnText}
-                    </button>
-
-                    <button
-                        className="eb-btn eb-btn-reset eb-btn-sm"
-                        onClick={() => handleReset()}
-                    >Reset</button>
-
+                    {error && (
+                        <Alert tone="error" role="alert" className="eb-modal-alert">
+                            {error}
+                        </Alert>
+                    )}
                 </div>
             </div>
         </>

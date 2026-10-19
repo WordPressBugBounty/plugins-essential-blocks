@@ -13,6 +13,7 @@ import {
     BlockProps,
     withBlockContext,
     getEditorDocument,
+    EB_LINKS,
 } from "@essential-blocks/controls";
 
 import {
@@ -264,7 +265,7 @@ function Edit(props) {
                                     &nbsp;to display Google Maps Block
                                 </>
                             }
-                            externalDocLink={"https://essential-blocks.com/docs/retrieve-google-maps-api"}
+                            externalDocLink={EB_LINKS.docs.googleMapsApi}
                             externalDocText={
                                 <>
                                     Learn more about Google Map API <Dashicon icon="external" />

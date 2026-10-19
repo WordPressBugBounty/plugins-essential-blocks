@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="eb-welcome-grid">
 				<div class="eb-col-6">
 					<h4><?php esc_attr_e( 'Global Controls', 'essential-blocks' ); ?></h4>
-					 <p><?php esc_attr_e( 'The most exclusive addition to', 'essential-blocks' ); ?> <a href="https://essential-blocks.com/docs/configure-global-controls/" target="_blank">Essential Blocks v4.0.0</a><?php esc_attr_e( ' is Global control. Any block can now be saved with customized styling so that it can be reused in other pages or posts. It saves time by not having to recreate the same block styling on all pages or posts.', 'essential-blocks' ); ?></p>
+					 <p><?php esc_attr_e( 'The most exclusive addition to', 'essential-blocks' ); ?> <a href="<?php echo esc_url( ESSENTIAL_BLOCKS_SITE_URL . 'docs/configure-global-controls/' ); ?>" target="_blank">Essential Blocks v4.0.0</a><?php esc_attr_e( ' is Global control. Any block can now be saved with customized styling so that it can be reused in other pages or posts. It saves time by not having to recreate the same block styling on all pages or posts.', 'essential-blocks' ); ?></p>
 				</div>
 				<div class="eb-col-6">
 					 <img src="<?php echo esc_url_raw( ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/welcome/global-control.gif' ); ?>" />
@@ -39,11 +39,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="eb-welcome-flex">
 				<div class="eb-col-6">
 					<h4><span><?php esc_attr_e( 'New Block:', 'essential-blocks' ); ?></span> Google Maps</h4>
-					 <p><?php esc_attr_e( 'Introducing new block:', 'essential-blocks' ); ?> <a href="https://essential-blocks.com/demo/google-maps/" target="_blank">Google Maps.</a><?php esc_attr_e( ' Using this stunning block, you can easily display location, route, add additional labels, customize the labels with images, icons, etc. The Google Maps block comes with 4 ready-to-use presets for easy customization.', 'essential-blocks' ); ?></p>
+					 <p><?php esc_attr_e( 'Introducing new block:', 'essential-blocks' ); ?> <a href="<?php echo esc_url( ESSENTIAL_BLOCKS_SITE_URL . 'demo/google-maps/' ); ?>" target="_blank">Google Maps.</a><?php esc_attr_e( ' Using this stunning block, you can easily display location, route, add additional labels, customize the labels with images, icons, etc. The Google Maps block comes with 4 ready-to-use presets for easy customization.', 'essential-blocks' ); ?></p>
 				</div>
 				<div class="eb-col-6">
 					 <div class="eb-video-container">
-						<iframe class="eb-video"  src="https://www.youtube.com/embed/xerC2h42PJs" title="How To Add Google Maps In WordPress With Essential Blocks?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+						<iframe class="eb-video"  src="https://www.youtube-nocookie.com/embed/xerC2h42PJs" title="How To Add Google Maps In WordPress With Essential Blocks?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 					</div>
 			</div>
 		</div>
@@ -56,13 +56,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<img src="<?php echo esc_url_raw( ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/welcome/icon.svg' ); ?>" />
 					<h4><?php esc_attr_e( 'Assets Generation', 'essential-blocks' ); ?></h4>
 					<p><?php esc_attr_e( 'This amazing feature, Assets Generation, will help you keep your website’s loading speed fast and secure against heavy scripts and CSS files.', 'essential-blocks' ); ?></p>
-					<a href="https://essential-blocks.com/docs/regenerate-assets/" target="_blank"><?php esc_attr_e( 'Release Note', 'essential-blocks' ); ?></a>
+					<a href="<?php echo esc_url( ESSENTIAL_BLOCKS_SITE_URL . 'docs/regenerate-assets/' ); ?>" target="_blank"><?php esc_attr_e( 'Release Note', 'essential-blocks' ); ?></a>
 				</div>
 				<div class="eb-col-6">
 					<img src="<?php echo esc_url_raw( ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/welcome/icon2.svg' ); ?>" />
 					<h4><?php esc_attr_e( 'Google Fonts', 'essential-blocks' ); ?></h4>
 					<p><?php esc_attr_e( 'Essential Blocks is with now Google Fonts compatible. You can choose your preferred font family in one click from thousands of options.', 'essential-blocks' ); ?></p>
-					<a href="https://essential-blocks.com/docs/configure-google-fonts/" target="_blank"><?php esc_attr_e( 'Release Note', 'essential-blocks' ); ?></a>
+					<a href="<?php echo esc_url( ESSENTIAL_BLOCKS_SITE_URL . 'docs/configure-google-fonts/' ); ?>" target="_blank"><?php esc_attr_e( 'Release Note', 'essential-blocks' ); ?></a>
 				</div>
 			</div>
 		</div>

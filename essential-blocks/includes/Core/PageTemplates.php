@@ -2,6 +2,7 @@
 namespace EssentialBlocks\Core;
 
 use EssentialBlocks\Traits\HasSingletone;
+use EssentialBlocks\Utils\Helper;
 
 class PageTemplates
 {
@@ -19,6 +20,17 @@ class PageTemplates
     {
         $this->templates = [];
 
+        // Extensions > Page Templates. Off: the templates are not offered and
+        // never rendered, so assigned pages fall back to the theme's own page
+        // template (the _wp_page_template meta is kept). They stay valid for
+        // posts that already use them, otherwise wp_update_post() (classic
+        // editor, Quick Edit, other plugins) fails with invalid_page_template.
+        if ( ! Helper::is_eb_setting_enabled( 'pageTemplates' ) ) {
+            add_filter( 'theme_page_templates', [ $this, 'keep_assigned_template' ], 10, 3 );
+            add_filter( 'theme_post_templates', [ $this, 'keep_assigned_template' ], 10, 3 );
+            return;
+        }
+
         add_filter( 'theme_page_templates', [ $this, 'add_new_template' ] );
         add_filter( 'theme_post_templates', [ $this, 'add_new_template' ] );
 
@@ -33,6 +45,36 @@ class PageTemplates
         //     'essential-blocks-fullwidth-template.php' => __( 'Essential Blocks Fullwidth Template', 'essential-blocks' ),
         //     'essential-blocks-blank-template.php'     => __( 'Essential Blocks Blank Template', 'essential-blocks' )
         // ];
+    }
+
+    /**
+     * Page Templates turned off: list an EB template only for a post that is
+     * already assigned to it, so saving that post keeps validating. It is
+     * not applied on the front end (view_template is not hooked).
+     *
+     * @param array         $templates Templates for the theme.
+     * @param \WP_Theme     $theme     Theme.
+     * @param \WP_Post|null $post      Post being edited, if any.
+     *
+     * @return array
+     */
+    public function keep_assigned_template( $templates, $theme = null, $post = null )
+    {
+        if ( ! $post instanceof \WP_Post ) {
+            return $templates;
+        }
+
+        $assigned = get_post_meta( $post->ID, '_wp_page_template', true );
+        $labels   = [
+            'essential-blocks-fullwidth-template.php' => __( 'Essential Blocks Fullwidth Template (turned off)', 'essential-blocks' ),
+            'essential-blocks-blank-template.php'     => __( 'Essential Blocks Blank Template (turned off)', 'essential-blocks' )
+         ];
+
+        if ( isset( $labels[ $assigned ] ) ) {
+            $templates[ $assigned ] = $labels[ $assigned ];
+        }
+
+        return $templates;
     }
 
     /**

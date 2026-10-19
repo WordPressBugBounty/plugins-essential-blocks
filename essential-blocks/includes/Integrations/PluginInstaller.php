@@ -55,7 +55,10 @@ class PluginInstaller extends ThirdPartyIntegration {
 			$plugin                = array();
 			$plugin['slug']        = sanitize_text_field( $_POST['slug'] );
 			$plugin['plugin_file'] = sanitize_text_field( $_POST['plugin_file'] );
-			$claim_option          = $this->set_host_claim( $plugin );
+			// Dashboard cards send host_claim=0: the plugin installs like any other and keeps
+			// its own onboarding. Only Quick Setup's xSpeed offer claims and records the answer.
+			$host_claim            = ! isset( $_POST['host_claim'] ) || '0' !== sanitize_key( wp_unslash( $_POST['host_claim'] ) );
+			$claim_option          = $host_claim ? $this->set_host_claim( $plugin ) : '';
 			$installer             = Installer::get_instance();
 			$response              = $installer->install( $plugin );
 
@@ -64,7 +67,9 @@ class PluginInstaller extends ThirdPartyIntegration {
 				delete_option( $claim_option );
 			}
 
-			$response = $this->after_install( $plugin, $response );
+			if ( $host_claim ) {
+				$response = $this->after_install( $plugin, $response );
+			}
 
 			wp_send_json_success( $response );
 		} else {

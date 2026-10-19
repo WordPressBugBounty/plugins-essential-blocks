@@ -48,7 +48,7 @@ const HeroBackgroundUpgradePro = () => {
                 <h3>
                     <a
                         target="_blank"
-                        href="https://essential-blocks.com/demo/advanced-video/"
+                        href={EB_LINKS.demos.advancedVideo}
                         rel="noopener noreferrer"
                     >
                         {__("Background Video", "essential-blocks")}
@@ -116,6 +116,7 @@ import {
     InspectorPanel,
     EBDisplayIconEdit,
     EBTextControl,
+    EB_LINKS,
 } from "@essential-blocks/controls";
 
 import { isDirectMediaUrl, isStreamingUrl } from "./media-source";

@@ -1,81 +1,190 @@
-.eb-intro-block {
-	h2 {
-		font-weight: 700;
-		font-size: 21px;
-		line-height: 1.2em;
+// Dashboard home ------------------------------------------------------
 
-		color: $eb-admin-title-color;
-		margin-bottom: 20px;
+.eb-home {
+	&__main,
+	&__aside {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-6);
+	}
+
+	&__aside {
+		gap: var(--eb-space-4);
 	}
 }
 
+.eb-status-card {
+	padding: var(--eb-space-6);
+
+	&__title {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-lg);
+		font-weight: var(--eb-fw-bold);
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--eb-space-4);
+
+		@include eb-mobile {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	&__item {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: var(--eb-space-4);
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-surface-subtle);
+	}
+
+	&__value {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-2xl);
+		font-weight: var(--eb-fw-bold);
+		line-height: 1.2;
+	}
+
+	&__label {
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-sm);
+	}
+
+	&__link {
+		margin-top: var(--eb-space-2);
+		color: var(--eb-primary-strong);
+		font-size: var(--eb-fs-sm);
+		font-weight: var(--eb-fw-medium);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:focus-visible {
+			border-radius: 2px;
+			@include eb-focus-ring;
+		}
+	}
+}
+
+.eb-intro-block {
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-5);
+
+	&__header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: var(--eb-space-4);
+	}
+
+	&__text {
+		margin-top: var(--eb-space-1);
+		color: var(--eb-text-muted);
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--eb-space-2);
+	}
+}
+
+// 16:9 video instead of a fixed height (also used by the Templates tab).
 .eb-admin-video-block {
-	// margin-bottom: 30px;
-	height: 453px;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: var(--eb-radius-sm);
 
 	.react-player__preview {
-		border-radius: 5px;
+		border-radius: var(--eb-radius-sm);
 
 		img {
-			background: #ffffff;
-			border-radius: 50px;
 			width: 24px;
 			height: 24px;
 			padding: 20px;
+			border-radius: 50%;
+			background: var(--eb-surface);
 		}
 	}
 
 	iframe {
-		border-radius: 5px;
+		border-radius: var(--eb-radius-sm);
 	}
 }
 
+.eb-resource-card {
+	padding: var(--eb-space-5);
+}
+
 .changelog-block {
+	// Sits after .eb-home (outside the column grid), full width.
+	.eb-home-page > & {
+		margin-top: var(--eb-space-6);
+	}
+
+	.changelog-heading {
+		margin: 0;
+	}
+
 	.changelog-header {
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
 		align-items: center;
-
-		// .changelogToogle {
-		font-weight: 500;
-		font-size: 20px;
-		line-height: 29px;
-		/* identical to box height */
-
-		color: $eb-admin-title-color;
+		justify-content: space-between;
+		gap: var(--eb-space-4);
+		width: 100%;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: var(--eb-text);
+		font-family: inherit;
+		font-size: var(--eb-fs-lg);
+		font-weight: var(--eb-fw-medium);
+		line-height: var(--eb-lh-heading);
+		text-align: left;
 		cursor: pointer;
 
-		display: flex;
-		flex-direction: row;
-		// justify-content: space-between;
-		// align-items: center;
-
-		h5 {
-			font-size: 20px;
-			font-weight: 500;
-		}
-
-		.eb-btn-border {
-			background: #eff4fc;
-			padding: 5px;
-
-			// &:hover {
-
-			// }
+		&:focus-visible {
+			border-radius: var(--eb-radius-sm);
+			@include eb-focus-ring;
 		}
 	}
 
+	.changelog-toggle-icon {
+		display: inline-flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border: 1px solid var(--eb-primary);
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-primary-soft);
+		color: var(--eb-primary-strong);
+		font-size: 20px;
+		line-height: 1;
+	}
+
+	.changelog-details[hidden] {
+		display: none;
+	}
+
 	.changelog-details {
-		transition: all 0.5s ease;
 		display: flex;
+		margin-top: var(--eb-space-4);
 		justify-content: space-between;
 		flex-wrap: wrap;
 		gap: 20px;
 
 		.changelog-wrapper {
 			width: calc(50% - 10px);
-			min-width: 350px;
+			min-width: min(350px, 100%);
 		}
 
 		.eb_all_changelog_btn {
@@ -87,7 +196,7 @@
 	}
 
 	.changelog-title {
-		color: #313131;
+		color: var(--eb-text);
 		font-size: 16px;
 		line-height: 28px;
 		font-weight: 600;
@@ -99,8 +208,8 @@
 
 	.changelog-date {
 		margin-left: 10px;
-		background: #656363;
-		color: #fff;
+		background: var(--eb-surface-subtle);
+		color: var(--eb-text-secondary);
 		padding: 2px 10px;
 		line-height: 1;
 		font-size: 14px;
@@ -110,7 +219,7 @@
 	.changelog-content {
 		list-style: disc;
 		margin-left: 15px;
-		color: #888;
+		color: var(--eb-text-muted);
 		font-size: 15px;
 		line-height: 26px;
 		font-weight: 400;
@@ -142,7 +251,7 @@
 	.pro-teaser-icon {
 		width: 71px;
 		height: 71px;
-		background: #fffaeb;
+		background: var(--eb-pro-soft);
 		border-radius: 50%;
 		display: flex;
 		justify-content: center;
@@ -158,13 +267,13 @@
 		font-weight: 700;
 		font-size: 24px;
 		line-height: 1.5rem;
-		color: #211c70;
+		color: var(--eb-text);
 		margin-bottom: 8px;
 	}
 
 	.pro-teaser-description {
 		line-height: 1.5rem;
-		color: #6a72a5;
+		color: var(--eb-text-muted);
 		font-weight: 400;
 		font-size: 16px;
 		margin-bottom: 20px;
@@ -177,6 +286,14 @@
 
 	.teaser-box {
 		display: flex;
+
+		.teaser-img {
+			height: auto;
+		}
+
+		.teaser-img--dark {
+			display: none;
+		}
 
 		@media all and (max-width: 767px) {
 			flex-direction: column;
@@ -207,6 +324,68 @@
 
 		img {
 			margin: 0 auto 30px 10px;
+		}
+	}
+}
+
+// Pro teaser artwork: swap to the dark version in dark mode.
+.eb-settings-wrap[data-eb-theme="dark"] .pro-teaser-block .teaser-box {
+	.teaser-img--light {
+		display: none;
+	}
+
+	.teaser-img--dark {
+		display: block;
+	}
+}
+
+// Dashboard: one column (≤1280px), sections in plan order.
+// Dashboard: one column; from 1600px a main column plus a sticky side
+// column with the help links, so wide screens have no empty strip.
+.eb-home.eb-home--stack {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--eb-space-6);
+	align-items: start;
+
+	@media all and (min-width: 1600px) {
+		grid-template-columns: minmax(0, 1fr) 320px;
+
+		.eb-home__aside {
+			position: sticky;
+			top: calc(var(--wp-admin--admin-bar--height, 32px) + var(--eb-header-offset, 0px) + var(--eb-space-6));
+		}
+
+		.eb-home__aside .eb-home__resources {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.eb-home__aside .eb-resource-card {
+			padding: var(--eb-space-4);
+		}
+	}
+
+	.eb-home__resources {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: var(--eb-space-4);
+	}
+
+	.eb-dash-license-slot {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-4);
+
+		&:empty {
+			display: none;
+		}
+
+		> .mb30 {
+			margin-bottom: 0;
+		}
+
+		> :empty {
+			display: none;
 		}
 	}
 }

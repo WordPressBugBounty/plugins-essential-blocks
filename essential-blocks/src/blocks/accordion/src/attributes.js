@@ -139,6 +139,10 @@ const attributes = {
     hoverTitleColor: {
         type: "string",
     },
+    hoverTitleFontWeight: {
+        type: "string",
+        default: "",
+    },
     activeBgColor: {
         type: "string",
         default: "",

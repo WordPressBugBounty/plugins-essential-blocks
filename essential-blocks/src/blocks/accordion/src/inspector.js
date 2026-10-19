@@ -28,6 +28,7 @@ import {
     sizeUnitTypes,
     MEDIA_TYPES,
     TITLE_ORIENTATION,
+    TITLE_HOVER_FONT_WEIGHTS,
 } from "./constants";
 
 import {
@@ -43,7 +44,8 @@ import {
     DynamicInputControl,
     ImageAvatar,
     ImageComponent,
-    MaskingPanel
+    MaskingPanel,
+    isEbExtensionEnabled,
 } from "@essential-blocks/controls";
 import { deleteAccordion } from "./helpers";
 
@@ -123,6 +125,7 @@ const Inspector = ({ attributes, setAttributes, clientId, addAccordion }) => {
         iconPosition,
         titleAlignment,
         hoverTitleColor,
+        hoverTitleFontWeight,
         activeBgColor,
         activeTitleColor,
         activeIconColor,
@@ -656,25 +659,30 @@ const Inspector = ({ attributes, setAttributes, clientId, addAccordion }) => {
                                 />
                             </>
                         )}
-                        <ToggleControl
-                            label={__("Enable FAQ Schema", "essential-blocks")}
-                            checked={faqSchema}
-                            onChange={() =>
-                                setAttributes({
-                                    faqSchema: !faqSchema,
-                                })
-                            }
-                            __nextHasNoMarginBottom
-                        />
-                        {faqSchema && (
-                            <PanelRow>
-                                <div className="eb-instruction">
-                                    {__(
-                                        "Let Google know that this section contains an FAQ. Make sure to only use it only once per page.",
-                                        "essential-blocks",
-                                    )}
-                                </div>
-                            </PanelRow>
+                        {/* Extensions > FAQ Schema off: no schema is printed, so hide the option. */}
+                        {isEbExtensionEnabled("faqSchema") && (
+                            <>
+                                <ToggleControl
+                                    label={__("Enable FAQ Schema", "essential-blocks")}
+                                    checked={faqSchema}
+                                    onChange={() =>
+                                        setAttributes({
+                                            faqSchema: !faqSchema,
+                                        })
+                                    }
+                                    __nextHasNoMarginBottom
+                                />
+                                {faqSchema && (
+                                    <PanelRow>
+                                        <div className="eb-instruction">
+                                            {__(
+                                                "Let Google know that this section contains an FAQ. Make sure to only use it only once per page.",
+                                                "essential-blocks",
+                                            )}
+                                        </div>
+                                    </PanelRow>
+                                )}
+                            </>
                         )}
                     </InspectorPanel.PanelBody>
                     {accordionType === "image" && (
@@ -920,6 +928,20 @@ const Inspector = ({ attributes, setAttributes, clientId, addAccordion }) => {
                             label={__("Title hover Color", "essential-blocks")}
                             color={hoverTitleColor}
                             attributeName={"hoverTitleColor"}
+                        />
+
+                        <SelectControl
+                            label={__(
+                                "Title Hover Font Weight",
+                                "essential-blocks",
+                            )}
+                            value={hoverTitleFontWeight}
+                            options={TITLE_HOVER_FONT_WEIGHTS}
+                            onChange={(value) =>
+                                setAttributes({ hoverTitleFontWeight: value })
+                            }
+                            __next40pxDefaultSize
+                            __nextHasNoMarginBottom
                         />
                         <ResponsiveRangeController
                             baseLabel={__(

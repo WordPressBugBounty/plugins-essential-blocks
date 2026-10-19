@@ -4,3 +4,4 @@ export { default as TabTemplates } from "./TabTemplates";
 export { default as TabOptions } from "./TabOptions";
 export { default as TabIntegrations } from "./TabIntegrations";
 export { default as TabAISuite } from "./TabAISuite";
+export { default as TabExtensions } from "./TabExtensions";

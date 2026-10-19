@@ -10,7 +10,8 @@ import Inspector from "./inspector";
 import Style from "./style";
 
 import {
-    NoticeComponent, BlockProps, withBlockContext
+    NoticeComponent, BlockProps, withBlockContext,
+    EB_LINKS,
 } from "@essential-blocks/controls";
 
 import Items from "./template-components/items";
@@ -302,7 +303,7 @@ function Edit(props) {
                                                         &nbsp;to display NFT Gallery Block</span>
                                                 </>
                                             }
-                                            externalDocLink={"https://essential-blocks.com/docs/retrieve-opensea-nft-api/"}
+                                            externalDocLink={EB_LINKS.docs.openseaApi}
                                             externalDocText={
                                                 <>
                                                     Learn more about NFT Gallery Block <Dashicon icon="external" />
@@ -331,7 +332,7 @@ function Edit(props) {
                                                         {nftErrorType !== '' && <span>To add <strong>collection slug.</strong> Go to General Tab of block settings.</span>}
                                                     </>
                                                 }
-                                                externalDocLink={"https://essential-blocks.com/docs/retrieve-opensea-nft-api/"}
+                                                externalDocLink={EB_LINKS.docs.openseaApi}
                                                 externalDocText={
                                                     <>
                                                         Learn more about NFT Gallery Block <Dashicon icon="external" />

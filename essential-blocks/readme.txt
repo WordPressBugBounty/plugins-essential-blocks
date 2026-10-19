@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.5.0
+Stable tag: 6.5.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -14,7 +14,7 @@ Gutenberg block editor with AI. 70+ Gutenberg blocks, patterns, WooCommerce bloc
 Bring your creative visions to life with **[Essential Blocks for Gutenberg](https://essential-blocks.com/)**, the ultimate Gutenberg blocks library for the WordPress default editor!
 Enhance your web-building experience with the essential Gutenberg extensions’ 70+ unique blocks and the brand‑new AI feature for image generating & content writing. Add power to the block editor using our easy-to-use blocks, which are designed to make your next WordPress page or post design easier and prettier than ever before. Plus, AI helps you generate rich, high‑quality content instantly with just a few keywords.
 
-https://youtu.be/PnZx4ZOMyzI
+https://youtu.be/EzPqSzadAkc
 
 ##DESIGN OUTSTANDING WEB PAGES WITH ADVANCED & ESSENTIAL GUTENBERG BLOCKS LIBRARY!
 
@@ -134,7 +134,7 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[Image Comparison](https://essential-blocks.com/demo/image-comparison/)** - Interactive before/after image comparisons
 - **[Wrapper](https://essential-blocks.com/demo/wrapper/)** - Group and style any block together
 - **[Instagram Feed](https://essential-blocks.com/demo/instagram-feed/)** - Display Instagram posts beautifully
-- **[Filterable Gallery](https://essential-blocks.com/demo/filterable-gallery/)** - Image gallery with grid & lightbox
+- **[Filterable Gallery](https://essential-blocks.com/demo/image-gallery/)** - Image gallery with grid & lightbox
 - **[Advanced Heading](https://essential-blocks.com/demo/advanced-heading/)** - Headings with extra customization options
 - **[Dual Button](https://essential-blocks.com/demo/dual-button/)** - Two buttons with a text/icon separator
 - **[Parallax Slider](https://essential-blocks.com/demo/parallax-slider/)** - Fancy slider for teams or galleries
@@ -143,13 +143,13 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[Number Counter](https://essential-blocks.com/demo/number-counter/)** - Highlight key statistics
 - **[Row](https://essential-blocks.com/demo/row/)** - Row layouts with responsive styling controls
 - **[Post grid](https://essential-blocks.com/demo/post-grid/)** - Interactive grid layout for blog posts
-- **[Table of Contents](https://essential-blocks.com/demo/table-of-content/)** - TOC for posts/pages to improve UX
+- **[Table of Contents](https://essential-blocks.com/demo/table-of-contents/)** - TOC for posts/pages to improve UX
 - **[Feature List](https://essential-blocks.com/demo/feature-list/)** - Display information as a feature list
 - **[Slider](https://essential-blocks.com/demo/slider/)** - Image slider with motion effects
 - **[Advanced Tab](https://essential-blocks.com/demo/advanced-tab/)** - Nested tabs for key information
-- **[Fluent Forms](https://essential-blocks.com/demo/fluent-form/)** - Style Fluent Forms containers & fields
+- **[Fluent Forms](https://essential-blocks.com/demo/fluent-forms-2/)** - Style Fluent Forms containers & fields
 - **[Advanced Image](https://essential-blocks.com/demo/advanced-image/)** - Customize images to your exact needs
-- **[WPForms](https://essential-blocks.com/demo/wpform/)** - Style WPForms with extra controls
+- **[WPForms](https://essential-blocks.com/demo/wpforms/)** - Style WPForms with extra controls
 - **[Woo Product Grid](https://essential-blocks.com/demo/woo-product-grid)** - WooCommerce products in stunning layouts
 - **[Post Carousel](https://essential-blocks.com/demo/post-carousel)** - Animated, dynamic post carousel
 - **[Advanced Video](https://essential-blocks.com/demo/advanced-video)** - Extra styling for video embeds
@@ -179,14 +179,14 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[Woo Product Images](https://essential-blocks.com/demo/woo-product-image/)** - Showcase eye-catching WooCommerce product images that draw in customers and are easy to customize.
 - **[Woo Add to Cart](https://essential-blocks.com/demo/woo-add-to-cart/)** - Display the 'add to cart' option for all your WooCommerce products to ensure easy navigation for customers.
 - **[Post Meta](https://essential-blocks.com/demo/post-meta/)** - Attractively showcase your current post metadata like author, date, excerpt & more.
-- **[Text](https://essential-blocks.com/demo/text-block/)** - Add and customize text content on your website that catches the attention of the visitors.
+- **[Text](https://essential-blocks.com/demo/text/)** - Add and customize text content on your website that catches the attention of the visitors.
 - **[Lottie Animation](https://essential-blocks.com/demo/lottie-animation/)** - Add LottiFiles Animations to your Gutenberg site seamlessly and customize how you want it to appear.
 - **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Create fully customized & mobile-friendly menu with grid, nested, dropdown, etc. dynamic layouts; add icons, badges, multimedia, etc.
 - **[Query Loop Builder (PRO)](https://essential-blocks.com/demo/query-loop-builder/)** - Easily create advanced, filterable post layouts in Gutenberg with the Query Loop Builder block. Display dynamic content stunningly and hook visitors, no coding required.
 - **[Business Hours (PRO)](https://essential-blocks.com/demo/business-hours/)** - Showcase available opening times in a stylish and interactive table view. Highlight closing days, special days, multi-shift, etc.
 - **[Flex Container](https://essential-blocks.com/demo/flex-container/)** - Create outstanding, complex design layouts in Gutenberg editor and easily handle responsive layouts without coding.
 - **[Animated Wrapper (PRO)](https://essential-blocks.com/demo/animated-wrapper/)** - Design interactive layouts & containers in Gutenberg with dynamic animation effects.
-- **[Image Hotspots](https://essential-blocks.com/demo/image-hotspots/)** - This block enables you to pin items, products, etc into images with detailed pricing, URL, and description and make them interactive.
+- **[Image Hotspots](https://essential-blocks.com/demo/image-hotspot/)** - This block enables you to pin items, products, etc into images with detailed pricing, URL, and description and make them interactive.
 - **[Timeline](https://essential-blocks.com/demo/timeline/)** - Create an interactive timeline in WordPress to showcase your story or company's history, achievements, events, and roadmaps.
 - **[One Page Navigation (PRO)](https://essential-blocks.com/demo/one-page-navigation/)** - Create smooth scrolling navigation menus for single page Gutenberg websites.
 
@@ -205,7 +205,7 @@ Join our **[Facebook Group](https://www.facebook.com/groups/432798227512253/)**.
 Or rate us on **[WordPress](https://wordpress.org/support/plugin/essential-blocks/reviews/?rate=5#new-post)**. 😊
 
 ##CONTRIBUTE
-The human-readable source code ships with the plugin in the `src/` folder (including the shared controls library in `src/controls/`). Run `npm install` and `npm run build` to build the files in `assets/`. Please report issues on the **[Plugin’s Forum](https://wordpress.org/support/plugin/essential-blocks/)**.
+The human-readable source code ships with the plugin in the `src/` folder: the blocks and admin screens, and the shared controls library in `src/controls/` (built into `assets/admin/controls/`). The build configuration is not included; if you need it, ask on the **[Plugin’s Forum](https://wordpress.org/support/plugin/essential-blocks/)**, where you can also report issues.
 
 ##🔥 WHAT’S NEXT?
 If you like Essential Blocks, then consider checking out our other WordPress Plugins:
@@ -339,6 +339,15 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.5.1 - 19/10/2026 =
+- Added: Accordion | Title hover font weight
+- Added: Write With AI | GPT-5 models
+- Revamped: New EB Dashboard for better UI/UX
+- Improved: Write With AI | Performance
+- Fixed: Block patterns image issue
+- Few minor bug fixes & improvements
+
+
 = 6.5.0 - 15/10/2026 =
 - Added: Product Grid | WooCommerce Brands filter
 - Added: Slider | Lightbox option in Block Defaults

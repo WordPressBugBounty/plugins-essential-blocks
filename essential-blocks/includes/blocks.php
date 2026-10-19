@@ -125,7 +125,7 @@ $free_blocks = array(
         'preferences' => array( 'advanced' ),
         'object' => FacebookFeed::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/facebook-feed/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/facebook-feed/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-facebook-feed/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/facebook-feed/icon.svg'
     ),
     'flipbox' => array(
@@ -148,7 +148,7 @@ $free_blocks = array(
         'preferences' => array( 'basic', 'advanced' ),
         'object' => AdvancedHeading::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/advanced-heading/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/heading/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-advanced-heading/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/advanced-heading/icon.svg'
     ),
     'image_comparison' => array(
@@ -170,8 +170,8 @@ $free_blocks = array(
         'category' => 'creative',
         'preferences' => array( 'basic', 'advanced' ),
         'object' => ImageGallery::get_instance(),
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/filterable-gallery/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-filterable-gallery/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/image-gallery/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-image-gallery/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/image-gallery/icon.svg'
     ),
     'infobox' => array(
@@ -272,8 +272,8 @@ $free_blocks = array(
         'category' => 'social',
         'preferences' => array( 'basic', 'advanced' ),
         'object' => Social::get_instance(),
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/social/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/social/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/social-icons/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/socials/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/social/icon.svg'
     ),
     'social_share' => array(
@@ -295,7 +295,7 @@ $free_blocks = array(
         'preferences' => array( 'basic', 'advanced' ),
         'object' => TeamMember::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/team-member/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/team-member/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/how-to-activate-eb-team-member/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/team-member/icon.svg'
     ),
     'testimonial' => array(
@@ -563,7 +563,7 @@ $free_blocks = array(
         'preferences' => array( 'advanced' ),
         'object' => ShapeDivider::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/shape-divider/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-shape-divider',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-shape-divider/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/shape-divider/icon.svg'
     ),
     'form' => array(
@@ -575,7 +575,7 @@ $free_blocks = array(
         'preferences' => array( 'basic', 'advanced' ),
         'object' => Form::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/form-block/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/form/icon.svg'
     ),
     'icon' => array(
@@ -585,7 +585,7 @@ $free_blocks = array(
         'category' => 'creative',
         'object' => Icon::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/icon-picker/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-icon-picker',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-icon-picker/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/icon/icon.svg'
     )
 );
@@ -597,7 +597,7 @@ $new_blocks = array(
         'visibility' => 'true',
         'category' => 'content',
         'object' => Text::get_instance(),
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/text-block/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/text/',
         'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-text/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/text/icon.svg'
     ),
@@ -638,7 +638,7 @@ $new_blocks = array(
         'category' => 'woocommerce',
         'object' => ProductRating::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/woo-product-rating/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-product-rating/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-woo-product-rating/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/product-rating/icon.svg'
     ),
     'product_details' => array(
@@ -658,7 +658,7 @@ $new_blocks = array(
         'category' => 'woocommerce',
         'object' => AddToCart::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/woo-add-to-cart/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/woo-add-to-cart/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-woo-add-to-cart/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/add-to-cart/icon.svg'
     ),
     'product_images' => array(
@@ -668,7 +668,7 @@ $new_blocks = array(
         'category' => 'woocommerce',
         'object' => ProductImages::get_instance(),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/woo-product-image/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-woo-product-image/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-woo-product-images/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/product-images/icon.svg'
     ),
     'breadcrumbs' => array(
@@ -700,7 +700,7 @@ $new_blocks = array(
         'status' => 'new',
         'category' => 'creative',
         'object' => ImageHotspots::get_instance(),
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/image-hotspots/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/image-hotspot/',
         'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-image-hotspots/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/blocks/image-hotspots/icon.svg'
     )
@@ -715,8 +715,8 @@ $pro_blocks = array(
         'is_pro' => true,
         'name' => 'pro-advanced-search',
         'category' => 'content',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/advanced-search',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-advanced-search',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/advanced-search/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-advanced-search/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/adv-search.svg'
     ),
     'data_table' => array(
@@ -728,7 +728,7 @@ $pro_blocks = array(
         'is_pro' => true,
         'name' => 'pro-data-table',
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/data-table/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-data-table',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-data-table/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/data-table.svg'
     ),
     'timeline_slider' => array(
@@ -739,8 +739,8 @@ $pro_blocks = array(
         'category' => 'dynamic',
         'is_pro' => true,
         'name' => 'pro-timeline-slider',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/timeline-slider',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-timeline-slider',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/timeline-slider/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-timeline-slider/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/timeline-slider.svg'
     ),
     'news_ticker' => array(
@@ -751,8 +751,8 @@ $pro_blocks = array(
         'category' => 'dynamic',
         'is_pro' => true,
         'name' => 'pro-news-ticker',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/news-ticker',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-news-ticker',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/news-ticker/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-news-ticker/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/news-ticker.svg'
     ),
     'woo_product_carousel' => array(
@@ -764,7 +764,7 @@ $pro_blocks = array(
         'is_pro' => true,
         'name' => 'pro-woo-product-carousel',
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/woo-product-carousel/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-woo-product-carousel',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-woo-product-carousel/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/product-carousel.svg'
     ),
     'multicolumn_pricing_table' => array(
@@ -776,8 +776,8 @@ $pro_blocks = array(
         'category' => 'marketing',
         'is_pro' => true,
         'name' => 'pro-multicolumn-pricing-table',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/multicolumn-pricing-table',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-multicolumn-pricing-table',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/multicolumn-pricing-table/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-multicolumn-pricing-table/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/multicolumn-pricing-table.svg'
     ),
     'fancy_chart' => array(
@@ -789,8 +789,8 @@ $pro_blocks = array(
         'is_pro' => true,
         'status' => 'new',
         'name' => 'pro-fancy-chart',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/fancy-chart',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-fancy-chart',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/fancy-chart/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-fancy-chart/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/fancy-chart.svg'
     ),
     'stacked_cards' => array(
@@ -802,8 +802,8 @@ $pro_blocks = array(
         'is_pro' => true,
         'status' => 'new',
         'name' => 'pro-stacked-cards',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/stacked-cards',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-stacked-cards',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/stacked-cards/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-stacked-cards/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/stacked-cards.svg'
     ),
     'testimonial_slider' => array(
@@ -815,7 +815,7 @@ $pro_blocks = array(
         'is_pro' => true,
         'name' => 'pro-testimonial-slider',
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/testimonial-slider/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-testimonial-slider',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-testimonial-slider/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/testimonial-slider.svg'
     ),
     'off_canvas' => array(
@@ -851,7 +851,7 @@ $pro_blocks = array(
         'category' => 'dynamic',
         'is_pro' => true,
         'name' => 'pro-post-template',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/loop-builder/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/query-loop-builder/',
         'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-loop-builder/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/post-template.svg'
     ),
@@ -864,7 +864,7 @@ $pro_blocks = array(
         'category' => 'dynamic',
         'is_pro' => true,
         'name' => 'pro-loop-pagination',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/loop-builder/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/query-loop-builder/',
         'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-loop-builder/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/loop-pagination.svg'
     ),
@@ -877,8 +877,8 @@ $pro_blocks = array(
         'status' => 'new',
         'name' => 'pro-mega-menu',
         'category' => 'content',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/mega-menu',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-mega-menu',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/mega-menu/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-mega-menu/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/mega-menu.svg'
     ),
     'business_hours' => array(
@@ -889,8 +889,8 @@ $pro_blocks = array(
         'status' => 'new',
         'name' => 'pro-business-hours',
         'category' => 'content',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/business-hours',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-business-hours',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/business-hours/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-business-hours/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/business-hours.svg'
     ),
     'form_datetime_picker' => array(
@@ -904,7 +904,7 @@ $pro_blocks = array(
         'name' => 'pro-form-datetime-picker',
         'parent' => array( "essential-blocks/form" ),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/form-block/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/form-datetime-picker.svg'
     ),
     'form_recaptcha' => array(
@@ -918,7 +918,7 @@ $pro_blocks = array(
         'name' => 'pro-form-recaptcha',
         'parent' => array( "essential-blocks/form" ),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/form-block/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/form-recaptcha.svg'
     ),
     'form_country_field' => array(
@@ -932,7 +932,7 @@ $pro_blocks = array(
         'name' => 'pro-form-country-field',
         'parent' => array( "essential-blocks/form" ),
         'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/form-block/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/form-country-field.svg'
     ),
     'form_phone_field' => array(
@@ -945,8 +945,8 @@ $pro_blocks = array(
         'show_in_admin' => false,
         'name' => 'pro-form-phone-field',
         'parent' => array( "essential-blocks/form" ),
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/phone-field/',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-phone-field/',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/form-block/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-form-block/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/form-phone-field.svg'
     ),
     'one_page_navigation' => array(
@@ -957,8 +957,8 @@ $pro_blocks = array(
         'status' => 'new',
         'name' => 'pro-one-page-navigation',
         'category' => 'creative',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/one-page-navigation',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-one-page-navigation',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/one-page-navigation/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-one-page-navigation/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/one-page-navigation.svg'
     ),
     'animated_wrapper' => array(
@@ -969,8 +969,8 @@ $pro_blocks = array(
         'status' => 'new',
         'name' => 'pro-animated-wrapper',
         'category' => 'creative',
-        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/animated-wrapper',
-        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-animated-wrapper',
+        'demo' => ESSENTIAL_BLOCKS_SITE_URL . 'demo/animated-wrapper/',
+        'doc' => ESSENTIAL_BLOCKS_SITE_URL . 'docs/eb-animated-wrapper/',
         'icon' => ESSENTIAL_BLOCKS_ADMIN_URL . 'assets/images/blocks-icon/animated-wrapper.svg'
     )
 );

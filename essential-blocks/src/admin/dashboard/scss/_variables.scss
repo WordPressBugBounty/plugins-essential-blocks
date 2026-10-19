@@ -1,8 +1,10 @@
+// Legacy SCSS variables, kept as aliases so existing partials (and any
+// external imports) keep compiling. New code should use the --eb-* tokens.
 $eb-gap: 30px !default;
-$eb-admin-title-color: #211c70 !default;
-$eb-admin-text-color: #6a72a5 !default;
-$eb-admin-link-color: #2673ff !default;
-$eb-admin-link-hover-color: #211c70 !default;
-$eb-admin-theme-color: #2673ff !default;
+$eb-admin-title-color: var(--eb-text) !default;
+$eb-admin-text-color: var(--eb-text-muted) !default;
+$eb-admin-link-color: var(--eb-primary-strong) !default;
+$eb-admin-link-hover-color: var(--eb-text) !default;
+$eb-admin-theme-color: var(--eb-primary) !default;
 
-$dm-sans: "DM Sans", sans-serif;
+$dm-sans: var(--eb-font);

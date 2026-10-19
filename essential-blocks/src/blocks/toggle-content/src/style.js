@@ -255,7 +255,9 @@ export default function Style(props) {
     `;
 
     // Apply filter for pro liquid glass styles
-    const liquidGlassProStyles = applyFilters("eb_liquid_glass_effect_pro_style", attributes, "switchLiquidGlass", `.${blockId}.eb-toggle-wrapper.switch-style-rounded .eb-toggle-slider`);
+    // Without Pro the filter returns the `attributes` object it was given; keep only a CSS string.
+    const liquidGlassProFiltered = applyFilters("eb_liquid_glass_effect_pro_style", attributes, "switchLiquidGlass", `.${blockId}.eb-toggle-wrapper.switch-style-rounded .eb-toggle-slider`);
+    const liquidGlassProStyles = typeof liquidGlassProFiltered === "string" ? liquidGlassProFiltered : "";
 
     const wrapperStylesDesktop = `
 	.${blockId}.eb-toggle-wrapper{

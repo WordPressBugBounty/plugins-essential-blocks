@@ -70,6 +70,7 @@ import {
     MaskingPanel,
     EBIconPicker,
     LiquidGlassEffectControl,
+    isLiquidGlassEnabled,
     EBTextControl,
 } from "@essential-blocks/controls";
 import { RangeControl } from "@wordpress/components";
@@ -433,19 +434,21 @@ const Inspector = ({ attributes, setAttributes }) => {
                         />
                     )}
 
-                    <ToggleControl
-                        label={__("Icon Liquid Glass Effect", "essentail-blocks")}
-                        checked={iconLiquidGlass.enable}
-                        onChange={() => {
-                            setAttributes({
-                                iconLiquidGlass: {
-                                    ...iconLiquidGlass,
-                                    enable: !iconLiquidGlass.enable
-                                }
-                            });
-                        }}
-                        __nextHasNoMarginBottom
-                    />
+                    {isLiquidGlassEnabled() && (
+                        <ToggleControl
+                            label={__("Icon Liquid Glass Effect", "essentail-blocks")}
+                            checked={iconLiquidGlass.enable}
+                            onChange={() => {
+                                setAttributes({
+                                    iconLiquidGlass: {
+                                        ...iconLiquidGlass,
+                                        enable: !iconLiquidGlass.enable
+                                    }
+                                });
+                            }}
+                            __nextHasNoMarginBottom
+                        />
+                    )}
                 </InspectorPanel.PanelBody >
 
                 {/* Block-level masking — applies to every feature image. */}
@@ -559,7 +562,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         />
                     )}
                 </InspectorPanel.PanelBody>
-                {iconLiquidGlass.enable && (
+                {isLiquidGlassEnabled() && iconLiquidGlass.enable && (
                     <InspectorPanel.PanelBody
                         title={__("Icon Liquid Glass", "essential-blocks")}
                         initialOpen={false}

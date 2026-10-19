@@ -1,0 +1,99 @@
+// Compatibility for markup injected by Essential Blocks PRO through the
+// dashboard filters (license panel, "Manage License" strip). Pro ships its
+// own light styles; these only align spacing and add dark-mode colors.
+
+// Home column spacing comes from the flex gap.
+.eb-home__main > .mb30,
+.eb-home__main > * > .mb30:last-child {
+	margin-bottom: 0;
+}
+
+// Filters may render empty wrappers; don't let them add a flex gap.
+.eb-home__main > :empty {
+	display: none;
+}
+
+.manage-license-wrap {
+	margin-top: var(--eb-space-6);
+}
+
+.eb-settings-wrap[data-eb-theme="dark"] {
+	.wpdeveloper-licensing-wrapper {
+		.wpdeveloper-licensing-header-title,
+		.manage-license-title h5 {
+			color: var(--eb-text);
+		}
+
+		.wpdeveloper-licensing-header-description,
+		.wpdeveloper-licensing-instructions li {
+			color: var(--eb-text-muted);
+		}
+
+		.wpdeveloper-licensing-instructions li {
+			background: var(--eb-surface-subtle);
+			text-shadow: none;
+
+			&::before {
+				background: var(--eb-primary-soft);
+				color: var(--eb-primary-strong);
+			}
+		}
+
+		.wpdeveloper-licensing-form-wrapper {
+			background: var(--eb-surface-subtle);
+
+			&.activated {
+				background: var(--eb-surface-hover);
+			}
+
+			.wpdeveloper-licensing-form-input {
+				border-color: var(--eb-border-strong);
+				background: var(--eb-input-bg);
+				color: var(--eb-text-secondary);
+			}
+		}
+
+		.wpdeveloper-licensing-verification-input-container,
+		.eb-verification-short-description {
+			background: var(--eb-surface-subtle);
+		}
+
+		.wpdeveloper-licensing-verification-wrapper p {
+			color: var(--eb-text-secondary);
+		}
+	}
+
+	.manage-license-wrap .manage-license-title h5 {
+		color: var(--eb-text);
+	}
+}
+
+// Native radios / checkboxes inside dashboard surfaces (e.g. the Pro
+// reCAPTCHA modal) use wp-admin's white controls; follow the theme.
+.eb-settings-wrap,
+.eb-dash-portal {
+	input[type="radio"],
+	input[type="checkbox"] {
+		border-color: var(--eb-border-strong);
+		background: var(--eb-input-bg);
+
+		&:checked {
+			border-color: var(--eb-primary);
+		}
+
+		&:focus {
+			border-color: var(--eb-primary);
+			box-shadow: var(--eb-focus-ring);
+		}
+	}
+
+	input[type="radio"]:checked::before {
+		background-color: var(--eb-primary);
+	}
+}
+
+// Pro license "Activated" label: Pro's green (#039855 on #ecfdf3) is 3.5:1.
+.eb-settings-wrap .wpdeveloper-licensing-wrapper .label {
+	background: var(--eb-success-soft);
+	color: var(--eb-success-text);
+}

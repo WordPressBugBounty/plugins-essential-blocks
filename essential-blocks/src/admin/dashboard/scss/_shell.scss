@@ -1,0 +1,592 @@
+// App shell: sidebar + main column (shell/Sidebar.js, shell/Shell.js).
+// Everything sits under .eb-settings-wrap; colours come from tokens only.
+
+$eb-sidebar-w: 248px;
+$eb-rail-w: 64px;
+
+// Rail look (collapsed by the user, or forced at 783–1023px).
+@mixin eb-sidebar-rail {
+	width: $eb-rail-w;
+
+	// Logo above the expand button.
+	.eb-sidebar__brand {
+		flex-direction: column;
+		justify-content: center;
+		padding-inline: 0;
+	}
+
+	.eb-sidebar__collapse {
+		margin-left: 0;
+	}
+
+	// Only visually hidden versions are left in the footer.
+	.eb-sidebar__footer {
+		padding: 0;
+		border-top: 0;
+	}
+
+	// Mark instead of the full wordmark.
+	.eb-sidebar__logo {
+		display: block;
+	}
+
+	.eb-sidebar__wordmark {
+		display: none;
+	}
+
+	.eb-sidebar__plan,
+	.eb-sidebar__label,
+	.eb-sidebar__group-label,
+	.eb-sidebar__versions,
+	.eb-sidebar__badge-label {
+		@include eb-visually-hidden;
+	}
+
+	.eb-sidebar__group + .eb-sidebar__group {
+		margin-top: var(--eb-space-2);
+		padding-top: var(--eb-space-2);
+		border-top: 1px solid var(--eb-border);
+	}
+
+	.eb-sidebar__link {
+		position: relative;
+		justify-content: center;
+		padding-inline: 0;
+	}
+
+	.eb-sidebar__badge {
+		position: absolute;
+		top: 2px;
+		right: 4px;
+	}
+
+	.eb-sidebar__badge--count {
+		padding: 0 4px;
+		font-size: 10px;
+	}
+
+}
+
+.eb-settings-wrap,
+.eb-dash-portal {
+	.eb-sidebar {
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		width: $eb-sidebar-w;
+		background: var(--eb-sidebar-bg);
+		border-right: 1px solid var(--eb-border);
+		color: var(--eb-sidebar-text);
+		font-family: var(--eb-font);
+		transition: width var(--eb-transition);
+
+		@include eb-reduced-motion {
+			transition: none;
+		}
+
+		// Tooltips are a rail-only hint (Sidebar.js disables them otherwise).
+		.eb-tooltip-wrap {
+			display: flex;
+		}
+
+		&.is-collapsed {
+			@include eb-sidebar-rail;
+		}
+
+		@include eb-only-rail {
+			@include eb-sidebar-rail;
+
+			.eb-sidebar__collapse {
+				display: none;
+			}
+		}
+	}
+
+	.eb-sidebar--desktop {
+		position: sticky;
+		top: var(--wp-admin--admin-bar--height, 32px);
+		z-index: var(--eb-z-sidebar);
+		height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+	}
+
+	.eb-sidebar--drawer {
+		width: 100%;
+		border-right: 0;
+		background: transparent;
+	}
+
+	.eb-sidebar__brand {
+		display: flex;
+		align-items: center;
+		gap: var(--eb-space-2);
+		padding: var(--eb-space-4);
+		border-bottom: 1px solid var(--eb-border);
+	}
+
+	// Only shown on the rail; the expanded sidebar shows the wordmark.
+	.eb-sidebar__logo {
+		display: none;
+		width: 32px;
+		height: 32px;
+		flex: 0 0 auto;
+		// The mark is 180x200; keep its proportions inside the square box.
+		object-fit: contain;
+	}
+
+	.eb-sidebar__wordmark {
+		display: block;
+		flex: 0 1 auto;
+		min-width: 0;
+		width: auto;
+		max-width: 100%;
+		height: 32px;
+		color: var(--eb-logo-wordmark);
+	}
+
+	// The wordmark is the visible name; keep the text for screen readers.
+	.eb-sidebar__brand-text {
+		@include eb-visually-hidden;
+	}
+
+	.eb-sidebar__plan {
+		padding: 2px var(--eb-space-2);
+		border-radius: var(--eb-radius-pill);
+		background: var(--eb-surface-subtle);
+		color: var(--eb-sidebar-text);
+		font-size: var(--eb-fs-xs);
+		font-weight: var(--eb-fw-bold);
+
+		&.is-pro {
+			background: var(--eb-pro-soft);
+			color: var(--eb-pro-text);
+		}
+	}
+
+	.eb-sidebar__nav {
+		flex: 1 1 auto;
+		overflow-y: auto;
+		// Room so focus rings aren't clipped by the scroll container.
+		padding: var(--eb-space-3) var(--eb-space-2);
+	}
+
+	.eb-sidebar__group + .eb-sidebar__group {
+		margin-top: var(--eb-space-4);
+	}
+
+	.eb-sidebar__group-label {
+		margin: 0 0 var(--eb-space-1);
+		padding: 0 var(--eb-space-3);
+		color: var(--eb-sidebar-muted);
+		font-size: var(--eb-fs-xs);
+		font-weight: var(--eb-fw-bold);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.eb-sidebar__list {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.eb-sidebar__item {
+		margin: 0;
+	}
+
+	.eb-sidebar__link.eb-sidebar__link {
+		display: flex;
+		flex: 1 1 auto;
+		align-items: center;
+		gap: var(--eb-space-3);
+		min-height: 40px;
+		padding: var(--eb-space-2) var(--eb-space-3);
+		border-radius: var(--eb-radius-sm);
+		color: var(--eb-sidebar-text);
+		font-size: var(--eb-fs-md);
+		font-weight: var(--eb-fw-medium);
+		text-decoration: none;
+		transition: background-color var(--eb-transition), color var(--eb-transition);
+
+		&:hover {
+			background: var(--eb-sidebar-hover);
+			color: var(--eb-text);
+		}
+
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			box-shadow: inset 0 0 0 2px var(--eb-primary);
+		}
+
+		&.is-active {
+			background: var(--eb-sidebar-active);
+			color: var(--eb-primary-strong);
+		}
+
+		@include eb-reduced-motion {
+			transition: none;
+		}
+	}
+
+	.eb-sidebar__icon {
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	.eb-sidebar__initial {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: var(--eb-surface-subtle);
+		color: var(--eb-sidebar-text);
+		font-size: var(--eb-fs-xs);
+		font-weight: var(--eb-fw-bold);
+	}
+
+	.eb-sidebar__label {
+		flex: 1 1 auto;
+		min-width: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.eb-sidebar__badge--count {
+		padding: 1px var(--eb-space-2);
+		border-radius: var(--eb-radius-pill);
+		background: var(--eb-surface-subtle);
+		color: var(--eb-sidebar-text);
+		font-size: var(--eb-fs-xs);
+		font-weight: var(--eb-fw-medium);
+	}
+
+	.eb-sidebar__badge--dot {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--eb-space-1);
+		color: var(--eb-warning);
+		font-size: var(--eb-fs-xs);
+		font-weight: var(--eb-fw-medium);
+	}
+
+	.eb-sidebar__dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--eb-warning);
+	}
+
+	.eb-sidebar__footer {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-3);
+		padding: var(--eb-space-3) var(--eb-space-4);
+		border-top: 1px solid var(--eb-border);
+	}
+
+	.eb-sidebar__versions {
+		color: var(--eb-sidebar-muted);
+		font-size: var(--eb-fs-xs);
+
+		span {
+			color: var(--eb-sidebar-text);
+			font-weight: var(--eb-fw-medium);
+		}
+	}
+
+	.eb-sidebar__collapse {
+		display: inline-flex;
+		flex: 0 0 auto;
+		margin-left: auto;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		border: 1px solid var(--eb-border);
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-sidebar-text);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--eb-sidebar-hover);
+			color: var(--eb-text);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		svg {
+			transition: transform var(--eb-transition);
+		}
+
+		@include eb-reduced-motion {
+			svg {
+				transition: none;
+			}
+		}
+	}
+
+	.eb-sidebar.is-collapsed .eb-sidebar__collapse svg {
+		transform: rotate(180deg);
+	}
+}
+
+// Shell grid (activated by T28 adding .eb-shell). ------------------------
+.eb-settings-wrap .eb-shell {
+	--eb-sidebar-w: #{$eb-sidebar-w};
+	display: grid;
+	grid-template-columns: var(--eb-sidebar-w) minmax(0, 1fr);
+	align-items: start;
+	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+
+	&.is-collapsed {
+		--eb-sidebar-w: #{$eb-rail-w};
+	}
+
+	@include eb-only-rail {
+		--eb-sidebar-w: #{$eb-rail-w};
+	}
+
+	@include eb-down-782 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.eb-settings-wrap .eb-shell__main {
+	min-width: 0;
+	padding: var(--eb-space-6) var(--eb-space-8) var(--eb-space-10);
+
+	@include eb-only-compact {
+		padding-inline: var(--eb-space-6);
+	}
+
+	@include eb-only-rail {
+		padding-inline: var(--eb-space-5);
+	}
+
+	@include eb-down-782 {
+		padding: var(--eb-space-4);
+	}
+}
+
+// Shell root reuses .eb-settings-container (many rules hang off it) but
+// owns the full width: cancel #wpcontent's left padding so the sidebar
+// sits flush against the WP admin menu.
+.eb-settings-wrap .eb-settings-container.eb-shell {
+	max-width: none;
+	margin: 0 0 0 -20px;
+
+	@include eb-down-782 {
+		margin: 0 0 0 -10px;
+	}
+}
+
+// Pre-paint: the stored collapsed state applies before React mounts.
+.eb-settings-wrap[data-eb-sidebar="collapsed"] .eb-shell {
+	--eb-sidebar-w: #{$eb-rail-w};
+}
+
+.eb-settings-wrap[data-eb-sidebar="collapsed"] .eb-sidebar--desktop {
+	@include eb-sidebar-rail;
+}
+
+// Mobile (≤782px): the top bar + drawer replace the desktop sidebar.
+@include eb-down-782 {
+	.eb-settings-wrap .eb-shell > .eb-sidebar {
+		display: none;
+	}
+}
+
+.eb-settings-wrap .eb-topbar {
+	display: none;
+
+	@include eb-down-782 {
+		position: sticky;
+		top: 46px;
+		z-index: var(--eb-z-sticky);
+		display: flex;
+		align-items: center;
+		gap: var(--eb-space-2);
+		height: 56px;
+		margin: calc(-1 * var(--eb-space-4)) calc(-1 * var(--eb-space-4)) var(--eb-space-4);
+		padding: 0 var(--eb-space-2);
+		border-bottom: 1px solid var(--eb-border);
+		background: var(--eb-sidebar-bg);
+	}
+
+	@include eb-down-600 {
+		top: 0;
+	}
+
+	&__menu {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 0;
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-text);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--eb-sidebar-hover);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+	}
+
+	&__title {
+		overflow: hidden;
+		color: var(--eb-text);
+		font-size: var(--eb-fs-lg);
+		font-weight: var(--eb-fw-bold);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+}
+
+// Sidebar inside the mobile drawer: always expanded, no collapse.
+.eb-nav-drawer {
+	.eb-sidebar--drawer {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		color: var(--eb-sidebar-text);
+	}
+
+	.eb-sidebar__link.eb-sidebar__link {
+		min-height: 44px;
+	}
+
+	.eb-sidebar__nav {
+		padding: 0;
+	}
+
+	.eb-sidebar__footer {
+		margin-top: var(--eb-space-4);
+		padding-inline: var(--eb-space-2);
+	}
+}
+
+// Notice region (shell/NoticeRegion.js): WP + EB notices above the whole
+// shell (sidebar + main), full width under the WP admin bar. Cancels
+// #wpcontent's left padding like .eb-shell does.
+.eb-settings-wrap .eb-notice-region {
+	// The promo banner below reads these to run edge to edge.
+	--eb-notice-pad-y: var(--eb-space-4);
+	--eb-notice-pad-x: var(--eb-space-8);
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-3);
+	margin: 0 0 0 -20px;
+	padding: var(--eb-notice-pad-y) var(--eb-notice-pad-x);
+	border-bottom: 1px solid var(--eb-border);
+
+	@include eb-only-compact {
+		--eb-notice-pad-x: var(--eb-space-6);
+	}
+
+	@include eb-only-rail {
+		--eb-notice-pad-x: var(--eb-space-5);
+	}
+
+	@include eb-down-782 {
+		--eb-notice-pad-x: var(--eb-space-4);
+		margin-left: -10px;
+	}
+
+	// Only the promo banner: no frame around it.
+	&:not(:has(> :not(.wp-header-end, .eb-admin-promotion-message))) {
+		--eb-notice-pad-y: 0px;
+		--eb-notice-pad-x: 0px;
+		border-bottom: 0;
+	}
+
+	&:not(:has(> :not(.wp-header-end))) {
+		display: none;
+	}
+
+	> .notice,
+	> .updated,
+	> .error {
+		max-width: 100%;
+		box-sizing: border-box;
+		margin: 0;
+	}
+
+	.wp-header-end {
+		display: none;
+	}
+}
+
+// Only Essential Blocks' own notices show on the EB dashboard; other plugins'
+// and core notices are hidden wherever WP or common.js put them. Keep the
+// exceptions in sync with EB_NOTICE_SELECTOR in shell/NoticeRegion.js.
+#wpbody-content > :is(div.notice, div.updated, div.error, .update-nag),
+.eb-settings-wrap > :is(div.notice, div.updated, div.error, .update-nag) {
+	&:not(
+		[id^="wpnotice-essential_blocks"],
+		.eb-notice,
+		.wpdeveloper-licensing-notice,
+		[class*="essential-blocks"],
+		:has(.eb-optin)
+	) {
+		display: none !important;
+	}
+}
+
+// EB promo banner keeps its legacy look (src/assets/css/admin.css). It is
+// always first in the region (NoticeRegion.js) and runs edge to edge across
+// the top; other notices below it keep the region's padding.
+.eb-settings-wrap .eb-notice-region > .eb-admin-promotion-message {
+	margin: calc(-1 * var(--eb-notice-pad-y)) calc(-1 * var(--eb-notice-pad-x)) 0;
+
+	// The close control is now a <button> wrapping a dashicon, but the legacy
+	// .e-notice__dismiss rules were written for a bare dashicon <span>:
+	// keep the old 20px box + 9px padding and the white glyph.
+	.eb-admin-promotion-close {
+		box-sizing: content-box;
+		color: #ffffff;
+		line-height: 20px;
+
+		.dashicons {
+			width: 20px;
+			height: 20px;
+			font-size: 20px;
+			line-height: 20px;
+			color: inherit;
+		}
+
+		&:focus-visible {
+			outline: 2px solid #ffffff;
+			outline-offset: -2px;
+		}
+	}
+}

@@ -19,7 +19,7 @@ export default function ConfigurationContent({ handleTabChange, tracking, prefer
                 <div className="eb-quick-setup-content">
                     <div className="configuration-intro-content eb-flex-column-center">
                         <a
-                            href="https://youtu.be/9svZxQOIR2c"
+                            href="https://youtu.be/8-hrsbd75Yk"
                             target="_blank"
                         >
                             <img

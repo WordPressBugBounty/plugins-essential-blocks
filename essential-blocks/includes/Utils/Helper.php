@@ -16,6 +16,26 @@
     }
 
     /**
+     * Whether an on/off flag in the `eb_settings` option is enabled.
+     *
+     * Values are stored as 'true' / 'false' strings by the dashboard
+     * (save_eb_admin_options). A missing or empty key means $default.
+     *
+     * @param string $key     Setting key, e.g. 'faqSchema'.
+     * @param bool   $default Value when the key has never been saved.
+     *
+     * @return bool
+     */
+    public static function is_eb_setting_enabled( $key, $default = true ) {
+        $settings = get_option( 'eb_settings', array() );
+        if ( ! is_array( $settings ) || ! isset( $settings[ $key ] ) || '' === $settings[ $key ] ) {
+            return (bool) $default;
+        }
+
+        return 'false' !== $settings[ $key ] && false !== $settings[ $key ];
+    }
+
+    /**
      * Get Responsive Breakpoints for Localize
      */
     public static function get_responsive_breakpoints() {

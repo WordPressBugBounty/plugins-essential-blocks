@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { useEffect, memo } from "@wordpress/element";
+import { useEffect, useState, memo } from "@wordpress/element";
 import { select, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { useEntityProp } from "@wordpress/core-data";
@@ -41,8 +41,12 @@ function Edit(props) {
         showAuthorPicture,
         authorPictureLink,
         customFields,
-        metaItems
+        metaItems,
+        cover
     } = attributes;
+
+    // Until the preview image ships, a missing file falls back to the live render.
+    const [coverFailed, setCoverFailed] = useState(false);
 
     const parsedCustomFields = (() => {
         try {
@@ -423,6 +427,19 @@ function Edit(props) {
             </div>
         );
     };
+
+    if (cover?.length && !coverFailed) {
+        return (
+            <div>
+                <img
+                    src={cover}
+                    alt={__("Post Meta", "essential-blocks")}
+                    style={{ maxWidth: "100%" }}
+                    onError={() => setCoverFailed(true)}
+                />
+            </div>
+        );
+    }
 
     return (
         <>

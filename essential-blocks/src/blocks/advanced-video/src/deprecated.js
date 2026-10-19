@@ -3,10 +3,30 @@
  */
 import { useBlockProps } from "@wordpress/block-editor";
 import attributes from "./attributes";
+import save from "./save";
+
+// The default videoURL changed in 6.5.1. A block that kept the old default
+// never stored videoURL, so its saved markup holds the old URL. Parse it with
+// the old default so it still validates and keeps its video.
+const legacyAttributes = {
+    ...attributes,
+    videoURL: {
+        type: "string",
+        default: "https://www.youtube.com/watch?v=PnZx4ZOMyzI",
+    },
+};
 
 const deprecated = [
     {
-        attributes: { ...attributes },
+        attributes: legacyAttributes,
+        supports: {
+            anchor: true,
+            align: ["wide", "full"],
+        },
+        save,
+    },
+    {
+        attributes: { ...legacyAttributes },
         supports: {
             anchor: true,
         },
@@ -117,7 +137,7 @@ const deprecated = [
         },
     },
     {
-        attributes: { ...attributes },
+        attributes: { ...legacyAttributes },
         supports: {
             anchor: true,
         },
@@ -223,7 +243,7 @@ const deprecated = [
     },
     {
         attributes: {
-            ...attributes,
+            ...legacyAttributes,
         },
         supports: {
             anchor: true,
@@ -331,7 +351,7 @@ const deprecated = [
     },
     {
         attributes: {
-            ...attributes,
+            ...legacyAttributes,
             videoURL: {
                 type: "string",
                 default: "http://www.youtube.com/watch?v=PnZx4ZOMyzI",

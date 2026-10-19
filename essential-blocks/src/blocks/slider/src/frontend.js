@@ -32,6 +32,46 @@ const shouldOpenLightbox = (lightbox, $item, event) => {
     return !event.target.closest(".has-content-link");
 };
 
+/**
+ * Keep focus out of slides that Slick hides from assistive technology.
+ *
+ * Slick gives every slide a tabindex, so pressing a slide (click or drag)
+ * focuses the slide itself. On the next change Slick sets aria-hidden="true"
+ * on that slide while it still holds focus, and Chrome blocks the attribute
+ * with a warning. Move focus to the slide list instead: it stays visible,
+ * already handles Slick's arrow keys, and Tab from it reaches the active slide.
+ *
+ * Watches the slider root, so it keeps working when Slick rebuilds the list
+ * and track at a responsive breakpoint.
+ *
+ * @param {HTMLElement} sliderEl Element Slick was initialized on.
+ */
+const keepFocusOutOfHiddenSlides = (sliderEl) => {
+    const releaseFocus = () => {
+        const focused = sliderEl.ownerDocument.activeElement;
+        const hiddenSlide = focused?.closest?.('.slick-slide[aria-hidden="true"]');
+        if (!hiddenSlide || !sliderEl.contains(hiddenSlide)) {
+            return;
+        }
+
+        const list = sliderEl.querySelector(":scope > .slick-list");
+        if (!list) {
+            return;
+        }
+        if (!list.hasAttribute("tabindex")) {
+            list.setAttribute("tabindex", "-1");
+        }
+        list.focus({ preventScroll: true });
+    };
+
+    new MutationObserver(releaseFocus).observe(sliderEl, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["aria-hidden"],
+    });
+    sliderEl.addEventListener("focusin", releaseFocus);
+};
+
 domReady(function () {
     //Execute after DOM loads.
     const wrappers = document.getElementsByClassName("eb-slider-wrapper");
@@ -260,6 +300,7 @@ domReady(function () {
             let slickType = wrapper.querySelector(".eb-slider-init");
 
             jQuery(slickType).slick(settings);
+            keepFocusOutOfHiddenSlides(slickType);
 
             // Load SVG icons for v2
             setTimeout(() => {
@@ -327,6 +368,7 @@ domReady(function () {
                     responsive: [...responsive],
                     cssEase: "linear",
                 });
+                keepFocusOutOfHiddenSlides(slickType);
 
                 // Load SVG icons for v3/v4
                 setTimeout(() => {

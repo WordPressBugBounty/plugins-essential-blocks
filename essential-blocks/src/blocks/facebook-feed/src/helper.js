@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { EB_LINKS } from "@essential-blocks/controls";
 import { FilterProIcon, Crown } from './icon';
 
 /**
@@ -459,7 +460,7 @@ export const FacebookFeedFilterUpgradePro = () => (
             <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://essential-blocks.com/demo/facebook-feed/"
+                href={EB_LINKS.demos.facebookFeed}
             >
                 {__('Content Filters', 'essential-blocks')}
                 <span className="dashicons dashicons-external"></span>

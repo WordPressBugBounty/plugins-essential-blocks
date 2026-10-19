@@ -1,0 +1,107 @@
+// Extensions tab (components/TabExtensions.js). Toolbar and grid are
+// shared with the Blocks tab (_blocks.scss).
+
+.eb-ext-card {
+	gap: var(--eb-space-3);
+	box-shadow: none;
+
+	&:hover {
+		border-color: var(--eb-border-strong);
+	}
+
+	&__header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--eb-space-2);
+	}
+
+	&__icon {
+		display: inline-flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-primary-soft);
+		color: var(--eb-primary-strong);
+	}
+
+	&__badges {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		gap: var(--eb-space-1);
+	}
+
+	&__body {
+		flex: 1 1 auto;
+	}
+
+	&__title {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-lg);
+		font-weight: var(--eb-fw-bold);
+		line-height: var(--eb-lh-heading);
+	}
+
+	&__description {
+		margin-top: var(--eb-space-1);
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-sm);
+		line-height: var(--eb-lh-body);
+	}
+
+	&__warning {
+		display: flex;
+		gap: 6px;
+		margin-top: var(--eb-space-2);
+		padding: var(--eb-space-2);
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-warning-soft);
+		color: var(--eb-warning);
+		font-size: var(--eb-fs-xs);
+		line-height: 1.45;
+
+		svg {
+			flex-shrink: 0;
+			margin-top: 1px;
+		}
+	}
+
+	&__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--eb-space-2);
+		min-height: 40px;
+		padding-top: var(--eb-space-3);
+		border-top: 1px solid var(--eb-border);
+	}
+
+	&__doc {
+		color: var(--eb-primary-strong);
+		font-size: var(--eb-fs-sm);
+		font-weight: var(--eb-fw-medium);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:focus-visible {
+			border-radius: 2px;
+			@include eb-focus-ring;
+		}
+	}
+
+	&.is-locked {
+		background: var(--eb-surface-subtle);
+
+		.eb-ext-card__icon {
+			background: var(--eb-pro-soft);
+			color: var(--eb-pro-text);
+		}
+	}
+}

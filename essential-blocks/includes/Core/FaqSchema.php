@@ -2,6 +2,7 @@
 namespace EssentialBlocks\Core;
 
 use EssentialBlocks\Traits\HasSingletone;
+use EssentialBlocks\Utils\Helper;
 
 class FaqSchema {
 	use HasSingletone;
@@ -24,6 +25,11 @@ class FaqSchema {
 	 * Print FAQ Schema in wp_head
 	 */
 	public function eb_faq_schema() {
+		// Extensions > FAQ Schema. Off: print nothing (block attributes stay dormant).
+		if ( ! Helper::is_eb_setting_enabled( 'faqSchema' ) ) {
+			return;
+		}
+
 		$this->render_accordion_item_faq_schema();
 
 		if ( ! empty( self::$faq_schema ) ) {

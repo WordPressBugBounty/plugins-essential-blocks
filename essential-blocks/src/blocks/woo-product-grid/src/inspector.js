@@ -78,6 +78,7 @@ import {
     InspectorPanel,
     SortControl,
     EbImageSizeSelector,
+    EB_LINKS,
 } from "@essential-blocks/controls";
 
 import { CdIcon, ProBadge, Crown } from "./icon";
@@ -89,13 +90,13 @@ const FilterByTaxonomyUpgradeProContent = () => {
             <h3>
                 <a
                     target="_blank"
-                    href="https://essential-blocks.com/demo/conditional-display/"
+                    href={EB_LINKS.demos.wooProductGrid}
                 >
-                    {__("Filter By Taxonomy", "essential-blocks-pro")}
+                    {__("Filter By Taxonomy", "essential-blocks")}
                     <span className="dashicons dashicons-external"></span>
                 </a>
             </h3>
-            <p>Supercharge your website with Conditional Display.</p>
+            <p>{__("Let visitors filter products by category, tag or any product taxonomy.", "essential-blocks")}</p>
             <a
                 className="eb_upgrade_button"
                 target="_blank"
@@ -625,7 +626,7 @@ const Inspector = ({ attributes, setAttributes, setQueryResults }) => {
                     </InspectorPanel.PanelBody>
 
                     <PanelBody
-                        title={__("Filter By Taxonomy", "essential-blocks-pro")}
+                        title={__("Filter By Taxonomy", "essential-blocks")}
                         initialOpen={false}
                         className={"eb-filter-by-taxonomy eb-group-control-panelbody"}
                         {...(EssentialBlocksLocalize?.is_pro_active === "false" && {

@@ -1,0 +1,1336 @@
+// Shared dashboard UI primitives (components/ui/*).
+
+.eb-visually-hidden {
+	@include eb-visually-hidden;
+}
+
+// Card -----------------------------------------------------------------
+.eb-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-3);
+	padding: var(--eb-space-5);
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-md);
+	background: var(--eb-surface);
+	box-shadow: var(--eb-shadow-sm);
+	color: var(--eb-text-secondary);
+	transition: box-shadow var(--eb-transition), border-color var(--eb-transition);
+
+	&--interactive:hover,
+	&--interactive:focus-within {
+		border-color: var(--eb-border-strong);
+		box-shadow: var(--eb-shadow-md);
+	}
+
+	&--muted {
+		background: var(--eb-surface-subtle);
+	}
+
+	&__header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--eb-space-3);
+	}
+
+	&__body {
+		flex: 1 1 auto;
+	}
+
+	&__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--eb-space-3);
+		padding-top: var(--eb-space-3);
+		border-top: 1px solid var(--eb-border);
+	}
+
+	@include eb-reduced-motion {
+		transition: none;
+	}
+}
+
+// Badge ----------------------------------------------------------------
+.eb-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	border-radius: var(--eb-radius-pill);
+	font-size: var(--eb-fs-xs);
+	font-weight: var(--eb-fw-medium);
+	line-height: 18px;
+	white-space: nowrap;
+
+	svg {
+		width: 12px;
+		height: 12px;
+	}
+
+	&--neutral,
+	&--free,
+	&--always {
+		background: var(--eb-surface-subtle);
+		color: var(--eb-text-secondary);
+		box-shadow: inset 0 0 0 1px var(--eb-border);
+	}
+
+	&--pro {
+		background: var(--eb-pro-soft);
+		color: var(--eb-pro-text);
+	}
+
+	&--new {
+		background: var(--eb-new-soft);
+		color: var(--eb-new);
+	}
+
+	&--popular {
+		background: var(--eb-primary-soft);
+		color: var(--eb-primary-strong);
+	}
+
+	&--updated {
+		background: var(--eb-surface-subtle);
+		color: var(--eb-text-secondary);
+	}
+
+	&--active {
+		background: var(--eb-success-soft);
+		color: var(--eb-success-text);
+	}
+}
+
+// Toggle (rc-switch) ---------------------------------------------------
+.eb-settings-wrap,
+.eb-dash-portal {
+	.rc-switch {
+		flex-shrink: 0;
+		width: 40px;
+		height: 22px;
+		line-height: 22px;
+		border: 1px solid var(--eb-toggle-off);
+		border-radius: var(--eb-radius-pill);
+		background-color: var(--eb-toggle-off);
+		vertical-align: middle;
+		transition: background-color var(--eb-transition), border-color var(--eb-transition);
+
+		&::after {
+			top: 2px;
+			left: 2px;
+			width: 16px;
+			height: 16px;
+			background-color: var(--eb-toggle-thumb);
+			box-shadow: var(--eb-toggle-thumb-shadow);
+			transform: none;
+			animation: none;
+		}
+
+		&:focus {
+			box-shadow: none;
+			outline: none;
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		.rc-switch-inner {
+			display: none;
+		}
+	}
+
+	.rc-switch-checked {
+		border-color: var(--eb-primary);
+		background-color: var(--eb-primary);
+
+		&::after {
+			left: 20px;
+		}
+	}
+
+	.rc-switch-disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.rc-switch[aria-busy="true"] {
+		cursor: progress;
+	}
+
+	// Touch: keep the 40×22 look but give a 40px-tall hit area.
+	@include eb-tablet {
+		.rc-switch::before {
+			content: "";
+			position: absolute;
+			inset: -10px -4px;
+		}
+	}
+
+	@include eb-reduced-motion {
+		.rc-switch,
+		.rc-switch::after {
+			transition: none;
+		}
+	}
+}
+
+// Search ---------------------------------------------------------------
+.eb-search {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-width: 220px;
+
+	&__icon {
+		position: absolute;
+		left: 12px;
+		color: var(--eb-text-muted);
+		pointer-events: none;
+	}
+
+	// Doubled class beats wp-admin's input[type=search] rules.
+	&__input.eb-search__input {
+		width: 100%;
+		min-height: 40px;
+		margin: 0;
+		padding: 0 36px 0 36px;
+		border: 1px solid var(--eb-border-strong);
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-input-bg);
+		color: var(--eb-text);
+		font-family: inherit;
+		font-size: var(--eb-fs-md);
+		box-shadow: none;
+
+		&::placeholder {
+			color: var(--eb-text-muted);
+		}
+
+		&::-webkit-search-cancel-button {
+			appearance: none;
+		}
+
+		&:focus {
+			border-color: var(--eb-primary);
+			@include eb-focus-ring;
+		}
+	}
+
+	&__clear {
+		position: absolute;
+		right: 6px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		border: 0;
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-text-muted);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--eb-surface-hover);
+			color: var(--eb-text);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+	}
+}
+
+// Chips ----------------------------------------------------------------
+.eb-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--eb-space-2);
+
+	@include eb-mobile {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: none;
+		padding: 3px;
+		margin: -3px;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+}
+
+.eb-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 32px;
+	padding: 0 var(--eb-space-3);
+	border: 1px solid var(--eb-border-strong);
+	border-radius: var(--eb-radius-pill);
+	background: var(--eb-surface);
+	color: var(--eb-text-secondary);
+	font-family: inherit;
+	font-size: var(--eb-fs-sm);
+	font-weight: var(--eb-fw-medium);
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background-color var(--eb-transition), border-color var(--eb-transition), color var(--eb-transition);
+
+	&:hover {
+		border-color: var(--eb-primary);
+		color: var(--eb-text);
+	}
+
+	&:focus-visible {
+		@include eb-focus-ring;
+	}
+
+	&[aria-pressed="true"] {
+		border-color: var(--eb-primary);
+		background: var(--eb-primary-soft);
+		color: var(--eb-primary-strong);
+	}
+
+	// No section to jump to (search or status left it empty).
+	&:disabled {
+		border-color: var(--eb-border);
+		color: var(--eb-text-muted);
+		cursor: default;
+		opacity: 0.6;
+	}
+
+	&__count {
+		min-width: 18px;
+		padding: 0 5px;
+		border-radius: var(--eb-radius-pill);
+		background: var(--eb-surface-subtle);
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-xs);
+		line-height: 18px;
+		text-align: center;
+	}
+
+	&[aria-pressed="true"] &__count {
+		background: var(--eb-surface);
+		color: var(--eb-primary-strong);
+	}
+
+	@include eb-tablet {
+		min-height: 40px;
+	}
+
+	@include eb-reduced-motion {
+		transition: none;
+	}
+}
+
+// Segmented ------------------------------------------------------------
+.eb-segmented {
+	display: inline-flex;
+	gap: 2px;
+	padding: 3px;
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-sm);
+	background: var(--eb-surface-subtle);
+
+	&__option {
+		min-height: 32px;
+		padding: 0 var(--eb-space-3);
+		border: 0;
+		border-radius: 4px;
+		background: transparent;
+		color: var(--eb-text-muted);
+		font-family: inherit;
+		font-size: var(--eb-fs-sm);
+		font-weight: var(--eb-fw-medium);
+		white-space: nowrap;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--eb-text);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		&[aria-checked="true"] {
+			background: var(--eb-surface);
+			color: var(--eb-primary-strong);
+			box-shadow: var(--eb-shadow-sm);
+		}
+
+		@include eb-tablet {
+			min-height: 36px;
+		}
+	}
+}
+
+// Modal (portaled; tokens come from .eb-dash-portal) -------------------
+.eb-dash-modal-overlay.components-modal__screen-overlay {
+	background-color: var(--eb-overlay);
+	font-family: var(--eb-font);
+}
+
+.components-modal__frame.eb-dash-modal {
+	width: 560px;
+	max-width: calc(100vw - 32px);
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-md);
+	background: var(--eb-surface);
+	box-shadow: var(--eb-shadow-lg);
+	color: var(--eb-text-secondary);
+	font-family: var(--eb-font);
+
+	&.eb-dash-modal--sm {
+		width: 420px;
+	}
+
+	&.eb-dash-modal--lg {
+		width: 760px;
+	}
+
+	.components-modal__header {
+		border-bottom: 1px solid var(--eb-border);
+		background: var(--eb-surface);
+
+		.components-modal__header-heading {
+			color: var(--eb-text);
+			font-size: var(--eb-fs-lg);
+			font-weight: var(--eb-fw-bold);
+		}
+
+		.components-button {
+			color: var(--eb-text-muted);
+
+			&:hover {
+				color: var(--eb-text);
+			}
+
+			&:focus-visible {
+				@include eb-focus-ring;
+			}
+		}
+	}
+
+	// WP renders the modal as a bottom sheet on small screens: span the width.
+	@include eb-mobile {
+		&,
+		&.eb-dash-modal--sm,
+		&.eb-dash-modal--lg {
+			width: 100%;
+			max-width: 100%;
+			max-height: calc(100vh - 32px);
+			border-radius: var(--eb-radius-md) var(--eb-radius-md) 0 0;
+		}
+	}
+}
+
+// Toasts ---------------------------------------------------------------
+.eb-toasts {
+	position: fixed;
+	right: var(--eb-space-6);
+	bottom: var(--eb-space-6);
+	z-index: 160001;
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-2);
+	max-width: min(380px, calc(100vw - 32px));
+
+	&__region {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-2);
+	}
+
+	@include eb-mobile {
+		right: 16px;
+		left: 16px;
+		bottom: 16px;
+		max-width: none;
+	}
+}
+
+.eb-toast {
+	display: flex;
+	align-items: center;
+	gap: var(--eb-space-3);
+	padding: var(--eb-space-3) var(--eb-space-3) var(--eb-space-3) var(--eb-space-4);
+	border: 1px solid var(--eb-border);
+	border-left: 4px solid var(--eb-success);
+	border-radius: var(--eb-radius-sm);
+	background: var(--eb-surface);
+	box-shadow: var(--eb-shadow-md);
+	color: var(--eb-text);
+	font-size: var(--eb-fs-md);
+	font-weight: var(--eb-fw-medium);
+	animation: eb-toast-in 180ms ease-out;
+
+	&--error {
+		border-left-color: var(--eb-danger);
+	}
+
+	&--info {
+		border-left-color: var(--eb-primary);
+	}
+
+	&__message {
+		flex: 1 1 auto;
+	}
+
+	&__action {
+		flex: 0 0 auto;
+		padding: var(--eb-space-1) var(--eb-space-2);
+		border: 0;
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-primary-strong);
+		font: inherit;
+		font-weight: var(--eb-fw-bold);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--eb-primary-soft);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		@include eb-mobile {
+			min-height: 44px;
+		}
+	}
+
+	&__close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		border: 0;
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-text-muted);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--eb-surface-hover);
+			color: var(--eb-text);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+	}
+
+	@include eb-reduced-motion {
+		animation: none;
+	}
+}
+
+@keyframes eb-toast-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}
+
+// Skeleton -------------------------------------------------------------
+.eb-skeleton {
+	display: block;
+	border-radius: 4px;
+	background: linear-gradient(90deg, var(--eb-surface-subtle) 25%, var(--eb-surface-hover) 50%, var(--eb-surface-subtle) 75%);
+	background-size: 200% 100%;
+	animation: eb-skeleton 1.4s ease-in-out infinite;
+
+	@include eb-reduced-motion {
+		animation: none;
+	}
+}
+
+@keyframes eb-skeleton {
+	from {
+		background-position: 200% 0;
+	}
+
+	to {
+		background-position: -200% 0;
+	}
+}
+
+.eb-skeleton-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: var(--eb-space-4);
+}
+
+.eb-skeleton-card {
+	min-height: 150px;
+
+	&__row {
+		display: flex;
+		justify-content: space-between;
+	}
+}
+
+// Empty state ----------------------------------------------------------
+.eb-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--eb-space-2);
+	padding: var(--eb-space-10) var(--eb-space-6);
+	border: 1px dashed var(--eb-border-strong);
+	border-radius: var(--eb-radius-md);
+	background: var(--eb-surface);
+	text-align: center;
+
+	&__icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		margin-bottom: var(--eb-space-2);
+		border-radius: 50%;
+		background: var(--eb-primary-soft);
+		color: var(--eb-primary-strong);
+	}
+
+	&--error &__icon {
+		background: var(--eb-danger-soft);
+		color: var(--eb-danger);
+	}
+
+	&__title {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-lg);
+		font-weight: var(--eb-fw-bold);
+	}
+
+	&__description {
+		max-width: 420px;
+		color: var(--eb-text-muted);
+	}
+
+	&__action {
+		margin-top: var(--eb-space-3);
+	}
+}
+
+// Tooltip --------------------------------------------------------------
+.eb-tooltip-wrap {
+	position: relative;
+	display: inline-flex;
+}
+
+// Portaled to <body> (Tooltip.js sets top/left in viewport coordinates).
+.eb-tooltip {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: var(--eb-z-toast, 160001);
+	font-family: var(--eb-font);
+	padding: 4px 8px;
+	border-radius: var(--eb-radius-sm);
+	background: var(--eb-text);
+	color: var(--eb-surface);
+	font-size: var(--eb-fs-xs);
+	font-weight: var(--eb-fw-medium);
+	line-height: 1.4;
+	white-space: nowrap;
+	pointer-events: none;
+	visibility: hidden;
+	opacity: 0;
+	transform: translate(-50%, calc(-100% + 4px));
+	transition: opacity var(--eb-transition), transform var(--eb-transition);
+
+	// Invisible bridge over the 8px gap, so the pointer can move from the
+	// trigger onto the bubble without leaving the wrapper.
+	&::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -8px;
+		height: 8px;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		border: 5px solid transparent;
+		border-top-color: var(--eb-text);
+		transform: translateX(-50%);
+	}
+
+	&[data-visible] {
+		visibility: visible;
+		opacity: 1;
+		pointer-events: auto;
+		transform: translate(-50%, -100%);
+	}
+
+	&--right {
+		transform: translate(4px, -50%);
+
+		&::before {
+			top: 0;
+			right: auto;
+			bottom: 0;
+			left: -8px;
+			width: 8px;
+			height: auto;
+		}
+
+		&::after {
+			top: 50%;
+			right: 100%;
+			left: auto;
+			border-top-color: transparent;
+			border-right-color: var(--eb-text);
+			transform: translateY(-50%);
+		}
+
+		&[data-visible] {
+			transform: translate(0, -50%);
+		}
+	}
+
+	@include eb-reduced-motion {
+		transition: none;
+	}
+}
+
+// Visually hidden (screen-reader only) ----------------------------------
+.eb-visually-hidden {
+	@include eb-visually-hidden;
+}
+
+// Theme switcher (radio group) -----------------------------------------
+.eb-theme-switcher {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-pill);
+	background: var(--eb-surface-subtle);
+	color: var(--eb-text-muted);
+	cursor: pointer;
+	transition: background-color var(--eb-transition), color var(--eb-transition);
+
+	&:hover {
+		background: var(--eb-surface);
+		color: var(--eb-primary-strong);
+	}
+
+	&:focus-visible {
+		@include eb-focus-ring;
+	}
+
+	@include eb-down-782 {
+		width: 44px;
+		height: 44px;
+	}
+
+	@include eb-reduced-motion {
+		transition: none;
+	}
+}
+
+// Fields (components/ui/Field.js) ---------------------------------------
+.eb-field {
+	display: grid;
+	gap: var(--eb-space-2);
+
+	&__label {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-md);
+		font-weight: var(--eb-fw-medium);
+	}
+
+	&__required {
+		color: var(--eb-danger);
+	}
+
+	&__description {
+		margin: 0;
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-sm);
+	}
+
+	&__error {
+		display: flex;
+		align-items: center;
+		gap: var(--eb-space-1);
+		margin: 0;
+		color: var(--eb-danger);
+		font-size: var(--eb-fs-sm);
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	&__row {
+		display: flex;
+		align-items: center;
+		gap: var(--eb-space-2);
+
+		.eb-input {
+			flex: 1 1 auto;
+			min-width: 0;
+		}
+	}
+
+	&__unit {
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-sm);
+	}
+
+	&__toggle {
+		min-width: 40px;
+		min-height: 40px;
+		padding: 0 var(--eb-space-3);
+		border: 1px solid var(--eb-border);
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-primary-strong);
+		font: inherit;
+		font-size: var(--eb-fs-sm);
+		font-weight: var(--eb-fw-medium);
+		cursor: pointer;
+
+		&:hover {
+			background: var(--eb-surface-hover);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.7;
+		}
+
+		@include eb-down-782 {
+			min-height: 44px;
+		}
+	}
+}
+
+// Doubled class beats wp-admin's input/select rules.
+.eb-input.eb-input {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 40px;
+	margin: 0;
+	padding: 0 var(--eb-space-3);
+	border: 1px solid var(--eb-border-strong);
+	border-radius: var(--eb-radius-sm);
+	background: var(--eb-input-bg);
+	box-shadow: none;
+	color: var(--eb-text);
+	font: inherit;
+	font-size: var(--eb-fs-md);
+	line-height: 1.4;
+
+	&::placeholder {
+		color: var(--eb-text-muted);
+		opacity: 1;
+	}
+
+	&:focus {
+		border-color: var(--eb-primary);
+		@include eb-focus-ring;
+	}
+
+	&[aria-invalid="true"] {
+		border-color: var(--eb-danger);
+	}
+
+	&:disabled {
+		background: var(--eb-surface-subtle);
+		cursor: not-allowed;
+		opacity: 0.7;
+	}
+
+	@include eb-down-782 {
+		min-height: 44px;
+	}
+}
+
+.eb-input.eb-input--select {
+	padding-right: 36px;
+	appearance: none;
+	background: var(--eb-input-bg) var(--eb-select-arrow) no-repeat right 12px center / 16px 16px;
+	cursor: pointer;
+}
+
+// Alert (components/ui/Alert.js). `eb-alert-box` avoids the legacy
+// `.eb-alert*` classes used by the Openverse modal. -----------------------
+.eb-alert-box {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--eb-space-3);
+	padding: var(--eb-space-3) var(--eb-space-4);
+	border: 1px solid var(--eb-border);
+	border-left: 4px solid var(--eb-info);
+	border-radius: var(--eb-radius-sm);
+	background: var(--eb-info-soft);
+	color: var(--eb-text);
+	font-size: var(--eb-fs-md);
+
+	&__icon {
+		display: inline-flex;
+		flex: 0 0 auto;
+		margin-top: 1px;
+		color: var(--eb-info);
+	}
+
+	&__body {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	&__title {
+		margin: 0 0 var(--eb-space-1);
+		font-weight: var(--eb-fw-bold);
+	}
+
+	&__content > :first-child {
+		margin-top: 0;
+	}
+
+	&__content > :last-child {
+		margin-bottom: 0;
+	}
+
+	&__actions {
+		display: flex;
+		flex: 0 0 auto;
+		flex-wrap: wrap;
+		gap: var(--eb-space-2);
+	}
+
+	&__dismiss {
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		border: 0;
+		border-radius: var(--eb-radius-sm);
+		background: transparent;
+		color: var(--eb-text-muted);
+		cursor: pointer;
+
+		&:hover {
+			color: var(--eb-text);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		@include eb-down-782 {
+			width: 40px;
+			height: 40px;
+		}
+	}
+
+	@include eb-down-782 {
+		flex-wrap: wrap;
+
+		&__actions {
+			flex-basis: 100%;
+		}
+	}
+
+	&--success {
+		border-left-color: var(--eb-success);
+		background: var(--eb-success-soft);
+
+		.eb-alert-box__icon {
+			color: var(--eb-success-text);
+		}
+	}
+
+	&--warning {
+		border-left-color: var(--eb-warning);
+		background: var(--eb-warning-soft);
+
+		.eb-alert-box__icon {
+			color: var(--eb-warning);
+		}
+	}
+
+	&--error {
+		border-left-color: var(--eb-danger);
+		background: var(--eb-danger-soft);
+
+		.eb-alert-box__icon {
+			color: var(--eb-danger);
+		}
+	}
+}
+
+// Load error state (components/ui/LoadErrorState.js) -------------------
+.eb-load-error {
+	&__details {
+		margin: 0;
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-sm);
+	}
+}
+
+// Confirm dialog (components/ui/ConfirmDialog.js) ----------------------
+// EB dialogs sit above the mobile drawer (--eb-z-drawer).
+.eb-dash-modal-overlay.components-modal__screen-overlay {
+	z-index: var(--eb-z-modal);
+}
+
+.eb-confirm__message {
+	color: var(--eb-text-secondary);
+	font-size: var(--eb-fs-md);
+	line-height: var(--eb-lh-body);
+
+	> :first-child {
+		margin-top: 0;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
+}
+
+.eb-confirm__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--eb-space-2);
+	margin-top: var(--eb-space-6);
+
+	@include eb-down-782 {
+		flex-direction: column-reverse;
+
+		> * {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+}
+
+// Page / Section / SectionNav (components/ui/Page.js, SectionNav.js) ----
+.eb-page {
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-6);
+	max-width: 1280px;
+	margin-inline: 0 auto;
+
+	&--wide {
+		max-width: 1600px;
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-6);
+	}
+}
+
+.eb-section {
+	padding: var(--eb-space-6);
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-lg);
+	background: var(--eb-surface);
+	box-shadow: var(--eb-shadow-sm);
+	scroll-margin-top: calc(32px + var(--eb-space-6));
+
+	@include eb-down-782 {
+		padding: var(--eb-space-4);
+		scroll-margin-top: calc(46px + var(--eb-space-4));
+	}
+
+	&__header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--eb-space-3);
+		margin-bottom: var(--eb-space-4);
+	}
+
+	&__title.eb-section__title {
+		margin: 0;
+		color: var(--eb-text);
+		font-size: var(--eb-fs-xl);
+		font-weight: var(--eb-fw-bold);
+		line-height: var(--eb-lh-heading);
+
+		&:focus {
+			outline: none;
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+	}
+
+	&__description {
+		margin: var(--eb-space-1) 0 0;
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-md);
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--eb-space-2);
+	}
+}
+
+.eb-section-nav {
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		margin: 0;
+	}
+
+	&__link.eb-section-nav__link {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--eb-space-2);
+		min-height: 36px;
+		padding: var(--eb-space-2) var(--eb-space-3);
+		border-radius: var(--eb-radius-sm);
+		color: var(--eb-text-secondary);
+		font-size: var(--eb-fs-md);
+		font-weight: var(--eb-fw-medium);
+		text-decoration: none;
+		white-space: nowrap;
+
+		&:hover {
+			background: var(--eb-surface-hover);
+			color: var(--eb-text);
+		}
+
+		&:focus {
+			box-shadow: none;
+			outline: none;
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+
+		&[aria-current="true"] {
+			background: var(--eb-primary-soft);
+			color: var(--eb-primary-strong);
+		}
+	}
+
+	&__badge {
+		color: var(--eb-text-muted);
+		font-size: var(--eb-fs-xs);
+	}
+
+	&.is-sticky {
+		@include eb-up-1024 {
+			position: sticky;
+			z-index: var(--eb-z-sticky);
+			@include eb-sticky-top(var(--eb-space-4));
+		}
+	}
+
+	// Narrow: a horizontal pill row that scrolls inside itself.
+	@include eb-down-1023 {
+		&__list {
+			flex-direction: row;
+			overflow-x: auto;
+			scroll-snap-type: x proximity;
+			scrollbar-width: none;
+			padding: 3px;
+			margin: -3px;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		&__item {
+			flex: 0 0 auto;
+			scroll-snap-align: start;
+		}
+
+		&__link.eb-section-nav__link[aria-current="true"] {
+			box-shadow: inset 0 -2px 0 var(--eb-primary);
+		}
+	}
+
+	@include eb-down-782 {
+		&__link.eb-section-nav__link {
+			min-height: 44px;
+		}
+	}
+}
+
+// Drawer (components/ui/Drawer.js) --------------------------------------
+.eb-drawer-overlay.components-modal__screen-overlay {
+	z-index: var(--eb-z-drawer);
+	display: flex;
+	align-items: stretch;
+	justify-content: flex-start;
+	background: var(--eb-overlay);
+
+	&.eb-drawer-overlay--right {
+		justify-content: flex-end;
+	}
+}
+
+.components-modal__frame.eb-drawer {
+	--eb-drawer-w: min(320px, 85vw);
+	position: relative;
+	inset: auto;
+	transform: none;
+	width: var(--eb-drawer-w);
+	min-width: 0;
+	max-width: none;
+	height: 100%;
+	max-height: none;
+	margin: 0;
+	border: 0;
+	border-right: 1px solid var(--eb-border);
+	border-radius: 0;
+	background: var(--eb-sidebar-bg);
+	box-shadow: var(--eb-shadow-lg);
+	color: var(--eb-sidebar-text);
+	font-family: var(--eb-font);
+	animation-name: eb-drawer-in;
+	animation-duration: 200ms;
+	animation-timing-function: ease-out;
+
+	&.eb-drawer--right {
+		border-right: 0;
+		border-left: 1px solid var(--eb-border);
+		animation-name: eb-drawer-in-right;
+	}
+
+	.components-modal__header {
+		border-bottom: 1px solid var(--eb-border);
+		background: var(--eb-sidebar-bg);
+	}
+
+	.components-modal__header-heading {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-lg);
+	}
+
+	&.eb-drawer--title-hidden .components-modal__header-heading {
+		@include eb-visually-hidden;
+	}
+
+	.components-modal__header .components-button {
+		min-width: 44px;
+		min-height: 44px;
+		color: var(--eb-text-muted);
+
+		&:hover {
+			color: var(--eb-text);
+		}
+
+		&:focus-visible {
+			@include eb-focus-ring;
+		}
+	}
+
+	.components-modal__content {
+		padding: var(--eb-space-3);
+	}
+
+	@include eb-reduced-motion {
+		animation: none;
+	}
+}
+
+@keyframes eb-drawer-in {
+	from {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes eb-drawer-in-right {
+	from {
+		transform: translateX(100%);
+	}
+}
+
+// Routing: programmatic focus targets ----------------------------------
+// The page h1 is focused after a tab switch (not interactive: no ring).
+.eb-settings-wrap #eb-dash-main h1:focus {
+	outline: none;
+}
+
+// One-shot highlight for a ?focus= deep-link target.
+.eb-settings-wrap .eb-focus-flash {
+	animation: eb-focus-flash 1.5s ease-out;
+	border-radius: var(--eb-radius-sm);
+
+	@include eb-reduced-motion {
+		animation: none;
+		box-shadow: var(--eb-focus-ring);
+	}
+}
+
+@keyframes eb-focus-flash {
+	0%,
+	60% {
+		box-shadow: 0 0 0 4px var(--eb-primary-soft), 0 0 0 6px var(--eb-primary);
+	}
+
+	100% {
+		box-shadow: 0 0 0 0 transparent;
+	}
+}
+
+// Field primitives inside the legacy settings modals.
+.eb-dash-portal .option-modal-content {
+	.eb-modal-field {
+		margin-bottom: var(--eb-space-4);
+	}
+
+	.eb-modal-alert {
+		margin-top: var(--eb-space-3);
+	}
+
+	.eb-modal-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--eb-space-2);
+	}
+}
+

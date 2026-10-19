@@ -281,7 +281,7 @@ class Admin {
         $halloween_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">👻 <strong>Halloween Sale:</strong> Get 70+ AI-powered blocks and features to unlock design flexibility on Gutenberg – now <strong>up to 35% OFF!</strong></p>
         <a class="button button-primary" href="https://essential-blocks.com/halloween2026/admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade To Pro Now</a>
         <a class="button button-secondary" href="https://essential-blocks.com/halloween2026/admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
-        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">' . esc_html__( 'I Don’t Want Any Discount', 'essential-blocks' ) . '</button>';
+        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">' . esc_html__( 'Dismiss', 'essential-blocks' ) . '</button>';
         $halloween_campaign2026_notice = array(
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
             'html' => $halloween_campaign2026_message
@@ -532,8 +532,10 @@ class Admin {
 
                         if ( ! $result[ 'success' ] ) {
                             wp_send_json_error( array(
-                                'message' => $result[ 'message' ],
-                                'type' => $result[ 'type' ]
+                                'message'    => $result[ 'message' ],
+                                'type'       => $result[ 'type' ],
+                                'error_type' => $result[ 'error_type' ] ?? '',
+                                'model'      => $result[ 'model' ] ?? ''
                             ) );
                             return;
                         }
@@ -738,16 +740,9 @@ class Admin {
     }
 
     public function eb_admin_inline_css() {
-        $screen = get_current_screen();
-
-        if ( ! empty( $screen->id ) && 'toplevel_page_essential-blocks' == $screen->id ) {
-            $custom_css = "
-                .notice:not(.wpdeveloper-licensing-notice) {
-                    display: none !important;
-                }";
-            wp_add_inline_style( 'admin-bar', $custom_css );
-        }
-
+        // On the EB dashboard only Essential Blocks' own notices are shown, in
+        // its notice region; other plugins' notices are hidden by the dashboard
+        // styles (src/admin/dashboard/scss/_shell.scss, shell/NoticeRegion.js).
         if ( $this->menu_notice_should_show() ) {
             $custom_css = "
                 #toplevel_page_essential-blocks .wp-submenu .wp-first-item .eb-menu-notice {
@@ -1093,7 +1088,7 @@ class Admin {
      * @return void
      */
     public function promotion_message_on_admin_screen() {
-        $custom_cursor_url = esc_url( 'https://essential-blocks.com/demo/custom-cursor/' );
+        $custom_cursor_url = esc_url( ESSENTIAL_BLOCKS_SITE_URL . 'demo/custom-cursor/' );
 
         $message_template = __(
             "<p><i>📣</i> <strong>Essential Blocks 6.5.0</strong> and <strong>Essential Blocks PRO 3.3.0</strong> have been released. The latest update introduces the new PRO feature, <strong><a target='_blank' href='%1\$s'>Custom Cursor</a></strong>, to help you design eye-catching, interactive effects on your website.</p>",
@@ -1102,14 +1097,16 @@ class Admin {
 
         $message = sprintf( $message_template, $custom_cursor_url );
 
-        // Output HTML using heredoc for better formatting
-        echo <<<HTML
+        // The close control is a real button placed after the message
+        // (DOM order = visual order).
+        ?>
         <div id="eb-admin-promotion-message" class="eb-admin-promotion-message">
-            <span class="e-notice__dismiss eb-admin-promotion-close dashicons dashicons-no-alt"
-                role="button" aria-label="Dismiss" tabindex="0"></span>
-            $message
+            <?php echo wp_kses_post( $message ); ?>
+            <button type="button" class="e-notice__dismiss eb-admin-promotion-close" aria-label="<?php esc_attr_e( 'Dismiss', 'essential-blocks' ); ?>">
+                <span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
+            </button>
         </div>
-        HTML;
+        <?php
     }
 
     public function eb_whats_new_notice() {
@@ -1143,7 +1140,7 @@ class Admin {
             'edge' => 'left',
             'align' => 'center',
             'buttonText' => __( 'Unlock Offer', 'essential-blocks' ),
-            'buttonLink' => 'https://essential-blocks.com/bfcm-wp-admin-pointer ',
+            'buttonLink' => 'https://essential-blocks.com/bfcm-wp-admin-pointer',
             'screen' => array( 'index.php', 'toplevel_page_essential-blocks', 'plugins.php' ),
             'capability' => 'activate_plugins',
             'hide_when_pro_active' => true,

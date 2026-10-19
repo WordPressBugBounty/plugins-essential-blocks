@@ -33,7 +33,8 @@ import {
     MaskingPanel,
     EBIconPicker,
     EBTextControl,
-    ProSelectControl
+    ProSelectControl,
+    isLiquidGlassEnabled,
 } from "@essential-blocks/controls";
 
 import {
@@ -312,7 +313,10 @@ __nextHasNoMarginBottom
                         <ProSelectControl
                             label={__("Tabs Style", "essential-blocks")}
                             value={tabStyle}
-                            options={TAB_STYLES}
+                            options={TAB_STYLES.filter(
+                                // Extensions > Liquid Glass off: no new usage, keep a saved choice visible.
+                                (option) => option.value !== "liquid-glass" || isLiquidGlassEnabled() || tabStyle === "liquid-glass"
+                            )}
                             onChange={(tabStyle) => setAttributes({ tabStyle })}
                         />
 

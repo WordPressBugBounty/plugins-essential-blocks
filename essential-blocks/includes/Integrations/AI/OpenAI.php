@@ -10,6 +10,38 @@ namespace EssentialBlocks\Integrations\AI;
 class OpenAI
 {
     /**
+     * Model used when none is saved, or when the saved one is unknown or retired
+     */
+    const DEFAULT_CONTENT_MODEL = 'gpt-4.1-mini';
+
+    /**
+     * Content generation models offered in AI Suite.
+     *
+     * reasoning_effort is null for standard chat models. Reasoning models get
+     * the lowest effort they support so the Max Tokens budget goes to the
+     * answer, and they are sent without a temperature, which they reject.
+     */
+    const CONTENT_MODELS = [
+        'gpt-4.1-mini' => [ 'label' => 'GPT-4.1 Mini', 'reasoning_effort' => null ],
+        'gpt-4.1-nano' => [ 'label' => 'GPT-4.1 Nano', 'reasoning_effort' => null ],
+        'gpt-4.1'      => [ 'label' => 'GPT-4.1', 'reasoning_effort' => null ],
+        'gpt-4o-mini'  => [ 'label' => 'GPT-4o Mini', 'reasoning_effort' => null ],
+        'gpt-4o'       => [ 'label' => 'GPT-4o', 'reasoning_effort' => null ],
+        'gpt-5-nano'   => [ 'label' => 'GPT-5 Nano', 'reasoning_effort' => 'minimal' ],
+        'gpt-5-mini'   => [ 'label' => 'GPT-5 Mini', 'reasoning_effort' => 'minimal' ],
+        'gpt-5'        => [ 'label' => 'GPT-5', 'reasoning_effort' => 'minimal' ],
+        'gpt-5.5'      => [ 'label' => 'GPT-5.5', 'reasoning_effort' => 'none' ]
+     ];
+
+    /**
+     * Previously offered models that are no longer listed, and their replacements
+     */
+    const LEGACY_CONTENT_MODELS = [
+        'gpt-4-turbo'   => 'gpt-4.1',
+        'gpt-3.5-turbo' => 'gpt-4.1-mini'
+     ];
+
+    /**
      * API Key for OpenAI
      *
      * @var string
@@ -43,7 +75,7 @@ class OpenAI
      *
      * @var string
      */
-    private $model = 'gpt-4.1-nano';
+    private $model = self::DEFAULT_CONTENT_MODEL;
 
     /**
      * Model to use for OpenAI image generation
@@ -117,76 +149,217 @@ class OpenAI
      */
     public function set_content_model( $model )
     {
-        // Validate the model against supported models
-        $valid_models = [ 'gpt-4.1-nano', 'gpt-4o', 'gpt-4-turbo', 'gpt-4o-mini', 'gpt-3.5-turbo' ];
-        if ( in_array( $model, $valid_models ) ) {
-            $this->model = $model;
-        } else {
-            // Fallback to default if invalid model is provided
-            $this->model = 'gpt-4.1-nano';
+        $this->model = self::normalize_content_model( $model );
+    }
+
+    /**
+     * Map a saved model to one AI Suite still offers
+     *
+     * @param mixed $model
+     * @return string
+     */
+    public static function normalize_content_model( $model )
+    {
+        if ( is_string( $model ) && isset( self::CONTENT_MODELS[ $model ] ) ) {
+            return $model;
         }
+
+        if ( is_string( $model ) && isset( self::LEGACY_CONTENT_MODELS[ $model ] ) ) {
+            return self::LEGACY_CONTENT_MODELS[ $model ];
+        }
+
+        return self::DEFAULT_CONTENT_MODEL;
+    }
+
+    /**
+     * Content model choices for the AI Suite settings
+     *
+     * @return array List of [ value, label ]
+     */
+    public static function get_content_model_options()
+    {
+        $options = [  ];
+
+        foreach ( self::CONTENT_MODELS as $id => $model ) {
+            $options[  ] = [
+                'value' => $id,
+                'label' => $id === self::DEFAULT_CONTENT_MODEL
+                    /* translators: %s: model name */
+                    ? sprintf( __( '%s (Recommended)', 'essential-blocks' ), $model[ 'label' ] )
+                    : $model[ 'label' ]
+             ];
+        }
+
+        return $options;
+    }
+
+    /**
+     * Build a Chat Completions body that the current model accepts
+     *
+     * @param array      $messages
+     * @param int        $max_tokens
+     * @param float|null $temperature Ignored for reasoning models
+     * @return array
+     */
+    private function build_chat_body( $messages, $max_tokens, $temperature = null )
+    {
+        $body = [
+            'model'                 => $this->model,
+            'messages'              => $messages,
+            'max_completion_tokens' => (int) $max_tokens
+         ];
+
+        $reasoning_effort = self::CONTENT_MODELS[ $this->model ][ 'reasoning_effort' ] ?? null;
+
+        if ( $reasoning_effort ) {
+            $body[ 'reasoning_effort' ] = $reasoning_effort;
+        } elseif ( $temperature !== null ) {
+            $body[ 'temperature' ] = $temperature;
+        }
+
+        return $body;
+    }
+
+    /**
+     * Send a Chat Completions request with the current model
+     *
+     * If OpenAI no longer serves the selected model, the request is retried
+     * once with DEFAULT_CONTENT_MODEL, so a retired model in the settings
+     * does not break generation.
+     *
+     * @param array      $messages
+     * @param int        $max_tokens
+     * @param float|null $temperature
+     * @param int        $timeout
+     * @return array|\WP_Error [ 'code' => int, 'body' => array|null ] or a transport error
+     */
+    private function send_chat_request( $messages, $max_tokens, $temperature = null, $timeout = 60 )
+    {
+        $response = wp_remote_post(
+            $this->api_endpoint,
+            [
+                'headers'     => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->api_key
+                 ],
+                'body'        => wp_json_encode( $this->build_chat_body( $messages, $max_tokens, $temperature ) ),
+                'timeout'     => $timeout,
+                'data_format' => 'body'
+             ]
+        );
+
+        if ( is_wp_error( $response ) ) {
+            return $response;
+        }
+
+        $code = (int) wp_remote_retrieve_response_code( $response );
+        $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+        $model_gone = $code === 404 || ( $body[ 'error' ][ 'code' ] ?? '' ) === 'model_not_found';
+
+        if ( $model_gone && $this->model !== self::DEFAULT_CONTENT_MODEL ) {
+            $this->model = self::DEFAULT_CONTENT_MODEL;
+            return $this->send_chat_request( $messages, $max_tokens, $temperature, $timeout );
+        }
+
+        return [
+            'code' => $code,
+            'body' => $body
+         ];
     }
 
     /**
      * Validate API Key
      *
-     * Makes a simple request to the OpenAI API to validate the API key
+     * Retrieves the selected model from OpenAI. This is a free metadata call,
+     * so it checks both the key and its access to the model without spending
+     * credit on a chat completion.
      *
-     * @param string $api_key The API key to validate
-     * @return array Response with status and message
+     * @param string      $api_key The API key to validate
+     * @param string|null $model   Model to check access for. Defaults to the saved model.
+     * @return array Response with success, message and, on failure, error_type
+     *               (network, invalid_key, model_unavailable or api_error)
      */
-    public function validate_api_key( $api_key )
+    public function validate_api_key( $api_key, $model = null )
     {
         if ( empty( $api_key ) ) {
             return [
-                'success' => false,
-                'message' => __( 'API key is required.', 'essential-blocks' )
+                'success'    => false,
+                'message'    => __( 'API key is required.', 'essential-blocks' ),
+                'error_type' => 'invalid_key'
              ];
         }
 
-        // Make a simple request to the OpenAI API to validate the key
-        $response = wp_remote_post(
-            'https://api.openai.com/v1/chat/completions',
+        if ( ! empty( $model ) ) {
+            $this->set_content_model( $model );
+        }
+
+        $response = wp_remote_get(
+            'https://api.openai.com/v1/models/' . rawurlencode( $this->model ),
             [
                 'headers' => [
-                    'Content-Type'  => 'application/json',
                     'Authorization' => 'Bearer ' . $api_key
                  ],
-                'body'    => wp_json_encode( [
-                    'model'      => $this->model,
-                    'messages'   => [
-                        [
-                            'role'    => 'user',
-                            'content' => 'Hello'
-                         ]
-                     ],
-                    'max_tokens' => 5
-                 ] ),
-                'timeout' => 15
+                'timeout' => 10
              ]
         );
 
-        // Check for errors
         if ( is_wp_error( $response ) ) {
             return [
-                'success' => false,
-                'message' => $response->get_error_message()
+                'success'    => false,
+                'message'    => $response->get_error_message(),
+                'error_type' => 'network'
              ];
         }
 
-        // Parse the response
-        $response_body = json_decode( wp_remote_retrieve_body( $response ), true );
-        $response_code = wp_remote_retrieve_response_code( $response );
+        $response_code = (int) wp_remote_retrieve_response_code( $response );
 
-        // Check if the response is valid
+        // Restricted keys can be allowed to call chat completions but not to
+        // read model metadata. Fall back to a minimal chat request for those.
+        if ( $response_code === 403 ) {
+            $response = wp_remote_post(
+                $this->api_endpoint,
+                [
+                    'headers' => [
+                        'Content-Type'  => 'application/json',
+                        'Authorization' => 'Bearer ' . $api_key
+                     ],
+                    'body'    => wp_json_encode( $this->build_chat_body( [ [ 'role' => 'user', 'content' => 'Hi' ] ], 16 ) ),
+                    'timeout' => 15
+                 ]
+            );
+
+            if ( is_wp_error( $response ) ) {
+                return [
+                    'success'    => false,
+                    'message'    => $response->get_error_message(),
+                    'error_type' => 'network'
+                 ];
+            }
+
+            $response_code = (int) wp_remote_retrieve_response_code( $response );
+        }
+
+        $response_body = json_decode( wp_remote_retrieve_body( $response ), true );
+
         if ( $response_code !== 200 ) {
             $error_message = isset( $response_body[ 'error' ][ 'message' ] )
             ? $response_body[ 'error' ][ 'message' ]
             : __( 'Invalid API key or API error.', 'essential-blocks' );
 
+            if ( $response_code === 401 ) {
+                $error_type = 'invalid_key';
+            } elseif ( in_array( $response_code, [ 403, 404 ], true ) ) {
+                $error_type = 'model_unavailable';
+            } else {
+                $error_type = 'api_error';
+            }
+
             return [
-                'success' => false,
-                'message' => $error_message
+                'success'    => false,
+                'message'    => $error_message,
+                'error_type' => $error_type,
+                'model'      => $this->model
              ];
         }
 
@@ -245,50 +418,30 @@ class OpenAI
              ];
         }
 
-        // Prepare the request body
-        $body = [
-            'model'       => $this->model,
-            'messages'    => [
-                [
-                    'role'    => 'user',
-                    'content' => $prompt
-                 ]
-             ],
-            'temperature' => 0.7,
-            'max_tokens'  => $this->max_tokens
-         ];
-
-        // Make the API request
-        $response = wp_remote_post(
-            $this->api_endpoint,
-            [
-                'headers'     => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $this->api_key
-                 ],
-                'body'        => wp_json_encode( $body ),
-                'timeout'     => 60,
-                'data_format' => 'body'
-             ]
+        $result = $this->send_chat_request(
+            [ [ 'role' => 'user', 'content' => $prompt ] ],
+            $this->max_tokens,
+            0.7
         );
 
-        // Check for errors
-        if ( is_wp_error( $response ) ) {
+        if ( is_wp_error( $result ) ) {
             return [
                 'success' => false,
-                'message' => $response->get_error_message()
+                'message' => $result->get_error_message()
              ];
         }
 
-        // Parse the response
-        $response_body = json_decode( wp_remote_retrieve_body( $response ), true );
-        $response_code = wp_remote_retrieve_response_code( $response );
+        $response_body = $result[ 'body' ];
+        $content       = $response_body[ 'choices' ][ 0 ][ 'message' ][ 'content' ] ?? null;
 
-        // Check if the response is valid
-        if ( $response_code !== 200 || ! isset( $response_body[ 'choices' ][ 0 ][ 'message' ][ 'content' ] ) ) {
-            $error_message = isset( $response_body[ 'error' ][ 'message' ] )
-            ? $response_body[ 'error' ][ 'message' ]
-            : __( 'Unknown error occurred while generating content.', 'essential-blocks' );
+        if ( $result[ 'code' ] !== 200 || ! is_string( $content ) || $content === '' ) {
+            if ( isset( $response_body[ 'error' ][ 'message' ] ) ) {
+                $error_message = $response_body[ 'error' ][ 'message' ];
+            } elseif ( ( $response_body[ 'choices' ][ 0 ][ 'finish_reason' ] ?? '' ) === 'length' ) {
+                $error_message = __( 'The Max Tokens limit was reached before any text was returned. Increase Max Tokens in the AI Suite settings.', 'essential-blocks' );
+            } else {
+                $error_message = __( 'Unknown error occurred while generating content.', 'essential-blocks' );
+            }
 
             return [
                 'success'  => false,
@@ -300,7 +453,8 @@ class OpenAI
         // Return the generated content
         return [
             'success' => true,
-            'content' => $response_body[ 'choices' ][ 0 ][ 'message' ][ 'content' ],
+            'content' => $content,
+            'model'   => $this->model,
             'usage'   => isset( $response_body[ 'usage' ] ) ? $response_body[ 'usage' ] : null
          ];
     }
@@ -814,10 +968,8 @@ class OpenAI
             "}\n\n" .
             "Make sure the JSON is valid and all fields are filled. Focus on being descriptive but concise.";
 
-        // Prepare the request body for metadata generation
-        $body = [
-            'model'       => $this->model,
-            'messages'    => [
+        $result = $this->send_chat_request(
+            [
                 [
                     'role'    => 'system',
                     'content' => 'You are an expert at creating image metadata. Always respond with valid JSON only, no additional text.'
@@ -827,35 +979,16 @@ class OpenAI
                     'content' => $metadata_prompt
                  ]
              ],
-            'temperature' => 0.3, // Lower temperature for more consistent output
-            'max_tokens'  => 300
-         ];
-
-        // Make the API request for metadata
-        $response = wp_remote_post(
-            $this->api_endpoint,
-            [
-                'headers'     => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $this->api_key
-                 ],
-                'body'        => wp_json_encode( $body ),
-                'timeout'     => 30,
-                'data_format' => 'body'
-             ]
+            300,
+            0.3, // Lower temperature for more consistent output
+            30
         );
 
-        // Check for errors or invalid response
-        if ( is_wp_error( $response ) ) {
+        if ( is_wp_error( $result ) || $result[ 'code' ] !== 200 || empty( $result[ 'body' ][ 'choices' ][ 0 ][ 'message' ][ 'content' ] ) ) {
             return $this->get_default_image_metadata( $original_prompt );
         }
 
-        $response_body = json_decode( wp_remote_retrieve_body( $response ), true );
-        $response_code = wp_remote_retrieve_response_code( $response );
-
-        if ( $response_code !== 200 || ! isset( $response_body[ 'choices' ][ 0 ][ 'message' ][ 'content' ] ) ) {
-            return $this->get_default_image_metadata( $original_prompt );
-        }
+        $response_body = $result[ 'body' ];
 
         // Parse the JSON response
         $metadata_json = $response_body[ 'choices' ][ 0 ][ 'message' ][ 'content' ];

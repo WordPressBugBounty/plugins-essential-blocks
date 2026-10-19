@@ -1,17 +1,29 @@
 import { applyFilters } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 
-import { HomeIcon, BlocksIcon, TemplatesIcon, OptionsIcon, IntegrationsIcon, WriteWithAiIcon } from "./icons";
+import { HomeIcon, BlocksIcon, ExtensionsIcon, TemplatesIcon, OptionsIcon, IntegrationsIcon, WriteWithAiIcon } from "./icons";
 import {
     TabGeneral,
     Blocks,
     TabTemplates,
     TabOptions,
     TabIntegrations,
-    TabAISuite
+    TabAISuite,
+    TabExtensions
 } from "./components";
 
-const tabMenus = applyFilters('essential_blocks_settings_menu_list', [
+/**
+ * Dashboard tabs.
+ *
+ * The filter is applied when called (at mount), not at module load, so
+ * scripts that load after this bundle (e.g. Pro, which depends on it)
+ * can still add or modify tabs. Ids are a public contract (?tab=...).
+ *
+ * The sidebar groups come from navigation/registry.js: core tabs have fixed
+ * groups; filter-added items may set an optional `group` key
+ * ('main' | 'build' | 'connect' | 'manage'), otherwise they go to 'manage'.
+ */
+const getTabMenus = () => applyFilters('essential_blocks_settings_menu_list', [
     {
         id: 'general',
         icon: <HomeIcon />,
@@ -24,6 +36,12 @@ const tabMenus = applyFilters('essential_blocks_settings_menu_list', [
         icon: <BlocksIcon />,
         label: __("Blocks", "essential-blocks"),
         comp: <Blocks />
+    },
+    {
+        id: 'extensions',
+        icon: <ExtensionsIcon />,
+        label: __("Extensions", "essential-blocks"),
+        comp: <TabExtensions />
     },
     {
         id: 'templates',
@@ -51,4 +69,4 @@ const tabMenus = applyFilters('essential_blocks_settings_menu_list', [
     },
 ]);
 
-export default tabMenus;
+export default getTabMenus;

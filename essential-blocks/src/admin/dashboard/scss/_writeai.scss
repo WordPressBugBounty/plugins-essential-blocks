@@ -1,112 +1,337 @@
-.eb-write-with-ai {
-	.eb-admin-grid {
-		margin-bottom: 0;
+// AI Suite tab (components/TabAISuite.js).
 
-		// .eb-admin-input-wrapper {
-		// 	h4 {
-		// 		&.enabled {
-		// 			color: #23cd4d;
-		// 		}
+.eb-ai-card {
+	gap: 0;
+	padding: 0;
+	box-shadow: none;
+}
 
-		// 		&.disabled {
-		// 			color: #D0D5DD;
-		// 		}
-		// 	}
-		// }
+.eb-ai-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--eb-space-6);
+	padding: var(--eb-space-6);
+	border-bottom: 1px solid var(--eb-border);
 
-		.eb-admin-inner-grid {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+	&:last-child {
+		border-bottom: 0;
+	}
 
-			&>* {
-				grid-column: initial;
+	&__info {
+		h2,
+		.eb-ai-row__title {
+			display: block;
+			margin-bottom: var(--eb-space-1);
+			color: var(--eb-text);
+			font-size: var(--eb-fs-lg);
+			font-weight: var(--eb-fw-bold);
+			line-height: var(--eb-lh-heading);
+
+			label {
+				cursor: pointer;
 			}
-
-			input,
-			select {
-				border: 1px solid #fff;
-				width: 100%;
-				max-width: 100%;
-				padding: 18px 15px;
-			}
-
-			h2 {
-				margin: 0 0 10px;
-				padding: 0;
-				font-weight: 600;
-				font-size: 22px;
-				line-height: 120%;
-				color: #211C70;
-			}
-
-			p {
-				color: #6A72A5;
-				font-size: 14px;
-				line-height: 150%;
-			}
-
-			.eb-post-types-select {
-				width: 100%;
-
-				.eb-select__control {
-					border: 0px;
-					min-height: 55px;
-				}
-			}
-
-			.eb-openai-api-key {
-				flex-flow: column;
-
-				/* API Key Error Styling */
-				.eb-input-error {
-					border-color: #e74c3c !important;
-				}
-
-				.eb-api-key-error {
-					color: #e74c3c;
-					font-size: 12px;
-					margin-top: 5px;
-					padding: 5px;
-					background-color: rgba(231, 76, 60, 0.1);
-					border-radius: 3px;
-					word-break: break-all;
-					width: 95%;
-					margin-bottom: 5px;
-				}
-			}
-
-
 		}
 
-		.eb-admin-action-grid {
-			.eb-save-message {
-				&.success {
-					color: #008000;
-				}
+		label.eb-ai-row__title {
+			cursor: pointer;
+		}
 
-				&.error {
-					color: #ff0000;
-				}
+		p {
+			color: var(--eb-text-muted);
+			font-size: var(--eb-fs-sm);
+			line-height: var(--eb-lh-body);
+
+			& + p {
+				margin-top: var(--eb-space-2);
 			}
+		}
+
+		a {
+			color: var(--eb-primary-strong);
 		}
 	}
 
-	.eb-admin-checkbox-wrapper {
-		background: #ffffff;
-		box-shadow: 0px 1px 2px rgba(23, 57, 97, 0.1);
-		border-radius: 10px;
-		border: 1px solid rgba(0, 0, 0, 0.05);
-		overflow: hidden;
+	&__control {
+		display: flex;
+		flex-direction: column;
+		gap: var(--eb-space-2);
+	}
 
-		.eb-block-box {
-			background: transparent;
-			box-shadow: none;
-			border-radius: 0px;
-			border: 0;
+	@include eb-mobile {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--eb-space-3);
+		padding: var(--eb-space-5);
+	}
+}
+
+.eb-ai-option {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--eb-space-3);
+	min-height: 48px;
+	padding: var(--eb-space-2) var(--eb-space-4);
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-sm);
+	background: var(--eb-surface-subtle);
+
+	&__label {
+		color: var(--eb-text);
+		font-size: var(--eb-fs-md);
+		font-weight: var(--eb-fw-medium);
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: var(--eb-space-2);
+	}
+}
+
+.eb-ai-expand {
+	border: 1px solid var(--eb-border-strong);
+	background: var(--eb-surface);
+	cursor: pointer;
+
+	svg {
+		transition: transform var(--eb-transition);
+	}
+
+	&[aria-expanded="true"] svg {
+		transform: rotate(180deg);
+	}
+}
+
+.eb-ai-suboptions {
+	display: flex;
+	flex-direction: column;
+	gap: var(--eb-space-2);
+	padding-left: var(--eb-space-4);
+	border-left: 2px solid var(--eb-border);
+
+	&[hidden] {
+		display: none;
+	}
+
+	.eb-ai-option {
+		background: var(--eb-surface);
+	}
+}
+
+// Doubled class beats wp-admin's input/select rules.
+.eb-ai-input.eb-ai-input {
+	width: 100%;
+	max-width: none;
+	min-height: 40px;
+	margin: 0;
+	padding: 6px 12px;
+	border: 1px solid var(--eb-border-strong);
+	border-radius: var(--eb-radius-sm);
+	background-color: var(--eb-input-bg);
+	color: var(--eb-text);
+	font-family: inherit;
+	font-size: var(--eb-fs-md);
+	box-shadow: none;
+
+	// wp-admin's select:hover/:focus set a fixed #1e1e1e text and border.
+	&:hover {
+		border-color: var(--eb-text-muted);
+		color: var(--eb-text);
+	}
+
+	&:focus {
+		border-color: var(--eb-primary);
+		color: var(--eb-text);
+		@include eb-focus-ring;
+	}
+
+	&.eb-input-error {
+		border-color: var(--eb-danger);
+	}
+}
+
+select.eb-ai-input.eb-ai-input {
+	padding-right: 36px;
+	background: var(--eb-input-bg) var(--eb-select-arrow) no-repeat right 12px center / 16px 16px;
+	appearance: none;
+}
+
+.eb-ai-secret {
+	position: relative;
+	display: flex;
+
+	.eb-ai-input.eb-ai-input {
+		padding-right: 72px;
+	}
+
+	&__toggle {
+		position: absolute;
+		top: 50%;
+		right: 6px;
+		min-height: 28px;
+		padding: 0 var(--eb-space-2);
+		border: 0;
+		border-radius: 4px;
+		background: var(--eb-surface-subtle);
+		color: var(--eb-text-secondary);
+		font-family: inherit;
+		font-size: var(--eb-fs-xs);
+		font-weight: var(--eb-fw-medium);
+		transform: translateY(-50%);
+		cursor: pointer;
+
+		&:focus-visible {
+			@include eb-focus-ring;
 		}
 
-		.eb-admin-checkbox-items-wrapper {
-			border-top: 1px solid rgba(0, 0, 0, 0.05);
+		// Touch: 40px hit area without changing the visual size.
+		@include eb-tablet {
+			&::before {
+				content: "";
+				position: absolute;
+				inset: -6px -4px;
+			}
 		}
 	}
+}
+
+.eb-api-key-error {
+	color: var(--eb-danger);
+	font-size: var(--eb-fs-sm);
+}
+
+.eb-ai-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--eb-space-3);
+	padding: var(--eb-space-5) var(--eb-space-6);
+
+	.eb-save-message.error {
+		color: var(--eb-danger);
+		font-size: var(--eb-fs-sm);
+	}
+}
+
+// react-select (post types)
+.eb-post-types-select {
+	.eb-select__control {
+		min-height: 40px;
+		border-color: var(--eb-border-strong);
+		border-radius: var(--eb-radius-sm);
+		background: var(--eb-input-bg);
+		box-shadow: none;
+
+		&--is-focused {
+			border-color: var(--eb-primary);
+			box-shadow: var(--eb-focus-ring);
+		}
+	}
+
+	.eb-select__input-container,
+	.eb-select__single-value {
+		color: var(--eb-text);
+	}
+
+	.eb-select__placeholder {
+		color: var(--eb-text-muted);
+	}
+
+	.eb-select__multi-value {
+		border-radius: 4px;
+		background: var(--eb-primary-soft);
+	}
+
+	.eb-select__multi-value__label {
+		color: var(--eb-primary-strong);
+	}
+
+	.eb-select__multi-value__remove {
+		color: var(--eb-primary-strong);
+
+		&:hover {
+			background: var(--eb-danger-soft);
+			color: var(--eb-danger);
+		}
+	}
+
+	.eb-select__menu {
+		z-index: 20;
+		border: 1px solid var(--eb-border);
+		background: var(--eb-surface);
+		box-shadow: var(--eb-shadow-md);
+	}
+
+	.eb-select__option {
+		color: var(--eb-text);
+
+		&--is-focused {
+			background: var(--eb-surface-hover);
+		}
+
+		&--is-selected {
+			background: var(--eb-primary-soft);
+			color: var(--eb-primary-strong);
+		}
+	}
+
+	.eb-select__indicator-separator {
+		background: var(--eb-border);
+	}
+}
+
+// Connection / Features / Where sections, then the form's save bar.
+.eb-ai-section + .eb-ai-section {
+	margin-top: var(--eb-space-8);
+}
+
+// The section is the card: the rows inside sit flush, no second frame.
+.eb-ai-section .eb-ai-card {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+
+	.eb-ai-row {
+		padding-inline: 0;
+
+		&:first-child {
+			padding-top: 0;
+		}
+
+		&:last-child {
+			padding-bottom: 0;
+		}
+	}
+}
+
+.eb-ai-actions--form {
+	margin-top: var(--eb-space-6);
+	padding: var(--eb-space-4) 0 0;
+	border-top: 1px solid var(--eb-border);
+}
+
+.eb-ai-draft-alert {
+	margin-bottom: var(--eb-space-6);
+}
+
+.eb-ai-actions__dirty {
+	margin-right: auto;
+	color: var(--eb-text-muted);
+	font-size: var(--eb-fs-sm);
+
+	&:empty {
+		display: none;
+	}
+}
+
+// While there are unsaved changes the save bar stays in view.
+.eb-ai-actions--form.is-sticky {
+	position: sticky;
+	bottom: 0;
+	z-index: var(--eb-z-sticky);
+	padding: var(--eb-space-4);
+	border: 1px solid var(--eb-border);
+	border-radius: var(--eb-radius-md);
+	background: var(--eb-surface);
+	box-shadow: var(--eb-shadow-md);
 }

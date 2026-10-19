@@ -56,7 +56,7 @@ export default function GetStartedContent({ handleTabChange, setTracking, ebUser
                 <div className="eb-quick-setup-content">
                     <div className="get-started-intro-content eb-flex-column-center">
                         <a
-                            href="https://youtu.be/zineKKxp3a0?list=PLWHp1xKHCfxAk6IzUeT_jvBDjiPghKJbe"
+                            href="https://youtu.be/bgQJpgjz19s"
                             target="_blank"
                         >
                             <img

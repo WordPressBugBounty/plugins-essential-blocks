@@ -873,7 +873,9 @@ export default function Style(props) {
     // into the CSS string leaves the literal text "undefined" stuck onto
     // the next selector, breaking it in the editor (frontend is saved via
     // blockMeta which is sanitized; editor renders the raw string).
-    const liquidGlassProStyles = applyFilters("eb_liquid_glass_effect_pro_style", attributes, "iconLiquidGlass", `.${blockId}.eb-feature-list-wrapper .eb-feature-list-items .eb-feature-list-icon-box .eb-feature-list-icon-inner`) || "";
+    // Without Pro the filter returns the `attributes` object it was given; keep only a CSS string.
+    const liquidGlassProFiltered = applyFilters("eb_liquid_glass_effect_pro_style", attributes, "iconLiquidGlass", `.${blockId}.eb-feature-list-wrapper .eb-feature-list-items .eb-feature-list-icon-box .eb-feature-list-icon-inner`);
+    const liquidGlassProStyles = typeof liquidGlassProFiltered === "string" ? liquidGlassProFiltered : "";
 
     // Image masking — per QA report Path B retrofit (shared block-level mask).
     // Per-feature masking would need migration into the features[] array.

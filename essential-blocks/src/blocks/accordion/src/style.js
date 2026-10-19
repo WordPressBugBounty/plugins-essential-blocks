@@ -87,6 +87,7 @@ export default function Style(props) {
         iconPosition,
         titleAlignment,
         hoverTitleColor,
+        hoverTitleFontWeight,
         activeBgColor,
         activeTitleColor,
         activeIconColor,
@@ -935,10 +936,11 @@ ${
 }
 
 	${
-        hoverTitleColor
+        hoverTitleColor || hoverTitleFontWeight
             ? `
 			.${blockId}.eb-accordion-container .eb-accordion-title-wrapper:hover .title-content-${blockId} .eb-accordion-title{
-				color:${hoverTitleColor};
+				${hoverTitleColor ? `color:${hoverTitleColor};` : ""}
+				${hoverTitleFontWeight ? `font-weight:${hoverTitleFontWeight};` : ""}
 			}
 			`
             : ""
