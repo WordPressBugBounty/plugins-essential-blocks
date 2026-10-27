@@ -46,3 +46,15 @@ $eb-selected-icon: ".block-editor-autocompleters__block[aria-selected=true] .blo
         fill: var(--eb-icon-knockout);
     }
 }
+
+// With Pro inactive, the Pro placeholder blocks (pro-block-register.js) draw
+// their icon as an <img> of the SVG file, which the fill rules above cannot
+// reach. Turn the whole image white instead. White details inside it merge
+// into the icon here, as no CSS can recolour them through an <img>.
+.block-editor-autocompleters__block[aria-selected=true],
+.block-editor-list-view-leaf.is-selected,
+.block-editor-block-draggable-chip {
+    .block-editor-block-icon .eb-pro-icon-wrapper > img {
+        filter: brightness(0) invert(1);
+    }
+}

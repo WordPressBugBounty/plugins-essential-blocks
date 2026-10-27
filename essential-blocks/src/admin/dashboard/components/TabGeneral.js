@@ -428,39 +428,21 @@ export default function TabGeneral() {
                         >
                     <div className="changelog-wrapper">
                         <div className="changelog-title">
-                            {__("Version: 6.5.1", "essential-blocks")}
+                            {__("Version: 6.5.2", "essential-blocks")}
                             <span className="changelog-date">
-                                {__("19/10/2026", "essential-blocks")}
+                                {__("26/10/2026", "essential-blocks")}
                             </span>
                         </div>
                         <ul className="changelog-content">
                             <li>
                                 {__(
-                                    "Added: Accordion | Title hover font weight",
+                                    "Improved: Performance | Faster editor loading on long pages",
                                     "essential-blocks"
                                 )}
                             </li>
                             <li>
                                 {__(
-                                    "Added: Write With AI | GPT-5 models",
-                                    "essential-blocks"
-                                )}
-                            </li>
-                            <li>
-                                {__(
-                                    "Revamped: New EB Dashboard for better UI/UX",
-                                    "essential-blocks"
-                                )}
-                            </li>
-                            <li>
-                                {__(
-                                    "Improved: Write With AI | Performance",
-                                    "essential-blocks"
-                                )}
-                            </li>
-                            <li>
-                                {__(
-                                    "Fixed: Block patterns image issue",
+                                    "Fixed: Pro blocks selected icon color issue",
                                     "essential-blocks"
                                 )}
                             </li>

@@ -87,6 +87,7 @@ export { EBSanitization } from "./EBSanitization";
 export { getFlipTransform, getButtonClasses } from "./flipboxHelpers";
 
 export { StyleComponent } from "./StyleComponent";
+export { queueGeneratedStyles, hasQueuedGeneratedStyles } from "./generatedStylesSync";
 export { AdvancedColorPicker } from "./AdvancedColorPicker";
 
 export {

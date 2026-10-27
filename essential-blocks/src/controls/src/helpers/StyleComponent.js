@@ -1,11 +1,13 @@
 /**
  * WordPress dependencies
  */
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useState, useRef } from "@wordpress/element";
 import { doAction, applyFilters } from "@wordpress/hooks";
-import { useSelect } from '@wordpress/data';
+import { useSelect, useRegistry } from '@wordpress/data';
+import { useBlockEditContext } from "@wordpress/block-editor";
 
 import { softMinifyCssStrings } from "../helpers/miniHelperFuncs"
+import { queueGeneratedStyles, hasQueuedGeneratedStyles } from "./generatedStylesSync";
 
 /**
  * Sanitize CSS strings by removing any literal 'undefined' values
@@ -36,6 +38,10 @@ export const StyleComponent = (props) => {
 
     const [styleObject, setStyleObject] = useState();
     const [didMount, setDidMount] = useState(false);
+    const registry = useRegistry();
+    const { clientId } = useBlockEditContext();
+    // The first blockMeta sync after mount is batched across blocks.
+    const isMountSync = useRef(true);
 
     // Set All Style in "styleObject"
     useEffect(() => {
@@ -68,8 +74,13 @@ export const StyleComponent = (props) => {
                 mobile: sanitizeCssUndefined(softMinifyCssStrings(styleObject.mobile))
             }
             if (JSON.stringify(blockMeta) !== JSON.stringify(dbStyles)) {
-                setAttributes({ blockMeta: dbStyles });
+                if (isMountSync.current || hasQueuedGeneratedStyles(registry, clientId)) {
+                    queueGeneratedStyles(registry, clientId, { blockMeta: dbStyles }, setAttributes);
+                } else {
+                    setAttributes({ blockMeta: dbStyles });
+                }
             }
+            isMountSync.current = false;
         }
     }, [styleObject])
 

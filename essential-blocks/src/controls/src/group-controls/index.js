@@ -2,7 +2,8 @@
  * WordPress Dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { useEffect, Fragment } from "@wordpress/element";
+import { useEffect, useRef, Fragment } from "@wordpress/element";
+import { useRegistry } from "@wordpress/data";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { addFilter, applyFilters } from "@wordpress/hooks";
 
@@ -10,6 +11,7 @@ import { addFilter, applyFilters } from "@wordpress/hooks";
  * Internal Dependencies
  */
 import { softMinifyCssStrings } from "../helpers";
+import { queueGeneratedStyles, hasQueuedGeneratedStyles } from "../helpers/generatedStylesSync";
 import classNames from "classnames";
 
 import {
@@ -435,15 +437,24 @@ const withAdvancedControls = createHigherOrderComponent((BlockEdit) => {
             styleObject = applyFilters("eb_common_style_object", styleObject, attributes);
             styleObjectEditor = applyFilters("eb_common_style_object_editor", styleObjectEditor, attributes);
 
+            // The first commonStyles sync after mount is batched across blocks.
+            const registry = useRegistry();
+            const isMountSync = useRef(true);
+
             // Set All Style in "blockMeta" Attribute
             useEffect(() => {
                 if (
                     JSON.stringify(commonStyles) != JSON.stringify(styleObject)
                 ) {
-                    setAttributes({
-                        commonStyles: styleObject,
-                    });
+                    if (isMountSync.current || hasQueuedGeneratedStyles(registry, clientId)) {
+                        queueGeneratedStyles(registry, clientId, { commonStyles: styleObject }, setAttributes);
+                    } else {
+                        setAttributes({
+                            commonStyles: styleObject,
+                        });
+                    }
                 }
+                isMountSync.current = false;
             }, [attributes]);
 
             // let _attributes = { ...attributes };
