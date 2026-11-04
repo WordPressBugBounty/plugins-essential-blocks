@@ -132,9 +132,9 @@ export const generateResponsiveRangeStyles = ({
     // If auto is enabled, set auto for all devices
     if (isAuto) {
         return {
-            rangeStylesDesktop: propertyName + 'auto',
-            rangeStylesTab: propertyName + 'auto',
-            rangeStylesMobile: propertyName + 'auto',
+            rangeStylesDesktop: propertyName + 'auto' + endValue,
+            rangeStylesTab: propertyName + 'auto' + endValue,
+            rangeStylesMobile: propertyName + 'auto' + endValue,
         };
     }
 

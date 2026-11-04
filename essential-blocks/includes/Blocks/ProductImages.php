@@ -28,6 +28,7 @@ class ProductImages extends Block
         $this->assets_manager->register(
             'product-images-frontend',
             $this->path() . '/frontend.js',
+            [ 'jquery', 'essential-blocks-slickjs', 'essential-blocks-zoom', 'essential-blocks-fslightbox-js' ]
         );
     }
 

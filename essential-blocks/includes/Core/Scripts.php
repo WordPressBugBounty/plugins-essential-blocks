@@ -93,6 +93,7 @@ class Scripts
 
         add_action( 'enqueue_block_editor_assets', [ $this, 'block_editor_assets' ] );
         add_action( 'enqueue_block_editor_assets', [ $this, 'frontend_backend_assets' ] );
+        add_action( 'enqueue_block_editor_assets', [ $this, 'classic_editor_assets' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'frontend_backend_assets' ], 20 );
         add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
         add_action( 'init', [ $this, 'localize_enqueue_scripts' ] );
@@ -261,6 +262,32 @@ class Scripts
     }
 
     /**
+     * Load the classic editor (TinyMCE + `wp.editor`) for the Timeline block.
+     *
+     * The Timeline block's Rich Content Editor mounts a classic TinyMCE editor via
+     * `wp.editor.initialize()`, which needs `wp_enqueue_editor()`. The post editor
+     * calls it itself, but the Site Editor (patterns, templates, pages), the block
+     * widgets screen and the Customizer do not, so `wp.editor.initialize()` returns
+     * early and the item is left with a bare textarea.
+     *
+     * @return void
+     */
+    public function classic_editor_assets()
+    {
+        // Core already loaded it (post editor), so nothing to do.
+        if ( did_action( 'wp_enqueue_editor' ) ) {
+            return;
+        }
+
+        // Only needed while the Timeline block is enabled.
+        if ( ! \WP_Block_Type_Registry::get_instance()->is_registered( 'essential-blocks/timeline' ) ) {
+            return;
+        }
+
+        wp_enqueue_editor();
+    }
+
+    /**
      * enqueue/register assets files in frontend/backend
      *
      * @return void
@@ -287,7 +314,7 @@ class Scripts
         // Liquid Glass
         wpdev_essential_blocks()->assets->register( 'liquid-glass', 'css/liquid-glass.css' );
 
-        wpdev_essential_blocks()->assets->register( 'babel-bundle', 'vendors/js/bundle.babel.js' );
+        wpdev_essential_blocks()->assets->register_optional( 'babel-bundle', 'vendors/js/bundle.babel.js' );
         wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', [ 'essential-blocks-babel-bundle' ] );
         wpdev_essential_blocks()->assets->register( 'controls-util', 'admin/controls/controls.js', [ 'regenerator-runtime',
             'essential-blocks-blocks-localize'

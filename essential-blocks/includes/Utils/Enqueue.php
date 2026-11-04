@@ -53,6 +53,33 @@ class Enqueue
         $this->call_wp_func( 'wp_register', $handle, $config );
     }
 
+    /**
+     * Register a script that only some builds emit.
+     *
+     * When the file is missing, the handle is still registered without a
+     * source, so scripts that depend on it keep loading and no request 404s.
+     * Example: `vendors/js/bundle.babel.js` comes from `npm start` only; a
+     * production build inlines the Babel helpers instead.
+     *
+     * @param string $handle
+     * @param string $filename
+     * @param array  $dependencies
+     *
+     * @return void
+     */
+    public function register_optional( $handle, $filename, $dependencies = [  ] )
+    {
+        $path             = $this->get_dir( $filename );
+        $this->assets_dir = 'assets/';
+
+        if ( file_exists( $path ) ) {
+            $this->register( $handle, $filename, $dependencies );
+            return;
+        }
+
+        wp_register_script( $this->handle( $handle ), false, $dependencies, $this->version );
+    }
+
     public function localize( $handle, $name, $args )
     {
         $handle = $this->handle( $handle );

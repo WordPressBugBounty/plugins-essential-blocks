@@ -3,14 +3,7 @@ import {
     WRAPPER_MARGIN,
     WRAPPER_PADDING,
     WRAPPER_BORDER_SHADOW,
-    BUTTON_BORDER,
-    BUTTON_PADDING,
-    QUANTITY_BORDER,
-    QUANTITY_PADDING,
-    VARIABLE_FIELD_BORDER,
-    VARIABLE_FIELD_PADDING,
     lottieWidth,
-    quantityWidth,
     lottieHeight
 } from "./constants/constants";
 

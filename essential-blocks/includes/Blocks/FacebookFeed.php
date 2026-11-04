@@ -161,7 +161,8 @@ class FacebookFeed extends Block
     {
         $this->assets_manager->register(
             'facebook-feed-frontend',
-            $this->path() . '/frontend.js'
+            $this->path() . '/frontend.js',
+            [ 'essential-blocks-isotope', 'essential-blocks-image-loaded' ]
         );
     }
 

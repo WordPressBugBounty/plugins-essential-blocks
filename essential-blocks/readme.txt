@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.5.2
+Stable tag: 6.5.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -22,7 +22,7 @@ https://youtu.be/EzPqSzadAkc
 
 ##🤖 WRITE WITH AI - POST/PAGE CONTENT INSTANTLY
 
-Generate engaging content for pages and posts in seconds with the Write With AI feature of Essential Blocks. Simply enter a few keywords and submit your prompt. Our built‑in AI engine will create rich, high-quality content instantly.
+Generate engaging content for pages and posts in seconds with the Write With AI feature of Essential Blocks. Simply enter a few keywords and submit your prompt. Our built‑in AI engine will create rich, high-quality content instantly.
 
 ##✨ READY AI CONTENT FOR RICH TEXT INPUT
 
@@ -57,43 +57,43 @@ Keep your website's loading speed fast and secure against heavy scripts and CSS 
 Choose any Google Font you prefer from a collection of 1,000+ font families available using Essential Blocks. Now, you can give your websites a customized look with stunning typography.
 
 ##👁️ CONTROL BLOCKS VISIBILITY WITH CONDITIONS, LOGICS (PRO)
-Apply display conditions to the blocks you've selected based on a variety of factors, including date and time, query strings, user roles, and browsers. Easily create visibility restrictions for content using the Gutenberg editor.
+Show or hide blocks based on date and time, query strings, user roles, browsers and more.
 
 ##🛡 UNFILTERED MEDIA FILE UPLOADS
-Easily upload SVG and JSON files directly to your WordPress Media Library without hitting file type restrictions. This unlocks advanced customization possibilities, empowering you to seamlessly integrate custom animations, illustrations, and data-driven visuals into your Gutenberg experience.
+Upload SVG and JSON files directly to your WordPress Media Library without file type restrictions, and use custom animations, illustrations and data-driven visuals in Gutenberg.
 
 ##💻 RESPONSIVE ON ALL DEVICES
-Directly from your Gutenberg block editor, you can control each block’s responsiveness individually. With flexible, responsive customization options, make your website user-friendly for all devices.
+Control each block’s responsiveness individually to make your website user-friendly on all devices.
 
 ##💧 LIQUID GLASS EFFECT ON WORDPRESS
 Add smooth, glossy liquid glassmorphism effects to your WordPress site; no coding is needed. Instantly bring modern and futuristic UI to Gutenberg designs.
 
 ##💫 INTERACTIVE ANIMATION WITH GSAP FOR PAGE BUILDER (PRO)
-With our latest exclusive feature, animation, you can design every block with a stunning animated appearance. Add smooth transitions, scroll effects and vibrant animations. Grab users’ attention instantly with eye-catching animations, transitions, and many more.
+Give every block a stunning animated appearance. Add smooth transitions, scroll effects and vibrant animations that grab users’ attention instantly.
 
 ##⚡ DYNAMIC TAGS & ACF SUPPORT (PRO)
-Enhance the flexibility and customization options of your Gutenberg-built website and easily add custom fields to posts, pages, or custom post types with dynamic placeholders or variables generated from various parameters or data sources.
+Add custom fields to posts, pages or custom post types with dynamic placeholders generated from various data sources.
 
 ##🔄 TRANSFORM BLOCKS WITH INTERACTIVE EFFECTS
-Instantly add engaging transform effects to your Gutenberg blocks and create interactive experiences without any coding. Apply hover animations, dynamic transitions, and smooth visual transformations to make your website feel modern, responsive, and visually captivating.
+Add engaging transform effects, hover animations and dynamic transitions to your Gutenberg blocks without any coding.
 
 ##🔒 PASSWORD PROTECT CONTENT & BLOCKS (PRO)
-Secure any Gutenberg block, section, or content with password protection and control who gets access. Easily restrict premium resources, exclusive content, private pages, or client-only sections directly from the block editor without writing a single line of code.
+Secure any Gutenberg block, section or content with password protection. Restrict premium resources, private pages or client-only sections directly from the block editor.
 
 ##🎨 IMAGE MASKING & MORPHING (FREEMIUM)
-Transform ordinary images into captivating visual experiences with advanced masking and morphing effects. Easily apply creative shapes, seamless transitions, and dynamic image transformations to highlight products, showcase portfolios, or create engaging website sections—all directly within the Gutenberg editor without writing a single line of code.
+Apply creative mask shapes and seamless morphing effects to images to highlight products or showcase portfolios, directly within the Gutenberg editor.
 
 ##🧭 ONE PAGE NAVIGATION (PRO)
-Guide visitors through long pages with smooth, customizable one page navigation. Create sticky section menus that let users jump between content effortlessly, improve the browsing experience and keep readers engaged, all within the Gutenberg editor without writing a line of code.
+Guide visitors through long pages with sticky, customizable section menus that let users jump between content effortlessly.
 
 ##📋 COPY/PASTE STYLE (FREE)
-Build faster while keeping every page visually consistent. Copy the complete style of any Essential Blocks block and paste it onto another with a single click. Reuse your favorite designs, save time and eliminate repetitive customization, built directly into the Gutenberg editor with no coding required.
+Copy the complete style of any Essential Blocks block and paste it onto another with a single click to keep every page visually consistent.
 
 ##🖼️ READY GUTENBERG PATTERNS BUILT WITH BLOCKS
 Get stunningly designed, ready-to-use Gutenberg block patterns for your WordPress website. Instantly add a block layout to Gutenberg or your site editor to make your website-building experience faster and more effective.
 
 ##🎯 STUNNING GUTENBERG TEMPLATES FOR WORDPRESS
-Explore and access Templately's 3,000+ ready, AI-powered Gutenberg templates created with Essential Blocks. You can easily insert the entire site with a single click, customize the fully responsive templates to your liking, upload the designs to the Templately cloud solution for future use, and easily collaborate with your team.
+Access Templately's 3,000+ ready, AI-powered Gutenberg templates created with Essential Blocks. Insert an entire site with a single click, customize the responsive templates and save designs to the Templately cloud.
 
 You will find a wide variety of stunning Gutenberg website or web page templates in any niche:
 - Blog & Magazine
@@ -158,37 +158,37 @@ Design without limits in WordPress block editor, using 70+ of the most useful Es
 - **[NFT Gallery](https://essential-blocks.com/demo/nft-gallery)** - Display NFT items & collections
 - **[Social Share](https://essential-blocks.com/demo/social-share)** - One-click social sharing for posts & pages
 - **[Openverse](https://essential-blocks.com/demo/openverse)** - Search royalty-free, CC-licensed images
-- **[Google Maps](https://essential-blocks.com/demo/google-maps)** -  Present a fully responsive map on your website with your preferred configurations, styles, etc.
-- **[Shape Divider](https://essential-blocks.com/demo/shape-divider/)** - Make your website designs stand out by showcasing different sections with stunning shape dividers
-- **[Form](https://essential-blocks.com/demo/form-block/)** - Create responsive forms of any type - contact forms, RSVP forms, multi-step forms or subscription forms - in Gutenberg and manage them easily from your WordPress dashboard.
-- **[Timeline Slider (PRO)](https://essential-blocks.com/demo/timeline-slider)** - Showcase your posts & pages in an attractive timeline slider and design with stunning presets & styling options
-- **[Advanced Search (PRO)](https://essential-blocks.com/demo/advanced-search)** - Let visitors find any content on your website easily with a customizable, dynamic search bar
-- **[Data Table (PRO)](https://essential-blocks.com/demo/data-table/)** - Insert an advanced data table on your website without any code and display information in an eye-catching way
-- **[Woo Product Carousel (PRO)](https://essential-blocks.com/demo/woo-product-carousel/)** - Display your WooCommerce products with dynamic Product Carousels and designs using limitless styling options
-- **[News Ticker (PRO)](https://essential-blocks.com/demo/news-ticker)** - Show the latest news or highlights on your website with a dynamic ticker in an engaging way that instantly drives attention
-- **[Fancy Chart (PRO)](https://essential-blocks.com/demo/fancy-chart)** - Design visually stunning & interactive charts to bring life to dull datasets
-- **[Multicolumn Pricing Table (PRO)](https://essential-blocks.com/demo/multicolumn-pricing-table)** - Use a variety of layouts to impact your customers to choose the pricing best plan by showcasing comparison table by mentioning features, displaying icons, and so on
-- **[Stacked Cards (PRO)](https://essential-blocks.com/demo/stacked-cards)** - Display your content in a unique style with the EB Stacked Cards block. With this block, you can easily make your stacked cards sticky in place and provide users an interactive experience when they scroll through your website
-- **[Testimonial Slider (PRO)](https://essential-blocks.com/demo/testimonial-slider)** - Display engaging and credible customer testimonials, reviews and ratings in a sleek slider format to build trust and encourage conversions
-- **[Offcanvas (PRO)](https://essential-blocks.com/demo/offcanvas/)** - Showcase a sidebar menu on your Gutenberg site using the Offcanvas block and grab visitors’ attention with various stunning transitions & effects
-- **[Breadcrumbs](https://essential-blocks.com/demo/breadcrumbs/)** - Make smooth navigation for your posts or pages by adding a Breadcrumbs block.
-- **[Taxonomy](https://essential-blocks.com/demo/taxonomy/)** - Display and organize content by categories, tags, product SKUs, etc. to make it easy for users to navigate.
-- **[Woo Product Details](https://essential-blocks.com/demo/woo-product-details/)** - Display WooCommerce product details with an organized layout that helps grab customers' attention.
-- **[Woo Product Price](https://essential-blocks.com/demo/woo-product-price/)** - Display the price of the WooCommerce product and style it using custom colors and typography.
-- **[Woo Product Rating](https://essential-blocks.com/demo/woo-product-rating/)** - Display WooCommerce product ratings to build credibility among visitors and customers.
-- **[Woo Product Images](https://essential-blocks.com/demo/woo-product-image/)** - Showcase eye-catching WooCommerce product images that draw in customers and are easy to customize.
-- **[Woo Add to Cart](https://essential-blocks.com/demo/woo-add-to-cart/)** - Display the 'add to cart' option for all your WooCommerce products to ensure easy navigation for customers.
-- **[Post Meta](https://essential-blocks.com/demo/post-meta/)** - Attractively showcase your current post metadata like author, date, excerpt & more.
-- **[Text](https://essential-blocks.com/demo/text/)** - Add and customize text content on your website that catches the attention of the visitors.
-- **[Lottie Animation](https://essential-blocks.com/demo/lottie-animation/)** - Add LottiFiles Animations to your Gutenberg site seamlessly and customize how you want it to appear.
-- **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Create fully customized & mobile-friendly menu with grid, nested, dropdown, etc. dynamic layouts; add icons, badges, multimedia, etc.
-- **[Query Loop Builder (PRO)](https://essential-blocks.com/demo/query-loop-builder/)** - Easily create advanced, filterable post layouts in Gutenberg with the Query Loop Builder block. Display dynamic content stunningly and hook visitors, no coding required.
-- **[Business Hours (PRO)](https://essential-blocks.com/demo/business-hours/)** - Showcase available opening times in a stylish and interactive table view. Highlight closing days, special days, multi-shift, etc.
-- **[Flex Container](https://essential-blocks.com/demo/flex-container/)** - Create outstanding, complex design layouts in Gutenberg editor and easily handle responsive layouts without coding.
-- **[Animated Wrapper (PRO)](https://essential-blocks.com/demo/animated-wrapper/)** - Design interactive layouts & containers in Gutenberg with dynamic animation effects.
-- **[Image Hotspots](https://essential-blocks.com/demo/image-hotspot/)** - This block enables you to pin items, products, etc into images with detailed pricing, URL, and description and make them interactive.
-- **[Timeline](https://essential-blocks.com/demo/timeline/)** - Create an interactive timeline in WordPress to showcase your story or company's history, achievements, events, and roadmaps.
-- **[One Page Navigation (PRO)](https://essential-blocks.com/demo/one-page-navigation/)** - Create smooth scrolling navigation menus for single page Gutenberg websites.
+- **[Google Maps](https://essential-blocks.com/demo/google-maps)** - Responsive maps with custom styles
+- **[Shape Divider](https://essential-blocks.com/demo/shape-divider/)** - Stunning dividers between sections
+- **[Form](https://essential-blocks.com/demo/form-block/)** - Contact, RSVP, multi-step & subscription forms
+- **[Timeline Slider (PRO)](https://essential-blocks.com/demo/timeline-slider)** - Posts & pages in a timeline slider
+- **[Advanced Search (PRO)](https://essential-blocks.com/demo/advanced-search)** - Customizable, dynamic search bar
+- **[Data Table (PRO)](https://essential-blocks.com/demo/data-table/)** - Advanced data tables without code
+- **[Woo Product Carousel (PRO)](https://essential-blocks.com/demo/woo-product-carousel/)** - Dynamic WooCommerce product carousels
+- **[News Ticker (PRO)](https://essential-blocks.com/demo/news-ticker)** - Latest news in a dynamic ticker
+- **[Fancy Chart (PRO)](https://essential-blocks.com/demo/fancy-chart)** - Stunning, interactive charts
+- **[Multicolumn Pricing Table (PRO)](https://essential-blocks.com/demo/multicolumn-pricing-table)** - Feature comparison pricing tables
+- **[Stacked Cards (PRO)](https://essential-blocks.com/demo/stacked-cards)** - Sticky, interactive stacked cards on scroll
+- **[Testimonial Slider (PRO)](https://essential-blocks.com/demo/testimonial-slider)** - Reviews & ratings in a sleek slider
+- **[Offcanvas (PRO)](https://essential-blocks.com/demo/offcanvas/)** - Sidebar menus with stunning transitions
+- **[Breadcrumbs](https://essential-blocks.com/demo/breadcrumbs/)** - Smooth navigation for posts & pages
+- **[Taxonomy](https://essential-blocks.com/demo/taxonomy/)** - Display categories, tags, product SKUs & more
+- **[Woo Product Details](https://essential-blocks.com/demo/woo-product-details/)** - Organized WooCommerce product details
+- **[Woo Product Price](https://essential-blocks.com/demo/woo-product-price/)** - Styled WooCommerce product prices
+- **[Woo Product Rating](https://essential-blocks.com/demo/woo-product-rating/)** - WooCommerce ratings to build credibility
+- **[Woo Product Images](https://essential-blocks.com/demo/woo-product-image/)** - Eye-catching WooCommerce product images
+- **[Woo Add to Cart](https://essential-blocks.com/demo/woo-add-to-cart/)** - Add to cart buttons for WooCommerce products
+- **[Post Meta](https://essential-blocks.com/demo/post-meta/)** - Show author, date, excerpt & more
+- **[Text](https://essential-blocks.com/demo/text/)** - Add and style text content
+- **[Lottie Animation](https://essential-blocks.com/demo/lottie-animation/)** - Customizable LottieFiles animations
+- **[Mega Menu (PRO)](https://essential-blocks.com/demo/mega-menu/)** - Mobile-friendly menus with grid & nested layouts
+- **[Query Loop Builder (PRO)](https://essential-blocks.com/demo/query-loop-builder/)** - Advanced, filterable post layouts
+- **[Business Hours (PRO)](https://essential-blocks.com/demo/business-hours/)** - Opening times in a stylish table
+- **[Flex Container](https://essential-blocks.com/demo/flex-container/)** - Complex, responsive layouts without code
+- **[Animated Wrapper (PRO)](https://essential-blocks.com/demo/animated-wrapper/)** - Containers with dynamic animation effects
+- **[Image Hotspots](https://essential-blocks.com/demo/image-hotspot/)** - Pin interactive items & products on images
+- **[Timeline](https://essential-blocks.com/demo/timeline/)** - Showcase your story, events & roadmaps
+- **[One Page Navigation (PRO)](https://essential-blocks.com/demo/one-page-navigation/)** - Smooth scrolling one-page menus
 
 More Gutenberg blocks and demos coming soon for the block visual editor (weekly update)
 
@@ -210,17 +210,17 @@ The human-readable source code ships with the plugin in the `src/` folder: the b
 ##🔥 WHAT’S NEXT?
 If you like Essential Blocks, then consider checking out our other WordPress Plugins:
 
-🎨**[ Templately](https://wordpress.org/plugins/templately/)** – Ultimate AI-powered templates cloud for WordPress with thousands of ready Gutenberg website layout designs and unique cloud collaboration features.
+🎨**[ Templately](https://wordpress.org/plugins/templately/)** – AI-powered templates cloud with thousands of ready Gutenberg designs.
 
-🔔**[ NotificationX](https://wordpress.org/plugins/notificationx/)**– Best social proof and FOMO marketing solution to boost conversions & design stunning WordPress notification bars.
+🔔**[ NotificationX](https://wordpress.org/plugins/notificationx/)**– Social proof, FOMO marketing & notification bars.
 
-🗒️ **[BetterDocs](https://wordpress.org/plugins/betterdocs/)** – Best AI-powered documentation & knowledge base plugin for WordPress to help you reduce support tickets.
+🗒️ **[BetterDocs](https://wordpress.org/plugins/betterdocs/)** – AI-powered documentation & knowledge base plugin.
 
-⏰ **[SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/)** – Complete solution for managing WordPress content scheduling through an editorial calendar & social share
+⏰ **[SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/)** – Editorial calendar, content scheduling & social share.
 
-📌 **[EmbedPress](https://wordpress.org/plugins/embedpress/)** – Easiest embedding solution for WordPress for embedding 250+ multimedia content sources.
+📌 **[EmbedPress](https://wordpress.org/plugins/embedpress/)** – Embed content from 250+ multimedia sources.
 
-🔗 **[BetterLinks](https://wordpress.org/plugins/betterlinks/)** – Advanced WordPress link management plugin for link shortening, tracking & analyzing with Instant Redirect for Gutenberg.
+🔗 **[BetterLinks](https://wordpress.org/plugins/betterlinks/)** – Link shortening, tracking & analytics for WordPress.
 
 == External services ==
 
@@ -339,6 +339,15 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.5.3 - 04/11/2026 =
+- Improved: Lottie Animation | .lottie files now render the same as JSON files
+- Fixed: Lottie Animation | % width not filling centred and stacked groups
+- Fixed: Lottie Animation | Animation overlapping the next block inside Stack groups
+- Fixed: Product Images & Facebook Feed issues
+- Fixed: Timeline | Rich content editor issue
+- Few minor bug fixes & improvements
+
+
 = 6.5.2 - 27/10/2026 =
 - Improved: Performance | Faster editor loading on long pages
 - Fixed: Selected block icon color issue

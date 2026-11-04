@@ -33,7 +33,14 @@ export default function Style(props) {
         alignment,
         titleColor,
         titleBGColor,
+        lottieWidthUnit,
+        TABlottieWidthUnit,
+        MOBlottieWidthUnit,
     } = attributes;
+
+    // A % width needs a full-width parent: in flex layouts (e.g. a centered
+    // group) the block would otherwise shrink to fit its own content.
+    const hasPercentWidth = [lottieWidthUnit, TABlottieWidthUnit, MOBlottieWidthUnit].includes("%");
 
     const {
         typoStylesDesktop: titleTypographyDesktop,
@@ -103,7 +110,6 @@ export default function Style(props) {
         rangeStylesMobile: lottieWidthMobile,
     } = generateResponsiveRangeStyles({
         controlName: lottieWidth,
-        customUnit: "px",
         property: "width",
         attributes,
     });
@@ -113,7 +119,6 @@ export default function Style(props) {
         rangeStylesMobile: lottieHeightMobile,
     } = generateResponsiveRangeStyles({
         controlName: lottieHeight,
-        customUnit: "px",
         property: "height",
         attributes,
     });
@@ -121,6 +126,7 @@ export default function Style(props) {
     // all desktop styls start
     // Desktop Wrapper
     const desktopWrapper = `
+        ${hasPercentWidth && lottieWidthUnit === "%" ? `.root-${blockId} { width: 100%; }` : ""}
 		.${blockId}.eb-lottie-animation-wrapper {
 			${wrapperMarginDesktop}
 			${wrapperPaddingDesktop}
@@ -145,8 +151,8 @@ export default function Style(props) {
 			${lottieHeightDesktop ? lottieHeightDesktop : `height: 100%;`}
 		}
         .${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation canvas {
-            ${lottieWidthDesktop ? lottieWidthDesktop : `width: 100%;`}
-			${lottieHeightDesktop ? lottieHeightDesktop : `height: 100%;`}
+            width: 100%;
+            height: 100%;
 		}
 		.${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation-title{
 			${titleTypographyDesktop}
@@ -159,6 +165,7 @@ export default function Style(props) {
     // ALL TAB Styles
     // tab Wrapper
     const tabWrapper = `
+        ${hasPercentWidth ? `.root-${blockId} { width: ${TABlottieWidthUnit === "%" ? "100%" : "auto"}; }` : ""}
 		.${blockId}.eb-lottie-animation-wrapper {
 			${wrapperMarginTab}
 			${wrapperPaddingTab}
@@ -181,8 +188,8 @@ export default function Style(props) {
             ${lottieWidthTab ? lottieWidthTab : `width: 100%;`}
 		}
         .${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation canvas {
-            ${lottieWidthTab ? lottieWidthTab : `width: 100%;`}
-            ${lottieHeightTab ? lottieHeightTab : `height: 100%;`}
+            width: 100%;
+            height: 100%;
 		}
 
         .${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation-title{
@@ -194,13 +201,14 @@ export default function Style(props) {
     // ALL MOBILE Styles
     // mobile Wrapper
     const mobileWrapper = `
-		.${blockId}.eb-icon-wrapper {
+        ${hasPercentWidth ? `.root-${blockId} { width: ${MOBlottieWidthUnit === "%" ? "100%" : "auto"}; }` : ""}
+		.${blockId}.eb-lottie-animation-wrapper {
 			${wrapperMarginMobile}
 			${wrapperPaddingMobile}
 			${wrapperBDShadowMobile}
 			${wrapperBackgroundStylesMobile}
 		}
-		.${blockId}.eb-icon-wrapper:hover {
+		.${blockId}.eb-lottie-animation-wrapper:hover {
 			${wrapperHoverBackgroundStylesMobile}
 			${wrapperBDShadowHoverMobile}
 		}
@@ -214,9 +222,9 @@ export default function Style(props) {
             ${lottieWidthMobile ? lottieWidthMobile : `width: 100%;`}
 			${lottieHeightMobile ? lottieHeightMobile : `height: 100%;`}
 		}
-        .${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation canvas{
-            ${lottieWidthMobile ? lottieWidthMobile : `width: 100%;`}
-			${lottieHeightMobile ? lottieHeightMobile : `height: 100%;`}
+        .${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation canvas {
+            width: 100%;
+            height: 100%;
 		}
         .${blockId}.eb-lottie-animation-wrapper .eb-lottie-animation-title{
 			${titleTypographyMobile}

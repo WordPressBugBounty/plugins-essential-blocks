@@ -459,7 +459,7 @@ class Admin {
             'essential-blocks-blocks-localize'
         ) );
 
-        wpdev_essential_blocks()->assets->register( 'babel-bundle', 'vendors/js/bundle.babel.js' );
+        wpdev_essential_blocks()->assets->register_optional( 'babel-bundle', 'vendors/js/bundle.babel.js' );
         wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', array( 'essential-blocks-babel-bundle' ) );
         wpdev_essential_blocks()->assets->register( 'flv', 'js/react-player/flv.min.js' );
         wpdev_essential_blocks()->assets->register( 'dash', 'js/react-player/dash.all.min.js' );

@@ -75,7 +75,7 @@ class QuickSetup {
             'essential-blocks-blocks-localize'
         ) );
 
-        wpdev_essential_blocks()->assets->register( 'babel-bundle', 'vendors/js/bundle.babel.js' );
+        wpdev_essential_blocks()->assets->register_optional( 'babel-bundle', 'vendors/js/bundle.babel.js' );
         wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', array( 'essential-blocks-babel-bundle' ) );
 
         wpdev_essential_blocks()->assets->enqueue(

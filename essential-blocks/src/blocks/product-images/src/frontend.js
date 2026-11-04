@@ -60,7 +60,9 @@ domReady(function () {
     }
 });
 
-const initImageGallery = (target, zoomTargets, enableZoom) => {
+// Function declarations, not const arrows: the script is deferred, so
+// domReady() runs its callback before code below it has executed.
+function initImageGallery(target, zoomTargets, enableZoom) {
     var galleryWidth = target.clientWidth;
 
     zoomTargets.forEach((zoomTarget, index) => {
@@ -74,7 +76,7 @@ const initImageGallery = (target, zoomTargets, enableZoom) => {
     });
 }
 
-const getImages = (galleryImages) => {
+function getImages(galleryImages) {
     const images = [];
     galleryImages.forEach(function (element) {
         var image = element.querySelector('img');
@@ -85,7 +87,7 @@ const getImages = (galleryImages) => {
     return images;
 }
 
-const openLightbox = (selectedImages) => {
+function openLightbox(selectedImages) {
     var lightbox = new FsLightbox();
     lightbox.props.sources = selectedImages;
     lightbox.open();

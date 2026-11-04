@@ -1,7 +1,27 @@
 /**
  * WordPress dependencies
  */
+import { __ } from "@wordpress/i18n";
 import { Component } from "@wordpress/element";
+import { TextareaControl } from "@wordpress/components";
+
+// wp.oldEditor removed in WP 6.6
+const getWpEditor = () => window.wp && (window.wp.editor || window.wp.oldEditor);
+
+/**
+ * The classic editor is only usable when core printed it via wp_enqueue_editor():
+ * TinyMCE itself plus wp.editor.getDefaultSettings(). Without the latter,
+ * wp.editor.initialize() returns early and leaves a bare textarea behind.
+ */
+const canUseClassicEditor = () => {
+    const wpEditor = getWpEditor();
+    return !!(
+        window.tinymce &&
+        wpEditor &&
+        typeof wpEditor.initialize === "function" &&
+        typeof wpEditor.getDefaultSettings === "function"
+    );
+};
 
 /**
  * TinyMCE Editor Component for Timeline Block
@@ -13,81 +33,115 @@ class TinyMCEEditor extends Component {
         this.initialize = this.initialize.bind(this);
         this.onSetup = this.onSetup.bind(this);
         this.focus = this.focus.bind(this);
+        this.emitChange = this.emitChange.bind(this);
         this.state = {
             editor: null,
             editorContent: props.value || '',
-            bookmark: null
+            bookmark: null,
+            useClassicEditor: canUseClassicEditor(),
         };
     }
 
     componentDidMount() {
+        if (!this.state.useClassicEditor) {
+            return;
+        }
+
         // Add a small delay to prevent conflicts when multiple editors are initialized
-        setTimeout(() => {
+        this.initTimer = setTimeout(() => {
             this.initialize();
         }, 100);
     }
 
+    componentDidUpdate(prevProps) {
+        const { editor } = this.state;
+        const { value } = this.props;
+
+        // Push external changes (undo/redo, reordering items) into TinyMCE,
+        // but never while the user is typing in it.
+        if (
+            editor &&
+            value !== prevProps.value &&
+            value !== editor.getContent() &&
+            !editor.hasFocus()
+        ) {
+            editor.setContent(value || '');
+        }
+    }
+
     componentWillUnmount() {
         const { clientId } = this.props;
+
+        clearTimeout(this.initTimer);
+
+        if (!this.state.useClassicEditor) {
+            return;
+        }
 
         // Clean up TinyMCE editor
         if (window.tinymce && window.tinymce.get(clientId)) {
             window.tinymce.get(clientId).remove();
         }
 
-        // Clean up WordPress editor (wp.oldEditor removed in WP 6.6)
-        const wpEditor = window.wp && (window.wp.editor || window.wp.oldEditor);
-        if (wpEditor) {
+        // Clean up WordPress editor
+        const wpEditor = getWpEditor();
+        if (wpEditor && typeof wpEditor.remove === "function") {
             wpEditor.remove(clientId);
         }
     }
 
     initialize() {
         const { clientId } = this.props;
-        const correctEditor = () => window.wp.editor || window.wp.oldEditor;
+        const wpEditor = getWpEditor();
 
         // Check if editor already exists and remove it first
-        if (correctEditor() && window.tinymce && window.tinymce.get(clientId)) {
+        if (window.tinymce && window.tinymce.get(clientId)) {
             window.tinymce.get(clientId).remove();
         }
 
-        if (correctEditor()) {
-            correctEditor().initialize(clientId, {
-                tinymce: {
-                    wpautop: true,
-                    toolbar1: 'formatselect,bold,italic,bullist,numlist,link,image,alignleft,aligncenter,alignright',
-                    toolbar2: 'strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo',
-                    menubar: false,
-                    statusbar: false,
-                    height: 200,
-                    plugins: 'lists,link,paste,textcolor,colorpicker,hr,charmap,image,media',
-                    paste_as_text: true,
-                    paste_auto_cleanup_on_paste: true,
-                    paste_remove_styles: true,
-                    paste_remove_styles_if_webkit: true,
-                    paste_strip_class_attributes: 'all',
-                    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 14px; line-height: 1.6; }',
-                    image_advtab: true,
-                    image_caption: true,
-                    image_title: true,
-                    image_description: false,
-                    image_dimensions: true,
-                    image_class_list: [
-                        { title: 'None', value: '' },
-                        { title: 'Responsive', value: 'wp-image-responsive' },
-                        { title: 'Rounded', value: 'wp-image-rounded' },
-                        { title: 'Circle', value: 'wp-image-circle' }
-                    ],
-                    setup: this.onSetup
-                },
-                quicktags: false,
-                mediaButtons: true
-            });
+        wpEditor.initialize(clientId, {
+            tinymce: {
+                wpautop: true,
+                toolbar1: 'formatselect,bold,italic,bullist,numlist,link,image,alignleft,aligncenter,alignright',
+                toolbar2: 'strikethrough,hr,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo',
+                menubar: false,
+                statusbar: false,
+                height: 200,
+                plugins: 'lists,link,paste,textcolor,colorpicker,hr,charmap,image,media',
+                paste_as_text: true,
+                paste_auto_cleanup_on_paste: true,
+                paste_remove_styles: true,
+                paste_remove_styles_if_webkit: true,
+                paste_strip_class_attributes: 'all',
+                content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 14px; line-height: 1.6; }',
+                image_advtab: true,
+                image_caption: true,
+                image_title: true,
+                image_description: false,
+                image_dimensions: true,
+                image_class_list: [
+                    { title: 'None', value: '' },
+                    { title: 'Responsive', value: 'wp-image-responsive' },
+                    { title: 'Rounded', value: 'wp-image-rounded' },
+                    { title: 'Circle', value: 'wp-image-circle' }
+                ],
+                setup: this.onSetup
+            },
+            quicktags: false,
+            mediaButtons: true
+        });
+    }
+
+    // Read onChange at call time: TinyMCE handlers outlive the props they were set up with.
+    emitChange(content) {
+        this.setState({ editorContent: content });
+        if (this.props.onChange) {
+            this.props.onChange(content);
         }
     }
 
     onSetup(editor) {
-        const { value, onChange } = this.props;
+        const { value } = this.props;
 
         this.setState({ editor });
 
@@ -98,22 +152,14 @@ class TinyMCEEditor extends Component {
 
         // Handle content changes immediately
         editor.on('input change keyup', () => {
-            const content = editor.getContent();
-            this.setState({ editorContent: content });
-            if (onChange) {
-                onChange(content);
-            }
+            this.emitChange(editor.getContent());
         });
 
         // Handle content changes on blur (for backup)
         editor.on('blur', () => {
             const bookmark = editor.selection.getBookmark(2, true);
             this.setState({ bookmark });
-            const content = editor.getContent();
-            this.setState({ editorContent: content });
-            if (onChange) {
-                onChange(content);
-            }
+            this.emitChange(editor.getContent());
         });
 
         // Restore selection on focus
@@ -146,11 +192,7 @@ class TinyMCEEditor extends Component {
         editor.on('paste', () => {
             // Let TinyMCE handle paste with its built-in cleaning
             setTimeout(() => {
-                const content = editor.getContent();
-                this.setState({ editorContent: content });
-                if (onChange) {
-                    onChange(content);
-                }
+                this.emitChange(editor.getContent());
             }, 100);
         });
     }
@@ -162,7 +204,26 @@ class TinyMCEEditor extends Component {
     }
 
     render() {
-        const { clientId, placeholder } = this.props;
+        const { clientId, placeholder, value, onChange } = this.props;
+
+        // Visual editor unavailable (e.g. "Disable the visual editor" in the user's
+        // profile): fall back to a controlled textarea so edits are still saved.
+        if (!this.state.useClassicEditor) {
+            return (
+                <TextareaControl
+                    className="eb-tinymce-editor-fallback"
+                    value={value || ''}
+                    onChange={(content) => onChange && onChange(content)}
+                    placeholder={placeholder || "Enter your content here..."}
+                    help={__(
+                        "The visual editor isn't available here. You can enter HTML directly.",
+                        "essential-blocks",
+                    )}
+                    rows={8}
+                    __nextHasNoMarginBottom
+                />
+            );
+        }
 
         return (
             <div className="eb-tinymce-editor-wrapper">
@@ -172,7 +233,7 @@ class TinyMCEEditor extends Component {
                             id={clientId}
                             className="wp-editor-area"
                             placeholder={placeholder || "Enter your content here..."}
-                            defaultValue={this.props.value || ''}
+                            defaultValue={value || ''}
                         />
                     </div>
                 </div>
