@@ -63,6 +63,7 @@ const Edit = (props) => {
         lightboxPlayIconType,
         lightboxPlayIconlib,
         previewImage,
+        posterImage,
         customPlayIconlib,
         // Pro's Overlay extension merges its attributes into this block via
         // `blocks.registerBlockType`, so this is present only when Pro is
@@ -369,6 +370,7 @@ const Edit = (props) => {
                                                     ref={selfHostedRef}
                                                     src={videoURL}
                                                     className={`eb-sandbox-video ${blockId}`}
+                                                    poster={posterImage || undefined}
                                                     autoPlay={shouldAutoplay}
                                                     muted={videoConfig.muted || shouldAutoplay}
                                                     loop={videoConfig.loop}

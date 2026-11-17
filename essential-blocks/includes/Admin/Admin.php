@@ -25,12 +25,33 @@ class Admin {
     const UPSELL_NOTICE_REFRESH = 'wporg-2026-10';
 
     /**
+     * Last moment of the Black Friday 2026 campaign (site time).
+     */
+    const BF_CAMPAIGN2026_END = '11:59:59pm 14th December, 2026';
+
+    /**
+     * Whether the Black Friday 2026 campaign is running.
+     *
+     * @return bool
+     */
+    public static function bf_campaign2026_running() {
+        return intval( current_time( 'timestamp' ) ) <= strtotime( self::BF_CAMPAIGN2026_END );
+    }
+
+    /**
      * Plugin Usage Insight
      *
      * @var Insights|null
      */
     private $insights = null;
     private static $cache_bank;
+
+    /**
+     * This plugin's notice system, set by notices().
+     *
+     * @var Notices|null
+     */
+    private $notices_app = null;
 
     public function __construct() {
         $this->plugin_usage_insights();
@@ -275,31 +296,47 @@ class Admin {
          */
         $upsell_screens = array( 'dashboard', 'plugins', 'toplevel_page_essential-blocks' );
 
+        $this->notices_app = $notices;
+
         /**
-         * Halloween Campaign 2026 Notice
+         * Black Friday Campaign 2026 Notice
+         *
+         * While it runs, it is the only notice Essential Blocks registers.
+         * The notice system prints only the first notice in its queue (by
+         * start date) and never tries the next one, so a registered notice
+         * that is merely hidden can block this one. The other notices come
+         * back on their own once the campaign ends.
          */
-        $halloween_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;text-transform: capitalize;">👻 <strong>Halloween Sale:</strong> Get 70+ AI-powered blocks and features to unlock design flexibility on Gutenberg – now <strong>up to 35% OFF!</strong></p>
-        <a class="button button-primary" href="https://essential-blocks.com/halloween2026/admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade To Pro Now</a>
-        <a class="button button-secondary" href="https://essential-blocks.com/halloween2026/admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
-        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px;">' . esc_html__( 'Dismiss', 'essential-blocks' ) . '</button>';
-        $halloween_campaign2026_notice = array(
+        $bf_campaign2026_end     = strtotime( self::BF_CAMPAIGN2026_END );
+        $bf_campaign2026_running = self::bf_campaign2026_running();
+
+        $bf_campaign2026_message = '<p class="eb_notice_content" style="margin-top: 0; margin-bottom: 10px;">🛍️ <strong>Black Friday Sale:</strong> Build faster on Gutenberg with 70+ PRO blocks &amp; 3,000+ ready templates – <strong>now up to 40% OFF!</strong></p>
+        <a class="button button-primary" href="https://essential-blocks.com/bfcm2026/admin-notice" target="_blank" style="background-color: #5252DC; border-color: #5252DC; border-radius: 6px; font-size: 14px; font-weight: 500;" >Upgrade To Pro Now</a>
+        <a class="button button-secondary" href="https://essential-blocks.com/bfcm2026/admin-notice-ltd" target="_blank" style="color: #171717; background-color: #EFEFEF; border-color: #D1D1D1; border-radius: 6px; font-size: 14px; font-weight: 500;">Give Me LIFETIME Access</a>
+        <button data-dismiss="true" class="dismiss-btn button button-link" style="color: #424242; font-size: 14px; text-decoration: underline;">' . esc_html__( 'I Want To Pay Full Price', 'essential-blocks' ) . '</button>';
+        $bf_campaign2026_notice = array(
             'thumbnail' => ESSENTIAL_BLOCKS_URL . 'assets/images/eb-logo-full.svg',
-            'html' => $halloween_campaign2026_message
+            'html' => $bf_campaign2026_message
         );
 
-        //Halloween Campaign 2026 Notice Add
+        //Black Friday Campaign 2026 Notice Add
         $notices->add(
-            'halloween_campaign2026',
-            $halloween_campaign2026_notice,
+            'bf_campaign2026',
+            $bf_campaign2026_notice,
             array(
-                'start' => strtotime( '12:00:00am 14th October, 2026' ),
-                'expire' => strtotime( '11:59:59pm 5th November, 2026' ),
+                // A minute in the past, not "now": the notice is hidden while
+                // time() <= start, so a start of now could make show() differ
+                // between hooks of one request. A new queue entry is only picked
+                // up on the next request, so after an update the first load
+                // shows the popup and the notice follows from the second load.
+                'start' => $notices->time() - MINUTE_IN_SECONDS,
+                'expire' => $bf_campaign2026_end,
                 'classes' => 'eb-notice put-dismiss-notice',
                 'dismissible' => true,
                 'refresh' => self::UPSELL_NOTICE_REFRESH,
                 'screens' => $upsell_screens,
                 'capability' => 'manage_options',
-                'do_action' => 'eb_halloween2026_campaign',
+                'do_action' => 'eb_bf2026_campaign',
                 'display_if' => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
             )
         );
@@ -316,21 +353,23 @@ class Admin {
         );
 
         //Early bird Notice Add
-        $notices->add(
-            'early_bird',
-            $early_bird_notice,
-            array(
-                'start' => $notices->strtotime( '+1 days' ),
-                'expire' => $notices->strtotime( '+31 days' ),
-                'classes' => 'eb-notice put-dismiss-notice',
-                'dismissible' => true,
-                'refresh' => self::UPSELL_NOTICE_REFRESH,
-                'screens' => $upsell_screens,
-                'capability' => 'manage_options',
-                'do_action' => 'eb_early_bird_campaign',
-                'display_if' => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
-            )
-        );
+        if ( ! $bf_campaign2026_running ) {
+            $notices->add(
+                'early_bird',
+                $early_bird_notice,
+                array(
+                    'start' => $notices->strtotime( '+1 days' ),
+                    'expire' => $notices->strtotime( '+31 days' ),
+                    'classes' => 'eb-notice put-dismiss-notice',
+                    'dismissible' => true,
+                    'refresh' => self::UPSELL_NOTICE_REFRESH,
+                    'screens' => $upsell_screens,
+                    'capability' => 'manage_options',
+                    'do_action' => 'eb_early_bird_campaign',
+                    'display_if' => ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE
+                )
+            );
+        }
 
         /**
          * Review Notice
@@ -391,33 +430,35 @@ class Admin {
         );
 
         // Review Notice Add
-        $notices->add(
-            'review',
-            $_review_notice,
-            array(
-                'start' => $notices->strtotime( '+7 days' ),
-                // 'start'       => $notices->time(),
-                'recurrence' => 15,
-                'dismissible' => true,
-                'refresh' => ESSENTIAL_BLOCKS_VERSION,
-                'screens' => array(
-                    'dashboard',
-                    'plugins',
-                    'themes',
-                    'edit-page',
-                    'edit-post',
-                    'users',
-                    'tools',
-                    'options-general',
-                    'nav-menus'
+        if ( ! $bf_campaign2026_running ) {
+            $notices->add(
+                'review',
+                $_review_notice,
+                array(
+                    'start' => $notices->strtotime( '+7 days' ),
+                    // 'start'       => $notices->time(),
+                    'recurrence' => 15,
+                    'dismissible' => true,
+                    'refresh' => ESSENTIAL_BLOCKS_VERSION,
+                    'screens' => array(
+                        'dashboard',
+                        'plugins',
+                        'themes',
+                        'edit-page',
+                        'edit-post',
+                        'users',
+                        'tools',
+                        'options-general',
+                        'nav-menus'
+                    )
                 )
-            )
-        );
+            );
+        }
 
         /**
          * Opt-In Notice
          */
-        if ( null != $this->insights ) {
+        if ( null != $this->insights && ! $bf_campaign2026_running ) {
             $notices->add(
                 'opt_in',
                 array( $this->insights, 'notice' ),
@@ -460,7 +501,7 @@ class Admin {
         ) );
 
         wpdev_essential_blocks()->assets->register_optional( 'babel-bundle', 'vendors/js/bundle.babel.js' );
-        wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', array( 'essential-blocks-babel-bundle' ) );
+        wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', array( 'essential-blocks-babel-bundle', 'essential-blocks-blocks-localize' ) );
         wpdev_essential_blocks()->assets->register( 'flv', 'js/react-player/flv.min.js' );
         wpdev_essential_blocks()->assets->register( 'dash', 'js/react-player/dash.all.min.js' );
         wpdev_essential_blocks()->assets->register( 'hls', 'js/react-player/hls.min.js' );
@@ -482,7 +523,7 @@ class Admin {
             )
         );
 
-        wpdev_essential_blocks()->assets->enqueue( 'eb-admin', 'js/admin.js' );
+        wpdev_essential_blocks()->assets->enqueue( 'eb-admin', 'js/admin.js', [ 'essential-blocks-blocks-localize' ] );
     }
 
     /**
@@ -1114,11 +1155,30 @@ class Admin {
             return;
         }
 
-        // Without a persistent object cache the stored `true` comes back as "1".
-        if ( get_transient( 'essential_block_whats_new_notice' ) ) {
+        if ( $this->is_whats_new_pending() ) {
             delete_transient( 'essential_block_whats_new_notice' );
 
+            // The Black Friday offer shows once per page. Where its notice
+            // is printed, the popup would repeat it and cover the notice
+            // buttons, so it is skipped there.
+            $bf_offer = $this->is_bf_campaign2026_offer_for_user();
+            if ( $bf_offer && $this->is_bf_campaign2026_notice_printed() ) {
+                return;
+            }
+
             $view_path = ESSENTIAL_BLOCKS_DIR_PATH . 'includes/Admin/whats-new-notice.php';
+
+            // While Black Friday runs, the popup carries the offer instead,
+            // for the same admins the Black Friday pointer is meant for.
+            $eb_whats_new = array();
+            if ( $bf_offer ) {
+                $eb_whats_new = array(
+                    'title'       => esc_html__( 'Black Friday for Gutenberg Lovers', 'essential-blocks' ),
+                    'description' => esc_html__( 'Up to 40% off Essential Blocks Pro. Unlock advanced 70+ Gutenberg blocks and AI writing to build without limits.', 'essential-blocks' ),
+                    'button'      => esc_html__( 'Unlock Offer', 'essential-blocks' ),
+                    'url'         => esc_url( 'https://essential-blocks.com/bfcm-wp-admin-pointer' )
+                );
+            }
 
             if ( file_exists( $view_path ) ) {
                 include $view_path;
@@ -1133,10 +1193,10 @@ class Admin {
      */
     public function register_pointer_notices() {
         // Example: Welcome pointer for new users (hidden when pro is active)
-        PointerNotices::register( 'ebbf_deal', array(
+        PointerNotices::register( 'ebbf2026_deal', array(
             'target' => '#toplevel_page_essential-blocks',
             'content' => '<h3>' . __( 'Black Friday for Gutenberg Lovers', 'essential-blocks' ) . '</h3>' .
-            '<p>' . __( 'Create stunning layouts effortlessly with premium Gutenberg blocks crafted for speed and flexibility.', 'essential-blocks' ) . '</p>',
+            '<p>' . __( 'Up to 40% off Essential Blocks Pro. Unlock advanced 70+ Gutenberg blocks and AI writing to build without limits.', 'essential-blocks' ) . '</p>',
             'edge' => 'left',
             'align' => 'center',
             'buttonText' => __( 'Unlock Offer', 'essential-blocks' ),
@@ -1145,7 +1205,103 @@ class Admin {
             'capability' => 'activate_plugins',
             'hide_when_pro_active' => true,
             'priority' => 3, // Essential Blocks priority
-            'expires' => '2025-12-04 23:59:59'
+            'expires' => '2026-12-14 23:59:59',
+            'display_if' => array( $this, 'show_bf_campaign2026_pointer' )
         ) );
+    }
+
+    /**
+     * The Black Friday pointer is shown only where the Black Friday notice
+     * is not printed, and never once that notice is declined.
+     *
+     * @return bool
+     */
+    public function show_bf_campaign2026_pointer() {
+        $notice = $this->get_bf_campaign2026_notice();
+
+        if ( $notice && $notice->dismiss->is_dismissed() ) {
+            return false;
+        }
+
+        if ( $notice && $this->is_notice_printed( $notice ) ) {
+            return false;
+        }
+
+        // The what's-new popup carries the same offer on this load and
+        // sits at the same menu item: show only one of them.
+        return ! $this->is_whats_new_pending();
+    }
+
+    /**
+     * Whether the once-after-update what's-new popup is queued.
+     *
+     * @return bool
+     */
+    private function is_whats_new_pending() {
+        // Without a persistent object cache the stored `true` comes back as "1".
+        return ! wp_doing_ajax() && (bool) get_transient( 'essential_block_whats_new_notice' );
+    }
+
+    /**
+     * Whether the current admin is a Black Friday target: campaign running,
+     * Pro inactive, notice not declined.
+     *
+     * @return bool
+     */
+    private function is_bf_campaign2026_offer_for_user() {
+        return self::bf_campaign2026_running() && ! ESSENTIAL_BLOCKS_IS_PRO_ACTIVE && ! $this->is_bf_campaign2026_declined();
+    }
+
+    /**
+     * Whether the Black Friday notice is printed on the current screen.
+     *
+     * @return bool
+     */
+    private function is_bf_campaign2026_notice_printed() {
+        $notice = $this->get_bf_campaign2026_notice();
+
+        return $notice ? $this->is_notice_printed( $notice ) : false;
+    }
+
+    /**
+     * Whether the current admin declined the Black Friday notice.
+     *
+     * @return bool
+     */
+    private function is_bf_campaign2026_declined() {
+        $notice = $this->get_bf_campaign2026_notice();
+
+        return $notice ? $notice->dismiss->is_dismissed() : false;
+    }
+
+    /**
+     * @return \PriyoMukul\WPNotice\Notice|null
+     */
+    private function get_bf_campaign2026_notice() {
+        // Read the list first: Notices exposes it through __get only.
+        $notices = $this->notices_app ? $this->notices_app->notices : array();
+
+        return isset( $notices['bf_campaign2026'] ) ? $notices['bf_campaign2026'] : null;
+    }
+
+    /**
+     * Whether the notice system prints this notice on the current screen.
+     * Mirrors CacheBank::notices(): one plugin's notices win, and a
+     * shared priority transient pauses all of them. notices() runs on
+     * both init and admin_init, so the winning account can be an earlier
+     * instance of ours: compare ids, not objects.
+     *
+     * @param \PriyoMukul\WPNotice\Notice $notice
+     * @return bool
+     */
+    private function is_notice_printed( $notice ) {
+        if ( ! $notice->show() || get_transient( 'wpnotice_priority_time_expired' ) ) {
+            return false;
+        }
+
+        $bank = CacheBank::get_instance();
+        $winner = method_exists( $bank, 'get' ) ? $bank->get() : false;
+
+        return $winner && $winner->id === $this->notices_app->id;
     }
 }

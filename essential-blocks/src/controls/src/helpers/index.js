@@ -315,6 +315,68 @@ export const ImgPlaceholder = "data:image/svg+xml,%3Csvg width='700' height='700
  * @param {string} url
  * @returns {string}
  */
+/**
+ * Turn a link typed without a scheme into what the author meant, before it is
+ * stored. sanitizeURL() runs at save time and turns anything `new URL()`
+ * rejects into "#", so a bare `section-2` or `example.com` silently became a
+ * link to nowhere.
+ *
+ * - host-like (`example.com`, `www.site.org/path`) gets `https://`
+ * - a bare id (`section-2`) becomes an anchor (`#section-2`)
+ * - everything else is returned unchanged: empty, `/`, `#`, `?`, dynamic
+ *   tags, values that already have a scheme, and ambiguous values such as
+ *   `page/sub` (the field warns about those instead of guessing)
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+// File extensions that are also (or look like) TLDs. A bare `notes.md` or
+// `app.py` is a file name, not a website (#675); any other `name.tld` is.
+const FILE_EXTENSIONS = new Set([
+    'md', 'py', 'sh', 'js', 'ts', 'jsx', 'tsx', 'css', 'scss', 'json', 'xml',
+    'txt', 'csv', 'log', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
+    'zip', 'rar', 'gz', 'tar', 'mov', 'mp4', 'mp3', 'wav', 'avi', 'mkv',
+    'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'html', 'htm', 'php', 'rb',
+    'java', 'exe', 'dmg', 'apk',
+]);
+
+export const normalizeURL = function (url) {
+    if (typeof url !== 'string') {
+        return url;
+    }
+    const value = url.trim();
+    if (
+        value === '' ||
+        /^[\/#?]/.test(value) ||
+        (typeof EssentialBlocksProLocalize !== 'undefined' &&
+            EssentialBlocksProLocalize?.eb_dynamic_tags &&
+            value.startsWith(EssentialBlocksProLocalize.eb_dynamic_tags + '/'))
+    ) {
+        return url;
+    }
+    // Host first: `example.com:8080` would otherwise read as a scheme.
+    // A value is a domain when it starts with `www.` or its host does not end
+    // in a file extension. Some extensions are also TLDs (.md, .py, .sh, .zip,
+    // .mov …), so `notes.md` or `app.py` stay as typed and the field warns
+    // they will be saved as "#", instead of silently becoming a link to a
+    // site that doesn't exist; `shop.pl` or `studio.design` still get https://.
+    const host = value.split(/[/?#:]/)[0].toLowerCase();
+    const tld = host.split('.').pop();
+    const looksLikeDomain =
+        /^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}(?::\d+)?(?:[/?#].*)?$/i.test(value) &&
+        (host.startsWith('www.') || !FILE_EXTENSIONS.has(tld));
+    if (looksLikeDomain) {
+        return 'https://' + value;
+    }
+    if (/^[a-z][a-z0-9+.-]*:/i.test(value)) {
+        return url;
+    }
+    if (/^[a-z][\w:-]*$/i.test(value)) {
+        return '#' + value;
+    }
+    return url;
+};
+
 export const sanitizeURL = function (url) {
     if (!url || typeof url !== 'string') {
         return '#';

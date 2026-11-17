@@ -6,7 +6,7 @@
 const ebFrontend = window.eb_frontend || {};
 const EBRenderIconWithSVG = ebFrontend.EBRenderIconWithSVG || (() => "");
 const loadSvgIcons = ebFrontend.loadSvgIcons || (() => {});
-document.addEventListener("DOMContentLoaded", function (event) {
+function ebAccordionInit() {
 
     let accordions = document.querySelectorAll(
         ".eb-accordion-container > .eb-accordion-inner",
@@ -117,9 +117,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
         let hide = "eb-accordion-hidden";
         //  add a className after the domcontent has been loaded
         accordion.classList.add("eb_accdn_loaded");
+        // Collapsed panels close instantly below; default-open panels keep
+        // their natural height. They are already visible and in the layout
+        // before this script runs (style.scss), so animating them open from
+        // 0 here pushed the rest of the page down (layout shift).
+        // Image accordions keep the old animated boot (their panels are laid
+        // out by expandHorizontalAccordionContent, not by style.scss).
+        const staticBoot = accordionType !== "horizontal" && accordionType !== "image";
         if (accordionType !== "horizontal") {
             for (let i = 0; i < contentNodes.length; i++) {
-                contentNodes[i].style.height = "0px";
+                if (!staticBoot || accordionWrapper[i].getAttribute("data-clickable") != "true") {
+                    contentNodes[i].style.height = "0px";
+                }
             }
         }
 
@@ -159,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             let clickable = accordionWrapper[i].getAttribute("data-clickable");
             if (clickable == "true") {
                 contentNodes[i].setAttribute("data-collapsed", "false");
-                if (accordionType !== "horizontal") {
+                if (accordionType === "image") {
                     slideDown(contentNodes[i], transitionDuration);
                 }
                 changeIcon(
@@ -239,7 +248,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             } else {
                 contentNodes[i].setAttribute("data-collapsed", "true");
                 if (accordionType !== "horizontal") {
-                    slideUp(contentNodes[i], transitionDuration);
+                    // Instantly: it was never shown, nothing to animate.
+                    slideUp(contentNodes[i], staticBoot ? 0 : transitionDuration);
                 }
                 contentNodes[i].parentElement.classList.add(hide);
             }
@@ -578,7 +588,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             loadSvgIcons(accordion);
         }, 100);
     }
-});
+}
 
 const hideAccordionContents = (accordion, transitionDuration) => {
     let contentNodes = [];
@@ -635,6 +645,27 @@ const slideUp = (target, duration = 500) => {
 };
 
 /* SLIDE DOWN */
+/**
+ * Re-measure sliders and galleries inside a panel that just became visible.
+ *
+ * Collapsed panels are display:none from boot (#597), so slick / isotope
+ * blocks inside them (Slider, Post Carousel, Product Images, Image Gallery,
+ * Facebook Feed) initialise at width 0 and stay empty when the panel opens.
+ * slick needs setPosition (its own resize handler skips when the window
+ * width didn't change); isotope re-lays out on a resize event.
+ */
+const refreshNestedLayouts = (target) => {
+    const $ = window.jQuery;
+    if ($) {
+        $(target)
+            .find(".slick-initialized")
+            .each(function () {
+                $(this).slick("setPosition");
+            });
+    }
+    window.dispatchEvent(new Event("resize"));
+};
+
 const slideDown = (target, duration = 500, callback = null) => {
     target.style.removeProperty("display");
     let display = window.getComputedStyle(target).display;
@@ -643,6 +674,7 @@ const slideDown = (target, duration = 500, callback = null) => {
         target.style.display = display;
     }, duration + 1);
     let height = getHiddenElementHeight(target);
+    refreshNestedLayouts(target);
     target.style.overflow = "hidden";
     target.style.height = 0;
     target.style.paddingTop = 0;
@@ -663,6 +695,7 @@ const slideDown = (target, duration = 500, callback = null) => {
         target.style.removeProperty("overflow");
         target.style.removeProperty("transition-duration");
         target.style.removeProperty("transition-property");
+        refreshNestedLayouts(target);
         // Ensure callback after expansion completes
         if (typeof callback === "function") {
             callback();
@@ -775,4 +808,13 @@ function scrollToPageTop(callback, duration = 10) {
     }
 
     requestAnimationFrame(animation);
+}
+
+// Run once the DOM is parsed, even when this script runs late (deferred or
+// delayed by an optimiser after DOMContentLoaded has fired). Called at the end
+// of the file so the helpers above (slideUp, slideDown, …) are initialised.
+if (document.readyState !== "loading") {
+    ebAccordionInit();
+} else {
+    document.addEventListener("DOMContentLoaded", ebAccordionInit);
 }

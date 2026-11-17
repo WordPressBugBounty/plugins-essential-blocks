@@ -37,7 +37,13 @@ const SortableItem = ({
 
     const getLabel = () => {
         if (labelKey && item[labelKey]) {
-            const titleCase = item[labelKey]
+            // The label may be rich text (HTML with entities, e.g. a Feature
+            // List title with bold text): show its plain text.
+            const raw = String(item[labelKey]);
+            const text = /[<&]/.test(raw)
+                ? new DOMParser().parseFromString(raw, "text/html").body.textContent || ""
+                : raw;
+            const titleCase = text
                 .replace(/_/g, " ")
                 .replace(/\b\w/g, (char) => char.toUpperCase());
 

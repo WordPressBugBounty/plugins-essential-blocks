@@ -7,7 +7,7 @@ use EssentialBlocks\Core\Block;
 class ToggleContent extends Block
 {
     protected $frontend_scripts = [ 'essential-blocks-toggle-content-frontend' ];
-    protected $frontend_styles  = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles  = [];
 
     /**
      * Unique name of the block.

@@ -104,3 +104,14 @@
 	}
 
 }
+
+// Font Awesome icons rendered as inline SVG (#600). In the inline author
+// layout the icon is inline-flex, whose baseline came from the glyph's text;
+// with an SVG it came from the SVG's bottom edge and the icon sat ~0.125em
+// higher. A zero-width text item first restores the text baseline.
+.eb-author-inline-layout i.eb-post-metadata-icon.eb-fa-svg::after {
+	content: "\200b";
+	order: -1;
+	width: 0;
+	overflow: hidden;
+}

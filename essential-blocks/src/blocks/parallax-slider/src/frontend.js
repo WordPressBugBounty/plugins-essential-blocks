@@ -18,12 +18,23 @@ document.addEventListener("DOMContentLoaded", function () {
          */
         function onButtonClick(event) {
             event.preventDefault();
-            let link = this.getAttribute("data-link")?.trim().toLowerCase();
+            const raw = this.getAttribute("data-link")?.trim();
+            if (!raw) {
+                return;
+            }
 
-            // Secure URL sanitization: Allow only http(s) or mailto
-            if (!/^https?:\/\//.test(link)) {
-                // console.warn("Blocked unsafe URL:", link);
-                return; // Exit if the link is unsafe
+            // Resolve against the page so anchors (#section) and relative
+            // paths work, keep the original case (paths are case-sensitive),
+            // and still refuse unsafe schemes such as javascript:.
+            let link;
+            try {
+                const url = new URL(raw, window.location.href);
+                if (!["http:", "https:", "mailto:", "tel:"].includes(url.protocol)) {
+                    return;
+                }
+                link = url.href;
+            } catch (e) {
+                return;
             }
 
             let openNewTab = this.getAttribute("data-new-tab");

@@ -30,7 +30,29 @@ function scrollToElementIfNeeded(element, offset = 50) {
     }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+/**
+ * Run once the DOM is parsed, even when this script itself runs late.
+ *
+ * Optimisers that defer or delay JavaScript (LiteSpeed, WP Rocket "Delay JS")
+ * can execute this file after DOMContentLoaded has already fired. A plain
+ * DOMContentLoaded listener then never runs, the submit button is never
+ * bound, and the form falls back to a native submit that reloads the page.
+ */
+const ebFormOnReady = (callback) => {
+    if (document.readyState !== "loading") {
+        callback();
+    } else {
+        window.addEventListener("DOMContentLoaded", callback);
+    }
+};
+
+ebFormOnReady(() => {
+    // The form posts over AJAX only (`action=""`); never let a native submit
+    // reload the page, e.g. if a click handler below failed to bind.
+    document.querySelectorAll("form.eb-form").forEach((form) => {
+        form.addEventListener("submit", (e) => e.preventDefault());
+    });
+
     const formButtons = document.querySelectorAll(".eb-form-submit-button");
     for (let button of formButtons) {
         button.onclick = function (e) {

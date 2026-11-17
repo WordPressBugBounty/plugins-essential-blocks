@@ -41,14 +41,19 @@ const BlockPropsEdit = ({
 
         const modifyBlockKey = blockKey.startsWith('pro_') ? blockKey.replace('pro_', '') : blockKey;
 
-        if (isBlockJustInserted && blockDefaults && name.toLowerCase().includes("essential-blocks/") && eb_conditional_localize?.editor_type !== 'edit-widgets') {
+        // Block Defaults are for brand-new blocks only. wasBlockJustInserted()
+        // is also true for duplicated, pasted and pattern-inserted blocks
+        // (every INSERT_BLOCKS / REPLACE_BLOCKS), which already carry their
+        // own saved blockId and styling; applying defaults there reset them.
+        // A block from the inserter has no blockId yet.
+        if (isBlockJustInserted && !blockId && blockDefaults && name.toLowerCase().includes("essential-blocks/") && eb_conditional_localize?.editor_type !== 'edit-widgets') {
             if (blockDefaults?.[modifyBlockKey]) {
-                let _attributes = {
-                    ...attributes,
+                // Only the default keys: spreading the mount-time attributes
+                // here would undo the blockId duplicateBlockIdFix() just set.
+                setAttributes({
                     ...blockDefaults[modifyBlockKey],
-                    ...(!blockId && { showBlockContent: false })
-                };
-                setAttributes({ ..._attributes });
+                    showBlockContent: false,
+                });
             }
         }
 

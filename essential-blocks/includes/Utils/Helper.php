@@ -867,10 +867,10 @@
     public static function eb_render_icon( $icon_type, $class_name, $icon ) {
         if ( 'dashicon' === $icon_type ) {
             // Render Dashicon
-            return '<span class="dashicon dashicons ' . $icon . ' ' . $class_name . '"></span>';
+            return '<span class="dashicon dashicons ' . esc_attr( $icon . ' ' . $class_name ) . '"></span>';
         } elseif ( 'fontawesome' === $icon_type ) {
             // Render FontAwesome icon
-            return '<i class="' . $icon . ' ' . $class_name . '"></i>';
+            return '<i class="' . esc_attr( $icon . ' ' . $class_name ) . '"></i>';
         }
 
         // Handle other icon types or return an error message

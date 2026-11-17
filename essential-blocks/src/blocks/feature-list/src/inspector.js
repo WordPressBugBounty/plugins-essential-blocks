@@ -1,6 +1,7 @@
 /**
  * WordPress dependencies
  */
+import { escapeHTML } from "@wordpress/escape-html";
 import { __ } from "@wordpress/i18n";
 import {
     PanelBody,
@@ -143,23 +144,35 @@ const Inspector = ({ attributes, setAttributes }) => {
             setAttributes({ features: newFeatureList });
         };
 
+        // Title and content are rich text (#576), i.e. HTML: the sidebar shows
+        // them decoded and stores typed text escaped. Once they hold formatting,
+        // a plain sidebar field would show raw HTML and could break it, so
+        // show the text read-only and point to the canvas instead.
+        const hasMarkup = (v) => typeof v === "string" && /<\/?[a-z][^>]*>/i.test(v);
+        const asText = (v) => new DOMParser().parseFromString(v || "", "text/html").body.textContent || "";
+        const formattedHelp = __("This text has formatting. Edit it in the block.", "essential-blocks");
+
         return attributes.features.map((each, i) => (
             <div key={i}>
                 <EBTextControl
-                    onChange={(value) => onFeatureChange("title", value, i)}
+                    onChange={(value) => (hasMarkup(each.title) ? null : onFeatureChange("title", escapeHTML(value), i))}
                     label={__("Text", "essential-blocks")}
-                    value={each.title}
-                    enableAi={true}
+                    value={asText(each.title)}
+                    readOnly={hasMarkup(each.title)}
+                    help={hasMarkup(each.title) ? formattedHelp : undefined}
+                    enableAi={!hasMarkup(each.title)}
                 />
 
                 {!useInlineDesign && (
                     <EBTextControl
                         label={__("Content", "essential-blocks")}
-                        value={each.content}
+                        value={asText(each.content)}
                         onChange={(value) =>
-                            onFeatureChange("content", value, i)
+                            hasMarkup(each.content) ? null : onFeatureChange("content", escapeHTML(value), i)
                         }
-                        enableAi={true}
+                        readOnly={hasMarkup(each.content)}
+                        help={hasMarkup(each.content) ? formattedHelp : undefined}
+                        enableAi={!hasMarkup(each.content)}
                         isTextarea={true}
                     />
                 )}

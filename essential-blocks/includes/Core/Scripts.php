@@ -101,6 +101,9 @@ class Scripts
         // Keep our editor stylesheets out of the Customizer controls pane.
         add_action( 'customize_controls_enqueue_scripts', [ $this, 'dequeue_customizer_editor_styles' ], PHP_INT_MAX );
 
+        // Print one Font Awesome stylesheet when BetterDocs loads its own.
+        add_filter( 'print_styles_array', [ $this, 'dedupe_fontawesome' ] );
+
         //Load Global styles
         add_action( 'wp_head', [ $this, 'print_global_styles' ] );
     }
@@ -315,7 +318,7 @@ class Scripts
         wpdev_essential_blocks()->assets->register( 'liquid-glass', 'css/liquid-glass.css' );
 
         wpdev_essential_blocks()->assets->register_optional( 'babel-bundle', 'vendors/js/bundle.babel.js' );
-        wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', [ 'essential-blocks-babel-bundle' ] );
+        wpdev_essential_blocks()->assets->register( 'vendor-bundle', 'vendors/js/bundles.js', [ 'essential-blocks-babel-bundle', 'essential-blocks-blocks-localize' ] );
         wpdev_essential_blocks()->assets->register( 'controls-util', 'admin/controls/controls.js', [ 'regenerator-runtime',
             'essential-blocks-blocks-localize'
          ] );
@@ -639,7 +642,12 @@ class Scripts
      */
     public function localize_enqueue_scripts()
     {
-        wpdev_essential_blocks()->assets->enqueue( 'blocks-localize', 'js/eb-blocks-localize.js' );
+        // Registered only: localize() works on a registered handle, and
+        // WordPress prints it (with EssentialBlocksLocalize) only for the
+        // scripts that depend on it — the editor/admin bundles and the block
+        // frontend scripts that read it. Until 6.5.4 it was enqueued here on
+        // every request, so pages without EB blocks printed it too.
+        wpdev_essential_blocks()->assets->register( 'blocks-localize', 'js/eb-blocks-localize.js' );
 
         global $pagenow;
         $editor_type = false;
@@ -742,7 +750,9 @@ class Scripts
 
         // Load AI for WooCommerce module on product edit pages
         if ( $is_woo_product_page && class_exists( 'WooCommerce' ) && $this->hasOpenAiApiKey ) {
-            wpdev_essential_blocks()->assets->register( 'ai-for-woo', 'modules/ai-for-woo/index.js' );
+            // The module reads EssentialBlocksLocalize (hasOpenAiApiKey, plugin URL);
+            // it is printed only for scripts that depend on it (#599).
+            wpdev_essential_blocks()->assets->register( 'ai-for-woo', 'modules/ai-for-woo/index.js', [ 'essential-blocks-blocks-localize' ] );
             wpdev_essential_blocks()->assets->register( 'ai-for-woo-style', 'modules/ai-for-woo/index.css' );
 
             wp_enqueue_script( 'essential-blocks-ai-for-woo' );
@@ -799,5 +809,44 @@ class Scripts
         if ( wp_style_is( 'essential-blocks-block-icon-selected', 'registered' ) ) {
             wp_enqueue_style( 'essential-blocks-block-icon-selected' );
         }
+    }
+
+    /**
+     * Print a single Font Awesome stylesheet when BetterDocs queues its own.
+     *
+     * BetterDocs ships Font Awesome 5 (`betterdocs-fontawesome`), Essential
+     * Blocks Font Awesome 6 (`essential-blocks-fontawesome`). FA 6 keeps the
+     * FA 5 class names and declares the "Font Awesome 5 Free/Brands"
+     * font-faces, but FA 5 lacks newer icons. So whenever BetterDocs' copy is
+     * about to print, print EB's FA 6 in its place and mark the FA 5 handle
+     * done. EB queues its copy late (while blocks render, after wp_head on
+     * classic themes), so swapping at BetterDocs' print time is what keeps it
+     * to one copy; the later EB enqueue finds its handle already printed.
+     *
+     * @param array $handles Style handles about to be printed.
+     * @return array
+     */
+    public function dedupe_fontawesome( $handles )
+    {
+        $styles = wp_styles();
+        if ( ! is_array( $handles ) || ! in_array( 'betterdocs-fontawesome', $handles, true ) || ! isset( $styles->registered[ 'essential-blocks-fontawesome' ] ) ) {
+            return $handles;
+        }
+
+        $eb_printed = in_array( 'essential-blocks-fontawesome', $styles->done, true );
+        $result     = [];
+        foreach ( $handles as $handle ) {
+            if ( 'betterdocs-fontawesome' === $handle ) {
+                if ( ! $eb_printed && ! in_array( 'essential-blocks-fontawesome', $handles, true ) ) {
+                    $result[] = 'essential-blocks-fontawesome';
+                }
+                continue;
+            }
+            $result[] = $handle;
+        }
+        // Keep the FA 5 copy from printing later (e.g. with the footer styles).
+        $styles->done[] = 'betterdocs-fontawesome';
+
+        return array_values( array_unique( $result ) );
     }
 }

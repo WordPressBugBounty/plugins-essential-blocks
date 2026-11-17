@@ -6,7 +6,7 @@ use EssentialBlocks\Integrations\OpenVerse as OpenVerseAJAX;
 
 class Openverse extends Block
 {
-    protected $frontend_styles = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles = [];
 
     /**
      * Unique name of the block.

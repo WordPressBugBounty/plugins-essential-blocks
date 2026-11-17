@@ -151,6 +151,18 @@ class CSSParser
                             return str_replace( 'undefined', '', $decoded );
                         }, $attributes[ 'blockMeta' ] )
                         : $attributes[ 'blockMeta' ];
+
+                    /**
+                     * Filter a block's saved generated CSS before it is collected.
+                     *
+                     * Lets a block correct CSS that older versions saved into
+                     * blockMeta, so the fix reaches existing pages when their
+                     * CSS file is regenerated instead of waiting for a resave.
+                     *
+                     * @param array|string $blockMeta Saved CSS ( desktop / tab / mobile ).
+                     * @param array        $item      Parsed block.
+                     */
+                    $blockMeta = apply_filters( 'eb_block_meta_css', $blockMeta, $item );
                 }
                 $commonStyles = "";
                 if ( isset( $attributes[ 'commonStyles' ] ) && ! empty( $attributes[ 'commonStyles' ] ) ) {

@@ -49,6 +49,8 @@ const Inspector = ({ attributes, setAttributes }) => {
         link,
         newWindow,
         headerColor,
+        headerHoverColor,
+        overlayColor,
         contentColor,
         imageAlignment,
         isBackgroundGradient,
@@ -205,6 +207,13 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 attributeName={'backgroundColor'}
                             />
                         )}
+                        {["sadie", "apollo", "oscar", "ming"].includes(effectName) && (
+                            <ColorControl
+                                label={__("Overlay Color", "essential-blocks")}
+                                color={overlayColor}
+                                attributeName={'overlayColor'}
+                            />
+                        )}
                         {isBackgroundGradient && (
                             <>
                                 <GradientColorControl
@@ -239,6 +248,11 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 label={__("Color", "essential-blocks")}
                                 color={headerColor}
                                 attributeName={'headerColor'}
+                            />
+                            <ColorControl
+                                label={__("Hover Color", "essential-blocks")}
+                                color={headerHoverColor}
+                                attributeName={'headerHoverColor'}
                             />
                         </>
                     </InspectorPanel.PanelBody>

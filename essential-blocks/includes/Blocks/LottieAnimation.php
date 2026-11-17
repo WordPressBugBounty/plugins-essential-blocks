@@ -22,7 +22,7 @@ class LottieAnimation extends Block
         $this->assets_manager->register(
             'lottie-animation',
             $this->path() . '/frontend.js',
-            [ 'essential-blocks-vendor-bundle' ]
+            [ 'essential-blocks-blocks-localize' ]
         );
     }
 }

@@ -133,6 +133,7 @@ function Inspector(props) {
         videoURL,
         previewImage,
         previewImageId,
+        posterImage,
         customPlayIcon,
         lightboxPlayIcon,
         customPlayIconId,
@@ -336,6 +337,42 @@ function Inspector(props) {
                                 }
                                 __nextHasNoMarginBottom
                             />
+                        )}
+
+                        {videoOptions !== "lightbox" && selfhostVideo && !imageOverlay && (
+                            <>
+                                <Divider />
+                                <BaseControl
+                                    id={`eb-av-poster-${attributes.blockId}`}
+                                    label={__("Poster Image", "essential-blocks")}
+                                    help={__(
+                                        "Shown until the video starts playing, autoplay included.",
+                                        "essential-blocks",
+                                    )}
+                                    __nextHasNoMarginBottom
+                                >
+                                    <ImageComponent.GeneralTab
+                                        onSelect={({ id, url }) =>
+                                            setAttributes({
+                                                posterImage: url,
+                                                posterImageId: id ? String(id) : null,
+                                            })
+                                        }
+                                        onRemove={() =>
+                                            setAttributes({
+                                                posterImage: "",
+                                                posterImageId: null,
+                                            })
+                                        }
+                                        value={posterImage}
+                                        hasTag={false}
+                                        hasCaption={false}
+                                        hasStyle={false}
+                                        hasLink={false}
+                                        showInPanel={false}
+                                    />
+                                </BaseControl>
+                            </>
                         )}
 
                         {videoOptions != "lightbox" && (

@@ -9,6 +9,7 @@ import { __ } from "@wordpress/i18n";
 import Edit from "./edit";
 import attributes from "./attributes";
 import "./style.scss";
+import "./editor.scss";
 import metadata from "../block.json";
 import { ebConditionalRegisterBlockType } from "@essential-blocks/controls";
 import { ReactComponent as Icon } from "./icon.svg";

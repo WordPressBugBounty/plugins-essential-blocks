@@ -15,8 +15,7 @@ class ProductImages extends Block
         'essential-blocks-product-images-frontend',
         'essential-blocks-slickjs',
         'essential-blocks-zoom',
-        'essential-blocks-fslightbox-js',
-        'essential-blocks-vendor-bundle'
+        'essential-blocks-fslightbox-js'
      ];
 
     /**

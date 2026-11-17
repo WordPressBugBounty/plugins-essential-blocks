@@ -23,6 +23,16 @@
 				left: 50%;
 				transform: translateX(-50%);
 			}
+
+			// Font Awesome icons rendered as inline SVG (#600): a block-level
+			// SVG adds no line box, so the container keeps the glyph's height.
+			// Centre it like the translateX above, which also centres icons
+			// wider than 1em (auto margins would push those to the right).
+			&.eb-fa-svg > svg {
+				display: block;
+				margin-left: 50%;
+				transform: translateX(-50%);
+			}
 		}
 	}
 

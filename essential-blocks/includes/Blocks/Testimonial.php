@@ -7,7 +7,7 @@ use EssentialBlocks\Core\Block;
 class Testimonial extends Block
 {
     protected $frontend_scripts = [  ];
-    protected $frontend_styles  = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles  = [];
 
     protected function __construct()
     {

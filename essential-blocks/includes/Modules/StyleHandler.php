@@ -48,6 +48,17 @@ final class StyleHandler {
      */
     private $astra_hook_ids = array();
 
+    /**
+     * NotificationX press bar block post IDs, cached per request.
+     */
+    private $nx_bar_ids = null;
+
+    /**
+     * Block names of each NotificationX bar whose CSS was rebuilt in this
+     * request, keyed by bar post ID. Feeds the bar's static (frontend) file.
+     */
+    private $nx_bar_block_names = array();
+
     public static function init() {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -72,6 +83,7 @@ final class StyleHandler {
 
         add_action('save_post', array($this, 'on_save_post'), 10, 3);
         add_action('wp', array($this, 'generate_post_content'));
+        add_action('wp', array($this, 'notificationx_bar_css_generation'));
 
         add_action('eb_after_save_responsiveBreakpoints_settings', array($this, 'remove_frontend_assets'), 10, 1);
         add_action('eb_after_reset_responsiveBreakpoints_settings', array($this, 'remove_frontend_assets'), 10);
@@ -219,10 +231,21 @@ final class StyleHandler {
 
         // NotificationX Post Type Support
         if (in_array('notificationx/notificationx.php', apply_filters('active_plugins', get_option('active_plugins')))) {
-            $gutenberg_ids = $this->get_gutenberg_id_from_nx();
+            $gutenberg_ids = $this->get_nx_bar_ids();
             if (is_array($gutenberg_ids) && ! empty($gutenberg_ids)) {
                 foreach ($gutenberg_ids as $element) {
-                    if (file_exists($this->frontend_style_dir . $this->get_frontend_filename($element))) {
+                    $nx_frontend_file = $this->frontend_style_dir . $this->get_frontend_filename($element);
+                    // Rebuild the bar's static CSS when it is missing or stale
+                    // (bar saved, or Regenerate Assets) from the block names
+                    // notificationx_bar_css_generation() collected.
+                    if (! empty($this->nx_bar_block_names[$element]) && $this->needs_regeneration($nx_frontend_file)) {
+                        $this->generate_frontend_css_file(
+                            $this->nx_bar_block_names[$element],
+                            'frontend' . $element,
+                            $nx_frontend_file,
+                            $this->frontend_style_url . $this->get_frontend_filename($element)
+                        );
+                    } elseif (file_exists($nx_frontend_file)) {
                         wp_enqueue_style(
                             'frontend' . $element,
                             $this->frontend_style_url . $this->get_frontend_filename($element),
@@ -846,6 +869,12 @@ final class StyleHandler {
      * @return void
      */
     public function remove_frontend_assets($post_id = false, $post_type = false, $clean_frontend = false) {
+        // A saved NotificationX bar may now have EB blocks: drop its
+        // "no CSS" marker (see notificationx_bar_css_generation()).
+        if ($post_id && false !== get_transient('eb_nx_nocss_' . $post_id)) {
+            delete_transient('eb_nx_nocss_' . $post_id);
+        }
+
         if (false === $post_type || ('wp_template' === $post_type || 'wp_template_part' === $post_type)) {
             AssetGeneration::remove_file($this->fse_style_dir . $this->get_fse_filename($post_id));
         } elseif ($post_id) {
@@ -1049,6 +1078,76 @@ final class StyleHandler {
 
     public function get_widget_frontend_filename($post_id) {
         return $this->frontend_prefix . '-widget-' . trim($post_id) . '.min.css';
+    }
+
+    /**
+     * Rebuild the generated CSS of every enabled NotificationX press bar
+     * whose file is missing or stale.
+     *
+     * A bar is shown on other pages, never as the queried post, so
+     * generate_post_content() never rebuilds it: after the bar was saved
+     * (on_save_post() removes its files) or after Regenerate Assets, its
+     * styles stayed missing or stale until someone opened the bar's own URL.
+     * Runs on `wp`, before `wp_enqueue_scripts`, because NotificationX
+     * enqueues the bar's eb-style file itself and only when it exists.
+     *
+     * @since 6.5.4
+     * @return void
+     */
+    public function notificationx_bar_css_generation() {
+        if (is_admin() || ! in_array('notificationx/notificationx.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+            return;
+        }
+
+        foreach ($this->get_nx_bar_ids() as $bar_id) {
+            $bar_id        = absint($bar_id);
+            $instance_file = $this->style_dir . $this->get_eb_filename($bar_id);
+            $frontend_file = $this->frontend_style_dir . $this->get_frontend_filename($bar_id);
+            if (! $bar_id || (! $this->needs_regeneration($instance_file) && ! $this->needs_regeneration($frontend_file))) {
+                continue;
+            }
+
+            // A bar built only from non-EB blocks writes no CSS file, so it
+            // would be re-parsed on every request. Remember that until the
+            // bar is saved again or assets are regenerated.
+            $since = (string) get_option('eb_assets_regenerate_since', 0);
+            if (get_transient('eb_nx_nocss_' . $bar_id) === $since) {
+                continue;
+            }
+
+            $bar = get_post($bar_id);
+            if (! $bar || empty($bar->post_content)) {
+                continue;
+            }
+
+            // write_css_from_content() collects block names into the current
+            // page's list; keep the bar's apart so the page's static CSS file
+            // is not rebuilt with them.
+            $page_block_names  = $this->block_names;
+            $this->block_names = array();
+            $this->write_css_from_content(parse_blocks($bar->post_content), $bar_id, $bar->post_type);
+            $this->nx_bar_block_names[$bar_id] = $this->block_names;
+            $this->block_names                 = $page_block_names;
+
+            clearstatcache(true, $instance_file);
+            if (! file_exists($instance_file) && empty($this->nx_bar_block_names[$bar_id])) {
+                set_transient('eb_nx_nocss_' . $bar_id, $since);
+            }
+        }
+    }
+
+    /**
+     * Gutenberg post IDs of the enabled NotificationX press bars, queried
+     * once per request.
+     *
+     * @return array
+     */
+    private function get_nx_bar_ids() {
+        if (null === $this->nx_bar_ids) {
+            $ids              = class_exists('\NotificationX\Core\Database') ? $this->get_gutenberg_id_from_nx() : array();
+            $this->nx_bar_ids = is_array($ids) ? $ids : array();
+        }
+        return $this->nx_bar_ids;
     }
 
     /**

@@ -191,6 +191,8 @@ const AdvancedVideo = (props) => {
     let customPlayIconType = wrapper.getAttribute("data-customPlayIconType");
     let customPlayIconLib = wrapper.getAttribute("data-customPlayIconLib");
     let download = wrapper.getAttribute("data-download");
+    // Poster Image, set by AdvancedVideo::render_callback() (not saved markup).
+    const poster = wrapper.getAttribute("data-eb-poster") || undefined;
 
     let preview;
     if (imageOverlay === true && previewImage) {
@@ -225,6 +227,7 @@ const AdvancedVideo = (props) => {
         file: {
             attributes: {
                 controlsList: download === "false" ? "nodownload" : "",
+                poster,
                 playsInline: !isLightbox,
                 webkitPlaysinline: !isLightbox ? "true" : undefined,
                 playsinline: !isLightbox ? "true" : undefined,

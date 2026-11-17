@@ -53,7 +53,8 @@ class PostGrid extends PostBlock
     {
         $this->assets_manager->register(
             'post-grid-frontend',
-            $this->path() . '/frontend.js'
+            $this->path() . '/frontend.js',
+            [ 'essential-blocks-blocks-localize' ]
         );
     }
 

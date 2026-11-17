@@ -5,10 +5,7 @@ use EssentialBlocks\Core\Block;
 
 class InfoBox extends Block
 {
-    protected $frontend_styles = [
-        'essential-blocks-fontawesome',
-        'essential-blocks-hover-css'
-    ];
+    protected $frontend_styles = [];
 
     protected $frontend_scripts = [
         'essential-blocks-infobox-frontend'

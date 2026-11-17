@@ -28,8 +28,7 @@ class ImageComparison extends Block {
 	public function register_scripts() {
 		$this->assets_manager->register(
 			'image-comparison-frontend',
-			$this->path() . '/frontend.js',
-			array( 'essential-blocks-vendor-bundle' )
+			$this->path() . '/frontend.js'
 		);
 	}
 

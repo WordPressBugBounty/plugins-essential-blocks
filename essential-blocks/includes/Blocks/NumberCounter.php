@@ -5,7 +5,7 @@ use EssentialBlocks\Core\Block;
 
 class NumberCounter extends Block {
 	protected $frontend_scripts = array( 'essential-blocks-number-counter-frontend' );
-	protected $frontend_styles  = array( 'essential-blocks-fontawesome' );
+	protected $frontend_styles  = array();
 	/**
 	 * Unique name of the block.
 	 *

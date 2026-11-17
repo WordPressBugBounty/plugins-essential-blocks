@@ -62,7 +62,8 @@ class AdvancedVideo extends Block
             $this->path() . '/frontend.js',
             [
                 'essential-blocks-controls-frontend',
-                'essential-blocks-vendor-bundle'
+                // The streaming SDK fallback reads EssentialBlocksLocalize.
+                'essential-blocks-blocks-localize'
              ]
         );
 
@@ -94,7 +95,8 @@ class AdvancedVideo extends Block
         }
 
         $needs_icon_runtime = false;
-        $native             = $this->render_native_player( $content, $needs_icon_runtime );
+        $poster             = self::poster_url( $attributes );
+        $native             = $this->render_native_player( $content, $needs_icon_runtime, $poster );
 
         if ( null !== $native ) {
             if ( $needs_icon_runtime ) {
@@ -106,7 +108,34 @@ class AdvancedVideo extends Block
         }
 
         $this->enqueue_react_player( $content );
-        return $content;
+        return self::add_react_poster( $content, $poster );
+    }
+
+    /**
+     * Hand the Poster Image to frontend.js (react-player's file player) as
+     * `data-eb-poster` on the placeholder. Image Overlay and lightbox players
+     * show their own image instead, so they are left alone.
+     *
+     * @param string $content Saved block markup.
+     * @param string $poster  Poster image URL, or ''.
+     * @return string
+     */
+    private static function add_react_poster( $content, $poster )
+    {
+        if ( '' === $poster || ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+            return $content;
+        }
+
+        $tag = new \WP_HTML_Tag_Processor( $content );
+        if ( ! $tag->next_tag( [ 'class_name' => 'eb-player-option' ] ) ) {
+            return $content;
+        }
+        if ( 'lightbox' === $tag->get_attribute( 'data-option' ) || 'true' === $tag->get_attribute( 'data-overlay' ) ) {
+            return $content;
+        }
+
+        $tag->set_attribute( 'data-eb-poster', $poster );
+        return $tag->get_updated_html();
     }
 
     /**
@@ -119,18 +148,19 @@ class AdvancedVideo extends Block
      *
      * @param string $content            Saved block markup.
      * @param bool   $needs_icon_runtime Set to true when a custom icon-library play icon is used.
+     * @param string $poster             Poster Image URL from the block settings, or ''.
      * @return string|null
      */
-    private function render_native_player( $content, &$needs_icon_runtime )
+    private function render_native_player( $content, &$needs_icon_runtime, $poster = '' )
     {
         if ( ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
             return null; // WordPress < 6.2.
         }
 
-        // The Pro overlay's play/mute buttons are driven by frontend.js.
-        if ( false !== strpos( $content, 'eb-av-overlay' ) ) {
-            return null;
-        }
+        // Pro's overlay (heading, CTAs, play/mute buttons) sits above the
+        // player. native.js drives its buttons for a <video>; on a YouTube
+        // player they need react-player's API, so that case keeps React.
+        $has_pro_overlay = false !== strpos( $content, 'eb-av-overlay' );
 
         // Exactly one empty placeholder: the default / sticky save markup.
         // Lightbox markup, other saved variants and anything unexpected keep React.
@@ -157,6 +187,9 @@ class AdvancedVideo extends Block
         };
 
         $youtube = self::parse_youtube_url( $url );
+        if ( $youtube && $has_pro_overlay ) {
+            return null;
+        }
         if ( $youtube ) {
             $inner = $this->youtube_player( $tag, $youtube, $is_true, $needs_icon_runtime );
             return substr_replace( $content, $tag->get_updated_html() . $inner . '</div>', $offset, strlen( $placeholder ) );
@@ -199,6 +232,11 @@ class AdvancedVideo extends Block
             $video[ 'width' ]  = $media[ 'width' ];
             $video[ 'height' ] = $media[ 'height' ];
             $ratio             = $media[ 'width' ] . ' / ' . $media[ 'height' ];
+            // Keep the video's shape while a poster with another aspect ratio
+            // is shown: without this the poster's natural size sized the box
+            // until playback (e.g. 437px, then 370px). The poster is
+            // letterboxed instead.
+            $video[ 'style' ] .= ' aspect-ratio: ' . $ratio . '; object-fit: contain;';
         }
 
         // Nothing downloads during page load when the size is already known:
@@ -219,16 +257,30 @@ class AdvancedVideo extends Block
             $video[ 'preload' ] = 'none';
             $video[ 'style' ] .= ' display: none;';
         } elseif ( $autoplay ) {
-            // native.js starts players on or near the screen once the page has loaded.
+            // native.js starts players on or near the screen once the page has
+            // loaded; the Poster Image fills the box until then.
             $video[ 'preload' ] = $preload;
             $lazy_autoplay      = true;
+            if ( '' !== $poster ) {
+                $video[ 'poster' ] = esc_url( $poster );
+            }
         } else {
             // Click-to-play. With preload="none" there is no first frame to
-            // show, so use the attachment's featured image as the poster.
+            // show, so use the Poster Image, else the attachment's featured image.
             $video[ 'preload' ] = $preload;
-            if ( $media && '' !== $media[ 'poster' ] ) {
+            if ( '' !== $poster ) {
+                $video[ 'poster' ] = esc_url( $poster );
+            } elseif ( $media && '' !== $media[ 'poster' ] ) {
                 $video[ 'poster' ] = esc_url( $media[ 'poster' ] );
             }
+        }
+
+        if ( ! $media && isset( $video[ 'poster' ] ) ) {
+            // Size unknown: a poster with another shape would size the box
+            // until the video's metadata arrives, then the box changed again.
+            // Hold 16:9 instead; native.js switches to the real shape once.
+            $video[ 'style' ] .= ' aspect-ratio: 16 / 9; object-fit: contain;';
+            $video[ 'data-eb-fit-meta' ] = '1';
         }
 
         $inner = '<div class="eb-react-player" style="aspect-ratio: ' . esc_attr( $ratio ) . '; width: 100%; height: auto;">'
@@ -242,6 +294,48 @@ class AdvancedVideo extends Block
         }
 
         return substr_replace( $content, $tag->get_updated_html() . $inner . '</div>', $offset, strlen( $placeholder ) );
+    }
+
+    /**
+     * Poster Image URL, only when it is an image.
+     *
+     * A media-library poster must be an image attachment; a typed or dynamic
+     * URL must not have a known non-image file type. Anything else is ignored, so the
+     * player falls back to its default poster instead of a broken one.
+     *
+     * @param array $attributes Block attributes.
+     * @return string
+     */
+    private static function poster_url( $attributes )
+    {
+        $url = isset( $attributes[ 'posterImage' ] ) && is_string( $attributes[ 'posterImage' ] ) ? esc_url_raw( $attributes[ 'posterImage' ] ) : '';
+        $id  = isset( $attributes[ 'posterImageId' ] ) ? absint( $attributes[ 'posterImageId' ] ) : 0;
+
+        // An id that no longer exists (imported or migrated content) says
+        // nothing about the URL, so only an existing attachment is checked.
+        if ( $id && 'attachment' === get_post_type( $id ) ) {
+            if ( ! wp_attachment_is_image( $id ) ) {
+                return '';
+            }
+            return '' !== $url ? $url : (string) wp_get_attachment_image_url( $id, 'full' );
+        }
+        if ( '' === $url ) {
+            return '';
+        }
+        // Reject only a URL that is known to be something else (a video or
+        // a document). CDN image URLs often have no extension, and SVG is not
+        // in WordPress's allowed types, so an unknown type is kept.
+        $path = (string) strtok( $url, '?#' );
+        if ( preg_match( '~\.svgz?$~i', $path ) ) {
+            return $url;
+        }
+        // Not images, and unknown to wp_check_filetype() for most users
+        // (HTML/JS need unfiltered_html), so they would pass the check below.
+        if ( preg_match( '~\.(?:html?|php\d?|phtml|js|xml|json|txt|m3u8|mpd)$~i', $path ) ) {
+            return '';
+        }
+        $type = wp_check_filetype( $path );
+        return empty( $type[ 'type' ] ) || 0 === strpos( $type[ 'type' ], 'image/' ) ? $url : '';
     }
 
     /**
@@ -443,7 +537,7 @@ class AdvancedVideo extends Block
     private static function video_media( $url )
     {
         $url = strtok( $url, '?#' );
-        $key = 'eb_av_media_' . md5( $url );
+        $key = 'eb_av_media_v2_' . md5( $url );
         $hit = wp_cache_get( $key, 'essential-blocks' );
         if ( false === $hit ) {
             $hit = '';
@@ -451,10 +545,11 @@ class AdvancedVideo extends Block
             if ( $id ) {
                 $meta = wp_get_attachment_metadata( $id );
                 if ( ! empty( $meta[ 'width' ] ) && ! empty( $meta[ 'height' ] ) ) {
+                    $size  = self::display_size( $id, (int) $meta[ 'width' ], (int) $meta[ 'height' ] );
                     $thumb = get_post_thumbnail_id( $id );
                     $hit   = [
-                        'width'  => (int) $meta[ 'width' ],
-                        'height' => (int) $meta[ 'height' ],
+                        'width'  => $size[ 0 ],
+                        'height' => $size[ 1 ],
                         'poster' => $thumb ? (string) wp_get_attachment_image_url( $thumb, 'large' ) : ''
                      ];
                 }
@@ -482,6 +577,56 @@ class AdvancedVideo extends Block
             'height' => (int) $media[ 'height' ],
             'poster' => isset( $media[ 'poster' ] ) ? (string) $media[ 'poster' ] : ''
          ];
+    }
+
+    /**
+     * Size of a video as it plays, from the stored size in its metadata.
+     *
+     * Phone videos recorded upright are usually stored as landscape frames
+     * (e.g. 1280x720) with a 90° rotation flag. WordPress saves the stored
+     * size, so reserving it squeezed the upright video into a wide box.
+     * getID3 (bundled with WordPress) reads the rotation; the result is kept
+     * in attachment meta so each file is parsed once. The stored size is
+     * part of the cached value, so regenerated metadata is checked again.
+     *
+     * @param int $id     Attachment ID.
+     * @param int $width  Stored width.
+     * @param int $height Stored height.
+     * @return int[] [ width, height ]
+     */
+    private static function display_size( $id, $width, $height )
+    {
+        $stored = $width . 'x' . $height;
+        $cached = get_post_meta( $id, '_eb_av_display_size', true );
+        if ( is_array( $cached ) && isset( $cached[ 'stored' ], $cached[ 'width' ], $cached[ 'height' ] ) && $stored === $cached[ 'stored' ] ) {
+            return [ (int) $cached[ 'width' ], (int) $cached[ 'height' ] ];
+        }
+
+        $rotate = 0;
+        $file   = get_attached_file( $id );
+        if ( $file && is_readable( $file ) ) {
+            if ( ! class_exists( 'getID3', false ) ) {
+                require_once ABSPATH . WPINC . '/ID3/getid3.php';
+            }
+            try {
+                $info = ( new \getID3() )->analyze( $file );
+                if ( ! empty( $info[ 'video' ][ 'rotate' ] ) ) {
+                    $rotate = absint( $info[ 'video' ][ 'rotate' ] );
+                }
+            } catch ( \Throwable $e ) {
+                $rotate = 0;
+            }
+        }
+        if ( 90 === $rotate % 180 ) {
+            list( $width, $height ) = [ $height, $width ];
+        }
+
+        update_post_meta( $id, '_eb_av_display_size', [
+            'stored' => $stored,
+            'width'  => $width,
+            'height' => $height
+         ] );
+        return [ $width, $height ];
     }
 
     /**

@@ -7,7 +7,7 @@ use EssentialBlocks\Utils\Helper;
 
 class AdvancedImage extends Block
 {
-    protected $frontend_styles = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles = [];
 
     /**
      * Unique name of the block.

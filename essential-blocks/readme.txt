@@ -4,7 +4,7 @@ Tags: Gutenberg, Block Editor, Gutenberg Templates, Gutenberg WooCommerce, Gener
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.5.3
+Stable tag: 6.5.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -339,6 +339,17 @@ Essential Blocks marks WordPress core's Interactivity API scripts so that WP Roc
 
 
 == Changelog ==
+= 6.5.4 - 17/11/2026 =
+- Improved: Social Share | Add new share buttons & Threads support
+- Improved: Advanced Video | Poster Image for self-hosted videos
+- Improved: Performance | Font Awesome icons as inline SVG & assets load only when needed
+- Fixed: Advanced Video portrait video display issue
+- Fixed: Form block Conditional Display & submit issues
+- Fixed: Accordion & Wrapper block issues
+- Improved: Security enhancements
+- Few minor bug fixes & improvements
+
+
 = 6.5.3 - 04/11/2026 =
 - Improved: Lottie Animation | .lottie files now render the same as JSON files
 - Fixed: Lottie Animation | % width not filling centred and stacked groups

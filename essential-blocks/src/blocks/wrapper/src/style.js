@@ -143,7 +143,7 @@ export default function Style(props) {
             display: flex;
             align-items: ${contentAlign};
             justify-content: center;
-            width: 100%;
+            ${!isWrapperWidth ? 'width: 100%;' : ''}
             box-sizing: border-box;
             ${useCustomHeight && 'height: 100%;'}
         }

@@ -138,3 +138,30 @@
 		margin: 20px 0px;
 	}
 }
+
+/*
+ * Default-open panels are visible and in the layout before frontend.js runs.
+ *
+ * Per-block CSS hides every panel until `.eb_accdn_loaded` is added, so a
+ * default-open panel used to appear only when the script ran and pushed
+ * everything below it down (CLS 0.966 on the demo). The open state is already
+ * in the saved markup (`data-clickable="true"`, the same test frontend.js
+ * uses), so no markup change or deprecation is needed. `[data-accordion-type]`
+ * is only on the frontend container, so the editor is unaffected. Horizontal
+ * and image accordions lay out their panels differently and keep the old path.
+ */
+.eb-accordion-container[data-accordion-type]:not([data-accordion-type="horizontal"]):not([data-accordion-type="image"]):not(.eb_accdn_loaded)
+	> .eb-accordion-inner
+	> .eb-accordion-wrapper[data-clickable="true"]
+	> .eb-accordion-content-wrapper {
+	visibility: visible;
+	position: static;
+}
+
+/* Without JavaScript nothing would ever reveal the panels: show them all. */
+@media (scripting: none) {
+	.eb-accordion-container[data-accordion-type] .eb-accordion-wrapper > .eb-accordion-content-wrapper {
+		visibility: visible !important;
+		position: static !important;
+	}
+}

@@ -26,6 +26,9 @@ export default function Style(props) {
         blockId,
         resOption,
         headerColor,
+        headerHoverColor,
+        overlayColor,
+        effectName,
         contentColor,
         imageAlignment,
         isBackgroundGradient,
@@ -119,7 +122,32 @@ export default function Style(props) {
                 ? "margin: 0 0 0 auto;"
                 : "margin: 0 auto;";
 
+    // The hover-effects.css effects hardcode their hover title colour (e.g.
+    // Sadie #fff, Terry #528cb3) and overlay colours with selectors that beat
+    // the block's own colour rule. Emitted only when set, so blocks that
+    // never touch these settings keep the effect's look.
+    const promoScope = `.eb-interactive-promo-wrapper.${blockId} .eb-interactive-promo.hover-effect`;
+    const headerHoverStyles = headerHoverColor
+        ? `${promoScope} figure:hover .eb-interactive-promo-header { color: ${headerHoverColor}; }`
+        : "";
+    let overlayStyles = "";
+    if (overlayColor) {
+        if (effectName === "sadie") {
+            overlayStyles = `${promoScope} figure.effect-sadie figcaption::before { background: linear-gradient(to bottom, transparent 0%, ${overlayColor} 75%); }`;
+        } else if (effectName === "apollo") {
+            overlayStyles = `${promoScope} figure.effect-apollo figcaption::before { background: ${overlayColor}; }`;
+        } else if (effectName === "ming") {
+            // Ming's overlay is the white frame (and its glow) shown on hover.
+            overlayStyles = `${promoScope} figure.effect-ming figcaption::before { border-color: ${overlayColor}; box-shadow: 0 0 0 30px color-mix(in srgb, ${overlayColor} 20%, transparent); }`;
+        } else if (effectName === "oscar") {
+            overlayStyles = `${promoScope} figure.effect-oscar figcaption { background-color: ${overlayColor}; }
+            ${promoScope} figure.effect-oscar:hover figcaption { background-color: transparent; }`;
+        }
+    }
+
     const desktopStyles = `
+		${headerHoverStyles}
+		${overlayStyles}
 		.eb-interactive-promo-wrapper figure > figcaption {
 			box-sizing: border-box;
 		}

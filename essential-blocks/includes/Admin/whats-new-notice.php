@@ -7,6 +7,15 @@
     $learn_more  = esc_html__( 'Learn More', 'essential-blocks' );
     $dismiss     = esc_html__( 'Dismiss', 'essential-blocks' );
     $doc_url     = esc_url( ESSENTIAL_BLOCKS_SITE_URL . 'demo/custom-cursor/' );
+
+    // Campaign content from Admin::eb_whats_new_notice(), already escaped.
+    // Kept off the `= esc_html__` / `= esc_url` lines that release.sh rewrites.
+    if ( ! empty( $eb_whats_new ) ) {
+        $title       = $eb_whats_new['title'];
+        $description = $eb_whats_new['description'];
+        $learn_more  = $eb_whats_new['button'];
+        $doc_url     = $eb_whats_new['url'];
+    }
 ?>
 
 <script type="text/javascript">

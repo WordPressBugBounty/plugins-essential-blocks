@@ -100,6 +100,15 @@ const attributes = {
         type: "string",
         default: "var(--eb-global-heading-color)",
     },
+    // Empty = the effect's own hover colour / overlay (unchanged look).
+    headerHoverColor: {
+        type: "string",
+        default: "",
+    },
+    overlayColor: {
+        type: "string",
+        default: "",
+    },
     link: {
         type: "string",
     },

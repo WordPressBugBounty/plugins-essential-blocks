@@ -1,6 +1,7 @@
 
 import { EBDisplayIconSave, sanitizeURL, BlockProps } from "@essential-blocks/controls";
 import { applyFilters } from "@wordpress/hooks";
+import { RichText } from "@wordpress/block-editor";
 
 const Save = ({ attributes }) => {
     const {
@@ -128,12 +129,20 @@ const Save = ({ attributes }) => {
                                                             }
                                                             rel="noopener"
                                                         >
-                                                            {title}
+                                                            <RichText.Content
+                                                                tagName="span"
+                                                                className="eb-feature-list-title-text"
+                                                                value={title}
+                                                            />
                                                         </a>
                                                     </attributes.titleTag>
                                                 ) : (
                                                     <attributes.titleTag className="eb-feature-list-title">
-                                                        {title}
+                                                        <RichText.Content
+                                                            tagName="span"
+                                                            className="eb-feature-list-title-text"
+                                                            value={title}
+                                                        />
                                                     </attributes.titleTag>
                                                 )}
                                                 {showBadge == "true" && badgeText && (
@@ -143,7 +152,11 @@ const Save = ({ attributes }) => {
                                                 )}
                                             </div>
                                             {!useInlineDesign && (
-                                                <p className="eb-feature-list-content">{content}</p>
+                                                <RichText.Content
+                                                    tagName="p"
+                                                    className="eb-feature-list-content"
+                                                    value={content}
+                                                />
                                             )}
                                         </div>
                                     </li>

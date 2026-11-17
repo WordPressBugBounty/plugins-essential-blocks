@@ -8,7 +8,7 @@ use EssentialBlocks\Utils\Helper;
 class SocialShare extends Block
 {
     protected $frontend_scripts = [ 'essential-blocks-social-share-js' ];
-    protected $frontend_styles  = [ 'essential-blocks-fontawesome', 'essential-blocks-hover-css' ];
+    protected $frontend_styles  = [];
 
     /**
      * Unique name of the block.
@@ -61,13 +61,13 @@ class SocialShare extends Block
                 $attributes,
                 [
                     'classHook'          => '',
-                    // 'blockId'            => '',
+                    'blockId'            => '',
                     'profilesOnly'       => [],
                     'icnEffect'          => '',
                     'showTitle'          => true,
                     'isFloating'         => false,
                     'iconShape'          => '',
-                    'wrapper_attributes' => get_block_wrapper_attributes( [ 'class' => 'root-' . $attributes[ 'blockId' ] ] ),
+                    'wrapper_attributes' => get_block_wrapper_attributes( [ 'class' => 'root-' . ( $attributes[ 'blockId' ] ?? '' ) ] ),
                     'block_object'       => $this
                 ]
             )
@@ -83,12 +83,13 @@ class SocialShare extends Block
      */
     public static function eb_social_share_name_link( $id, $icon_text )
     {
-        if ( empty( $icon_text ) ) {
+        if ( empty( $icon_text ) || ! is_string( $icon_text ) || empty( $id ) ) {
             return;
         }
 
-        $post_title = get_the_title( $id );
-        $post_link  = get_the_permalink( $id );
+        // Encode so titles containing &, #, ? or spaces don't break the share URL.
+        $post_title = rawurlencode( wp_strip_all_tags( html_entity_decode( get_the_title( $id ), ENT_QUOTES, 'UTF-8' ) ) );
+        $post_link  = rawurlencode( (string) get_the_permalink( $id ) );
 
         if ( preg_match( '/facebook/', $icon_text ) ) {
             return esc_url( 'https://www.facebook.com/sharer/sharer.php?u=' . $post_link );
@@ -106,6 +107,8 @@ class SocialShare extends Block
             return esc_url( 'https://api.whatsapp.com/send?text=' . $post_title . ' ' . $post_link );
         } elseif ( preg_match( '/telegram/', $icon_text ) ) {
             return esc_url( 'https://telegram.me/share/url?url=' . $post_link . '&text=' . $post_title );
+        } elseif ( preg_match( '/threads/', $icon_text ) ) {
+            return esc_url( 'https://www.threads.net/intent/post?text=' . $post_title . '%20' . $post_link );
         } elseif ( preg_match( '/pocket/', $icon_text ) ) {
             return esc_url( 'https://getpocket.com/edit?url=' . $post_link );
         } elseif ( preg_match( '/envelope/', $icon_text ) ) {

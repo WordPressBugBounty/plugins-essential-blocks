@@ -11,7 +11,9 @@
  *
  * YouTube URLs get a thumbnail + play button (server-rendered); the real
  * iframe is mounted on click, or near the screen after load for autoplaying
- * blocks. Vimeo, lightbox and the Pro overlay keep react-player.
+ * blocks. Vimeo, lightbox and a YouTube player under the Pro overlay keep
+ * react-player. The Pro overlay's play/mute buttons on a <video> are bound
+ * here (initMediaControls).
  *
  * Behaviour mirrored from frontend.js:
  * - Image Overlay: the preview is shown and nothing loads until it's clicked
@@ -149,10 +151,12 @@ import { initStickyPlayer } from "./sticky";
         });
     }
 
+    // Returns the function that dismisses the preview and starts the video,
+    // or null when there is no Image Overlay preview.
     function initOverlay(playerOption, video) {
         var preview = playerOption.querySelector(".react-player__preview");
         if (!preview) {
-            return;
+            return null;
         }
 
         renderIconSlot(preview, playerOption);
@@ -179,6 +183,64 @@ import { initStickyPlayer } from "./sticky";
                 start();
             }
         });
+
+        return start;
+    }
+
+    /**
+     * Pro overlay's play/pause and mute buttons.
+     *
+     * Pro emits the buttons and their CSS but ships no JavaScript; the Free
+     * block binds them (frontend.js does the same for react-player). The
+     * container's `is-playing` / `is-sound-muted` classes swap the icons, and
+     * are painted from the <video>'s own events so native controls, loop and
+     * end of playback keep them right.
+     *
+     * The overlay covers the Image Overlay preview, so Play goes through
+     * `startFromPreview` while the preview is still up.
+     */
+    function initMediaControls(playerOption, video, startFromPreview) {
+        var wrapperEl = playerOption.closest(".eb-advanced-video-wrapper");
+        var host = wrapperEl && wrapperEl.querySelector(".eb-av-overlay-media");
+        if (!host) {
+            return;
+        }
+        var previewUp = !!startFromPreview;
+
+        var paint = function () {
+            host.classList.toggle("is-playing", !video.paused && !video.ended);
+            host.classList.toggle("is-sound-muted", video.muted);
+        };
+
+        var playBtn = host.querySelector(".is-playpause");
+        if (playBtn) {
+            playBtn.addEventListener("click", function () {
+                if (previewUp) {
+                    previewUp = false;
+                    startFromPreview();
+                } else if (video.paused || video.ended) {
+                    startPlayback(video);
+                } else {
+                    video.pause();
+                }
+            });
+        }
+
+        var muteBtn = host.querySelector(".is-mute");
+        if (muteBtn) {
+            muteBtn.addEventListener("click", function () {
+                video.muted = !video.muted;
+            });
+        }
+
+        ["play", "playing", "pause", "ended", "volumechange"].forEach(function (type) {
+            video.addEventListener(type, paint);
+        });
+        // A click on the preview itself starts the video too.
+        video.addEventListener("play", function () {
+            previewUp = false;
+        });
+        paint();
     }
 
     function isYouTube(playerOption) {
@@ -227,10 +289,45 @@ import { initStickyPlayer } from "./sticky";
         });
     }
 
+    // A player whose size was unknown holds 16:9 with its poster letterboxed
+    // (AdvancedVideo::render_native_player()); take the real shape once.
+    // Switch the box to the video's real shape once its metadata arrives:
+    // always when the size was unknown (data-eb-fit-meta), otherwise only
+    // when the reserved size is wrong (e.g. a rotated phone video whose
+    // stored size is landscape), so normal files never shift.
+    function fitToMetadata(video) {
+        var always = video.hasAttribute("data-eb-fit-meta");
+        var fit = function () {
+            if (!video.videoWidth || !video.videoHeight) {
+                return;
+            }
+            if (!always) {
+                var w = parseFloat(video.getAttribute("width"));
+                var h = parseFloat(video.getAttribute("height"));
+                var reserved = w > 0 && h > 0 ? w / h : 16 / 9;
+                var real = video.videoWidth / video.videoHeight;
+                if (Math.abs(real - reserved) / reserved < 0.02) {
+                    return;
+                }
+            }
+            var ratio = video.videoWidth + " / " + video.videoHeight;
+            video.style.aspectRatio = ratio;
+            if (video.parentNode && video.parentNode.style) {
+                video.parentNode.style.aspectRatio = ratio;
+            }
+        };
+        if (video.readyState >= 1) {
+            fit();
+        } else {
+            video.addEventListener("loadedmetadata", fit, { once: true });
+        }
+    }
+
     function init() {
         eachPlayer(function (playerOption, video) {
             if (video) {
-                initOverlay(playerOption, video);
+                fitToMetadata(video);
+                initMediaControls(playerOption, video, initOverlay(playerOption, video));
                 initClickToPlay(playerOption, video);
             } else {
                 initYouTube(playerOption);

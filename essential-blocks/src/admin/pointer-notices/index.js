@@ -61,8 +61,36 @@ domReady(() => {
             jQuery.extend(true, options, pointer.options);
         }
 
+        // Keep the pointer attached to its target. The admin menu turns
+        // `position: fixed` once WP pins it (body.sticky-menu), while the
+        // pointer is absolutely positioned and would scroll away from it.
+        let frame = null;
+        const syncPosition = () => {
+            frame = null;
+            const widget = target.pointer('widget');
+            if (!widget || !widget.length || !widget.is(':visible')) {
+                return;
+            }
+            widget.css('position', isInFixedContainer(target[0]) ? 'fixed' : 'absolute');
+            target.pointer('reposition');
+        };
+        const scheduleSync = () => {
+            if (frame === null) {
+                frame = window.requestAnimationFrame(syncPosition);
+            }
+        };
+        const eventNs = '.ebPointer' + pointerId;
+
+        const userClose = options.close;
+        options.close = function() {
+            jQuery(window).off(eventNs);
+            userClose.apply(this, arguments);
+        };
+
         // Show the pointer
         target.pointer(options).pointer('open');
+        syncPosition();
+        jQuery(window).on('scroll' + eventNs + ' resize' + eventNs, scheduleSync);
 
         // Auto-dismiss after timeout if specified
         if (pointer.timeout) {
@@ -71,6 +99,21 @@ domReady(() => {
                 dismissPointer(pointerId);
             }, pointer.timeout * 1000);
         }
+    }
+
+    /**
+     * Whether the element or one of its ancestors is fixed-positioned
+     *
+     * @param {Element} el Element to check
+     * @returns {boolean} True if inside a fixed container
+     */
+    function isInFixedContainer(el) {
+        for (let node = el; node && node !== document.body; node = node.parentElement) {
+            if (window.getComputedStyle(node).position === 'fixed') {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

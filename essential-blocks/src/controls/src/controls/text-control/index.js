@@ -10,7 +10,7 @@ import { memo, useState, useRef, useEffect } from '@wordpress/element';
  */
 import AIContentPopover from '../../components/AI/AIContentPopover';
 import AiIcon from '../../icons/ai-icon';
-import { sanitizeURL } from '../../helpers';
+import { sanitizeURL, normalizeURL } from '../../helpers';
 
 /**
  * EBTextControl - A flexible wrapper component for WordPress TextControl
@@ -65,6 +65,10 @@ const EBTextControl = memo(({
     aiContentType = 'text',
     fieldType = 'text',
     enableSecurity = false,
+    // Taken out of otherProps: spread after the input's own onBlur, a
+    // caller's handler (DynamicInputControl always passes one) replaced it,
+    // so URL normalisation and the focus reset never ran (#675/#676).
+    onBlur,
     ...otherProps
 }) => {
     // State for popover visibility
@@ -78,6 +82,15 @@ const EBTextControl = memo(({
     // Manage a local value to keep caret stable while typing
     const [internalValue, setInternalValue] = useState(value);
     const [isFocused, setIsFocused] = useState(false);
+
+    // Follow outside changes to the value while the field isn't being edited
+    // (e.g. a read-only field unlocked to show its HTML). Without this the
+    // first keystroke after focus wrote the stale local value back.
+    useEffect(() => {
+        if (!isFocused) {
+            setInternalValue(value);
+        }
+    }, [value, isFocused]);
 
     // Determine if security filtering should be enabled
     const shouldEnableSecurity = enableSecurity || fieldType === 'url';
@@ -310,6 +323,19 @@ const EBTextControl = memo(({
                 return { isValid: true, message: '' };
             }
 
+            // Values that will still not be a link once normalised on blur
+            // (e.g. `page/sub`) are saved as "#": say so instead of failing
+            // silently. Bare ids and domains are fixed on blur, so stay quiet.
+            if (sanitizeURL(normalizeURL(url)) === '#' && !/^(https?|ftps?):?\/?\/?$/i.test(url.trim()) && !url.trim().match(/^[a-z]+$/i)) {
+                const normalized = normalizeURL(url);
+                if (normalized === url) {
+                    return {
+                        isValid: false,
+                        message: __('This is not a full link and will be saved as "#". Use a full URL (https://…), a path starting with "/", or an anchor starting with "#".', 'essential-blocks')
+                    };
+                }
+            }
+
             // Provide real-time feedback for incomplete URLs
             if (!isUrlComplete(url)) {
                 // Give helpful hints for common URL patterns
@@ -413,13 +439,17 @@ const EBTextControl = memo(({
             setTimeout(() => setIsTyping(false), 100);
         }
 
+        // URL fields store the normalised value as the user types (the field
+        // keeps showing what was typed), so saving with Cmd/Ctrl+S before
+        // the field blurs doesn't store a bare id / domain that becomes "#".
+        const outgoing = fieldType === 'url' ? normalizeURL(filteredValue) : filteredValue;
+
         // Avoid unnecessary parent updates that can cause caret jumps.
         // Only propagate when the effective value actually changed.
-        const hasChanged = filteredValue !== value;
+        const hasChanged = outgoing !== value;
 
         if (hasChanged && onChange) {
-            // Only sync to parent when not focused; otherwise do it on blur
-            onChange(filteredValue);
+            onChange(outgoing);
         }
 
         // Call enhanced onChange with additional data if provided
@@ -501,12 +531,17 @@ const EBTextControl = memo(({
                     value={isFocused ? internalValue : value}
                     onChange={handleChange}
                     onFocus={() => setIsFocused(true)}
-                    onBlur={() => {
+                    onBlur={(e) => {
                         setIsFocused(false);
                         // Sync latest local value to parent on blur
                         if (onChange) {
-                            const finalValue = fieldType === 'url' ? securityFilter(internalValue) : internalValue;
+                            // Normalise a bare id / domain before it is stored, so
+                            // sanitizeURL() at save time does not turn it into "#".
+                            const finalValue = fieldType === 'url' ? securityFilter(normalizeURL(internalValue)) : internalValue;
                             if (finalValue !== value) onChange(finalValue);
+                        }
+                        if (typeof onBlur === 'function') {
+                            onBlur(e);
                         }
                     }}
                     placeholder={placeholder}

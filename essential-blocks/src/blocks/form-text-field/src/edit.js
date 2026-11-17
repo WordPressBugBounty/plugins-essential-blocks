@@ -86,10 +86,14 @@ const Edit = (props) => {
         const isBlockJustInserted = select(
             "core/block-editor"
         ).wasBlockJustInserted(clientId);
+        // A pasted or duplicated field is "just inserted" too, but it already
+        // carries its saved settings and a blockId; only a brand-new field
+        // (no blockId yet) takes the form's defaults (#685).
+        const isNewField = isBlockJustInserted && !blockId;
         const getFormLabel = getParentBlock?.attributes?.showLabel;
         const getFormIcon = getParentBlock?.attributes?.showInputIcon;
         if (
-            isBlockJustInserted &&
+            isNewField &&
             typeof getFormLabel !== "undefined" &&
             typeof getFormIcon !== "undefined"
         ) {
@@ -100,7 +104,7 @@ const Edit = (props) => {
         }
 
         //Hanlde Field Name
-        if (isBlockJustInserted) {
+        if (isNewField) {
             if (parentClientId) {
                 const parentAllChildBlocks = select(
                     "core/block-editor"
@@ -118,6 +122,22 @@ const Edit = (props) => {
                             fieldName: `text-field-${currentBlockIndex + 1}`,
                         });
                     }
+                }
+            }
+        }
+        else if (isBlockJustInserted && blockId) {
+            // Pasted / duplicated: keep options, labels and defaults; only make
+            // the field name unique when a sibling field already uses it.
+            const parentId = getBlockParentClientId(clientId, "essential-blocks/form");
+            if (parentId && fieldName) {
+                const editor = select("core/block-editor");
+                const siblings = filterBlocksByName(editor.getBlocksByClientId(parentId), name)
+                    .filter((id) => id !== clientId)
+                    .map((id) => editor.getBlockAttributes(id)?.fieldName);
+                if (siblings.includes(fieldName)) {
+                    let n = 2;
+                    while (siblings.includes(`${fieldName}-${n}`)) n++;
+                    setAttributes({ fieldName: `${fieldName}-${n}` });
                 }
             }
         }

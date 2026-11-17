@@ -6,7 +6,7 @@ use EssentialBlocks\Core\Block;
 
 class PostMeta extends Block
 {
-    protected $frontend_styles = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles = [];
 
     /**
      * Default attributes

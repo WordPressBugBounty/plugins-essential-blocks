@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { useEffect } from "@wordpress/element";
+import { useEffect, useRef } from "@wordpress/element";
 import {
     SelectControl,
     ToggleControl,
@@ -155,7 +155,17 @@ function Inspector({ attributes, setAttributes }) {
         objAttributes,
     };
 
+    // Preset 3's colours follow the Content Overlay toggle, but only when the
+    // preset or the toggle actually changes. The Inspector remounts every
+    // time the block is selected (and right after a duplicate), so running on
+    // mount overwrote the user's own name/job/description colours.
+    const prevPresetState = useRef({ preset, isContentOverlay });
     useEffect(() => {
+        const prev = prevPresetState.current;
+        prevPresetState.current = { preset, isContentOverlay };
+        if (prev.preset === preset && prev.isContentOverlay === isContentOverlay) {
+            return;
+        }
         if (preset === 'preset3') {
             if (isContentOverlay) {
                 setAttributes({

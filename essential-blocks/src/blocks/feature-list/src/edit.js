@@ -4,6 +4,7 @@
 import { __ } from "@wordpress/i18n";
 import { useEffect, memo } from "@wordpress/element";
 import { applyFilters } from "@wordpress/hooks";
+import { RichText } from "@wordpress/block-editor";
 /**
  * Internal dependencies
  */
@@ -19,8 +20,19 @@ import {
     useBlockSetAttributes
 } from "@essential-blocks/controls";
 
+// Inline formats offered on item text (#576). A linked item's title drops
+// core/link: the whole title is already a link.
+const TEXT_FORMATS = ["core/bold", "core/italic", "core/link", "core/strikethrough", "core/underline", "core/text-color"];
+const LINKED_TITLE_FORMATS = TEXT_FORMATS.filter((f) => f !== "core/link");
+
 const Edit = (props) => {
     const { attributes, isSelected, setAttributes } = props;
+
+    const updateFeature = (index, key, value) => {
+        const features = [...attributes.features];
+        features[index] = { ...features[index], [key]: value };
+        setAttributes({ features });
+    };
     const {
         blockId,
         featureListAlign,
@@ -158,11 +170,27 @@ const Edit = (props) => {
                                                 <div className="eb-feature-list-title-wrapper">
                                                     {link ? (
                                                         <attributes.titleTag className="eb-feature-list-title">
-                                                            <a href={sanitizeURL(link)}>{title}</a>
+                                                            <a href={sanitizeURL(link)} onClick={(e) => e.preventDefault()}>
+                                                                <RichText
+                                                                    tagName="span"
+                                                                    className="eb-feature-list-title-text"
+                                                                    value={title}
+                                                                    onChange={(value) => updateFeature(index, "title", value)}
+                                                                    allowedFormats={LINKED_TITLE_FORMATS}
+                                                                    placeholder={__("Feature title", "essential-blocks")}
+                                                                />
+                                                            </a>
                                                         </attributes.titleTag>
                                                     ) : (
                                                         <attributes.titleTag className="eb-feature-list-title">
-                                                            {title}
+                                                            <RichText
+                                                                tagName="span"
+                                                                className="eb-feature-list-title-text"
+                                                                value={title}
+                                                                onChange={(value) => updateFeature(index, "title", value)}
+                                                                allowedFormats={TEXT_FORMATS}
+                                                                placeholder={__("Feature title", "essential-blocks")}
+                                                            />
                                                         </attributes.titleTag>
                                                     )}
                                                     {showBadge == "true" && badgeText && (
@@ -172,7 +200,14 @@ const Edit = (props) => {
                                                     )}
                                                 </div>
                                                 {!useInlineDesign && (
-                                                    <p className="eb-feature-list-content">{content}</p>
+                                                    <RichText
+                                                        tagName="p"
+                                                        className="eb-feature-list-content"
+                                                        value={content}
+                                                        onChange={(value) => updateFeature(index, "content", value)}
+                                                        allowedFormats={TEXT_FORMATS}
+                                                        placeholder={__("Feature content", "essential-blocks")}
+                                                    />
                                                 )}
                                             </div>
                                         </li>

@@ -61,7 +61,7 @@ class PostCarousel extends PostBlock
         $this->assets_manager->register(
             'post-carousel-frontend',
             $this->path() . '/frontend.js',
-            [ 'jquery', 'essential-blocks-controls-frontend' ]
+            [ 'jquery', 'essential-blocks-controls-frontend', 'essential-blocks-blocks-localize' ]
         );
         $this->assets_manager->register( 'slickjs', 'js/slick.min.js' );
     }

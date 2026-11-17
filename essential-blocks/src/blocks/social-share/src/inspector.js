@@ -2,11 +2,12 @@
  * WordPress dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { useEffect } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import {
     SelectControl,
     ToggleControl,
     BaseControl,
+    Button,
     TextControl,
     __experimentalDivider as Divider,
     __experimentalToggleGroupControl as ToggleGroupControl,
@@ -57,6 +58,44 @@ import {
 } from "./constants/borderShadowConstants";
 
 import { IconsHzAligns, HOVER_EFFECT, ICON_SHAPE } from "./constants";
+
+// Networks with a server-side share URL (see
+// SocialShare::eb_social_share_name_link()). `key` is matched against the
+// icon class, `name` becomes the button text.
+const SHARE_NETWORKS = [
+    { key: "facebook", name: __("Facebook", "essential-blocks") },
+    { key: "x-twitter", name: __("X", "essential-blocks") },
+    { key: "twitter", name: __("Twitter", "essential-blocks") },
+    { key: "linkedin", name: __("LinkedIn", "essential-blocks") },
+    { key: "whatsapp", name: __("WhatsApp", "essential-blocks") },
+    { key: "pinterest", name: __("Pinterest", "essential-blocks") },
+    { key: "reddit", name: __("Reddit", "essential-blocks") },
+    { key: "tumblr", name: __("Tumblr", "essential-blocks") },
+    { key: "telegram", name: __("Telegram", "essential-blocks") },
+    { key: "threads", name: __("Threads", "essential-blocks") },
+    { key: "pocket", name: __("Pocket", "essential-blocks") },
+    { key: "envelope", name: __("Email", "essential-blocks") },
+    { key: "xing", name: __("Xing", "essential-blocks") },
+    { key: "fa-vk", name: __("VK", "essential-blocks") },
+];
+
+const getShareNetwork = (icon = "") =>
+    SHARE_NETWORKS.find(({ key }) => icon.includes(key));
+
+// Only offer icons that produce a working share link on the frontend.
+const ADDABLE_SHARE_ICONS = {
+    fontAwesome: [
+        ...socialShareIcons.fontAwesome,
+        "fab fa-get-pocket",
+        "fab fa-threads",
+        "fab fa-square-threads",
+        "fas fa-envelope",
+        "far fa-envelope",
+    ].filter((icon) => getShareNetwork(icon)),
+    dashIcon: socialShareIcons.dashicons.filter((icon) =>
+        getShareNetwork(icon),
+    ),
+};
 
 function Inspector({ attributes, setAttributes }) {
     const {
@@ -127,6 +166,34 @@ function Inspector({ attributes, setAttributes }) {
         }
     };
 
+    // "Social Media" picker + "+" button above the list: pick a network
+    // icon, then click "+" to append it as a new share button.
+    // With Font Awesome disabled the picker only lists Dashicons, so start
+    // from the Dashicons Facebook icon there.
+    const [newShareIcon, setNewShareIcon] = useState(
+        EssentialBlocksLocalize?.fontAwesome == "true"
+            ? "fab fa-facebook-f"
+            : ADDABLE_SHARE_ICONS.dashIcon[0] || "fab fa-facebook-f",
+    );
+
+    const onShareButtonAdd = () => {
+        const network = getShareNetwork(newShareIcon);
+        if (!network) {
+            return;
+        }
+
+        setAttributes({
+            socialDetails: [
+                ...(attributes.socialDetails || []),
+                {
+                    icon: newShareIcon,
+                    iconText: network.name,
+                    isExpanded: false,
+                },
+            ],
+        });
+    };
+
     const getSocialDetailsComponents = () => {
         const onProfileChange = (key, value, position) => {
             const newSocialDetail = { ...attributes.socialDetails[position] };
@@ -151,7 +218,7 @@ function Inspector({ attributes, setAttributes }) {
                     value={each.icon || null}
                     onChange={(value) => onProfileChange('icon', value, i)}
                     enableSvgUpload={false}
-                    icons={{ fontAwesome: socialShareIcons.fontAwesome, dashIcon: socialShareIcons.dashicons }}
+                    icons={ADDABLE_SHARE_ICONS}
                 />
                 <EBTextControl
                     label={__("Text", "essential-blocks")}
@@ -220,6 +287,25 @@ function Inspector({ attributes, setAttributes }) {
                             __nextHasNoMarginBottom
                         />
                         <Divider />
+                        <div className="eb-social-share-add-row">
+                            <EBIconPicker
+                                title={__("Social Media", "essential-blocks")}
+                                value={newShareIcon || null}
+                                onChange={(value) => setNewShareIcon(value)}
+                                enableSvgUpload={false}
+                                hasReset={false}
+                                icons={ADDABLE_SHARE_ICONS}
+                            />
+                            <Button
+                                className="eb-social-share-add-button"
+                                icon="plus-alt2"
+                                label={__("Add Share Button", "essential-blocks")}
+                                showTooltip={true}
+                                variant="secondary"
+                                disabled={!getShareNetwork(newShareIcon)}
+                                onClick={onShareButtonAdd}
+                            />
+                        </div>
                         <SortControl
                             items={attributes.socialDetails}
                             labelKey={"iconText"}

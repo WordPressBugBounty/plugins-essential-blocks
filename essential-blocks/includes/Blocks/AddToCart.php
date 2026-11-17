@@ -5,7 +5,7 @@ use EssentialBlocks\Core\Block;
 use EssentialBlocks\Utils\Helper;
 class AddToCart extends Block
 {
-    protected $frontend_styles = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles = [];
     private $attributesList    = [  ];
     /**
      * Unique name of the block.

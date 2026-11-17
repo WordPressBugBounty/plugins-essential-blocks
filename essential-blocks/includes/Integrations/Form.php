@@ -190,6 +190,15 @@ class Form extends ThirdPartyIntegration
             $field = sanitize_key( $_POST[ 'field' ] );
         }
 
+        // Settings hold recipients and other private data: only the form's
+        // creator, or a user who may edit others' content, can read them.
+        if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'edit_others_posts' ) ) {
+            $owner = $this->get_form_settings( $form_id, 'created_by' );
+            if ( $owner && intval( $owner->created_by ) !== get_current_user_id() ) {
+                wp_send_json_error( __( 'You are not authorized!', 'essential-blocks' ) );
+            }
+        }
+
         $result = $this->get_form_settings( $form_id, $field );
 
         if ( $result ) {

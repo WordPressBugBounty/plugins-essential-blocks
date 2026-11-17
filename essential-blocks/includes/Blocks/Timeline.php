@@ -6,7 +6,7 @@ use EssentialBlocks\Core\Block;
 class Timeline extends Block
 {
     protected $frontend_scripts = [ 'essential-blocks-timeline-frontend' ];
-    protected $frontend_styles  = ['essential-blocks-fontawesome'];
+    protected $frontend_styles  = [];
 
     /**
      * Unique name of the block.

@@ -6,7 +6,7 @@ use EssentialBlocks\Core\Block;
 
 class Social extends Block
 {
-    protected $frontend_styles = [ 'essential-blocks-fontawesome', 'essential-blocks-hover-css' ];
+    protected $frontend_styles = [];
 
     /**
      * Unique name of the block.

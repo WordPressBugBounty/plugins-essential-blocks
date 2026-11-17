@@ -64,10 +64,12 @@ const attributes = {
         source: "query",
         selector: ".eb-feature-list-wrapper .eb-feature-list-items li",
         query: {
+            // Rich text since 6.5.4 (bold, italic, colour…). The text sits
+            // in its own span so a linked title's <a> is not part of it.
             title: {
                 type: "string",
-                source: "text",
-                selector: ".eb-feature-list-title",
+                source: "html",
+                selector: ".eb-feature-list-title-text",
             },
             iconType: {
                 type: "string",
@@ -111,7 +113,7 @@ const attributes = {
             },
             content: {
                 type: "string",
-                source: "text",
+                source: "html",
                 selector: ".eb-feature-list-content",
             },
             link: {

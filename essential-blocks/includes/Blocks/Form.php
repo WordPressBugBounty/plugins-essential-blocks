@@ -8,7 +8,7 @@ use EssentialBlocks\Utils\Helper;
 class Form extends Block
 {
     protected $frontend_scripts = [ 'essential-blocks-form-frontend' ];
-    protected $frontend_styles  = [ 'essential-blocks-fontawesome' ];
+    protected $frontend_styles  = [];
 
     /**
      * Default attributes
@@ -52,8 +52,16 @@ class Form extends Block
      */
     public function inner_blocks()
     {
+        // Every free form field is registered in PHP so Conditional Display
+        // (checked in the shared render callback) applies to it (#684).
         return [
-            FormTextField::get_instance()
+            FormTextField::get_instance(),
+            FormTextareaField::get_instance(),
+            FormEmailField::get_instance(),
+            FormNumberField::get_instance(),
+            FormSelectField::get_instance(),
+            FormCheckboxField::get_instance(),
+            FormRadioField::get_instance()
          ];
     }
 
@@ -66,7 +74,7 @@ class Form extends Block
         $this->assets_manager->register(
             'form-frontend',
             $this->path() . '/frontend.js',
-            [ 'essential-blocks-babel-bundle' ]
+            [ 'essential-blocks-babel-bundle', 'essential-blocks-blocks-localize' ]
         );
     }
 
@@ -78,9 +86,6 @@ class Form extends Block
         if ( is_admin() ) {
             return;
         }
-
-        //Modify wp_kses rules for Form Block kses
-        add_filter( 'wp_kses_allowed_html', [ new Helper, 'eb_allowed_html' ], 99, 2 );
 
         $_essential_attributes = [
             'formType'         => 'contact_form',
@@ -108,6 +113,13 @@ class Form extends Block
         }
         if ( empty( $content ) ) {
             return '';
+        }
+
+        // The checked state of form checkboxes is drawn with the Font Awesome
+        // font (style.scss `content: "\f00c"`), so a form with checkboxes
+        // still needs the stylesheet even though icons are inline SVG (#600).
+        if ( false !== strpos( $content, 'type="checkbox"' ) ) {
+            wp_enqueue_style( 'essential-blocks-fontawesome' );
         }
         $classHook = isset( $attributes[ 'classHook' ] ) ? $attributes[ 'classHook' ] : '';
 
@@ -157,6 +169,11 @@ class Form extends Block
         //     http_build_query( $confirmation_div_attr, '', ' ' )
         // );
 
+        // Widen wp_kses rules for the form view only, then restore them, so
+        // later kses calls in the same request keep the default rules.
+        $kses_helper = new Helper();
+        add_filter( 'wp_kses_allowed_html', [ $kses_helper, 'eb_allowed_html' ], 99, 2 );
+
         ob_start();
         Helper::views( 'form-block', array_merge( $attributes, [
             'essentialAttr'         => $_essential_attributes,
@@ -167,7 +184,12 @@ class Form extends Block
             'nonce'                 => wp_create_nonce( $attributes[ 'blockId' ] . '-nonce' )
 
          ] ) );
+        $html = ob_get_clean();
 
-        return ob_get_clean();
+        remove_filter( 'wp_kses_allowed_html', [ $kses_helper, 'eb_allowed_html' ], 99 );
+        // eb_allowed_html() also adds this instance's safe_style_css filter.
+        remove_filter( 'safe_style_css', [ $kses_helper, 'eb_allowed_css_properties' ] );
+
+        return $html;
     }
 }

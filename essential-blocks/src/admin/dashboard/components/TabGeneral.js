@@ -428,49 +428,69 @@ export default function TabGeneral() {
                         >
                     <div className="changelog-wrapper">
                         <div className="changelog-title">
-                            {__("Version: 6.5.3", "essential-blocks")}
+                            {__("Version: 6.5.4", "essential-blocks")}
                             <span className="changelog-date">
-                                {__("02/11/2026", "essential-blocks")}
+                                {__("17/11/2026", "essential-blocks")}
                             </span>
                         </div>
                         <ul className="changelog-content">
-                                <li>
-                                    {__(
-                                        "Improved: Lottie Animation | .lottie files now render the same as JSON files",
-                                        "essential-blocks"
-                                    )}
-                                </li>
-                                <li>
-                                    {__(
-                                        "Fixed: Lottie Animation | % width not filling centred and stacked groups",
-                                        "essential-blocks"
-                                    )}
-                                </li>
-                                <li>
-                                    {__(
-                                        "Fixed: Lottie Animation | Animation overlapping the next block inside Stack groups",
-                                        "essential-blocks"
-                                    )}
-                                </li>
-                                <li>
-                                    {__(
-                                        "Fixed: Product Images & Facebook Feed issues",
-                                        "essential-blocks"
-                                    )}
-                                </li>
-                                <li>
-                                    {__(
-                                        "Fixed: Timeline | Rich content editor issue",
-                                        "essential-blocks"
-                                    )}
-                                </li>
-                                <li>
-                                    {__(
-                                        "Few minor bug fixes & improvements",
-                                        "essential-blocks"
-                                    )}
-                                </li>
-                            </ul>
+                                    <li>
+                                        {__(
+                                            "Improved: Social Share | Add new share buttons & Threads support",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Advanced Video | Poster Image for self-hosted videos",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Performance | Font Awesome icons as inline SVG & assets load only when needed",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Advanced Video portrait video display issue",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Form block Conditional Display & submit issues",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Fixed: Accordion & Wrapper block issues",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Improved: Security enhancements",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                    <li>
+                                        {__(
+                                            "Few minor bug fixes & improvements",
+                                            "essential-blocks"
+                                        )}
+
+                                    </li>
+                                </ul>
                     </div>
                     {applyFilters("eb_admin_general_changelog", "")}
                     <div className="eb_all_changelog_btn">

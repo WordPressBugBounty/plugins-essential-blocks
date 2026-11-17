@@ -1,6 +1,6 @@
 import { createSlotFill, TabPanel, PanelBody } from "@wordpress/components";
 import { InspectorControls } from "@wordpress/block-editor";
-import { createContext, useContext, useEffect, useState } from "@wordpress/element";
+import { createContext, useContext, useState } from "@wordpress/element";
 import { select, dispatch } from '@wordpress/data';
 import { AdvancedControls, useBlockAttributes } from "../index";
 import SupportPanel from "./supportPanel";
@@ -118,18 +118,19 @@ const EBPanelBody = (props) => {
     const panelID = `${tabName}-${title.toLowerCase()}`
     const blockData = select('essential-blocks')?.getBlockData(blockId)
 
-    const [initialOpen, setInitialOpen] = useState(props.initialOpen || false);
-
-    useEffect(() => {
-        if (blockData?.panelName) {
-            if (panelID === blockData.panelName) {
-                setInitialOpen(true)
-            }
-            else {
-                setInitialOpen(false)
-            }
-        }
-    }, [blockData?.panelName])
+    // Decided once, at mount: restore the panel the user last opened in
+    // this tab (the Inspector remounts on reselect and on tab switch),
+    // otherwise the panel's own default. Each panel then keeps its own state.
+    //
+    // This used to follow the stored panelName in an effect. Core PanelBody
+    // keeps tracking `initialOpen` until the user toggles that panel, so
+    // opening any panel closed the untouched default-open one (and the
+    // header jumped while core scrolled the new panel into view).
+    const [initialOpen] = useState(() =>
+        blockData?.panelName?.startsWith(`${tabName}-`)
+            ? blockData.panelName === panelID
+            : props.initialOpen || false
+    );
 
     return (
         <PanelBody

@@ -1,0 +1,57 @@
+// Inspector: compact "Social Media" icon picker + "+" button used to add a
+// new share button. Scoped to this row so the rest of the panel is unchanged.
+.eb-social-share-add-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+
+    .eb-icon-picker-base {
+        flex: 1;
+        margin-bottom: 0;
+
+        .components-base-control__field {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0;
+        }
+
+        .components-base-control__label {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .ebip__preview {
+            height: 38px;
+            background: #fff;
+
+            #wipIcon .dashicon,
+            #wipIcon i {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .ebip__wrap {
+        flex: 1;
+    }
+
+    .ebip__actions {
+        top: 0;
+        bottom: 0;
+        height: auto;
+
+        .ebip__action {
+            height: 100%;
+            font-size: 12px;
+        }
+    }
+
+    .eb-social-share-add-button.components-button {
+        height: 40px;
+        min-width: 40px;
+        justify-content: center;
+        border-radius: 6px;
+    }
+}

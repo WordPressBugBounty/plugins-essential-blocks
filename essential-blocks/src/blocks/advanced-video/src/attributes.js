@@ -92,6 +92,18 @@ const attributes = {
         default: null,
     },
 
+    // Native `poster` for file sources (MP4 / WebM / HLS / DASH): shown until
+    // the video starts, autoplay included. Not saved into the markup —
+    // AdvancedVideo::render_callback() applies it, so no deprecation.
+    posterImage: {
+        type: "string",
+        default: "",
+    },
+    posterImageId: {
+        type: "string",
+        default: null,
+    },
+
     placeholderImage: {
         type: "string",
         default: `${EssentialBlocksLocalize?.image_url}/adv-video-placeholder.png`,

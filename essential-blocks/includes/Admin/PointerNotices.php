@@ -154,6 +154,12 @@ class PointerNotices {
                 continue;
             }
 
+            // Skip if the pointer's own condition says no
+            if ( isset( $args['display_if'] ) && is_callable( $args['display_if'] ) && ! call_user_func( $args['display_if'] ) ) {
+                continue;
+            }
+            unset( $args['display_if'] );
+
             // Check pointer priority
             if ( ! $this->should_show_pointer_by_priority( $args ) ) {
                 continue;

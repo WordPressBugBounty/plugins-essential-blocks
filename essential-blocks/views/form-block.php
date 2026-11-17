@@ -29,8 +29,15 @@
 <div <?php echo wp_kses_data( $wrapper_attributes); ?>>
     <div class="<?php echo esc_attr( implode( ' ', $_parent_classes ) );?>">
         <div id="<?php echo esc_attr( $blockId );?>" class="<?php echo esc_attr( $blockId );?> eb-form-wrapper">
+            <?php
+            // Submission is AJAX-only (frontend.js). If the script hasn't run
+            // yet (deferred/delayed JS) a click on Submit must not do a native
+            // GET submit, which reloads the page with the values in the URL:
+            // the inline handler cancels it, and method="post" keeps values
+            // out of the URL even where inline handlers are blocked (CSP).
+            ?>
             <form id="<?php echo esc_attr( $formId );?>"
-                class="<?php echo esc_attr( implode( ' ', $_form_classes ) );?>" action="">
+                class="<?php echo esc_attr( implode( ' ', $_form_classes ) );?>" action="" method="post" onsubmit="return false">
                 <div class="eb-form-fields">
                     <?php
                     if ($formType === 'multistep_form' && $enableMultistepForm && $stepIndecator) {
